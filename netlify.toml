@@ -1,0 +1,17 @@
+# Netlify: build and serve the Landfall app (landfall/site), not the repo root.
+# This file overrides the build settings in the Netlify dashboard.
+# Secrets (Supabase, Stripe, Duffel keys) are NOT set here: add them in
+# Netlify > Site configuration > Environment variables (see landfall/site/docs/SETUP.md).
+
+[build]
+  base = "landfall/site"
+  # plain `next build`: the npm build:navy script would build into .next-navy,
+  # but Netlify's Next.js runtime serves the standard .next folder
+  command = "npx next build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_PUBLIC_PALETTE = "navy"
+  NEXT_DIST_DIR = ".next"
+  NEXT_TELEMETRY_DISABLED = "1"
