@@ -25,12 +25,14 @@ import type {
 import { SupplyError } from '@/server/errors';
 import { log } from '@/server/log';
 import { appCurrency, withMarkup } from '@/server/pricing';
+import { supplierBookingTimeoutMs } from '@/server/env';
 import { fromMinor, toMinor } from '@/lib/travel/money';
 import { cabinLabel } from '@/lib/cabins';
 import { countryName } from '@/lib/data/countries';
+import { isGeoPlace } from '@/lib/data/places';
 import { money, plural } from '@/lib/format';
 import { FARE_TIERS, itineraryWarnings, type Fare, type FlightSearch, type Layover, type Offer, type Segment, type Slice } from '@/lib/travel/flights';
-import { cityById, guestsPerRoom, nightsOf, scoreWord, type Hotel, type HotelPhoto, type RatePlan, type Room, type StayCard, type StaySearch } from '@/lib/travel/hotels';
+import { childAges, cityById, guestsPerRoom, nightsOf, scoreWord, type Hotel, type HotelPhoto, type RatePlan, type Room, type StayCard, type StaySearch } from '@/lib/travel/hotels';
 import type { AirlineInfo, Dict, PlaceInfo } from '@/lib/travel/registry';
 import type {
   FlightOrderInput, FlightOrderResult, FlightSearchResult, FlightSupplier, HotelLoad, OfferQuote, RateSnapshot,
@@ -230,6 +232,12 @@ function supplyErrorFromDuffel(e: DuffelApiError): SupplyError {
   if (/^invalid_|duplicate_passenger_names|order_passengers_incompatible_with_offer|validation_required/.test(c)) return new SupplyError('invalid_passengers', e.message, false, { codes: e.errors.map((x) => x.code), fields: e.errors.map((x) => x.source?.pointer).filter(Boolean) });
   if (e.ambiguous || e.status === 0) return new SupplyError('timeout', e.message, e.ambiguous || e.status === 0);
   if (e.status === 429 || e.status === 503) return new SupplyError('unavailable', e.message);
+  /* the account can't use this API: a revoked token, or a product Duffel hasn't enabled (Stays needs
+     Duffel to switch it on). Nothing was booked; the operator has to act, so log it loudly. */
+  if (e.status === 401 || e.status === 403) {
+    log.error('duffel.access_denied', { status: e.status, code: c, message: e.message });
+    return new SupplyError('unavailable', e.message);
+  }
   return new SupplyError('not_confirmed', e.message);
 }
 
@@ -320,7 +328,7 @@ export const duffelFlights: FlightSupplier = {
           passengers,
           metadata: { booking_id: input.bookingId, reference: input.reference }
         },
-        timeoutMs: 130000, retry: false, device: input.device
+        timeoutMs: supplierBookingTimeoutMs(), retry: false, device: input.device
       });
       return orderResult(data);
     } catch (e) {
@@ -347,11 +355,20 @@ export const duffelFlights: FlightSupplier = {
 export type PlaceSuggestion = { code: string; name: string; city: string; country: string; type: 'airport' | 'city'; lat: number | null; lng: number | null };
 export async function duffelPlaces(query: string): Promise<PlaceSuggestion[]> {
   const { data } = await duffel<DuffelPlace[]>('GET', '/places/suggestions', { query: { query }, timeoutMs: 8000, retry: true });
-  return data.filter((p) => p.iata_code).slice(0, 12).map((p) => ({
-    code: p.iata_code!, name: p.name, city: p.city_name || p.city?.name || p.name,
-    country: p.iata_country_code ? countryName(p.iata_country_code) : '', type: p.type,
-    lat: p.latitude ?? null, lng: p.longitude ?? null
-  }));
+  return data.filter((p) => p.iata_code).slice(0, 12).map((p) => {
+    const [lat, lng] = centreOf(p);
+    return {
+      code: p.iata_code!, name: p.name, city: p.city_name || p.city?.name || p.name,
+      country: p.iata_country_code ? countryName(p.iata_country_code) : '', type: p.type, lat, lng
+    };
+  });
+}
+/* a place's own coordinates; a city without them gets the midpoint of its airports */
+function centreOf(p: DuffelPlace): [number | null, number | null] {
+  if (p.latitude != null && p.longitude != null) return [p.latitude, p.longitude];
+  const pts = (p.airports ?? []).filter((a) => a.latitude != null && a.longitude != null);
+  if (!pts.length) return [null, null];
+  return [pts.reduce((t, a) => t + a.latitude!, 0) / pts.length, pts.reduce((t, a) => t + a.longitude!, 0) / pts.length];
 }
 
 /* ============================== stays ================================ */
@@ -442,9 +459,12 @@ function mapAccommodation(a: DuffelAccommodation, place: string, center: [number
 }
 
 function guestsOf(s: StaySearch) {
-  /* Duffel prices children by age; the search form doesn't ask ages yet, so children count as 8 */
-  return [...Array.from({ length: s.adults }, () => ({ type: 'adult' })), ...Array.from({ length: s.children }, () => ({ type: 'child', age: 8 }))];
+  /* Duffel prices children by age: the ages the search card asked for */
+  return [...Array.from({ length: s.adults }, () => ({ type: 'adult' })), ...childAges(s).map((age) => ({ type: 'child', age }))];
 }
+/* km around the centre: a curated city's centre is hand-placed; a suggested destination's centre may be
+   its airports' midpoint, so it searches wider */
+const radiusFor = (place: string) => (isGeoPlace(place) ? 20 : 10);
 function centerOf(place: string): [number, number] | null {
   const c = cityById(place);
   return c ? [c.lat, c.lng] : null;
@@ -465,7 +485,7 @@ export const duffelStays: StaySupplier = {
     try {
       ({ data } = await duffel<{ results: DuffelStaySearchResult[] }>('POST', '/stays/search', {
         body: {
-          location: { radius: 10, geographic_coordinates: { latitude: center[0], longitude: center[1] } },
+          location: { radius: radiusFor(s.place), geographic_coordinates: { latitude: center[0], longitude: center[1] } },
           check_in_date: s.checkin, check_out_date: s.checkout, rooms: s.rooms, guests: guestsOf(s)
         },
         timeoutMs: 45000, retry: true
@@ -554,7 +574,7 @@ export const duffelStays: StaySupplier = {
           ...(input.requests ? { accommodation_special_requests: input.requests.slice(0, 1000) } : {}),
           metadata: { booking_id: input.bookingId, reference: input.reference }
         },
-        timeoutMs: 130000, retry: false, device: input.device
+        timeoutMs: supplierBookingTimeoutMs(), retry: false, device: input.device
       });
       const b = res.data;
       /* 202: accepted, confirmation follows (webhook stays.booking.created) */

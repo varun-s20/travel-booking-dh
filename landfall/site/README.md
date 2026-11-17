@@ -60,5 +60,5 @@ proxy.ts        keeps the Supabase session fresh; sends signed-out visitors from
 - The client's name, logo, domain, contacts and legal text.
 - Remove the `noindex` robots setting in `app/layout.tsx`.
 - Live keys for Duffel and Stripe, a funded Duffel balance, and SMTP for both email paths (the site's and Supabase Auth's).
-- Webhook endpoints and Vercel Cron (docs/BACKEND.md, Operations).
+- Webhook endpoints and the scheduled job (Netlify scheduled function; docs/BACKEND.md, Operations).
 - Homepage deals and recommendations still show demo prices. Replace them or drop the prices.

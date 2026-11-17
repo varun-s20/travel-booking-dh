@@ -9,7 +9,7 @@
    Rate plan ids are the supplier's rate ids (rat_... on Duffel), carried
    in URLs as ?plan=<id>. Minor units throughout. Isomorphic.
    ===================================================================== */
-import { CITIES, type City } from '@/lib/data/places';
+import { placeById, type City } from '@/lib/data/places';
 import { addIsoDays, fromIso, isoNights } from '@/lib/format';
 
 export type PhotoCat = 'Rooms' | 'Inside' | 'Outside';
@@ -51,7 +51,9 @@ export type Hotel = {
 };
 
 /* ===== Search ===== */
-export type StaySearch = { place: string; checkin: string; checkout: string; adults: number; children: number; rooms: number };
+/* ages: each child's age (0 to 17), as many as children. Hotels price children by age.
+   Optional only for searches stored before ages were asked; read them through childAges(). */
+export type StaySearch = { place: string; checkin: string; checkout: string; adults: number; children: number; ages?: number[]; rooms: number };
 type Params = Record<string, string | string[] | undefined>;
 const one = (q: Params, k: string) => { const v = q[k]; return Array.isArray(v) ? v[0] : v; };
 const int = (v: string | undefined, min: number, max: number, d: number) => { const n = parseInt(v ?? '', 10); return Number.isFinite(n) ? Math.min(Math.max(n, min), max) : d; };
@@ -59,7 +61,27 @@ function todayIso(): string { const d = new Date(); return `${d.getFullYear()}-$
 /* Duffel Stays: check-in at most 330 days ahead, at most 99 nights */
 export const MAX_NIGHTS = 99;
 
-export const cityById = (id: string): City | undefined => CITIES.find((c) => c.id === id);
+/* the search card's limits (components/search/store.ts allowed()): 16 guests, 8 rooms, a room per adult */
+export const MAX_GUESTS = 16;
+export const MAX_ROOMS = 8;
+/* a child whose age the link doesn't give (an old link, a flight's "add a hotel" rail) counts as 8;
+   the search card always asks, and shows this age so it can be changed */
+export const DEFAULT_CHILD_AGE = 8;
+
+/* a curated city, or any destination from the place suggestions (lib/data/places.ts geoCityId) */
+export const cityById = (id: string): City | undefined => placeById(id);
+
+/* the children's ages, exactly one per child */
+export function childAges(s: Pick<StaySearch, 'children' | 'ages'>): number[] {
+  return Array.from({ length: s.children }, (_, i) => {
+    const a = s.ages?.[i];
+    return typeof a === 'number' && Number.isInteger(a) && a >= 0 && a <= 17 ? a : DEFAULT_CHILD_AGE;
+  });
+}
+function parseAges(v: string | undefined): number[] {
+  if (!v) return [];
+  return v.split(',').slice(0, MAX_GUESTS).map((x) => (/^\d{1,2}$/.test(x.trim()) ? Number(x) : -1));
+}
 
 export function parseStaySearch(q: Params, placeOverride?: string): { search: StaySearch; complete: boolean } | null {
   const place = placeOverride || one(q, 'place') || '';
@@ -71,17 +93,20 @@ export function parseStaySearch(q: Params, placeOverride?: string): { search: St
   const t = todayIso();
   if (!fromIso(checkin) || checkin < t || checkin > addIsoDays(t, 330)) { checkin = addIsoDays(t, 14); checkout = addIsoDays(checkin, 4); complete = false; }
   if (!fromIso(checkout) || checkout <= checkin || isoNights(checkin, checkout) > MAX_NIGHTS) { checkout = addIsoDays(checkin, 4); complete = false; }
-  const adults = int(one(q, 'adults'), 1, 8, 2);
-  const children = int(one(q, 'children'), 0, 6, 0);
-  const rooms = int(one(q, 'rooms'), 1, Math.min(4, adults), 1);
+  const adults = int(one(q, 'adults'), 1, MAX_GUESTS, 2);
+  const children = int(one(q, 'children'), 0, MAX_GUESTS - adults, 0);
+  const rooms = int(one(q, 'rooms'), 1, Math.min(MAX_ROOMS, adults), 1);
   if (one(q, 'adults') === undefined) complete = false;
-  return { search: { place, checkin, checkout, adults, children, rooms }, complete };
+  const ages = childAges({ children, ages: parseAges(one(q, 'ages')) });
+  return { search: { place, checkin, checkout, adults, children, ages, rooms }, complete };
 }
 
 export function stayQuery(s: StaySearch): string {
-  return new URLSearchParams({ place: s.place, checkin: s.checkin, checkout: s.checkout, adults: String(s.adults), children: String(s.children), rooms: String(s.rooms) }).toString();
+  const p = new URLSearchParams({ place: s.place, checkin: s.checkin, checkout: s.checkout, adults: String(s.adults), children: String(s.children), rooms: String(s.rooms) });
+  if (s.children > 0) p.set('ages', childAges(s).join(','));
+  return p.toString();
 }
-export const stayKey = (s: StaySearch) => [s.place, s.checkin, s.checkout, s.adults, s.children, s.rooms].join('.');
+export const stayKey = (s: StaySearch) => [s.place, s.checkin, s.checkout, s.adults, s.children, childAges(s).join('-'), s.rooms].join('.');
 export const nightsOf = (s: Pick<StaySearch, 'checkin' | 'checkout'>) => isoNights(s.checkin, s.checkout);
 export const guestsPerRoom = (s: StaySearch) => Math.ceil(s.adults / s.rooms) + Math.ceil(s.children / s.rooms);
 
@@ -129,7 +154,7 @@ export function freeCancelUntil(s: Pick<StaySearch, 'checkin'>, plan?: RatePlan 
 
 /* the browser keeps the guest form under this key between the form and checkout */
 export function stayDraftKey(hotel: string, room: string, s: StaySearch): string {
-  return `stay:${hotel}:${room}:${s.checkin}:${s.checkout}:${s.adults}:${s.children}:${s.rooms}`;
+  return `stay:${hotel}:${room}:${s.checkin}:${s.checkout}:${s.adults}:${s.children}:${childAges(s).join('-')}:${s.rooms}`;
 }
 
 /* ===== Results ===== */

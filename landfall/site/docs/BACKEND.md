@@ -13,7 +13,7 @@ How the booking platform works behind the Landfall pages: what runs where, how a
 | Payments | Stripe Payment Element; PaymentIntents with manual capture | `server/payments/stripe.ts` |
 | Email | Any SMTP provider (nodemailer). Supabase sends the account emails | `server/email/` |
 | Validation | zod on every input | `server/bookings/schemas.ts`, `server/validation.ts` |
-| Scheduled job | `GET /api/cron/reconcile`, run every 5 minutes (Vercel Cron) | `server/bookings/reconcile.ts` |
+| Scheduled job | `GET /api/cron/reconcile`, run every 5 minutes by the Netlify scheduled function `netlify/functions/reconcile.mjs` | `server/bookings/reconcile.ts` |
 
 ## Folders
 
@@ -199,7 +199,11 @@ Duffel facts the code depends on:
   - resends failed emails
   - purges caches
 
-  Vercel's Hobby plan only allows daily cron jobs. Use Pro, or call the route from any scheduler with the bearer secret.
+  On Netlify, `netlify/functions/reconcile.mjs` calls the route every 5 minutes (published deploys only; "Run now" under Logs → Functions runs it by hand). `vercel.json` does the same on Vercel. Any other scheduler can call the route with the bearer secret.
+- **Request time limit.** Netlify stops any request after 60 seconds, and that limit can't be raised. `FUNCTION_TIME_LIMIT_SECONDS` (default 60) sets the budgets that follow from it:
+  - Duffel order and stay booking calls stop waiting 20 seconds before the limit (40 s on Netlify; Duffel allows 130 s). A booking without an answer stays `processing` and the customer sees "we're confirming"; the job or Duffel's webhook finds the order by its booking id.
+  - The job starts a supplier retry only early in its run and starts nothing new in its last 10 seconds.
+  - Set it to 300 on a host that allows longer requests (Vercel Pro).
 - **Alerts to watch in logs** (every alert line starts with `ALERT`):
   - `ALERT duffel_balance_empty`: top up the Duffel balance. Customers see a generic "couldn't confirm" and are not charged.
   - `ALERT payment.capture_failed`: the booking is confirmed but not yet paid. The job retries.
@@ -214,11 +218,15 @@ Duffel facts the code depends on:
   - Stripe: add an endpoint at `/api/webhooks/stripe` with the events `payment_intent.amount_capturable_updated`, `payment_intent.payment_failed`, `payment_intent.canceled` and `charge.refunded`.
   - Duffel: `POST /air/webhooks` with url `/api/webhooks/duffel` and the order, order-cancellation and stays events. Store the secret it returns once.
 
+## Hotel search: destinations and children
+
+- **Destinations:** the curated cities come first. With Duffel connected, typing two letters also offers any city from Duffel's place suggestions: a city entry (multi-airport cities such as London, centred on their airports' midpoint) or, since Duffel mostly answers with airports, the airport's city placed at the airport. Duffel Stays searches by coordinates, so such a city's id carries its name, country and centre (`@41.1496,-8.6109~Porto~Portugal`, made and checked by `lib/data/places.ts`). A results URL alone is enough to search again. The search covers 10 km around a curated city's centre and 20 km around a suggested one, whose centre may be its airports' midpoint. The demo catalogue only has the curated cities.
+- **Children's ages:** the search card asks each child's age (0 to 17) and blocks the search until every age is chosen. The ages travel in the URL (`ages=4,11`) and go to Duffel with each child. A link without ages (an old link, the "add a hotel" rail after a flight booking) counts each child as 8, and the search card shows that age so it can be changed.
+- **Party limits:** the same on the card and the server: up to 16 guests, 8 rooms, and no more rooms than adults.
+
 ## Phase 1 limits and open decisions
 
 - **Cancellation and refunds** are not self-serve. Customers are sent to Contact us. Duffel cancellations confirmed elsewhere (the dashboard, the airline) update the booking through the webhook. Self-serve cancellation is a follow-up if the client wants it.
-- **Children's ages:** the hotel search counts children as age 8, because the search form doesn't ask for ages. Flights use the adult, child and infant types.
 - **Markup or service fee:** 0 until the client decides (`PRICE_MARKUP_*`).
 - **Homepage deals and "Recommended for you"** still show the demo catalogue's prices. Replace them with curated content, or drop the prices, before launch.
-- **Destinations for hotels:** the curated city list, plus Duffel's test-hotel location in test mode. `/api/places` can back an open destination search later.
 - **Duffel Stays** depends on Duffel enabling it on the account.

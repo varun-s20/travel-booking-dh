@@ -8,13 +8,13 @@
    ===================================================================== */
 'use client';
 import { createContext, useContext, useSyncExternalStore } from 'react';
-import { AIRPORTS, CITIES, type Airport, type City } from '@/lib/data/places';
+import { AIRPORTS, placeById, type Airport, type City } from '@/lib/data/places';
 import { CABINS, type Cabin } from '@/lib/cabins';
 import { iso, longLabel, short, today } from '@/lib/dates';
 import { fromIso } from '@/lib/format';
 import { searchQuery, type FlightSearch } from '@/lib/travel/flights';
 import { airport as registryAirport } from '@/lib/travel/registry';
-import { stayQuery, type StaySearch } from '@/lib/travel/hotels';
+import { childAges, stayQuery, type StaySearch } from '@/lib/travel/hotels';
 
 export type Tab = 'flights' | 'hotels';
 export type FieldName = 'from' | 'to' | 'dates' | 'party' | 'dest' | 'rooms';
@@ -24,13 +24,14 @@ export type SearchState = {
   from: Airport | null; to: Airport | null; dest: City | null;
   start: Date | null; end: Date | null;
   adults: number; children: number; infants: number; cabin: Cabin;
-  guests: number; kids: number; rooms: number;
+  /* kidAges: one entry per child, null until chosen (hotels price children by age) */
+  guests: number; kids: number; kidAges: (number | null)[]; rooms: number;
 };
 
 const LHR = AIRPORTS.find((a) => a.code === 'LHR') || null;
 const initial = (): SearchState => ({
   tab: 'flights', from: LHR, to: null, dest: null, start: null, end: null,
-  adults: 1, children: 0, infants: 0, cabin: 'economy', guests: 2, kids: 0, rooms: 1
+  adults: 1, children: 0, infants: 0, cabin: 'economy', guests: 2, kids: 0, kidAges: [], rooms: 1
 });
 
 let state: SearchState = initial();
@@ -64,14 +65,15 @@ export function airportByCode(code: string): Airport | null {
   const p = registryAirport(code);
   return p ? { code, name: p.name, city: p.city, country: p.country ?? '' } : { code, name: code, city: code, country: '' };
 }
-export const cityById = (id: string) => CITIES.find((c) => c.id === id) || null;
+/* a curated city, or a destination id from the place suggestions */
+export const cityById = (id: string) => placeById(id) || null;
 
 /* ---- seeding from a results or detail page URL ---- */
 export function flightsState(s: FlightSearch): SearchState {
   return { ...state, tab: 'flights', from: airportByCode(s.from), to: airportByCode(s.to), start: fromIso(s.depart), end: s.ret ? fromIso(s.ret) : null, adults: s.adults, children: s.children, infants: s.infants, cabin: s.cabin };
 }
 export function staysState(s: StaySearch): SearchState {
-  return { ...state, tab: 'hotels', dest: cityById(s.place), start: fromIso(s.checkin), end: fromIso(s.checkout), guests: s.adults, kids: s.children, rooms: s.rooms };
+  return { ...state, tab: 'hotels', dest: cityById(s.place), start: fromIso(s.checkin), end: fromIso(s.checkout), guests: s.adults, kids: s.children, kidAges: childAges(s), rooms: s.rooms };
 }
 export function seedFlights(s: FlightSearch) { setSearch(flightsState(s)); }
 export function seedStays(s: StaySearch) { setSearch(staysState(s)); }
@@ -132,6 +134,7 @@ export function missing(s: SearchState): { field: FieldName; message: string } |
   }
   if (!s.dest) return { field: 'dest', message: 'Choose the city you want to stay in.' };
   if (!s.start || !s.end) return { field: 'dates', message: 'Choose your check-in and check-out dates.' };
+  if (kidAgesOf(s).some((a) => a === null)) return { field: 'rooms', message: "Choose each child's age. Hotels price children by age." };
   return null;
 }
 export function submitStatus(s: SearchState): string {
@@ -142,7 +145,7 @@ export function submitStatus(s: SearchState): string {
 }
 export function resultsHref(s: SearchState): string {
   if (s.tab === 'hotels') {
-    return `/hotels?${stayQuery({ place: s.dest!.id, checkin: iso(s.start), checkout: iso(s.end), adults: s.guests, children: s.kids, rooms: s.rooms })}`;
+    return `/hotels?${stayQuery({ place: s.dest!.id, checkin: iso(s.start), checkout: iso(s.end), adults: s.guests, children: s.kids, ages: kidAgesOf(s).map((a) => a ?? 0), rooms: s.rooms })}`;
   }
   return `/flights?${searchQuery({ from: s.from!.code, to: s.to!.code, depart: iso(s.start), ret: s.end ? iso(s.end) : null, adults: s.adults, children: s.children, infants: s.infants, cabin: s.cabin })}`;
 }
@@ -158,5 +161,8 @@ export function allowed(s: SearchState, k: StepKey, v: number): boolean {
   if (k === 'kids') return v >= 0 && s.guests + v <= 16;
   return false;
 }
+
+/* the ages list, exactly as long as the children count (a stepper change may have left it longer or shorter) */
+export const kidAgesOf = (s: SearchState): (number | null)[] => Array.from({ length: s.kids }, (_, i) => s.kidAges[i] ?? null);
 
 export const TODAY = () => today();

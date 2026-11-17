@@ -57,3 +57,30 @@ export const CITIES: City[] = [
   /* Duffel's test hotels (docs, Test hotels): only offered while Duffel runs with a test token */
   { id: 'duffel-test-hotels', name: 'Duffel test hotels', country: 'Test mode', lat: -24.38, lng: -128.32, testOnly: true }
 ];
+
+/* ---- any other destination ----
+   A city from Duffel's place suggestions, outside the curated list above. Its id carries the name,
+   country and centre ("@38.7223,-9.1393~Porto~Portugal"), so a results URL alone is enough to search
+   again, and the server never has to look the place up a second time. Names are checked, not trusted:
+   no control characters, no "<" or ">", at most 60 characters. */
+const GEO_ID = /^@(-?\d{1,2}(?:\.\d{1,4})?),(-?\d{1,3}(?:\.\d{1,4})?)~([^~]{1,60})~([^~]{0,60})$/;
+const cleanName = (s: string) => s.replace(/[~<>\u0000-\u001f\u007f]/g, '').replace(/\s+/g, ' ').trim().slice(0, 60);
+const coord = (n: number) => String(Math.round(n * 10000) / 10000);
+
+export function geoCityId(name: string, country: string, lat: number, lng: number): string | null {
+  const n = cleanName(name), c = cleanName(country);
+  if (!n || !Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
+  return `@${coord(lat)},${coord(lng)}~${n}~${c}`;
+}
+
+/* a curated city by id, or a destination id made by geoCityId */
+export function placeById(id: string): City | undefined {
+  const known = CITIES.find((c) => c.id === id);
+  if (known || !id || id[0] !== '@') return known;
+  const m = GEO_ID.exec(id);
+  if (!m) return undefined;
+  const lat = Number(m[1]), lng = Number(m[2]);
+  if (Math.abs(lat) > 90 || Math.abs(lng) > 180 || cleanName(m[3]) !== m[3] || cleanName(m[4]) !== m[4]) return undefined;
+  return { id, name: m[3], country: m[4], lat, lng };
+}
+export const isGeoPlace = (id: string) => id.startsWith('@');

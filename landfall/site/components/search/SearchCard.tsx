@@ -27,9 +27,10 @@ import { api } from '@/lib/api';
 import { MQ_DESKTOP, SEARCH_EVENT, prefersReducedMotion, trapTab, useMedia, type SearchSeg } from '@/lib/client';
 import { nights, sameDay, short } from '@/lib/dates';
 import Icon from '@/components/ui/Icon';
+import { SelectField } from '@/components/ui/Field';
 import Calendar from './Calendar';
 import {
-  allowed, datesText, missing, partyText, placeValue, resultsHref, roomsText, setSearch, getSearch, submitStatus, useSearch,
+  allowed, datesText, kidAgesOf, missing, partyText, placeValue, resultsHref, roomsText, setSearch, getSearch, submitStatus, useSearch,
   type FieldName, type StepKey, type Tab
 } from './store';
 
@@ -190,7 +191,16 @@ export default function SearchCard({ variant = 'hero', autoOpen = null, listen =
   function step(k: StepKey, by: number) {
     const cur = getSearch();
     const v = cur[k] + by;
-    if (allowed(cur, k, v)) setSearch({ [k]: v } as Partial<typeof cur>);
+    if (!allowed(cur, k, v)) return;
+    /* the ages list follows the children count; a new child's age starts unchosen */
+    if (k === 'kids') setSearch({ kids: v, kidAges: kidAgesOf({ ...cur, kids: v }) });
+    else setSearch({ [k]: v } as Partial<typeof cur>);
+  }
+  function setAge(i: number, v: string) {
+    const ages = kidAgesOf(getSearch());
+    ages[i] = v === '' ? null : Number(v);
+    setSearch({ kidAges: ages });
+    if (invalid === 'rooms' && ages.every((a) => a !== null)) { setInvalid(null); setStatus({ text: '', error: false }); setSheetMsg(''); }
   }
 
   /* ---- submit ---- */
@@ -320,6 +330,21 @@ export default function SearchCard({ variant = 'hero', autoOpen = null, listen =
             <Stepper k="kids" name="Children" help="0 to 17" s={s} step={step} more="More children" fewer="Fewer children" />
             <Stepper k="rooms" name="Rooms" help="Up to one per adult" s={s} step={step} more="More rooms" fewer="Fewer rooms" />
           </div>
+          {s.kids > 0 && (
+            <fieldset className="m-ages">
+              <legend>Children's ages <span className="m-ages__help">on the day you check in</span></legend>
+              <div className="m-ages__list">
+                {kidAgesOf(s).map((a, i) => (
+                  <SelectField key={i} label={`Child ${i + 1}`} value={a ?? ''} onChange={(e) => setAge(i, e.target.value)}
+                    error={invalid === 'rooms' && a === null ? 'Choose an age' : undefined}>
+                    <option value="" disabled>Age</option>
+                    <option value="0">Under 1</option>
+                    {Array.from({ length: 17 }, (_, n) => <option key={n + 1} value={n + 1}>{n + 1}</option>)}
+                  </SelectField>
+                ))}
+              </div>
+            </fieldset>
+          )}
           <p className="m-steps__note">Up to 8 rooms and 16 guests in one search.</p>
         </>, done())}
       </div>
@@ -363,25 +388,34 @@ function Stepper({ k, name, help, s, step, more, fewer }: { k: StepKey; name: st
 /* ---- place list: a combobox over the built-in places, plus the supplier's airport suggestions ----
    Airports: the built-in list answers at once; from two typed characters /api/places adds every
    airport the supplier knows (Duffel's place suggestions), merged after the built-in matches.
-   Cities: the curated hotel cities; Duffel's test hotels only while Duffel runs in test mode. */
+   Cities: the curated hotel cities first; with Duffel, from two typed characters /api/places adds any
+   other city Duffel knows (the simulated catalogue only has the curated ones). Duffel's test hotels
+   only while Duffel runs in test mode. */
 type PlaceItem = { key: string; name: string; meta: string; code?: string; value: Airport | City };
-type Suggestion = { code: string; name: string; city: string; country: string; type: 'airport' | 'city' };
+type Suggestion = { code: string; name: string; city: string; country: string; type: 'airport' | 'city'; lat: number | null; lng: number | null };
 const SHOW_TEST_CITIES = process.env.NEXT_PUBLIC_SUPPLY === 'duffel-test';
+const ANY_CITY = process.env.NEXT_PUBLIC_SUPPLY?.startsWith('duffel') ?? false;
 function PlaceList({ kind, name, uid, selected, reset, onPick }: { kind: 'airport' | 'city'; name: string; uid: string; selected?: string; reset: number; onPick: (p: Airport | City) => void }) {
   const [q, setQ] = useState('');
   const [remote, setRemote] = useState<Airport[]>([]);
+  const [remoteCities, setRemoteCities] = useState<City[]>([]);
   const [looking, setLooking] = useState(false);
   useEffect(() => { if (reset >= 0) setQ(''); }, [reset]);
   useEffect(() => {
     const t = q.trim();
-    if (kind !== 'airport' || t.length < 2) { setRemote([]); setLooking(false); return; }
+    if ((kind === 'city' && !ANY_CITY) || t.length < 2) { setRemote([]); setRemoteCities([]); setLooking(false); return; }
     const ctl = new AbortController();
     setLooking(true);
     const timer = window.setTimeout(() => {
-      api<{ places: Suggestion[] }>(`/api/places?q=${encodeURIComponent(t)}&type=airport`, { signal: ctl.signal }).then((r) => {
+      api<{ places: Suggestion[] }>(`/api/places?q=${encodeURIComponent(t)}&type=${kind}`, { signal: ctl.signal }).then((r) => {
         if (ctl.signal.aborted) return;
         setLooking(false);
-        setRemote((r.data?.places ?? []).filter((p) => p.type === 'airport').map((p) => ({ code: p.code, name: p.name, city: p.city, country: p.country })));
+        const list = r.data?.places ?? [];
+        if (kind === 'city') {
+          setRemoteCities(list.flatMap((p) => (p.type === 'city' && p.lat != null && p.lng != null ? [{ id: p.code, name: p.name, country: p.country, lat: p.lat, lng: p.lng }] : [])));
+        } else {
+          setRemote(list.filter((p) => p.type === 'airport').map((p) => ({ code: p.code, name: p.name, city: p.city, country: p.country })));
+        }
       });
     }, 200);
     return () => { ctl.abort(); window.clearTimeout(timer); };
@@ -390,13 +424,14 @@ function PlaceList({ kind, name, uid, selected, reset, onPick }: { kind: 'airpor
   const items: PlaceItem[] = useMemo(() => {
     const t = q.trim().toLowerCase();
     if (kind === 'city') {
-      return CITIES.filter((c) => (!c.testOnly || SHOW_TEST_CITIES) && (!t || c.name.toLowerCase().startsWith(t) || c.name.toLowerCase().includes(` ${t}`) || c.country.toLowerCase().startsWith(t)))
-        .map((c) => ({ key: c.id, name: c.name, meta: c.country, value: c }));
+      const local = CITIES.filter((c) => (!c.testOnly || SHOW_TEST_CITIES) && (!t || c.name.toLowerCase().startsWith(t) || c.name.toLowerCase().includes(` ${t}`) || c.country.toLowerCase().startsWith(t)));
+      const more = t.length >= 2 ? remoteCities.filter((c) => !local.some((x) => x.id === c.id)) : [];
+      return [...local, ...more].map((c) => ({ key: c.id, name: c.name, meta: c.country, value: c }));
     }
     const local = AIRPORTS.filter((a) => !t || a.city.toLowerCase().startsWith(t) || a.code.toLowerCase() === t || a.name.toLowerCase().startsWith(t) || a.name.toLowerCase().includes(` ${t}`) || a.country.toLowerCase().startsWith(t));
     const more = remote.filter((a) => !local.some((x) => x.code === a.code));
     return [...local, ...more].map((a) => ({ key: a.code, name: a.name, meta: [a.city, a.country].filter(Boolean).join(', '), code: a.code, value: a }));
-  }, [q, kind, remote]);
+  }, [q, kind, remote, remoteCities]);
   const listRef = useRef<HTMLUListElement>(null);
   const clean = q.replace(/[<>&"]/g, '');
   return (
@@ -431,7 +466,7 @@ function PlaceList({ kind, name, uid, selected, reset, onPick }: { kind: 'airpor
             </button>
           </li>
         )) : looking ? (
-          <li className="m-places__none" role="status">Looking up airports</li>
+          <li className="m-places__none" role="status">{kind === 'city' ? 'Looking up cities' : 'Looking up airports'}</li>
         ) : (
           <li className="m-places__none">{kind === 'city' ? `No cities match "${clean}". Check the spelling.` : `No places match "${clean}". Check the spelling or type a three-letter airport code.`}</li>
         )}

@@ -491,6 +491,11 @@ body.is-locked { overflow: hidden; }
 .m-step__btn:not(:disabled):active { transform: scale(var(--press)); }
 .m-step__n { min-width: 2.4rem; text-align: center; font-weight: var(--fw-strong); font-variant-numeric: tabular-nums; }
 .m-steps__note { margin-top: var(--s-2); color: var(--c-muted); font-size: var(--t-small); }
+/* children's ages (hotels): one select per child, under the steppers */
+.m-ages { margin: var(--s-3) 0 0; padding: var(--s-4) 0 0; border: 0; border-top: 1px solid var(--c-line); min-width: 0; }
+.m-ages legend { float: left; width: 100%; margin-bottom: var(--s-3); font-weight: var(--fw-medium); }
+.m-ages__help { margin-left: var(--s-2); color: var(--c-muted); font-size: var(--t-small); font-weight: var(--fw-regular); }
+.m-ages__list { clear: both; display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: var(--s-3); }
 .m-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2); margin-top: var(--s-3); padding-top: var(--s-4); border-top: 1px solid var(--c-line); }
 .m-opts legend { float: left; grid-column: 1 / -1; width: 100%; margin-bottom: var(--s-2); font-weight: var(--fw-medium); }
 .m-opt { position: relative; display: flex; align-items: center; gap: var(--s-2); min-height: 4.4rem; padding: 0 var(--s-3); border-radius: var(--r-sm); box-shadow: inset 0 0 0 1px var(--c-line); cursor: pointer; }

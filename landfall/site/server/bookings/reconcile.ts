@@ -1,7 +1,8 @@
 /* =====================================================================
    Landfall server: the scheduled job (GET /api/cron/reconcile)
-   Runs every few minutes (Vercel Cron, or any scheduler with the
-   CRON_SECRET). Every step takes the oldest rows first, skips bookings
+   Runs every 5 minutes (the Netlify scheduled function
+   netlify/functions/reconcile.mjs, Vercel Cron, or any scheduler with
+   the CRON_SECRET). Every step takes the oldest rows first, skips bookings
    parked for a person (needs_review) so they can't clog a batch, and the
    run stops starting new work near a time budget, so it always finishes
    inside a serverless limit; anything left is picked up next run.
@@ -23,6 +24,7 @@
 import 'server-only';
 import { adminDb } from '@/server/db/supabase';
 import { log } from '@/server/log';
+import { functionLimitMs, supplierBookingTimeoutMs } from '@/server/env';
 import { flightSupplier } from '@/server/supply';
 import { retrieveIntent } from '@/server/payments/stripe';
 import { addEvent, bookingById, documentsFor, paymentFor, saveDocuments, updateBooking } from '@/server/bookings/store';
@@ -31,9 +33,12 @@ import { sendBookingConfirmation, sendTicketsIssued } from '@/server/email/booki
 import { deliver } from '@/server/email/send';
 
 const BATCH = 20;
-/* a fulfil call can take about 4 minutes against a slow supplier: only start one early in the run */
-const SUPPLIER_WORK_UNTIL_MS = 50 * 1000;
-const STOP_AT_MS = 240 * 1000;
+/* the run fits the host's request limit (server/env.ts): a fulfil call can take the whole supplier
+   booking wait plus about 20 s, so one only starts early enough to finish; nothing new starts in the
+   last 10 s. On Netlify (60 s) that is about one supplier retry per run, which is plenty: unclear
+   supplier answers are rare, and the run repeats every 5 minutes. */
+const supplierWorkUntilMs = () => Math.max(2_000, functionLimitMs() - supplierBookingTimeoutMs() - 18_000);
+const stopAtMs = () => functionLimitMs() - 10_000;
 const minutesAgo = (m: number) => new Date(Date.now() - m * 60 * 1000).toISOString();
 
 export type ReconcileReport = Record<string, number>;
@@ -44,7 +49,7 @@ export async function reconcile(): Promise<ReconcileReport> {
   const elapsed = () => Date.now() - started;
   const report: ReconcileReport = { completed: 0, expired: 0, retried: 0, review: 0, captured: 0, released: 0, tickets: 0, emails: 0, purged: 0, errors: 0, skipped: 0 };
   const safely = async (what: string, fn: () => Promise<void>) => {
-    if (elapsed() > STOP_AT_MS) { report.skipped++; return; }
+    if (elapsed() > stopAtMs()) { report.skipped++; return; }
     try { await fn(); } catch (e) { report.errors++; log.error('reconcile.step', { what, error: e }); }
   };
 
@@ -55,7 +60,7 @@ export async function reconcile(): Promise<ReconcileReport> {
     const pay = await paymentFor(b.id);
     const pi = pay ? await retrieveIntent(pay.intent_id) : null;
     if (pi?.status === 'requires_capture') {
-      if (elapsed() > SUPPLIER_WORK_UNTIL_MS) { report.skipped++; return; }
+      if (elapsed() > supplierWorkUntilMs()) { report.skipped++; return; }
       const r = await fulfil(b.id, 'job');
       if (r.status === 'confirmed') report.completed++;
       return;
@@ -76,7 +81,7 @@ export async function reconcile(): Promise<ReconcileReport> {
       report.review++;
       return;
     }
-    if (elapsed() > SUPPLIER_WORK_UNTIL_MS) { report.skipped++; return; }
+    if (elapsed() > supplierWorkUntilMs()) { report.skipped++; return; }
     const r = await fulfil(b.id, 'job');
     report.retried++;
     if (r.status === 'confirmed') report.completed++;

@@ -40,7 +40,9 @@ const Schema = z.object({
   CRON_SECRET: opt(z.string().min(16)),
 
   PRICE_MARKUP_PERCENT: z.preprocess(empty, z.coerce.number().min(0).max(50).default(0)),
-  PRICE_MARKUP_FIXED_CENTS: z.preprocess(empty, z.coerce.number().int().min(0).max(100000).default(0))
+  PRICE_MARKUP_FIXED_CENTS: z.preprocess(empty, z.coerce.number().int().min(0).max(100000).default(0)),
+  /* how long the host lets one request run: Netlify 60 (fixed), Vercel up to 300 */
+  FUNCTION_TIME_LIMIT_SECONDS: z.preprocess(empty, z.coerce.number().int().min(20).max(900).default(60))
 });
 export type Env = z.infer<typeof Schema>;
 
@@ -87,3 +89,12 @@ export const stripeLive = () => /^(sk|rk)_live_/.test(env().STRIPE_SECRET_KEY ??
 /* real money only pays for real bookings, and real bookings only for real money */
 export const supplierLive = (supplier: 'duffel' | 'simulated') => supplier === 'duffel' && duffelLive();
 export const appOrigin = () => new URL(env().APP_URL).origin;
+
+/* ---- time budgets, from the host's request limit ----
+   A request the host kills mid-way gives the customer a raw error page. So the slow supplier calls
+   (Duffel order creation can take 130 s) stop waiting in time to answer "processing" themselves;
+   an unanswered booking is never lost: fulfilment treats the timeout as an unclear answer, and the
+   reconcile job or the supplier's webhook finds the order by its booking id later. */
+export const functionLimitMs = () => env().FUNCTION_TIME_LIMIT_SECONDS * 1000;
+/* the rest of a checkout (payment check, capture, email) needs about 20 s of the limit; 40 s on Netlify */
+export const supplierBookingTimeoutMs = () => Math.min(130_000, functionLimitMs() - 20_000);
