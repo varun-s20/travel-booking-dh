@@ -10,6 +10,12 @@
   command = "npx next build"
   publish = ".next"
 
+# Netlify's Next.js runtime: turns the .next build into pages, API functions and the proxy.
+# Declared explicitly because auto-detection missed the app in a subfolder, and without it
+# Netlify uploads .next as plain files (every page 404s and build internals become public).
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 [build.environment]
   NODE_VERSION = "22"
   NEXT_PUBLIC_PALETTE = "navy"
