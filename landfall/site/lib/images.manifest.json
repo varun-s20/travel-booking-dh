@@ -1,0 +1,1646 @@
+{
+ "destinations/cape-town-camps-bay": {
+  "webp": [
+   [
+    480,
+    300
+   ],
+   [
+    800,
+    500
+   ],
+   [
+    1200,
+    750
+   ]
+  ],
+  "fallback": {
+   "src": "/images/destinations/cape-town-camps-bay-800.jpg",
+   "w": 800,
+   "h": 500
+  }
+ },
+ "destinations/lisbon-tagus-golden": {
+  "webp": [
+   [
+    480,
+    300
+   ],
+   [
+    800,
+    500
+   ],
+   [
+    1200,
+    750
+   ]
+  ],
+  "fallback": {
+   "src": "/images/destinations/lisbon-tagus-golden-800.jpg",
+   "w": 800,
+   "h": 500
+  }
+ },
+ "destinations/mexico-city-xochimilco": {
+  "webp": [
+   [
+    480,
+    300
+   ],
+   [
+    800,
+    500
+   ],
+   [
+    1200,
+    750
+   ]
+  ],
+  "fallback": {
+   "src": "/images/destinations/mexico-city-xochimilco-800.jpg",
+   "w": 800,
+   "h": 500
+  }
+ },
+ "destinations/new-york-brooklyn-night": {
+  "webp": [
+   [
+    480,
+    300
+   ],
+   [
+    800,
+    500
+   ],
+   [
+    1200,
+    750
+   ]
+  ],
+  "fallback": {
+   "src": "/images/destinations/new-york-brooklyn-night-800.jpg",
+   "w": 800,
+   "h": 500
+  }
+ },
+ "destinations/rome-tiber-bridge": {
+  "webp": [
+   [
+    480,
+    300
+   ],
+   [
+    800,
+    500
+   ],
+   [
+    1200,
+    750
+   ]
+  ],
+  "fallback": {
+   "src": "/images/destinations/rome-tiber-bridge-800.jpg",
+   "w": 800,
+   "h": 500
+  }
+ },
+ "destinations/tokyo-bridge-night": {
+  "webp": [
+   [
+    480,
+    300
+   ],
+   [
+    800,
+    500
+   ],
+   [
+    1200,
+    750
+   ]
+  ],
+  "fallback": {
+   "src": "/images/destinations/tokyo-bridge-night-800.jpg",
+   "w": 800,
+   "h": 500
+  }
+ },
+ "hero/cape-town-waterfront": {
+  "webp": [
+   [
+    960,
+    640
+   ],
+   [
+    1600,
+    1067
+   ],
+   [
+    2400,
+    1600
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hero/cape-town-waterfront-1600.jpg",
+   "w": 1600,
+   "h": 1067
+  }
+ },
+ "hero/lisbon-alfama-river": {
+  "webp": [
+   [
+    960,
+    640
+   ],
+   [
+    1600,
+    1067
+   ],
+   [
+    2400,
+    1600
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hero/lisbon-alfama-river-1600.jpg",
+   "w": 1600,
+   "h": 1067
+  }
+ },
+ "hero/new-york-harbour": {
+  "webp": [
+   [
+    960,
+    470
+   ],
+   [
+    1600,
+    784
+   ],
+   [
+    2400,
+    1176
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hero/new-york-harbour-1600.jpg",
+   "w": 1600,
+   "h": 784
+  }
+ },
+ "home/amsterdam-canal": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/amsterdam-canal-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/athens-mikrolimano": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/athens-mikrolimano-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/bangkok-river": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/bangkok-river-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/barcelona-sea": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/barcelona-sea-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/buenos-aires-madero": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/buenos-aires-madero-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/cancun-sea": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/cancun-sea-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/copenhagen-nyhavn": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/copenhagen-nyhavn-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/dubai-marina": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/dubai-marina-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/lisbon-cais-sodre": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1067
+   ],
+   [
+    2000,
+    1333
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/lisbon-cais-sodre-1200.jpg",
+   "w": 1200,
+   "h": 800
+  }
+ },
+ "home/los-angeles-pier": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/los-angeles-pier-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/marrakech-riad-pool": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/marrakech-riad-pool-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/miami-beach": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/miami-beach-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/nairobi-park": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/nairobi-park-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/paris-pont-neuf": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/paris-pont-neuf-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/reykjavik-harpa": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/reykjavik-harpa-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/rio-sugarloaf": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/rio-sugarloaf-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/singapore-bay": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/singapore-bay-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/sydney-harbour": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/sydney-harbour-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "home/toronto-lake": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ],
+   [
+    1600,
+    1200
+   ]
+  ],
+  "fallback": {
+   "src": "/images/home/toronto-lake-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "hotels/at-double": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1067
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/at-double-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/at-facade": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/at-facade-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/at-twin": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1067
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/at-twin-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-bathroom": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-bathroom-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-courtyard": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-courtyard-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-courtyard-double": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-courtyard-double-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-courtyard-night": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-courtyard-night-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-lane": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-lane-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-lounge": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-lounge-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-roof-terrace": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-roof-terrace-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-rooftops": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-rooftops-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-suite-bridge-view": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1067
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-suite-bridge-view-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cl-window-river": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1067
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cl-window-river-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cv-double": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cv-double-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cv-lobby": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cv-lobby-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cv-riverfront": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cv-riverfront-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/cv-twin": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/cv-twin-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/hh-facade": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/hh-facade-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/hh-loft-double": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/hh-loft-double-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/hh-loft-king": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/hh-loft-king-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/hh-rooftop-view": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/hh-rooftop-view-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/hk-double": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/hk-double-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/hk-river-twin": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/hk-river-twin-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/hk-skytree-window": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/hk-skytree-window-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/lr-double": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/lr-double-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/lr-hilltop": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/lr-hilltop-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/lr-triple": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/lr-triple-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/pq-courtyard": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/pq-courtyard-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/pq-garden-double": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/pq-garden-double-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/pq-twin": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/pq-twin-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/rl-kitchen": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/rl-kitchen-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/rl-loft": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/rl-loft-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/rl-stair": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/rl-stair-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "hotels/rl-street": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ],
+   [
+    1600,
+    1066
+   ]
+  ],
+  "fallback": {
+   "src": "/images/hotels/rl-street-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "pages/harbour-dawn-boats": {
+  "webp": [
+   [
+    480,
+    320
+   ],
+   [
+    800,
+    533
+   ],
+   [
+    1200,
+    800
+   ]
+  ],
+  "fallback": {
+   "src": "/images/pages/harbour-dawn-boats-800.jpg",
+   "w": 800,
+   "h": 533
+  }
+ },
+ "pages/harbour-first-light": {
+  "webp": [
+   [
+    800,
+    343
+   ],
+   [
+    1200,
+    514
+   ],
+   [
+    1600,
+    686
+   ]
+  ],
+  "fallback": {
+   "src": "/images/pages/harbour-first-light-1200.jpg",
+   "w": 1200,
+   "h": 514
+  }
+ },
+ "pages/quay-colunas": {
+  "webp": [
+   [
+    800,
+    533
+   ],
+   [
+    1400,
+    933
+   ],
+   [
+    2000,
+    1333
+   ]
+  ],
+  "fallback": {
+   "src": "/images/pages/quay-colunas-1400.jpg",
+   "w": 1400,
+   "h": 933
+  }
+ },
+ "promo/ferry-deck-puget-sound": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ]
+  ],
+  "fallback": {
+   "src": "/images/promo/ferry-deck-puget-sound-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "promo/lighthouse-pier-namerikawa": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ]
+  ],
+  "fallback": {
+   "src": "/images/promo/lighthouse-pier-namerikawa-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ },
+ "promo/utrecht-canal-dining": {
+  "webp": [
+   [
+    480,
+    360
+   ],
+   [
+    800,
+    600
+   ],
+   [
+    1200,
+    900
+   ]
+  ],
+  "fallback": {
+   "src": "/images/promo/utrecht-canal-dining-800.jpg",
+   "w": 800,
+   "h": 600
+  }
+ }
+}

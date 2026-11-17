@@ -1,0 +1,30 @@
+I've written the copy for every page, screen, state and email in the spec to `projects/travel-booking/content/copy.md`, and added a line to `review-log.md`. Every client question is in the file and none was asked. Missing client facts use the approved placeholders (Overwing, +1 (555) 010-0199, hello@example.com, and the demo notice wording from spec section 7).
+
+**Headline**
+- "Fly there, stay there" stays as the main headline.
+- The flights-only alternative is **"Fly there and back"**. It keeps the same rhythm, works for any return search, and doesn't promise seats, which aren't in Phase 1. A backup option is "Where are you flying next?"
+- The file has a list of every swap for the flights-only version: subline, search toggle, second home card, trust panel, footer and About.
+
+**Mock data for the simulated backend**
+- The airline and hotel names are made up (5 airlines, 8 hotels), because showing real carriers with invented prices and rules would be misleading. My web searches found no airline or hotel using these names, but they haven't been checked for trademarks.
+- The data covers a full demo: London to Lisbon flights for 2 adults with three fare options, a Lisbon hotel with room types and policies, a demo account, four bookings and e-ticket numbers.
+- Prices match from start to finish: the $412 destination card, the cheapest $824 result, $1,284.60 at checkout and the same figures in the emails.
+
+**Where I went against the spec (notes for the Developer)**
+- **Price filter:** the PRD asks for one but the spec's filter list leaves it out. I wrote the copy for it.
+- **Contact page:** the spec mentions a placeholder address, but none was approved, so I left out the address and support hours.
+- **About page:** the spec says the body stays empty until the client sends their story. Since you want complete-looking pages, I wrote a short interim body using only facts from the scope.
+- **"Help from a real person":** this trust line claims something the client never said about their staff. It now says "call or email us".
+- **"Price held" is now "Price valid":** the supplier's flight prices aren't held, they just expire.
+- **E-tickets:** the supplier returns e-ticket numbers, not PDF files, so the confirmation shows the numbers.
+- **Payment failures:** that copy assumes the card is only charged after the booking is confirmed. If the build charges first, it needs rewriting.
+
+**Left out on purpose:** the company story, support hours, legal text, reviews and licences, and any "lowest price" or "no hidden fees" claims, because the client's fee model is unknown. Spelling is US English and times use the 24-hour clock as placeholder choices; both are listed as market questions.
+
+This is a good checkpoint. Suggested commit message: `travel-booking: add copy deck with flights-only variants and mock data`
+
+I can also turn the 15 client questions into a shareable page if you want to send them on.
+
+Sources (name checks):
+- [Sandpiper Air (fictional, from the TV series Wings), which is why I dropped that name](https://wings.fandom.com/wiki/Sandpiper_Air)
+- [Casa das Janelas com Vista](https://guide.michelin.com/at/de/hotels-stays/lisbon/casa-das-janelas-com-vista-7772) and [As Janelas Verdes](https://www.visitlisboa.com/es/sobre-turismo-lisboa/asociado/as-janelas-verdes): real Lisbon hotels with "Janelas" in their names, so I dropped my "Hotel Sete Janelas"

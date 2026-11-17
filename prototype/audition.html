@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audition: travel-booking</title>
+<meta name="robots" content="noindex">
+<!-- Phase A audition for Varun. Fonts load from Google Fonts here only; the build self-hosts them. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Geist:wght@100..900&family=Rethink+Sans:wght@400..800&display=swap" rel="stylesheet">
+<style>
+/* ===== Audition page ===== */
+:root {
+  --doc-bg: #F4F3F0; --doc-ink: #1C1C1A; --doc-muted: #5E5D58; --doc-line: #DEDCD6; --doc-card: #FFFFFF;
+  --ease-out: cubic-bezier(.19, 1, .22, 1); --ease-spring: cubic-bezier(.34, 1.28, .64, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--doc-bg); color: var(--doc-ink); font: 400 15px/1.55 Geist, sans-serif; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+:focus-visible { outline: 2px solid #1C1C1A; outline-offset: 3px; }
+
+.doc { max-width: 1480px; margin: 0 auto; padding: 40px 20px 96px; }
+.doc__head { max-width: 860px; margin-bottom: 48px; }
+.doc__head h1 { margin: 0 0 12px; font: 650 30px/1.15 Geist, sans-serif; letter-spacing: -.015em; text-wrap: balance; }
+.doc__head p { margin: 0 0 10px; color: var(--doc-muted); text-wrap: pretty; }
+.doc h2 { margin: 64px 0 8px; font: 650 22px/1.2 Geist, sans-serif; letter-spacing: -.01em; }
+.doc h2 + p { margin: 0 0 24px; max-width: 860px; color: var(--doc-muted); text-wrap: pretty; }
+.note { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px; border: 1px solid var(--doc-line); border-radius: 30px; background: #fff; font: 600 11px/1.3 Geist, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--doc-muted); }
+.note::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #C24A2C; }
+
+/* ---- wordmark directions ---- */
+.marks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.mark { padding: 28px 24px 22px; border-radius: 20px; background: var(--doc-card); }
+.mark__art { display: flex; align-items: center; height: 72px; margin-bottom: 18px; color: #17211F; }
+.mark h3 { margin: 0 0 4px; font: 650 15px/1.3 Geist, sans-serif; }
+.mark p { margin: 0 0 14px; color: var(--doc-muted); font-size: 14px; text-wrap: pretty; }
+.wm-overwing { display: inline-flex; align-items: center; font: 700 44px/1 "Rethink Sans", sans-serif; letter-spacing: -.03em; color: #1F3B41; }
+.wm-overwing__o { position: relative; align-self: flex-end; width: .46em; height: .6em; margin: 0 .03em .03em 0; border-radius: 46% / 40%; background: linear-gradient(#A9D3DA, #EED7D5); box-shadow: inset 0 0 0 .055em #1F3B41; overflow: hidden; }
+.wm-overwing__o::after { content: ""; position: absolute; inset: 0 0 64% 0; background: #1F3B41; }
+.wm-docket { position: relative; display: inline-flex; align-items: center; height: 58px; padding: 0 30px 0 20px; border-radius: 10px; background: #2C2F1A; color: #F6F4EA; font: 600 32px/1 Archivo, sans-serif; font-stretch: 112%; letter-spacing: -.01em;
+  -webkit-mask: radial-gradient(circle at calc(100% - 16px) 0, transparent 7px, #000 7.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 16px) 100%, transparent 7px, #000 7.5px) bottom / 100% 51% no-repeat;
+          mask: radial-gradient(circle at calc(100% - 16px) 0, transparent 7px, #000 7.5px) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 16px) 100%, transparent 7px, #000 7.5px) bottom / 100% 51% no-repeat; }
+.wm-docket::after { content: ""; position: absolute; top: 10px; bottom: 10px; right: 15px; border-left: 2px dotted rgba(246, 244, 234, .55); }
+.wm-landfall { position: relative; font: 600 34px/1 Archivo, sans-serif; font-stretch: 125%; letter-spacing: .02em; color: #1D3A4E; padding-bottom: 14px; }
+.wm-landfall::after { content: ""; position: absolute; left: 0; right: -40px; bottom: 0; height: 2px; background: linear-gradient(90deg, #1D3A4E 0 62%, #E0B378 62% 100%); }
+
+/* ===== Shared hero parts (sized in --u, one design pixel) ===== */
+.kit { --u: 1px; }
+.ico { width: calc(20 * var(--u)); height: calc(20 * var(--u)); flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+.toggle { position: relative; display: inline-flex; gap: calc(4 * var(--u)); padding: calc(4 * var(--u)); border-radius: 999px; background: var(--c-tint); }
+.toggle__thumb { position: absolute; top: calc(4 * var(--u)); left: calc(4 * var(--u)); height: calc(32 * var(--u)); border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .1); transition: left .22s var(--ease-spring), width .22s var(--ease-spring); }
+.toggle__btn { position: relative; height: calc(32 * var(--u)); padding: 0 calc(18 * var(--u)); border: 0; border-radius: 999px; background: none; color: var(--c-muted); font: 600 calc(14 * var(--u))/1 var(--f-ui); cursor: pointer; transition: color .15s; }
+.toggle__btn[aria-pressed="true"] { color: var(--c-ink); }
+
+.pill { display: flex; align-items: center; width: calc(920 * var(--u)); height: calc(72 * var(--u)); padding: 0 calc(10 * var(--u)) 0 calc(6 * var(--u)); border: 1px solid var(--c-line); border-radius: 999px; background: #fff; box-shadow: 0 4px 10px -2px rgba(20, 24, 22, .08), 0 2px 4px -2px rgba(20, 24, 22, .08); text-align: left; }
+.seg { position: relative; display: flex; align-items: center; gap: calc(12 * var(--u)); flex: 1 1 0; min-width: 0; height: calc(62 * var(--u)); padding: 0 calc(18 * var(--u)); border: 0; border-radius: 999px; background: none; color: var(--c-ink); cursor: pointer; transition: background-color .26s cubic-bezier(.4, 0, .2, 1); }
+.seg + .seg::before { content: ""; position: absolute; left: 0; top: calc(18 * var(--u)); bottom: calc(18 * var(--u)); width: 1px; background: var(--c-line); transition: opacity .2s; }
+.seg:hover { background: var(--c-tint); }
+.seg:hover::before, .seg:hover + .seg::before { opacity: 0; }
+.seg .ico { color: var(--c-muted); }
+.seg__text { display: flex; flex-direction: column; align-items: flex-start; gap: calc(3 * var(--u)); min-width: 0; text-align: left; }
+.seg:nth-child(3) { flex-grow: .82; }
+.seg:nth-child(4) { flex-grow: 1.22; }
+.seg__label { font: 600 calc(11 * var(--u))/1.2 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--c-ink); }
+.seg__value { overflow: hidden; font: 400 calc(16 * var(--u))/1.2 var(--f-ui); color: var(--c-muted); white-space: nowrap; text-overflow: ellipsis; }
+.go { display: inline-flex; align-items: center; gap: calc(8 * var(--u)); flex: none; height: calc(52 * var(--u)); padding: 0 calc(22 * var(--u)) 0 calc(24 * var(--u)); border: 0; border-radius: 44px; background: var(--c-deep); color: #fff; font: 600 calc(15 * var(--u))/1 var(--f-ui); cursor: pointer; }
+.go .ico { width: calc(16 * var(--u)); height: calc(16 * var(--u)); transition: transform .4s var(--ease-out); }
+.go:hover .ico { transform: translateX(calc(4 * var(--u))); }
+.go:active { transform: scale(.97); }
+.trust { margin: calc(14 * var(--u)) 0 0; font: 400 calc(14 * var(--u))/1.4 var(--f-ui); color: var(--c-muted); }
+
+/* ===== Type auditions ===== */
+.stages { display: grid; gap: 16px; }
+.stage { border-radius: 24px; background: #fff; overflow: hidden; }
+.stage__canvas { container-type: inline-size; padding: 56px 20px 48px; text-align: center; }
+.stage__canvas .kit { --u: min(1px, calc(100cqw / 960)); }
+.stage__meta { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 0 24px; padding: 18px 24px 20px; border-top: 1px solid var(--doc-line); font-size: 13.5px; color: var(--doc-muted); }
+.stage__meta b { display: block; margin-bottom: 2px; color: var(--doc-ink); font-weight: 600; }
+.lic { display: inline-block; margin-top: 4px; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.lic.-free { background: #E3EFE6; color: #1E5130; }
+.lic.-no { background: #F6E1DB; color: #7A2914; }
+.h-stage { margin: 0 auto; color: var(--c-ink); text-wrap: balance; }
+.s-stage { margin: calc(10 * var(--u)) auto calc(40 * var(--u)); color: var(--c-ink); text-wrap: balance; }
+.stage .toggle { margin-bottom: calc(16 * var(--u)); }
+.stage .pill { margin: 0 auto; }
+
+.t1 { --f-ui: Geist, sans-serif; }
+.t1 .capture { width: calc(470 * var(--u)); height: calc(85 * var(--u)); margin: 0 auto calc(40 * var(--u)); background: url("../references/deconstruct/hipcamp/hipcamp-1440-hero.png") calc(-530 * var(--u)) calc(-205 * var(--u)) / calc(1440 * var(--u)) auto no-repeat; }
+.t2 { --f-ui: Geist, sans-serif; }
+.t2 .h-stage { font: 700 calc(56 * var(--u))/1.05 "Rethink Sans", sans-serif; letter-spacing: -.025em; }
+.t2 .s-stage { font: 400 calc(20 * var(--u))/1.35 "Rethink Sans", sans-serif; }
+.t3 { --f-ui: Archivo, sans-serif; }
+.t3 .h-stage { font: 300 calc(60 * var(--u))/1 Archivo, sans-serif; font-stretch: 125%; letter-spacing: -.01em; word-spacing: .06em; text-transform: uppercase; }
+.t3 .h-stage strong { font-weight: 650; }
+.t3 .s-stage { font: 400 calc(19 * var(--u))/1.4 Archivo, sans-serif; }
+.t3 .seg__value, .t3 .seg__label, .t3 .go, .t3 .toggle__btn { font-stretch: 100%; }
+
+/* ===== Palettes (each sampled from its hero photo; see design/concepts.md) ===== */
+.p-cabin   { --c-accent: #278B9B; --c-accent-soft: #A9D3DA; --c-deep: #1F3B41; --c-ink: #121D20; --c-muted: #5B6567; --c-tint: #F4E9E7; --c-cream: #EED7D5; --c-ground: #FBF8F7; --c-line: #EADCDA; }
+.p-ochre   { --c-accent: #9A7635; --c-accent-soft: #D8BA75; --c-deep: #2C2F1A; --c-ink: #18190E; --c-muted: #5F5530; --c-tint: #ECE6D3; --c-cream: #E9E2CB; --c-ground: #F6F4EA; --c-line: #DDD5BC; }
+.p-harbour { --c-accent: #9B6438; --c-accent-soft: #E0B378; --c-deep: #1D3A4E; --c-ink: #0F1D27; --c-muted: #4E6070; --c-tint: #E6EEF2; --c-cream: #FAF5EE; --c-ground: #FAF5EE; --c-line: #DCE5EA; }
+.t1, .t2, .t3 { --c-accent: #278B9B; --c-deep: #1F3B41; --c-ink: #1B1F1E; --c-muted: #5E6463; --c-tint: #F1EFEB; --c-line: #E7E4DE; }
+
+.palette { margin-bottom: 40px; }
+.palette__title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 0 0 12px; }
+.palette__title h3 { margin: 0; font: 650 18px/1.3 Geist, sans-serif; }
+.palette__title span { color: var(--doc-muted); font-size: 14px; }
+
+/* ---- hero frame: a 1440 x 900 design scaled to its column ---- */
+.frameWrap { container-type: inline-size; border-radius: 22px; overflow: hidden; box-shadow: 0 1px 0 var(--doc-line); }
+.frame { --u: calc(100cqw / 1440); --f-ui: Geist, sans-serif; position: relative; width: 100%; aspect-ratio: 1440 / 900; overflow: hidden; background: var(--c-ground); color: var(--c-ink); }
+.rail { position: absolute; z-index: 3; top: 0; left: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; gap: calc(6 * var(--u)); width: calc(88 * var(--u)); padding: calc(14 * var(--u)) 0 calc(20 * var(--u)); }
+.rail__tile { display: grid; place-items: center; width: calc(44 * var(--u)); height: calc(44 * var(--u)); border-radius: calc(12 * var(--u)); background: var(--c-deep); color: #fff; }
+.rail__tile svg { width: calc(24 * var(--u)); height: calc(24 * var(--u)); }
+.rail__name { margin: calc(2 * var(--u)) 0 calc(14 * var(--u)); font: 600 calc(10 * var(--u))/1.2 var(--f-ui); color: var(--c-ink); }
+.rail__item { display: flex; flex-direction: column; align-items: center; gap: calc(4 * var(--u)); width: calc(76 * var(--u)); padding: calc(6 * var(--u)) 0; font: 600 calc(10 * var(--u))/1.25 var(--f-ui); color: var(--c-ink); }
+.rail__icon { display: grid; place-items: center; width: calc(40 * var(--u)); height: calc(40 * var(--u)); border-radius: calc(12 * var(--u)); }
+.rail__icon .ico { width: calc(24 * var(--u)); height: calc(24 * var(--u)); }
+.rail__item.is-current .rail__icon { background: var(--c-tint); }
+.rail__spacer { flex: 1; }
+.topbar { position: absolute; z-index: 3; top: calc(28 * var(--u)); right: calc(24 * var(--u)); display: flex; gap: calc(8 * var(--u)); }
+.chipBtn { display: inline-flex; align-items: center; height: calc(36 * var(--u)); padding: 0 calc(16 * var(--u)); border-radius: 44px; font: 600 calc(14 * var(--u))/1 var(--f-ui); }
+.chipBtn.-soft { background: var(--c-tint); color: var(--c-ink); }
+.chipBtn.-dark { background: var(--c-deep); color: #fff; }
+.frame__hero { position: absolute; z-index: 2; left: calc(88 * var(--u)); right: 0; text-align: center; }
+.h-frame { margin: 0 auto; text-wrap: balance; }
+.s-frame { margin: calc(8 * var(--u)) auto calc(40 * var(--u)); text-wrap: balance; }
+.frame .toggle { margin-bottom: calc(16 * var(--u)); }
+.frame .pill { margin: 0 auto; }
+
+/* ---- A: Overwing, the cabin wall ---- */
+.fA .frame__hero { top: calc(150 * var(--u)); }
+.fA .h-frame { font: 700 calc(56 * var(--u))/1.05 "Rethink Sans", sans-serif; letter-spacing: -.025em; }
+.fA .s-frame { font: 400 calc(20 * var(--u))/1.35 "Rethink Sans", sans-serif; }
+.cabin { position: absolute; z-index: 1; left: calc(148 * var(--u)); top: calc(540 * var(--u)); display: flex; justify-content: space-between; width: calc(1232 * var(--u)); }
+.win { --wx: 0; position: relative; width: calc(236 * var(--u)); height: calc(318 * var(--u)); border-radius: calc(102 * var(--u)) / calc(116 * var(--u)); overflow: hidden;
+  background: url("assets/images/audition/wing-over-pastel-clouds.jpg") calc(var(--wx) * -1 * var(--u)) calc(-150 * var(--u)) / calc(1232 * var(--u)) auto no-repeat;
+  box-shadow: 0 0 0 calc(9 * var(--u)) var(--c-cream), 0 0 0 calc(10 * var(--u)) rgba(31, 59, 65, .08), inset 0 calc(6 * var(--u)) calc(18 * var(--u)) rgba(18, 29, 32, .22); }
+.win:nth-child(2) { --wx: 332; } .win:nth-child(3) { --wx: 664; } .win:nth-child(4) { --wx: 996; }
+.win__blind { position: absolute; inset: 0 0 auto 0; height: 100%; background: linear-gradient(#F7F1F0, #ECE2E0); box-shadow: 0 calc(2 * var(--u)) calc(6 * var(--u)) rgba(18, 29, 32, .12); transform: translateY(-78%); }
+.win__blind::after { content: ""; position: absolute; left: 50%; bottom: calc(10 * var(--u)); width: calc(34 * var(--u)); height: calc(6 * var(--u)); margin-left: calc(-17 * var(--u)); border-radius: 6px; background: rgba(31, 59, 65, .18); }
+.js .fA:not(.is-shown) .win__blind { transform: translateY(0); }
+.fA.is-shown .win__blind { transition: transform 1.6s var(--ease-out); }
+.fA.is-shown .win:nth-child(2) .win__blind { transition-delay: .12s; }
+.fA.is-shown .win:nth-child(3) .win__blind { transition-delay: .24s; }
+.fA.is-shown .win:nth-child(4) .win__blind { transition-delay: .36s; }
+
+/* ---- B: Docket, the ticket ---- */
+.fB .frame__hero { top: calc(250 * var(--u)); }
+.fB .h-frame { font: 700 calc(56 * var(--u))/1.05 "Rethink Sans", sans-serif; letter-spacing: -.025em; }
+.fB .s-frame { font: 400 calc(20 * var(--u))/1.35 "Rethink Sans", sans-serif; }
+.ticket { width: calc(1120 * var(--u)); margin: 0 auto; text-align: left; filter: drop-shadow(0 calc(10 * var(--u)) calc(18 * var(--u)) rgba(24, 25, 14, .12)); }
+/* the notches are cut by a mask on the body, so the drop shadow on the wrapper follows them */
+.ticket__body { display: flex; height: calc(168 * var(--u));
+  -webkit-mask: radial-gradient(circle at calc(100% - 228 * var(--u)) 0, transparent calc(14 * var(--u)), #000 calc(14.5 * var(--u))) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 228 * var(--u)) 100%, transparent calc(14 * var(--u)), #000 calc(14.5 * var(--u))) bottom / 100% 51% no-repeat;
+          mask: radial-gradient(circle at calc(100% - 228 * var(--u)) 0, transparent calc(14 * var(--u)), #000 calc(14.5 * var(--u))) top / 100% 51% no-repeat, radial-gradient(circle at calc(100% - 228 * var(--u)) 100%, transparent calc(14 * var(--u)), #000 calc(14.5 * var(--u))) bottom / 100% 51% no-repeat; }
+.ticket__photo { flex: none; width: calc(220 * var(--u)); border-radius: calc(18 * var(--u)) 0 0 calc(18 * var(--u)); background: url("assets/images/audition/ochre-street-walker.jpg") 82% 50% / cover no-repeat; }
+.ticket__fields { display: grid; grid-template-columns: 1fr 1fr .8fr 1.3fr; flex: 1; background: #fff; }
+.cell__value { white-space: nowrap; }
+.cell { display: flex; flex-direction: column; justify-content: center; gap: calc(8 * var(--u)); padding: 0 calc(22 * var(--u)); border-right: 1px solid var(--c-line); }
+.cell__label { font: 600 calc(11 * var(--u))/1.2 var(--f-ui); letter-spacing: .1em; text-transform: uppercase; color: var(--c-ink); }
+.cell__value { font: 400 calc(18 * var(--u))/1.25 var(--f-ui); color: var(--c-muted); }
+.cell:last-child { border-right: 0; }
+.ticket__stub { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: calc(12 * var(--u)); flex: none; width: calc(228 * var(--u)); border-radius: 0 calc(18 * var(--u)) calc(18 * var(--u)) 0; background: #fff; }
+.ticket__stub::before { content: ""; position: absolute; left: 0; top: calc(20 * var(--u)); bottom: calc(20 * var(--u)); border-left: calc(2 * var(--u)) dotted var(--c-line); }
+.ticket__stub .go { height: calc(56 * var(--u)); }
+.stub__note { font: 400 calc(12 * var(--u))/1.35 var(--f-ui); color: var(--c-muted); text-align: center; }
+
+/* ---- C: Landfall, the arrival ---- */
+.fC { --f-ui: Archivo, sans-serif; background: #fff; }
+.fC .rail { background: #fff; }
+.photoC { position: absolute; left: calc(96 * var(--u)); right: calc(8 * var(--u)); top: calc(8 * var(--u)); height: calc(790 * var(--u)); border-radius: calc(24 * var(--u)); overflow: hidden; background: #1D3A4E; }
+.photoC img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transform: scale(1.04); }
+.photoC__scrim { position: absolute; inset: 0; background:
+  radial-gradient(64% 50% at 50% 31%, rgba(15, 29, 39, .58) 0%, rgba(15, 29, 39, .40) 55%, rgba(15, 29, 39, 0) 100%),
+  linear-gradient(rgba(15, 29, 39, .34), rgba(15, 29, 39, 0) 24%); }
+.photoC__haze { position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(rgba(255, 255, 255, 0), rgba(250, 245, 238, .38)); }
+.fC .topbar { right: calc(32 * var(--u)); top: calc(32 * var(--u)); }
+.fC .chipBtn.-soft { background: rgba(15, 29, 39, .56); color: #fff; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.fC .chipBtn.-dark { background: #fff; color: var(--c-deep); }
+.fC .frame__hero { top: calc(150 * var(--u)); color: #fff; }
+.fC .h-frame { font: 300 calc(68 * var(--u))/1 Archivo, sans-serif; font-stretch: 125%; letter-spacing: -.01em; word-spacing: .06em; text-transform: uppercase; color: #fff; }
+.fC .h-frame strong { font-weight: 650; }
+.fC .s-frame { font: 400 calc(20 * var(--u))/1.4 Archivo, sans-serif; color: #fff; }
+.fC .dock { position: absolute; z-index: 2; left: calc(88 * var(--u)); right: 0; top: calc(706 * var(--u)); text-align: center; }
+.fC .toggle { background: rgba(15, 29, 39, .5); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.fC .toggle__btn { color: #fff; }
+.fC .toggle__btn[aria-pressed="true"] { color: var(--c-ink); }
+.fC .pill { box-shadow: 0 18px 40px -18px rgba(15, 29, 39, .45); }
+.fC .trust { color: var(--c-muted); }
+
+/* ---- swatches and ratios ---- */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+.sw { overflow: hidden; border-radius: 14px; background: #fff; font-size: 12.5px; }
+.sw__chip { height: 58px; border-bottom: 1px solid rgba(0, 0, 0, .06); }
+.sw__txt { padding: 9px 11px 11px; }
+.sw__txt b { display: block; font: 600 13px/1.3 Geist, sans-serif; }
+.sw__txt code { font: 500 12px/1.4 ui-monospace, Menlo, Consolas, monospace; }
+.sw__txt span { display: block; color: var(--doc-muted); }
+.ratios { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 6px 18px; margin: 14px 0 0; padding: 16px 18px; border-radius: 14px; background: #fff; font-size: 13.5px; }
+.ratios div { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border-bottom: 1px solid #F0EFEB; }
+.ratios dt { color: var(--doc-muted); }
+.ratios dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.measured { margin: 10px 0 0; padding: 14px 18px; border-radius: 14px; background: #fff; font-size: 13.5px; color: var(--doc-muted); }
+.measured b { color: var(--doc-ink); }
+
+.credits { margin-top: 64px; font-size: 13px; color: var(--doc-muted); }
+.credits li { margin-bottom: 4px; }
+
+@media (max-width: 900px) {
+  .marks { grid-template-columns: 1fr; }
+  .stage__meta { grid-template-columns: 1fr; gap: 10px; }
+  .stage__canvas { padding: 36px 12px 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0s !important; transition-delay: 0s !important; }
+  .js .fA:not(.is-shown) .win__blind { transform: translateY(-78%); }
+}
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h13A1.5 1.5 0 0 1 20 7.5V10a2 2 0 0 0 0 4v2.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 16.5V14a2 2 0 0 0 0-4z"/><path d="M14.5 6.5v11" stroke-dasharray="1.6 2"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 19.5c1.2-3.3 3.8-5 7-5s5.8 1.7 7 5"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M9.8 9.6a2.3 2.3 0 0 1 4.4.8c0 1.6-2.2 1.9-2.2 3.4"/><path d="M12 16.6v.2"/></symbol>
+  <symbol id="i-depart" viewBox="0 0 24 24"><path d="M3 19h18"/><path d="M5.5 14.5l12.8-4.6a1.6 1.6 0 0 0-1-3l-4 1.4-5-3.3-1.7.6 3 3.9-3.2 1.1-2-1.4-1.3.5 1.7 3.4z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 20s6-5.4 6-10a6 6 0 0 0-12 0c0 4.6 6 10 6 10z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3.5 18.5c.9-2.7 2.9-4.2 5.5-4.2s4.6 1.5 5.5 4.2"/><path d="M15.5 6.4a3 3 0 0 1 0 5.4M17.5 14.6c1.3.7 2.3 2 2.8 3.9"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></symbol>
+  <symbol id="g-window" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="5.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6.4 9h11.2" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="g-stub" viewBox="0 0 24 24"><path d="M3.5 7h17v3a2 2 0 0 0 0 4v3h-17v-3a2 2 0 0 0 0-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M15 8v8" stroke="currentColor" stroke-width="1.8" stroke-dasharray="1.5 2"/></symbol>
+  <symbol id="g-horizon" viewBox="0 0 24 24"><path d="M3 15h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 11.5h7l2.5-3h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<main class="doc">
+  <header class="doc__head">
+    <span class="note">Internal audition, not a client page</span>
+    <h1>travel-booking, phase A: type and palette auditions</h1>
+    <p>For Varun at checkpoint 2a. Read design/concepts.md first: it holds the three concepts, the section-by-section plan and the conflicts to rule on.</p>
+    <p>Everything here is working material. The names and wordmarks are placeholders, not the client's brand. The headline and subline are working copy, not final copy. The photos are Unsplash stock, approved as stand-ins until client or licensed media arrives. No client fact appears on this page.</p>
+    <p>Best read on a desktop screen. On a phone the sketches scale down as pictures; the 390 designs come in phase B.</p>
+  </header>
+
+  <section aria-labelledby="marks-title">
+    <h2 id="marks-title">Placeholder names and wordmark directions</h2>
+    <p>One per concept. Each is a direction for a temporary wordmark, drawn only far enough to judge. None was checked for trademarks, and each is replaced the day the client supplies a brand.</p>
+    <div class="marks">
+      <article class="mark">
+        <div class="mark__art"><span class="wm-overwing" role="img" aria-label="overwing"><span class="wm-overwing__o" aria-hidden="true"></span><span aria-hidden="true">verwing</span></span></div>
+        <h3>A. Overwing <span class="note">Placeholder</span></h3>
+        <p>Lowercase wordmark in the display face. One letter o becomes a cabin window with its blind half down. The window alone is the small glyph for chips, the app tile and the loading state.</p>
+      </article>
+      <article class="mark">
+        <div class="mark__art"><span class="wm-docket">docket</span></div>
+        <h3>B. Docket <span class="note">Placeholder</span></h3>
+        <p>The word sits on a small ticket with one perforation and two notches cut from its edge. The notched stub alone is the glyph. Nothing else is skeuomorphic: no barcodes, no stamps.</p>
+      </article>
+      <article class="mark">
+        <div class="mark__art"><span class="wm-landfall">LANDFALL</span></div>
+        <h3>C. Landfall <span class="note">Placeholder</span></h3>
+        <p>Wide capitals with one horizon rule under the word that runs past it and turns gold where the land would be. The rule is the glyph, and reappears as the route line on itineraries.</p>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="type-title">
+    <h2 id="type-title">Type: the hero headline in three pairings</h2>
+    <p>Same working headline, subline and search in each, set at the size the hero would use at 1440. The search is Hipcamp's pill with The Hoxton's small field labels added (see conflict 6 in concepts.md). Only free fonts can ship, so T1 is shown from the deconstruction capture for comparison.</p>
+    <div class="stages">
+
+      <article class="stage">
+        <div class="stage__canvas">
+          <div class="kit t1">
+            <div class="capture" role="img" aria-label="Capture of Hipcamp's hero headline and subline set in Calibre, for comparison"></div>
+            <div class="toggle" data-toggle><span class="toggle__thumb" aria-hidden="true"></span><button type="button" class="toggle__btn" aria-pressed="true">Flights</button><button type="button" class="toggle__btn" aria-pressed="false">Hotels</button></div>
+            <div class="pill" role="group" aria-label="Flight search, audition only">
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-depart"/></svg><span class="seg__text"><span class="seg__label">From</span><span class="seg__value">City or airport</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span class="seg__text"><span class="seg__label">To</span><span class="seg__value">Where to?</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg><span class="seg__text"><span class="seg__label">Dates</span><span class="seg__value">Add dates</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg><span class="seg__text"><span class="seg__label">Travelers</span><span class="seg__value">1 adult, Economy</span></span></button>
+              <button type="button" class="go">Search<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="stage__meta">
+          <div><b>T1. The reference's own approach</b>Hipcamp: Calibre 700 at 48/54, tracking -0.02em, sentence case, for headlines; Geist for every control. The capture still shows Hipcamp's full stop, which we drop.</div>
+          <div><b>Calibre</b>Klim Type Foundry<br><span class="lic -no">Commercial, cannot ship</span></div>
+          <div><b>Geist</b>Vercel, SIL Open Font License<br><span class="lic -free">Free</span></div>
+        </div>
+      </article>
+
+      <article class="stage">
+        <div class="stage__canvas">
+          <div class="kit t2">
+            <h3 class="h-stage">Fly there, stay there</h3>
+            <p class="s-stage">Search flights and hotels and see the total before you pay</p>
+            <div class="toggle" data-toggle><span class="toggle__thumb" aria-hidden="true"></span><button type="button" class="toggle__btn" aria-pressed="true">Flights</button><button type="button" class="toggle__btn" aria-pressed="false">Hotels</button></div>
+            <div class="pill" role="group" aria-label="Flight search, audition only">
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-depart"/></svg><span class="seg__text"><span class="seg__label">From</span><span class="seg__value">City or airport</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span class="seg__text"><span class="seg__label">To</span><span class="seg__value">Where to?</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg><span class="seg__text"><span class="seg__label">Dates</span><span class="seg__value">Add dates</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg><span class="seg__text"><span class="seg__label">Travelers</span><span class="seg__value">1 adult, Economy</span></span></button>
+              <button type="button" class="go">Search<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="stage__meta">
+          <div><b>T2. Closest free substitute</b>Rethink Sans 700 at 56/59, tracking -0.025em, stands in for Calibre: the nearest of 13 free grotesques I set beside the capture (round bowls, straight-tailed y, similar weight). Geist stays for controls, as on Hipcamp.</div>
+          <div><b>Rethink Sans</b>Rethink Studio, SIL Open Font License<br><span class="lic -free">Free</span></div>
+          <div><b>Geist</b>Vercel, SIL Open Font License<br><span class="lic -free">Free</span><br>Also the create-next-app default, so it can read as stock in a Next.js build.</div>
+        </div>
+      </article>
+
+      <article class="stage">
+        <div class="stage__canvas">
+          <div class="kit t3">
+            <h3 class="h-stage">Fly there, <strong>stay there</strong></h3>
+            <p class="s-stage">Search flights and hotels and see the total before you pay</p>
+            <div class="toggle" data-toggle><span class="toggle__thumb" aria-hidden="true"></span><button type="button" class="toggle__btn" aria-pressed="true">Flights</button><button type="button" class="toggle__btn" aria-pressed="false">Hotels</button></div>
+            <div class="pill" role="group" aria-label="Flight search, audition only">
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-depart"/></svg><span class="seg__text"><span class="seg__label">From</span><span class="seg__value">City or airport</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span class="seg__text"><span class="seg__label">To</span><span class="seg__value">Where to?</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg><span class="seg__text"><span class="seg__label">Dates</span><span class="seg__value">Add dates</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg><span class="seg__text"><span class="seg__label">Travelers</span><span class="seg__value">1 adult, Economy</span></span></button>
+              <button type="button" class="go">Search<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="stage__meta">
+          <div><b>T3. Alternative: one family, two widths</b>Archivo at width 125 for the headline in your capitals system (light 300 with bold 650 on the key words, word-spacing .06em), Archivo at width 100 for every control. The wide cut echoes The Hoxton's extended search values. Hipcamp sets sentence case, so the capitals are your call (conflict 3).</div>
+          <div><b>Archivo</b>Omnibus-Type, SIL Open Font License<br><span class="lic -free">Free</span></div>
+          <div><b>No second family</b>Drops Geist, so nothing reads as the Next.js default. Tabular figures for fares still to be checked in phase B.</div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="pal-title">
+    <h2 id="pal-title">Palettes: sampled from each concept's hero photo</h2>
+    <p>The client has no logo, so no palette can come from a logo yet (conflict 1). Each palette below is sampled from the pixels of its concept's hero photo and shown on that photo, inside a sketch of the concept's hero at 1440 by 900. Roles follow your colour move: one accent for highlights only, a deep colour for every call to action on light grounds, a near-black for text, white, and a warm light ground. Any palette can go with any concept.</p>
+
+    <!-- Palette 1 -->
+    <div class="palette">
+      <div class="palette__title"><h3>P1. Cabin dawn</h3><span>from the wing over pastel clouds, on concept A (Overwing) with T2</span></div>
+      <div class="frameWrap">
+        <div class="frame fA p-cabin kit" data-reveal>
+          <aside class="rail" aria-label="App navigation sketch">
+            <span class="rail__tile"><svg aria-hidden="true"><use href="#g-window"/></svg></span><span class="rail__name">overwing</span>
+            <span class="rail__item is-current"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg></span>Search</span>
+            <span class="rail__item"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-ticket"/></svg></span>Bookings</span>
+            <span class="rail__item"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg></span>Account</span>
+            <span class="rail__spacer"></span>
+            <span class="rail__item"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-help"/></svg></span>Help</span>
+          </aside>
+          <div class="topbar"><span class="chipBtn -soft">Log in</span><span class="chipBtn -dark">Sign up</span></div>
+          <div class="frame__hero">
+            <h3 class="h-frame">Fly there, stay there</h3>
+            <p class="s-frame">Search flights and hotels and see the total before you pay</p>
+            <div class="toggle" data-toggle><span class="toggle__thumb" aria-hidden="true"></span><button type="button" class="toggle__btn" aria-pressed="true">Flights</button><button type="button" class="toggle__btn" aria-pressed="false">Hotels</button></div>
+            <div class="pill" role="group" aria-label="Flight search sketch">
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-depart"/></svg><span class="seg__text"><span class="seg__label">From</span><span class="seg__value">City or airport</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span class="seg__text"><span class="seg__label">To</span><span class="seg__value">Where to?</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg><span class="seg__text"><span class="seg__label">Dates</span><span class="seg__value">Add dates</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg><span class="seg__text"><span class="seg__label">Travelers</span><span class="seg__value">1 adult, Economy</span></span></button>
+              <button type="button" class="go">Search<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+            <p class="trust">Card payments are handled by Stripe</p>
+          </div>
+          <div class="cabin" aria-hidden="true">
+            <div class="win"><span class="win__blind"></span></div>
+            <div class="win"><span class="win__blind"></span></div>
+            <div class="win"><span class="win__blind"></span></div>
+            <div class="win"><span class="win__blind"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="swatches">
+        <div class="sw"><div class="sw__chip" style="background:#278B9B"></div><div class="sw__txt"><b>Accent</b><code>#278B9B</code><span>Sampled: most saturated sky. Focus ring, selected states, tags.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#A9D3DA"></div><div class="sw__txt"><b>Accent on dark</b><code>#A9D3DA</code><span>Derived: accent lightened. Labels and focus on deep grounds.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#1F3B41"></div><div class="sw__txt"><b>Deep</b><code>#1F3B41</code><span>Derived: wing slate #304F54 (sampled) darkened. Every call to action.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#121D20"></div><div class="sw__txt"><b>Ink</b><code>#121D20</code><span>Derived: same hue, near-black. Body and headline text.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#5B6567"></div><div class="sw__txt"><b>Muted</b><code>#5B6567</code><span>Sampled: wing #5D6769, nudged. Secondary text, icons.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#EED7D5"></div><div class="sw__txt"><b>Blush</b><code>#EED7D5</code><span>Sampled: blush cloud. The warm cream role, window bezels.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#F4E9E7"></div><div class="sw__txt"><b>Tint</b><code>#F4E9E7</code><span>Derived: blush lightened. Hipcamp's one interactive surface role.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#FBF8F7"></div><div class="sw__txt"><b>Ground</b><code>#FBF8F7</code><span>Derived. Page ground; white for cards and the pill.</span></div></div>
+      </div>
+      <dl class="ratios">
+        <div><dt>Ink on ground</dt><dd>16.3:1</dd></div>
+        <div><dt>Ink on tint</dt><dd>14.4:1</dd></div>
+        <div><dt>Muted on white</dt><dd>6.0:1</dd></div>
+        <div><dt>Muted on tint</dt><dd>5.0:1</dd></div>
+        <div><dt>White on deep (buttons)</dt><dd>11.9:1</dd></div>
+        <div><dt>Accent on dark, on deep</dt><dd>7.4:1</dd></div>
+        <div><dt>Accent ring on white</dt><dd>4.0:1</dd></div>
+        <div><dt>Accent ring on ground</dt><dd>3.8:1</dd></div>
+        <div><dt>White text on accent</dt><dd>4.0:1, large text only</dd></div>
+      </dl>
+      <p class="measured"><b>On the frame:</b> no text sits on the photo in this concept, so every reading is a flat token pair above. The view inside the windows carries no copy. In motion, the blinds rise once on load (1.6s ease-out, 120ms apart) and stay still under reduced motion.</p>
+    </div>
+
+    <!-- Palette 2 -->
+    <div class="palette">
+      <div class="palette__title"><h3>P2. Ochre and ink</h3><span>from the late-sun street, on concept B (Docket) with T2</span></div>
+      <div class="frameWrap">
+        <div class="frame fB p-ochre kit">
+          <aside class="rail" aria-label="App navigation sketch">
+            <span class="rail__tile"><svg aria-hidden="true"><use href="#g-stub"/></svg></span><span class="rail__name">docket</span>
+            <span class="rail__item is-current"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg></span>Search</span>
+            <span class="rail__item"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-ticket"/></svg></span>Bookings</span>
+            <span class="rail__item"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg></span>Account</span>
+            <span class="rail__spacer"></span>
+            <span class="rail__item"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-help"/></svg></span>Help</span>
+          </aside>
+          <div class="topbar"><span class="chipBtn -soft">Log in</span><span class="chipBtn -dark">Sign up</span></div>
+          <div class="frame__hero">
+            <h3 class="h-frame">Fly there, stay there</h3>
+            <p class="s-frame">Search flights and hotels and see the total before you pay</p>
+            <div class="toggle" data-toggle><span class="toggle__thumb" aria-hidden="true"></span><button type="button" class="toggle__btn" aria-pressed="true">Flights</button><button type="button" class="toggle__btn" aria-pressed="false">Hotels</button></div>
+            <div class="ticket" role="group" aria-label="Flight search sketch"><div class="ticket__body">
+              <div class="ticket__photo" role="img" aria-label="Stock photo: a woman walking up a sunlit narrow street"></div>
+              <div class="ticket__fields">
+                <div class="cell"><span class="cell__label">From</span><span class="cell__value">City or airport</span></div>
+                <div class="cell"><span class="cell__label">To</span><span class="cell__value">Where to?</span></div>
+                <div class="cell"><span class="cell__label">Dates</span><span class="cell__value">Add dates</span></div>
+                <div class="cell"><span class="cell__label">Travelers</span><span class="cell__value">1 adult, Economy</span></div>
+              </div>
+              <div class="ticket__stub">
+                <button type="button" class="go">Search<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+                <span class="stub__note">Card payments are<br>handled by Stripe</span>
+              </div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+      <div class="swatches">
+        <div class="sw"><div class="sw__chip" style="background:#9A7635"></div><div class="sw__txt"><b>Accent</b><code>#9A7635</code><span>Sampled: the walker's dress. Focus ring, selected states, tags.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#D8BA75"></div><div class="sw__txt"><b>Accent on dark</b><code>#D8BA75</code><span>Sampled: sunlit wall. Labels and focus on deep grounds.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#2C2F1A"></div><div class="sw__txt"><b>Deep</b><code>#2C2F1A</code><span>Derived: cobble shadow #252818 (sampled) lifted. Every call to action.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#18190E"></div><div class="sw__txt"><b>Ink</b><code>#18190E</code><span>Derived: same hue, near-black. Text.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#5F5530"></div><div class="sw__txt"><b>Muted</b><code>#5F5530</code><span>Sampled: shaded wall #5E5325. Secondary text, icons.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#ECE6D3"></div><div class="sw__txt"><b>Tint</b><code>#ECE6D3</code><span>Derived: wall light #D6CCA4 (sampled) lifted. Interactive surface.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#F6F4EA"></div><div class="sw__txt"><b>Paper</b><code>#F6F4EA</code><span>Derived: sky #EDF1E1 (sampled) warmed. Page ground.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#FFFFFF"></div><div class="sw__txt"><b>White</b><code>#FFFFFF</code><span>The ticket and every card.</span></div></div>
+      </div>
+      <dl class="ratios">
+        <div><dt>Ink on paper</dt><dd>16.1:1</dd></div>
+        <div><dt>Ink on tint</dt><dd>14.2:1</dd></div>
+        <div><dt>Muted on white</dt><dd>7.4:1</dd></div>
+        <div><dt>Muted on paper</dt><dd>6.7:1</dd></div>
+        <div><dt>White on deep (buttons)</dt><dd>13.7:1</dd></div>
+        <div><dt>Accent on dark, on deep</dt><dd>7.3:1</dd></div>
+        <div><dt>Accent ring on white</dt><dd>4.2:1</dd></div>
+        <div><dt>Accent ring on paper</dt><dd>3.8:1</dd></div>
+        <div><dt>Ink on accent on dark</dt><dd>9.5:1</dd></div>
+      </dl>
+      <p class="measured"><b>On the frame:</b> no text sits on the photo; the photo panel on the ticket is image only. Note: this palette lands close to Hipcamp's own olive and warm grey, even though it comes from a different photo. If you pick it, I would push the deep colour away from olive so it does not read as the reference's palette.</p>
+    </div>
+
+    <!-- Palette 3 -->
+    <div class="palette">
+      <div class="palette__title"><h3>P3. Harbour gold</h3><span>from the coast town in late light, on concept C (Landfall) with T3</span></div>
+      <div class="frameWrap">
+        <div class="frame fC p-harbour kit" data-frame-c>
+          <aside class="rail" aria-label="App navigation sketch">
+            <span class="rail__tile"><svg aria-hidden="true"><use href="#g-horizon"/></svg></span><span class="rail__name">landfall</span>
+            <span class="rail__item is-current"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg></span>Search</span>
+            <span class="rail__item"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-ticket"/></svg></span>Bookings</span>
+            <span class="rail__item"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg></span>Account</span>
+            <span class="rail__spacer"></span>
+            <span class="rail__item"><span class="rail__icon"><svg class="ico" aria-hidden="true"><use href="#i-help"/></svg></span>Help</span>
+          </aside>
+          <div class="photoC"><img src="assets/images/audition/coast-town-late-light.jpg" alt="Stock photo: a hillside of houses above a beach in late gold light" width="2400" height="1194"><span class="photoC__scrim" aria-hidden="true"></span><span class="photoC__haze" aria-hidden="true"></span></div>
+          <div class="topbar"><span class="chipBtn -soft">Log in</span><span class="chipBtn -dark">Sign up</span></div>
+          <div class="frame__hero">
+            <h3 class="h-frame" data-sample="headline">Fly there, <strong>stay there</strong></h3>
+            <p class="s-frame" data-sample="subline">Search flights and hotels and see the total before you pay</p>
+          </div>
+          <div class="dock">
+            <div class="toggle" data-toggle><span class="toggle__thumb" aria-hidden="true"></span><button type="button" class="toggle__btn" aria-pressed="true">Flights</button><button type="button" class="toggle__btn" aria-pressed="false">Hotels</button></div>
+            <div class="pill" role="group" aria-label="Flight search sketch">
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-depart"/></svg><span class="seg__text"><span class="seg__label">From</span><span class="seg__value">City or airport</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span class="seg__text"><span class="seg__label">To</span><span class="seg__value">Where to?</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-cal"/></svg><span class="seg__text"><span class="seg__label">Dates</span><span class="seg__value">Add dates</span></span></button>
+              <button type="button" class="seg"><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg><span class="seg__text"><span class="seg__label">Travelers</span><span class="seg__value">1 adult, Economy</span></span></button>
+              <button type="button" class="go">Search<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+            <p class="trust">Card payments are handled by Stripe</p>
+          </div>
+        </div>
+      </div>
+      <div class="swatches">
+        <div class="sw"><div class="sw__chip" style="background:#9B6438"></div><div class="sw__txt"><b>Accent</b><code>#9B6438</code><span>Sampled: terracotta roofs. Focus ring, selected states, tags.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#E0B378"></div><div class="sw__txt"><b>Accent on dark</b><code>#E0B378</code><span>Sampled: sunlit facades. Labels and focus on deep grounds and photos.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#1D3A4E"></div><div class="sw__txt"><b>Deep</b><code>#1D3A4E</code><span>Derived: sea #4B748D (sampled) darkened. Every call to action, scrim tint.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#0F1D27"></div><div class="sw__txt"><b>Ink</b><code>#0F1D27</code><span>Derived: same hue, near-black. Text.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#4E6070"></div><div class="sw__txt"><b>Muted</b><code>#4E6070</code><span>Derived from the sea. Secondary text, icons.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#E6EEF2"></div><div class="sw__txt"><b>Tint</b><code>#E6EEF2</code><span>Derived: sky #9FC1D8 (sampled) lifted. Interactive surface.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#FAF5EE"></div><div class="sw__txt"><b>Sand</b><code>#FAF5EE</code><span>Derived from the facades. The warm cream ground.</span></div></div>
+        <div class="sw"><div class="sw__chip" style="background:#FFFFFF"></div><div class="sw__txt"><b>White</b><code>#FFFFFF</code><span>The app world that rises over the photo.</span></div></div>
+      </div>
+      <dl class="ratios">
+        <div><dt>Ink on sand</dt><dd>15.8:1</dd></div>
+        <div><dt>Ink on tint</dt><dd>14.6:1</dd></div>
+        <div><dt>Muted on white</dt><dd>6.5:1</dd></div>
+        <div><dt>Muted on tint</dt><dd>5.5:1</dd></div>
+        <div><dt>White on deep (buttons)</dt><dd>11.9:1</dd></div>
+        <div><dt>Accent on dark, on deep</dt><dd>6.2:1</dd></div>
+        <div><dt>Accent ring on white</dt><dd>4.9:1</dd></div>
+        <div><dt>Accent ring on sand</dt><dd>4.5:1</dd></div>
+        <div><dt>Ink on accent on dark</dt><dd>8.9:1</dd></div>
+      </dl>
+      <p class="measured" data-measured-c><b>On the frame:</b> white headline and subline sit on the photo under a radial scrim in the ink colour (58% at the centre, 40% at mid radius, clear at the edge) plus a light top fade for the account pills. I hid the text, captured the frame at 1440 and read every pixel behind each line. Headline: worst pixel 3.6:1, median 5.0 to 5.4:1 (large text needs 3:1). Subline: worst pixel 4.9:1, median 5.7:1 (needs 4.5:1). Hotels label on the dark frosted toggle: 5.7:1. Log in on its frosted pill: 9.5:1. The first scrim I tried (48% centre) failed: headline 2.8:1 and subline 3.8:1 at the worst pixel. Only one crop was checked; the build must recheck at 390 and on tall screens, where the photo crops differently.</p>
+    </div>
+  </section>
+
+  <section class="credits" aria-labelledby="cred-title">
+    <h2 id="cred-title">Photo credits and licence</h2>
+    <p>All three are free photos under the Unsplash License (checked on each photo page on 2026-11-10; none is Unsplash+). They are stand-ins for client or licensed media.</p>
+    <ul>
+      <li>Wing over pastel clouds: Nicolas J Leclercq, unsplash.com/photos/84qOq203MS0</li>
+      <li>Late-sun street with a walker: Bob Jenkin, unsplash.com/photos/vLLQiW09oAU</li>
+      <li>Coast town in late light: hohohohild, unsplash.com/photos/gFZf7YrsIp4 (a real, recognisable beach with a painted name on the sea wall; fine as a stand-in, but it implies a destination)</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Segmented toggles: the thumb slides under the pressed option, as on Hipcamp's tab toggle */
+  var toggles = document.querySelectorAll('[data-toggle]');
+  function place(t) {
+    var on = t.querySelector('[aria-pressed="true"]'), thumb = t.querySelector('.toggle__thumb');
+    if (!on || !thumb) return;
+    thumb.style.left = on.offsetLeft + 'px';
+    thumb.style.width = on.offsetWidth + 'px';
+  }
+  Array.prototype.forEach.call(toggles, function (t) {
+    place(t);
+    t.addEventListener('click', function (e) {
+      var b = e.target.closest('.toggle__btn');
+      if (!b) return;
+      Array.prototype.forEach.call(t.querySelectorAll('.toggle__btn'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      place(t);
+    });
+  });
+  var rt;
+  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { Array.prototype.forEach.call(toggles, place); }, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { Array.prototype.forEach.call(toggles, place); });
+
+  /* Concept A: the window blinds rise once when the frame comes into view */
+  var a = document.querySelector('[data-reveal]');
+  if (a) {
+    if (reduce || !('IntersectionObserver' in window)) { a.classList.add('is-shown'); }
+    else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { requestAnimationFrame(function () { a.classList.add('is-shown'); }); io.disconnect(); } });
+      }, { threshold: .35 });
+      io.observe(a);
+    }
+  }
+})();
+</script>
+</body>
+</html>

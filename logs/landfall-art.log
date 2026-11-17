@@ -1,0 +1,45 @@
+Landfall's art direction is done: both phases ran and both Chief Officer checkpoints passed, finishing at 04:12, 48 minutes inside the 05:00 limit. The one critic round failed the hero at **6.25**. I fixed all ten of its issues and checked them in the browser, but the critic never re-scored them.
+
+**What Landfall is.** The idea is "see the place first, as you arrive from the water". The homepage opens on a full-screen photo that slowly crossfades between Lisbon, Cape Town and New York. A white search card sits right under the headline, built from Kasa, with labels inside each field. A small caption on the photo names a real fare from the demo data ("London to Lisbon, return from $412") with a "Fly here" link. Phones get their own layout: the search card overlaps the bottom of the photo, every field opens a full-screen picker, and Search sits inside the first screen. Kasa's compact search bar stays pinned at the top after you scroll. The donor is European Sleeper, for the priced destination cards and the rounded band edges. Booking.com, Expedia and Priceline were used for technique only; I didn't visit or measure them.
+
+**Checkpoint 2a (Chief Officer).** It approved the concept and reworded the image rule to "the city where it meets the water". Its other choices:
+- **Type:** Newsreader for headings plus Albert Sans for everything else, both free (SIL OFL), licence files saved with the fonts.
+- **Palettes:** Landfall's own navy, white and teal as the default, and Harbour gold re-measured on the Lisbon photo as the alternate. `?palette=harbour` switches between them.
+- **Rulings:** I proposed three and it upheld all of them. Headlines are in sentence case, so your capitals system is dropped because Kasa doesn't support it. The search sits high on desktop and overlaps the photo's edge on phones. The Search button keeps the card's corner radius instead of being a pill.
+
+**Critic, one round: 6.25 FAIL.** Scores were design 7, originality 6, craft 5 and functionality 7, with no design or copy tells. The issues included:
+- the search card covering the phone menu;
+- the header turning invisible over the card on phones;
+- the header and pinned bar colliding with the caption;
+- an unreadable error message;
+- focus getting lost after picking a city;
+- a stretched layout on tablets.
+
+**Checkpoint 2b (Chief Officer): approved with notes.** Two of its notes were prototype bugs, which I fixed and checked right after the call. One was the pinned bar hidden under the header on desktop; the other was the phone Search button ending 7px below the fold. Its third note goes to the build: the brand line and price-first caption must show on inner pages, or they turn into generic Kasa. The Developer's first critic run should re-score the hero, since my fixes were never re-scored.
+
+**Text over the photos** passes on all three photos at 390, 1024 and 1440, measured across the pixels behind each text block. The weakest single pixels are the New York tower spire behind the subline (3.9:1) and the Lisbon caption (4.4:1).
+
+**Things to know:**
+- **Palettes are close to Overwing's.** Overwing's new navy palette didn't exist when I set Landfall's, and it now lands near mine (#0F2747 against #0D2B4C, for example). The Chief Officer accepted this because the two designs differ in concept, layout, type and photos.
+- **Kasa's "Update" button.** The deconstructor pressed "Update" in Kasa's hotel dates dialog to see prices. It's a confirm button, not the search form, and nothing was booked, but you may count it as off-limits.
+- **Overwing's photo list.** Beyond Overwing's spec and tokens, I also read Overwing's photo credits list (`site/public/images/credits.md`) to be sure Landfall reuses none of its photos.
+- **Downloads.** I fetched the 9 photos and the fonts with small `curl` calls.
+- **Repo root.** The subagents' screenshots landed in `.playwright-mcp/` at the repo root.
+- **Not checked by anyone:** real touch devices, Safari and Firefox, 2x and 3x screens, screen readers.
+- **Not built yet:** the homepage below the destinations band is specified only.
+- **Server and browser:** the preview server on port 5180 is stopped and the browser is closed.
+
+**Your five decisions** are in `handover.md`: serif headings or Albert Sans alone, the London origin in the caption, the New York photo (only about 1.5x sharp at 1440), three photos or one, and whether to show struck-through "was" prices.
+
+This is a good checkpoint to commit. Suggested message: `travel-booking: Landfall art direction (Kasa deconstruction, concept, spec, tokens, hero prototype)`
+
+Files are in `projects/travel-booking/landfall/`:
+- design/choices.md
+- design/handover.md
+- design/design-spec.md
+- design/tokens.css
+- design/concepts.md
+- prototype/index.html
+- prototype/audition.html
+- references/deconstruct/kasa.md
+- references/deconstruct/european-sleeper.md

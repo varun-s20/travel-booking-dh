@@ -1,0 +1,35 @@
+Group F is built and every flow works end to end on the shared 3003 server, finished at about 06:10. The critic's one round scored **7.4, a FAIL**, mostly on originality. I fixed what it found but didn't have it score again.
+
+**Critic round 1** (search to confirmation, 1440 and 390, foreground, high effort)
+- Scores: design 7.5, originality 7, craft 7.5, functionality 8. No design tells and no copy tells.
+- Teal on every button and selection with an ink label held, and no button is filled navy. The landfall line held everywhere you asked for it except the phone price bar, which now has it too.
+- The price rule was only partly met. The homepage re-check: 9 of the 10 fixes hold. The tenth (focus could leave the Dates sheet at 390) is now fixed.
+
+**Fixed after the round** (checked in the browser at 1440 and 390, not scored again)
+- **Price rule on every price:** the phone price bar, the paid total on the confirmation, the fare rows and the "price went down" banner now all show total first, then the per-traveler price, then "taxes and fees included".
+- **Phone price bar:** it now hides while the summary card is on screen, so there are never two totals and two Continue buttons at once.
+- **Traveler errors:** each line in the error summary names its traveler ("Adult 2: Choose a title.").
+- **Layout:** fields on the travelers form line up, the empty-results and failed-search panels are centred, and prices in the filter column line up.
+- **"Still looking":** the failing demo search now answers at about 9 seconds, so the message stays up long enough to read.
+- **Originality:** the destination's own water photo now heads the "Your trip" summary on details, travelers and checkout. This goes beyond the spec, and I logged it as a change.
+
+**What exists:** flight results with every state in the plan, flight details and fares, the travelers form, checkout for flights and for stays, confirmation for both, and nine email previews at /emails. The landfall line is on every flight leg, the itinerary timeline, above every booking total, on the phone price bar and under the confirmation headline. I added no new photos; every slot reuses Landfall's own credited destination photos or the ferry-deck photo. I wrote nothing in group H's files.
+
+**Small changes to shared files** (all listed under "Group F: shared-file additions" in `progress.md`)
+- The expired-offer refresh helper in `lib/mock/flights.ts`.
+- The email wording in `lib/emails.ts`, rewritten to Landfall's copy deck.
+- Two optional props on the phone price bar.
+- Keyboard focus kept inside the home Dates sheet at 390.
+- A slower demo failure in the search API.
+
+**Left for the final pass**
+- Opening a field from the compact bar on flight results at 1440 shows the search twice. That's the shared compact search component, which group H's pages use too, so I didn't change it.
+- A no-results search for a city outside the six destinations shows the ferry-deck photo: water, but no city.
+- Two emails share the copy deck's subject "Your booking to Lisbon wasn't completed" (flight and hotel).
+- Not checked: the Harbour palette (yours to check in the final pass), touch devices, Safari, Firefox, screen readers, and 641 to 1024.
+
+**For group H:** stay checkout expects the guest form's saved details and sends visitors back to `/hotels/<id>/guests?room=…` without them. The details are in `progress.md` under Group F.
+
+`progress.md` has the full Group F section, including copy decisions to confirm. `qa-report.md` and `review-log.md` are updated. The type-check is clean, and the console showed no errors. I started no servers, ran no production build, installed nothing and ran no git commands. The browser is closed.
+
+Good commit point. Suggested message: `Landfall group F: flight results to confirmation, checkout for flights and stays, email previews, critic round 1 fixes`

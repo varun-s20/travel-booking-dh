@@ -1,0 +1,27 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): motion.css
+   Loads last, so these overrides win over every component above.
+   1. Reduced motion: no load moment, no drift, no sliding thumbs, no
+      zooms, no breathing; everything shows at rest (spec 5).
+   2. Phones on their side: the tab bar goes compact (spec 6).
+   ===================================================================== */
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .js .o-homeHero__cabin:not(.is-shown) .m-window__blind { transform: translateY(-79%); }
+  .o-homeHero__cabin.is-shown .m-window__blind { transition: none; }
+  .m-window__view { transform: none; will-change: auto; }
+  .a-toggle__thumb, .m-search__thumb { transition: none; }
+  .m-pop, .m-more__panel { animation: none; }
+  .a-button, .a-button::before, .a-button__icon, .a-skip { transition-duration: 0s; }
+  .m-entry__img, .m-dest__img { transition: none; }
+  .o-header__bar, .o-header__tabs { transition: none; }
+}
+
+/* ===== Phones on their side (max-height 500) =====
+   The tab bar goes compact, icon beside label, so it clears the search and facts. */
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 1024px) {
+  .o-header__tabs { bottom: calc(.8rem + env(safe-area-inset-bottom, 0px)); height: 5.2rem; padding: .4rem; }
+  .m-tab { flex-direction: row; gap: .6rem; width: auto; padding: 0 1.4rem; }
+  .m-tab .a-icon { width: 2rem; height: 2rem; }
+}

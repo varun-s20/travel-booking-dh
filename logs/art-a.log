@@ -1,0 +1,49 @@
+Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.
+Phase A is done and I've stopped at checkpoint 2a. `design/concepts.md` and `prototype/audition.html` are written. I didn't write `design/choices.md`, because it needs your picks.
+
+**References measured.** The deconstructor ran five times in the foreground, one site at a time: Hipcamp (whole site) and the four section donors. Two findings change the plan:
+- **Faye:** the Scout's card was wrong. The checklist cards have no hover and no lift. Only Faye's trip-type cards change on hover.
+- **The Hoxton:** it hides its region pills on phones. We need them, so ours scroll sideways at 390.
+
+**Three concepts.** Each has a placeholder working name and wordmark direction, marked as placeholders:
+- **A. Overwing (my recommendation):** the calm of the window seat. Under Hipcamp's centred search, four aircraft cabin windows show one view of a wing over clouds, and their blinds rise on load. The window shape is the brand's one shape. It's the most original of the three and needs only one photo.
+- **B. Docket:** everything written down. The search is a paper ticket with a perforated stub, and the same ticket carries the booking through results, checkout and confirmation. It's the strongest answer to the trust problem and the cheapest to build.
+- **C. Landfall:** arrive first. A full photo of a coast in late light, with the search docked across its lower edge. It's closest to your own hero move, but also the most familiar layout among booking sites.
+
+**Type pairings:**
+- **T1, Hipcamp's own:** Calibre is commercial and can't ship, so it's shown from our capture.
+- **T2, closest free substitute:** Rethink Sans plus Geist. I picked Rethink Sans by setting 13 free grotesques beside the Calibre capture. Geist is free but is also the default font of new Next.js projects, so it may look stock.
+- **T3, alternative:** Archivo at two widths, using your capitals system with light and bold words.
+
+**Palettes.** There's no logo, so each palette is sampled from its concept's stock photo and shown on it:
+- P1 Cabin dawn
+- P2 Ochre and ink, which lands close to Hipcamp's own olive and grey
+- P3 Harbour gold
+
+Every body-text pair is 5:1 or better. P3 is the only one with text on a photo. I measured the pixels behind it: my first scrim failed, and the final one gives the headline at least 3.6:1 and the subline at least 4.9:1.
+
+**What I couldn't check:**
+- No reference's checkout or account pages were reached, so those flows have no measured model.
+- Every 390 reading was a resized desktop browser, not a phone.
+- The photos' licence is checked on Unsplash, but not their model releases. The coast photo is a real, recognisable beach with its name painted on the sea wall.
+- The placeholder names aren't checked for trademarks.
+- Font licences come from the Google Fonts listings, not the font files.
+- P3's contrast was measured for one crop at 1440 only.
+
+**Decisions for you:**
+1. Which concept, type pairing and palette (or your own).
+2. Your ruling on these conflicts (all 11 are in `concepts.md`):
+   - Capitals headline: Hipcamp doesn't support it, so it's only in T3 and C.
+   - The Hoxton's field labels on both the Flights and Hotels tabs, not just Hotels.
+   - One load animation per concept, since Hipcamp has none.
+   - How to mark placeholders without visible placeholder labels: I propose one "demo build" notice in the footer.
+
+**Housekeeping:**
+- I logged the runs in `review-log.md`. I didn't touch `status.md`, which still says phase A is running.
+- My command to delete my scratch folder `.playwright-mcp/ad-scratch` was refused. It holds my test captures and a copy of a Hipcamp screenshot (`ref.png`), so please delete it.
+
+This is a good checkpoint. Suggested commit message: `travel-booking: art direction phase A (deconstructions, concepts, auditions)`
+
+Files are in `projects/travel-booking`:
+- design/concepts.md
+- prototype/audition.html

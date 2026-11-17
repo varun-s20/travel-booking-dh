@@ -1,0 +1,89 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): pages.css
+   Content pages: the 404 and error page (the window with its blind
+   fully down, spec 2b), the inner banner, About's prose, Contact and the
+   legal notices. Loads after account.css, before motion.css.
+   ===================================================================== */
+
+/* ===== 404 ===== */
+/* vertical padding only, so b-wrap keeps its side gutter (critic round 1: the line ran edge to edge at 390) */
+.t-notFound { display: flex; flex-direction: column; align-items: center; padding-top: 4.8rem; padding-bottom: 9.6rem; text-align: center; }
+.t-notFound__window { position: relative; isolation: isolate; width: 14rem; aspect-ratio: 236 / 318; overflow: hidden; border-radius: var(--r-window); background: var(--c-deep); box-shadow: 0 0 0 .8rem #FFFFFF, 0 0 0 calc(.8rem + 1px) var(--c-line), var(--sh-window); } /* revision 2026-11-11, item 34: white bezel, hairline ring, on the white ground */
+/* the blind, all the way down, with its pull tab near the sill */
+.t-notFound__window::before { content: ""; position: absolute; inset: 0; border-bottom: 2px solid var(--c-blind-end); background: linear-gradient(var(--c-blind), var(--c-blind-end)); }
+.t-notFound__window::after { content: ""; position: absolute; left: 43%; right: 43%; bottom: 7%; height: .5rem; border-radius: .5rem; background: rgba(11, 27, 46, .16); }
+.t-notFound__title { margin-top: 4.8rem; }
+.t-notFound__line { max-width: 32em; margin-top: 1.2rem; color: var(--c-muted); }
+.t-notFound__actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1.6rem 2.4rem; margin-top: 3.2rem; }
+.t-notFound__home { font-size: 1.5rem; }
+@media (min-width: 1025px) {
+  .t-notFound { padding-top: 14.4rem; padding-bottom: 12.8rem; }
+  .t-notFound__window { width: 18rem; }
+}
+
+/* ===== Inner banner (Varun V5 inner pages: a photo band under an ink scrim, H1 and one line) ===== */
+.o-banner { position: relative; isolation: isolate; display: flex; align-items: flex-end; min-height: 36rem; overflow: hidden; color: #FFFFFF; }
+.o-banner__img { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* the scrim: ink .78 at the top, .4 through the middle, .72 at the foot, so the white text reads on every part of the photo */
+/* revision 2026-11-11, item 32: Varun's inner-page scrim (.78 / .4 / .72) in the hero wall's navy */
+.o-banner::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(rgba(11, 35, 65, .78), rgba(11, 35, 65, .4) 45%, rgba(11, 35, 65, .72)); }
+/* the text sits on the prose column below it, so the page keeps one axis (critic round 1) */
+.o-banner__text { max-width: calc(var(--w-text) + 2 * var(--gutter)); padding-top: 9.6rem; padding-bottom: 4rem; }
+.o-banner__title { max-width: 14em; }
+.o-banner__line { max-width: 28em; margin-top: 1.2rem; color: rgba(255, 255, 255, .92); }
+@media (min-width: 1025px) {
+  .o-banner { min-height: 44rem; }
+  .o-banner__text { padding-bottom: 6.4rem; }
+}
+
+/* ===== Prose (About, legal): a 640 text column, 18px body at 1.55 ===== */
+.o-prose { display: grid; gap: 4rem; max-width: calc(var(--w-text) + 2 * var(--gutter)); padding-top: 6.4rem; padding-bottom: 6.4rem; }
+.o-prose__section { display: grid; gap: 1.2rem; }
+.o-prose__section p, .o-legal p { font: var(--fw-ui) 1.8rem/1.55 var(--f-ui); text-wrap: pretty; }
+.o-prose__link { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .2em; white-space: nowrap; }
+.o-prose__wide { margin-top: 0; }
+.o-prose__img { aspect-ratio: 3 / 2; height: auto; border-radius: var(--r-lg); object-fit: cover; }
+.t-about .o-prose:last-child { padding-bottom: var(--s-10); }
+@media (min-width: 641px) {
+  .o-prose__img { aspect-ratio: 21 / 9; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .o-prose__link:hover { text-decoration-color: var(--c-accent); }
+}
+
+/* ===== Contact (spec 2b: details large, Varun V10, beside the form) ===== */
+.o-contact { display: grid; gap: 4.8rem; padding-bottom: var(--s-10); }
+.o-contact__details { display: grid; gap: 3.2rem; align-content: start; }
+.o-contact__list { display: grid; gap: 2rem; margin: 0; }
+.o-contact__list dt { color: var(--c-muted); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); }
+.o-contact__list dd { margin: .2rem 0 0; }
+.o-contact__phone, .o-contact__email { display: inline-flex; align-items: center; min-height: var(--h-control); border-radius: .6rem; color: var(--c-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+.o-contact__phone { font: var(--fw-bold) 2.6rem/1.1 var(--f-display); letter-spacing: var(--tr-head); }
+.o-contact__email { font: var(--fw-bold) 1.8rem/1.2 var(--f-display); }
+.o-contact__img { aspect-ratio: 3 / 2; height: auto; border-radius: var(--r-lg); object-fit: cover; }
+/* phones: the form comes straight after the phone and email; the photo follows it (critic round 1) */
+@media (max-width: 1024px) {
+  .o-contact__details { display: contents; }
+  .o-contact__list { order: 1; }
+  .o-contact__form { order: 2; }
+  .o-contact__img { order: 3; }
+}
+.o-contact__form { display: grid; gap: 2rem; align-content: start; padding: 2.4rem 2rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.o-contact__form > .a-button { justify-self: start; }
+.o-contact__result { display: flex; align-items: flex-start; gap: .8rem; padding: 1.4rem 1.6rem; border-radius: var(--r-sm); background: var(--c-cream); font: var(--fw-ui) 1.5rem/1.45 var(--f-ui); }
+.o-contact__result .a-icon { margin-top: .2rem; }
+@media (min-width: 641px) {
+  .o-contact__form { padding: 3.2rem; }
+}
+@media (min-width: 1025px) {
+  .o-contact { grid-template-columns: minmax(0, 52rem) minmax(0, 60rem); justify-content: space-between; gap: 4.8rem; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .o-contact__phone:hover, .o-contact__email:hover { text-decoration-color: var(--c-accent); }
+}
+
+/* ===== Legal (spec 2b: one 720 column, H1, the notice) ===== */
+.o-legal { display: grid; gap: 2.4rem; max-width: 72rem; margin: 0 auto; padding: 4.8rem 0 var(--s-11); }
+@media (min-width: 1025px) {
+  .o-legal { padding-top: 6.4rem; }
+}

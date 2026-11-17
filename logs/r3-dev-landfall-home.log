@@ -1,0 +1,24 @@
+Part A of the Landfall homepage is built and the critic's ten issues are fixed, but it does not reach 9.2. The one critic round scored it **7.7 on the benchmark** and **7.3 on the studio rubric (FAIL)**, with no design or copy tells. The fixes after that round are checked in the browser but not re-scored.
+
+**Built, on the shared server at 3003:**
+- **Flights / Hotels switch.** It changes every section in place and the mode stays in the URL (`/?mode=hotels`). A shared link opens in the right mode, and Back and Forward switch without a reload or a scroll jump. In the critic's view this switch beats all three competitors.
+- **Below the first two sections:** deal banners and a deal rail with filter chips; "Recommended for you" (a first-visit default, then "Pick up where you left off" and "Because you looked at…" from searches stored in the browser); a trending route board where each route's line grows with flight time; browse by region, city and property type; how booking works plus a trust panel; popular searches; FAQs; and the competitor-depth footer. All 255 links on the page work in both modes.
+- **Shared components for Developer B:** score badge, landfall line, savings line, rail and rail card, plus the browser store for recent searches. They were in place by 15:40, and how to use them is in progress.md.
+- **Photos:** 19 new Unsplash License photos, each checked on its photo page and added to credits.md, so every one of the 24 cities leads with its own water photo. Nairobi has no waterfront, so it shows the national park with the skyline.
+
+**Critic issues, now fixed:**
+- Hotel cards no longer show the dated stand-in room photos.
+- The Lisbon fares banner has a new photo (the Tagus at Cais do Sodré) and the hotels banner has a deeper scrim.
+- Rails show three cards and their arrows from 1024, and all six property types fit across.
+- Popular-search flight rows now filter results by stops and airline.
+- "Weekend trips" became "Short flights", since those deals were 7-night trips.
+- Thumbnails fill their squares, gaps between plain sections are tighter, and the chip styling and several phone details are corrected.
+
+**For you:**
+- **Stand-in prices.** The catalogue's Deals section wasn't written when I built, so the usual rates for the 8 original hotels are my stand-ins until it lands. I logged this for the Copywriter.
+- **Still behind the competitors:** popular searches show one fare per route (the catalogue has nothing per airline), and rails hold 8 cards where Booking shows 10 to 15.
+- **Not checked:** the Harbour palette (port 3004 wasn't running), touch devices, Safari, Firefox and screen readers.
+- **Developer B:** their hotel photo pool covers only 6 cities. The new city photos would let the results and hotel pages lead with the place too; that's their call.
+- **Outside my own files:** small additions to the shared layout, search store, search card and header, plus one anchored section each on the terms and privacy pages so the footer's links land somewhere. All are listed under my heading in progress.md.
+
+I started no server and installed nothing. This is a good commit point: "Landfall round 3: homepage mode switch, deals, recommendations, trending, browse, FAQs and full footer".

@@ -1,0 +1,39 @@
+I finished the polish round on Overwing at 06:07, well before 07:45. The critic scored the whole site 7.7, which is still a FAIL but up from 7.4. The Chief Officer approved it with one note, which I've fixed. Both servers are stopped, and the browser is closed.
+
+**Critic (high effort, navy at 1440 and 390, Cabin dawn spot checks):** design 8, originality 7, craft 8, functionality 8.5. It found no design or copy tells. It fails on the total (under 8) and on originality, which is held back by the missing client brand and photos; polish can't fix that. Of the last pass's ten issues, it confirmed 8 fixed and 2 partly fixed. It booked a flight (PZMZXT) and a hotel (MHQJNV) through to confirmation.
+
+**Fixed after the round, worst first, each checked in the browser on a fresh production build:**
+1. **Map seams:** a faint horizontal line crossed both maps where map image tiles meet. Each tile now overlaps the next by 1px, and a pixel scan finds no seam, including over the sea.
+2. **Phone Map button:** it floated over card text even when the page was still. It now sits beside Sort in the toolbar, as on Booking.com, so nothing floats over the list. This changes spec 2b.
+3. **Hotel cards (issue 10):** they are one height only on wider screens, with the price lined up across the list. On phones each card takes its own height.
+4. **Date of birth fields:** the text now starts 16px in, like every other field. "Day", "September" and "1987" all show whole at 390.
+5. **Home footer:** inset 16px to match the hero and the band above it.
+6. **Summary card:** it now lines up with the first card on flight details and on checkout when logged out.
+7. **Menu from 900 to 1024px, logged in:** Log out moved to the end.
+8. **"Back to results":** returns to where you were in the list.
+9. **Hotel confirmation:** the window beside "You're booked" shows the hotel instead of the city.
+10. **Small fixes:** the birth-year list no longer offers 2026 to adults, and a stray space is gone from the checkout terms label.
+
+**Chief Officer:**
+- **Decision:** APPROVED WITH NOTES.
+- **Date of birth fields at 390:** closed.
+- **Rulings:** it approved my three design changes: Map beside Sort on phones, the inset Home footer, and the card heights.
+- **Its one note:** the map pins showed the nightly rate while the cards lead with the total. The pins now show the stay total ("$679") in both palettes and on the phone map.
+- **What it didn't check itself:** fixes 6 to 10. I checked those in the browser.
+
+**Not changed:**
+- Logging in lands on the profile rather than Bookings, as it did before.
+- A duplicate page title tag appears on that redirect; it comes from Next.js, and visitors don't see it.
+- The maps use live OpenStreetMap tiles, which is fine for a demo but not allowed in production. The map provider is a decision for later.
+
+I didn't read anything in landfall/, install anything, use git or touch ports 3003 to 3006.
+
+This is a good commit point. Suggested message:
+`travel-booking: Overwing polish round (critic 7.7, map seams, phone Map in toolbar, card heights, date fields, footer inset, totals on map pins)`
+
+Files are in projects/travel-booking/:
+- build/critic/polish/report.md
+- build/handover.md (new scores; How to preview updated)
+- build/progress.md (Chief Officer decision recorded)
+- build/qa-report.md
+- review-log.md

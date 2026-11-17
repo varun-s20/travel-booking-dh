@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Landfall mark for the browser tab: the Crook L (components/chrome/Logo.tsx). A favicon is its own document and cannot read the site's tokens, so the navy palette's navy and teal are set here, with white and aqua for dark tabs. -->
+  <style>.l{fill:#16225A}.d{fill:#0BA3AD}@media (prefers-color-scheme:dark){.l{fill:#FFFFFF}.d{fill:#6FE3EA}}</style>
+  <path class="l" d="M3 29V9l6-6h3v19h12v7z"/>
+  <circle class="d" cx="24" cy="25.5" r="5.5"/>
+</svg>

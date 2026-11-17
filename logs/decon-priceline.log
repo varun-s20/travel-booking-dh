@@ -1,0 +1,28 @@
+Ignoring 2 permissions.allow entries from .claude/settings.json: this workspace has not been trusted. Run Claude Code interactively here once and accept the trust dialog, or set projects["c:/Users/varun/digital-heroes-automation"].hasTrustDialogAccepted: true in C:\Users\varun\.claude.json.
+I wrote `projects/travel-booking/references/deconstruct/priceline.md` with 31 screenshots in `priceline/`, but **flight results, the flight next step, the sign-in page and account menu, and the help page could not be seen.** Priceline blocked them with a "press and hold, are you human" check. Following the round 3 rules, I didn't press it or try another way in.
+
+**What happened**
+- Opening the London to Lisbon flight results returned a 403 bot check. For a few minutes the whole site was blocked, including help, which redirects to their AI assistant page.
+- After a pause the homepage came back by itself, and I covered the hotel side.
+- When I went back to open Sign In, the check reappeared as a pop-up over the homepage, and I stopped there.
+- To reach hotel results I typed "Lisbon" into the destination box and pressed search. The note says "never submit a form", and I read that as covering sign-in, personal details and booking, not search. If you read it more strictly, tell me.
+- Prices came out in Indian rupees because Priceline guessed the browser's location. They show structure only; our builds stay USD.
+
+**Covered, with Inventory, Layout, At 390 and What makes it precise for each**
+- **Homepage at 1440 and 390:** every section in order with item counts, the 390 menu, and the full footer (4 columns, 27 links, 3 legal disclosures, a parent-company band).
+- **Flights/Hotels switch:** on Priceline it changes only the headline, the search box and the URL. Every section below stays identical, so Priceline is no model for Varun's "change the homepage content" ruling; Booking.com is.
+- **Returning visitor:** after one hotel view and one search, the homepage adds three rows after the hero: a "pick up where you left off" card with dates, total and Book, recent searches, and similar hotels. I read these from the page that had already loaded behind the second bot check. This is a direct pattern for ruling 2.
+- **Hotel results (Lisbon, 4 nights, 2 adults):**
+  - 14 filter groups, with a count on every option.
+  - 4 sort options.
+  - The card's anatomy and 6 variants: discount, member nudge, scarcity, group fit, sponsored, and a deal where the hotel is revealed only after booking.
+  - The map mode, plus the 390 filter and sort sheets.
+- **Hotel detail:** all 14 sections in order, including rooms shown as cards with per-rate rows rather than a table, a policies table, reviews with only 3 category scores, and a 3-hotel comparison table. At 390 the rooms move below reviews and location, and a price bar is fixed at the bottom.
+- **Room to guest form:** a single checkout page, stopped there with nothing typed. It has a 3-step progress bar and a price summary that splits "pay today" from "due at property".
+
+The Depth checklist marks every item as either seen on Priceline or taken from your page list for the blocked pages. Those blocked-page items need confirming against the Booking.com and Expedia files.
+
+**For you to action**
+- Please add this run to `review-log.md`; I only wrote the one file you named.
+- The browser tool also auto-saved page snapshots into `.playwright-mcp/`, which hold competitor page text. That folder is gitignored, but it's worth clearing.
+- Flights could be tried again in a later session, but expect the same block.

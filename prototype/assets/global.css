@@ -1,0 +1,752 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): global.css
+   The one stylesheet every page loads. Before it: the Geist stylesheet
+   (prototype only; the app self-hosts Geist). After it: global.js,
+   deferred.
+   Order: @font-face, tokens, reset, type, layout, atoms, chrome
+   (header, rail, account pills, phone bar, tab bar, More menu), search,
+   home hero, reduced motion.
+   The tokens block is generated: edit design/tokens.css, then run
+   tools/sync_tokens.py. Everything else is hand-written.
+   ===================================================================== */
+
+/* ===== Fonts =====
+   Calibre (Klim) in the three weights supplied: 200, 400, 700. There is
+   no 500 or 600, and font-synthesis on body stops the browser faking
+   them. Review build only: needs a Klim web licence before any public
+   deploy. */
+@font-face { font-family: "Calibre"; src: url("fonts/Calibre-Thin.woff2") format("woff2"); font-weight: 200; font-style: normal; font-display: swap; }
+@font-face { font-family: "Calibre"; src: url("fonts/Calibre-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Calibre"; src: url("fonts/Calibre-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* tokens:start (pasted from design/tokens.css by tools/sync_tokens.py; edit that file) */
+:root {
+  /* ---- Palette: Night navy (default, revision 2026-11-11) ----
+     Overwing's own take on the client's "deep navy, white and teal":
+     the cabin at night, its windows lit by a coast at first light.
+     Navy from the sea in the hero photo after the navy grade; teal from
+     the haze over the coast; white is the page. Every text pair below
+     is 4.5:1 or better; focus rings 3:1 or better. */
+  --c-accent: #086F76;      /* teal. Focus ring, selected glyphs, chip glyphs, price notes, text links on hover. Text-safe: on white 5.9:1, on tint 5.1:1, on cream 5.4:1, on mat 5.0:1. White text on it 5.9:1 */
+  --c-accent-soft: #6FD6CE; /* bright teal. Accent on dark: focus ring and glyphs on the hero, deep and ink (9.2:1 on hero, 8.3:1 on deep, 10.1:1 on ink, 7.0:1 on hero tint). Ink text on it 10.1:1 */
+  --c-deep: #0D2B4C;        /* deep navy. Every call to action on light grounds, selected calendar ends, dark bands. White on it 14.3:1; on white 14.3:1, on tint 12.4:1 */
+  --c-ink: #0B1B2E;         /* navy black. Headlines and body. On white 17.4:1, on tint 15.0:1, on cream 15.8:1, on mat 14.5:1 */
+  --c-muted: #4A5E70;       /* secondary text, placeholders, icons. On white 6.7:1, on tint 5.8:1, on cream 6.1:1, on mat 5.6:1 */
+  --c-tint: #E6F0F2;        /* the one interactive surface: toggle track, segment hover, steppers, calendar range, rail current square, Log in pill */
+  --c-ground: #FFFFFF;      /* white. The page (the client's white) */
+  --c-cream: #F0F5F7;       /* cool mist. Quiet panels on white: demo notice, inclusion cards, fare notes */
+  --c-surface: #FFFFFF;     /* white. The search pill, popovers, cards, sheets */
+  --c-line: #DAE4E9;        /* hairlines and dividers (decorative only, never the only edge of a control) */
+  --c-field: #6B7F8F;       /* text-field borders that must read as controls: 4.2:1 on white */
+  --c-bezel: #1C4068;       /* the cabin window surround on the navy wall (decorative; 1.5:1 on hero, read by its highlight ring) */
+  --c-bezel-ring: rgba(111, 214, 206, .5); /* the bezel's lit edge in bright teal (critic, 11 Nov: teal had no structural job) */
+  --c-hero-chip: rgba(111, 214, 206, .55); /* fact chip outlines on the wall */
+  --c-pill-edge: transparent; /* the search pill's edge on the wall (the navy does the work) */
+  --c-blind: #F3F6F8;       /* the window blind, top of its gradient */
+  --c-blind-end: #D6E0E6;   /* the window blind, bottom of its gradient */
+  --c-mat: #E2EDF0;         /* destination card ground under the label (revision: the photo now fills the card; the mat is only the label band). Ink 14.5:1, muted 5.6:1, accent 5.0:1 */
+  --c-extra: #DDF1EF;       /* Faye's second tint: paid extras on fare and room cards (teal mist). Ink on it 14.8:1 */
+  --c-price: var(--c-ink);  /* the total, always the darkest text on its card */
+  --c-price-note: #086F76;  /* "Taxes and fees included", "Price dropped", per-person lines: teal text, 5.9:1 on white, 5.1:1 on tint */
+  --c-scrim: rgba(6, 20, 42, .52);  /* behind sheets and dialogs */
+  --c-theme: #FFFFFF;       /* meta theme-color */
+
+  /* ---- The hero band (revision 2026-11-11): the cabin wall at night ----
+     A deep navy rounded panel holding the headline, the search and the
+     windows. In Cabin dawn these map back to the light ground. */
+  --c-hero: #0B2341;        /* the wall. White on it 15.8:1 */
+  --c-hero-ink: #FFFFFF;    /* headline */
+  --c-hero-muted: #B9C9D8;  /* lead, chips, inactive toggle label. 9.3:1 on hero, 7.2:1 on hero tint */
+  --c-hero-tint: #17375A;   /* toggle track on the wall. White on it 12.1:1 */
+  --c-hero-line: rgba(255, 255, 255, .16);
+  --c-hero-focus: var(--c-accent-soft);  /* ring on the wall: 9.2:1 */
+  --c-hero-error: #FFB4A8;  /* search messages on the wall: 9.3:1 on hero */
+
+  /* Media grade: one SVG filter per palette, defined in the header
+     partial's sprite. Applied to studio and stock media only, never to
+     Duffel hotel photos or airline logos (they must look as supplied). */
+  --fx-grade: url("#fx-grade-navy");
+
+  /* ---- State colours, shared by both palettes ---- */
+  --c-error: #A2352B;       /* field errors, failed payment. On white 6.8:1, on error tint 5.7:1 */
+  --c-error-tint: #F8E7E2;
+  --c-success: #2E6A4E;     /* confirmed booking, ticket issued. On white 6.4:1, on success tint 5.5:1 */
+  --c-success-tint: #E4F0E8;
+  --c-warn: #835A12;        /* fare changed, offer about to expire. On white 6.1:1, on warn tint 5.2:1 */
+  --c-warn-tint: #F7ECD6;
+  --c-focus: var(--c-accent);           /* the one focus ring, 2px, offset 3px */
+  --c-focus-on-dark: var(--c-accent-soft);
+
+  /* ---- Type families ----
+     Calibre (Klim): self-hosted from fonts/calibre, weights 200, 400, 700
+     only. Design and client review only: needs a Klim web licence before
+     any public deploy, or switch to Rethink Sans (SIL OFL, phase A T2).
+     Geist (Vercel, SIL OFL): the UI layer, variable 100 to 900.
+     With next/font, set variable: "--font-calibre" and "--font-geist-sans";
+     without it, the quoted family names below resolve to @font-face. */
+  --f-display: var(--font-calibre, "Calibre"), "Helvetica Neue", Arial, sans-serif;
+  --f-ui: var(--font-geist-sans, "Geist"), "Helvetica Neue", Arial, sans-serif;
+  --fw-thin: 200;           /* Calibre Thin: large figures only (booking reference, big prices) */
+  --fw-regular: 400;        /* Calibre Regular: lead and editorial body. No tabular figures, no Latin Extended-A */
+  --fw-bold: 700;           /* Calibre Bold: every headline and title */
+  --fw-ui: 400;             /* Geist body, field values */
+  --fw-ui-medium: 500;      /* Geist popover headings, chips */
+  --fw-ui-strong: 600;      /* Geist buttons, labels, toggle */
+  --fw-ui-heavy: 800;       /* Geist popover row titles */
+
+  /* ---- Type scale (sizes at 390 to 1440, fluid between) ---- */
+  --t-hero: clamp(3.4rem, 2.58rem + 2.1vw, 6rem);       /* 34 to 60. Home headline (revision: 56 to 60). global.css sizes it off its column (cqi) */
+  --t-h1: clamp(3.2rem, 2.61rem + 1.52vw, 4.8rem);      /* 32 to 48. Page titles */
+  --t-h2: clamp(2.6rem, 2.38rem + .57vw, 3.2rem);       /* 26 to 32. Section headings */
+  --t-h3: clamp(2rem, 1.85rem + .38vw, 2.4rem);         /* 20 to 24 */
+  --t-lead: clamp(1.7rem, 1.59rem + .29vw, 2rem);       /* 17 to 20 */
+  --t-title: 1.8rem;        /* result and room card titles */
+  --t-price: 2.8rem;        /* booking card total, Calibre Bold, tabular */
+  --t-price-card: 2.4rem;   /* result card total (revision: one size on every result card) */
+  --t-ref: clamp(4rem, 3.25rem + 1.9vw, 6rem);          /* booking reference, Calibre Thin */
+  --t-body: 1.6rem;
+  --t-small: 1.4rem;
+  --t-label: 1.2rem;        /* small caps field labels (revision: 11 to 12px, for the bigger search) */
+  --t-micro: 1.2rem;        /* rail and tab bar labels (revision: 11 to 12px) */
+  --t-button: 1.5rem;
+  --t-value: 1.7rem;        /* search cell values (revision: 16 to 17px) */
+
+  --lh-hero: 1.02;
+  --lh-head: 1.12;
+  --lh-title: 1.3;
+  --lh-body: 1.5;
+  --lh-ui: 1.2;
+  --tr-display: -.02em;
+  --tr-head: -.01em;
+  --tr-label: .08em;
+
+  /* ---- Space (4px base) ---- */
+  --s-1: .4rem;
+  --s-2: .8rem;
+  --s-3: 1.2rem;
+  --s-4: 1.6rem;
+  --s-5: 2.4rem;
+  --s-6: 3.2rem;
+  --s-7: 4rem;
+  --s-8: 4.8rem;
+  --s-9: 6.4rem;
+  --s-10: 9.6rem;
+  --s-11: 12.8rem;
+  --s-section: clamp(6.4rem, 4.9rem + 3.8vw, 10.4rem);
+
+  /* ---- Layout ---- */
+  --rail-w: 8.8rem;         /* desktop icon rail (Hipcamp 88px) */
+  --topbar-h: 6.4rem;       /* revision: the desktop top bar that holds the account cluster (and the compact search on inner pages) */
+  --hero-inset: 1.6rem;     /* revision: the hero panel's margin from the rail and the screen edge (0.8rem on phones) */
+  --container: 123.2rem;
+  --gutter: 1.6rem;         /* phone side gutter; 2.4rem from 641px */
+  --w-pill: 104rem;         /* home search pill at 1440 (revision: was 92rem) */
+  --w-text: 64rem;
+  --h-control: 4.4rem;
+  --h-control-sm: 4rem;
+  --h-pill: 8rem;           /* search pill (revision: was 7.2rem) */
+  --h-seg: 7rem;            /* segment inside the pill */
+  --h-go: 5.6rem;           /* Search button inside the pill */
+  --h-toggle: 4.4rem;       /* Flights / Hotels tabs on the hero (revision: was 4rem) */
+  --h-thumb: 3.6rem;
+  --h-field: 5.6rem;
+  --h-cell: 6.4rem;         /* revision: stacked search cells on phones */
+  --h-header: 6.4rem;
+  --h-tabbar: 6.8rem;
+
+  /* ---- Radii: one system ---- */
+  --r-xs: .8rem;
+  --r-sm: 1.2rem;
+  --r-md: 1.6rem;
+  --r-lg: 2.4rem;
+  --r-xl: 3.2rem;           /* revision: the hero panel and the pre-footer band */
+  --r-pill: 999px;
+  --r-window: 43% / 37%;
+
+  /* ---- Shadows (tinted with the navy, never black glows) ---- */
+  --sh-thumb: 0 1px 3px rgba(11, 27, 46, .14);
+  --sh-pill: 0 4px 10px -2px rgba(11, 27, 46, .10), 0 2px 4px -2px rgba(11, 27, 46, .08);
+  --sh-pill-hero: 0 18px 40px -16px rgba(0, 0, 0, .45);  /* the white pill on the navy wall */
+  --sh-pop: 0 20px 25px -5px rgba(11, 27, 46, .12), 0 8px 10px -6px rgba(11, 27, 46, .10);
+  --sh-card: 0 6px 20px rgba(11, 27, 46, .12);
+  --sh-float: 0 25px 50px -12px rgba(11, 27, 46, .28);
+  --sh-window: 0 22px 36px -18px rgba(0, 0, 0, .55);
+
+  /* ---- Easing ---- */
+  --ease-std: cubic-bezier(.4, 0, .2, 1);
+  --ease-pop: cubic-bezier(.2, .8, .2, 1);
+  --ease-spring: cubic-bezier(.34, 1.28, .64, 1);
+  --ease-out-long: cubic-bezier(.16, 1, .3, 1);
+  --ease-in: cubic-bezier(.4, 0, 1, 1);
+
+  /* ---- Durations ---- */
+  --d-fast: 150ms;
+  --d-pop: 160ms;
+  --d-panel: 200ms;
+  --d-thumb: 220ms;
+  --d-zoom: 250ms;
+  --d-seg: 260ms;
+  --d-bar: 240ms;           /* revision: the phone tab bar sliding away on scroll down */
+  --d-nudge: 400ms;
+  --d-breathe: 1000ms;
+  --d-blind: 1600ms;
+  --d-blind-stagger: 120ms;
+  --d-blind-delay: 240ms;
+
+  /* ---- Motion amounts ---- */
+  --drift: 6;
+  --drift-rate: .12;
+  --win-max: 30rem;         /* widest a cabin window gets (revision: was 25.2rem; bigger photography) */
+  --pop-rise: 6px;
+  --press: .97;
+
+  /* ---- Layers ---- */
+  --z-rail: 200;
+  --z-header: 210;
+  --z-pop: 300;
+  --z-tabbar: 400;
+  --z-sheet: 1000;
+  --z-skip: 1100;
+}
+
+/* ---- Palette: Cabin dawn (P1), the alternate ----
+   Sampled in phase A from Overwing's wing-over-clouds photo. Only
+   palette roles change; type, space, motion and layout stay. The hero
+   band maps back to the light ground, so the wall is blush, as in the
+   approved phase A sketch. Re-measured on the revised hero 2026-11-11. */
+:root[data-palette="cabin"] {
+  --c-accent: #278B9B;      /* sky teal. Focus ring and glyphs only: 3.8:1 on ground, 4.0:1 on white, 3.4:1 on tint. Never text, never white text on it */
+  --c-accent-soft: #A9D3DA; /* accent on dark: 7.4:1 on deep; ink on it 10.7:1 */
+  --c-deep: #1F3B41;        /* wing slate. Calls to action: white on it 11.9:1; on ground 11.3:1 */
+  --c-ink: #121D20;         /* on ground 16.3:1, on white 17.2:1, on tint 14.4:1 */
+  --c-muted: #5B6567;       /* on ground 5.7:1, on white 6.0:1, on tint 5.0:1 */
+  --c-tint: #F4E9E7;
+  --c-ground: #FBF8F7;
+  --c-cream: #EED7D5;       /* ink text only (muted 4.4:1 fails) */
+  --c-surface: #FFFFFF;
+  --c-line: #EADCDA;
+  --c-field: #7D8A8C;       /* 3.6:1 on white, 3.4:1 on ground */
+  --c-bezel: #FFFFFF;       /* white surround on the light wall */
+  --c-bezel-ring: rgba(18, 29, 32, .07);
+  --c-hero-chip: rgba(18, 29, 32, .32);
+  --c-pill-edge: var(--c-line); /* the white pill needs an edge on the blush wall */
+  --c-price-note: #1F3B41;  /* Cabin dawn's teal fails as text, so price notes use the wing slate: 11.3:1 on ground */
+  --c-blind: #F7F1F0;
+  --c-blind-end: #ECE2E0;
+  --c-mat: #EED7D5;         /* ink text only */
+  --c-extra: #E3EFF1;
+  --c-scrim: rgba(18, 29, 32, .48);
+  --c-theme: #FBF8F7;
+  --c-hero: #F4E9E7;        /* the wall: the blush tint. Ink on it 14.4:1 */
+  --c-hero-ink: #121D20;
+  --c-hero-muted: #4F5A5C;  /* lead, chips, inactive toggle label: 6.1:1 on hero, 5.3:1 on hero tint */
+  --c-hero-tint: #EAD9D6;   /* toggle track on the wall */
+  --c-hero-line: rgba(18, 29, 32, .12);
+  --c-hero-focus: #1F6F7C;  /* a deeper sky teal for rings on the blush wall: 4.9:1 on hero, 4.3:1 on hero tint */
+  --c-hero-error: #A2352B;  /* 5.7:1 on hero */
+  --sh-pill-hero: 0 10px 24px -12px rgba(18, 29, 32, .22);
+  --sh-window: 0 18px 30px -18px rgba(18, 29, 32, .35);
+  --fx-grade: url("#fx-grade-cabin");
+}
+/* tokens:end */
+
+/* ===== Reset ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 62.5%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: 8rem; }
+/* Past the 1440 canvas the root grows with the viewport, capped at the 1920 size (13.33px), so the approved layout scales evenly on wide monitors */
+@media (min-width: 1441px) { html { font-size: min(.6944vw, 13.333px); } }
+body { margin: 0; min-height: 100vh; background: var(--c-ground); color: var(--c-ink); font: var(--fw-ui) var(--t-body)/var(--lh-body) var(--f-ui); font-synthesis: none; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
+picture { display: contents; }
+img { display: block; width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* One focus ring for the whole site, accent on light grounds */
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+
+/* ---- sprite and icons ---- */
+.a-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.a-icon { flex: none; width: 2rem; height: 2rem; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.a-icon.-s { width: 1.6rem; height: 1.6rem; }
+.a-icon.-l { width: 2.4rem; height: 2.4rem; }
+
+/* ===== Type ===== */
+.a-display { font: var(--fw-bold) var(--t-hero)/var(--lh-hero) var(--f-display); letter-spacing: var(--tr-display); text-wrap: balance; }
+.a-h1 { font: var(--fw-bold) var(--t-h1)/var(--lh-head) var(--f-display); letter-spacing: var(--tr-display); text-wrap: balance; }
+.a-h2 { font: var(--fw-bold) var(--t-h2)/var(--lh-head) var(--f-display); letter-spacing: var(--tr-head); text-wrap: balance; }
+.a-h3 { font: var(--fw-bold) var(--t-h3)/var(--lh-title) var(--f-display); letter-spacing: var(--tr-head); text-wrap: balance; }
+.a-lead { font: var(--fw-regular) var(--t-lead)/1.35 var(--f-display); text-wrap: pretty; }
+.a-label { font: var(--fw-ui-strong) var(--t-label)/var(--lh-ui) var(--f-ui); letter-spacing: var(--tr-label); text-transform: uppercase; }
+
+/* ===== Layout ===== */
+.b-main { display: block; padding-bottom: calc(var(--h-tabbar) + 4.8rem); }
+.b-main:focus { outline: none; }
+.b-wrap { width: 100%; max-width: calc(var(--container) + 2 * var(--gutter)); margin: 0 auto; padding: 0 var(--gutter); }
+@media (min-width: 641px) {
+  :root { --gutter: 2.4rem; }
+}
+@media (min-width: 1025px) {
+  /* the fixed rail takes the left 88px; the content column centres in what is left (Hipcamp's frame) */
+  .b-main { padding: var(--topbar-h) 0 0 var(--rail-w); }
+}
+
+/* ===== Atoms ===== */
+/* ---- skip link ---- */
+.a-skip { position: fixed; z-index: var(--z-skip); top: 1.2rem; left: 1.2rem; display: inline-flex; align-items: center; height: var(--h-control); padding: 0 2rem; border-radius: var(--r-pill); background: var(--c-deep); color: #FFFFFF; font: var(--fw-ui-strong) var(--t-button)/1 var(--f-ui); text-decoration: none; transform: translateY(-200%); transition: transform var(--d-fast) var(--ease-std); }
+.a-skip:focus-visible { transform: none; outline-color: var(--c-focus); }
+
+/* ---- buttons (Varun's: pills only, sentence case, quiet breathing hover) ---- */
+.a-button { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .8rem; flex: none; height: var(--h-control); padding: 0 2.4rem; border: 0; border-radius: var(--r-pill); background: var(--c-deep); color: #FFFFFF; font: var(--fw-ui-strong) var(--t-button)/1 var(--f-ui); text-decoration: none; white-space: nowrap; cursor: pointer; transition: padding var(--d-breathe) var(--ease-out-long), background-color var(--d-fast) var(--ease-std), transform var(--d-fast) var(--ease-std); }
+/* the faint top sheen: slides down into place by background position, so it never leaves the pill */
+.a-button::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(rgba(255, 255, 255, .12), rgba(255, 255, 255, 0) 70%) 0 -4.4rem / 100% 100% no-repeat; opacity: 0; pointer-events: none; transition: opacity var(--d-breathe) var(--ease-out-long), background-position var(--d-breathe) var(--ease-out-long); }
+.a-button__label { position: relative; }
+.a-button__icon { position: relative; width: 1.6rem; height: 1.6rem; transition: transform var(--d-nudge) var(--ease-out-long); }
+.a-button.-soft { background: var(--c-tint); color: var(--c-ink); }
+.a-button.-soft::before { background-image: linear-gradient(rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 70%); }
+.a-button.-small { height: var(--h-control-sm); padding: 0 1.6rem; font-size: 1.4rem; }
+/* 44px hit area around a 40px pill */
+.a-button.-small::after { content: ""; position: absolute; inset: -.2rem 0; }
+.a-button.-block { width: 100%; }
+.a-button:active { transform: scale(var(--press)); }
+.a-button[aria-disabled="true"] { cursor: progress; }
+@media (prefers-reduced-motion: no-preference) {
+  .a-button:focus-visible .a-button__icon { transform: translateX(.6rem); }
+}
+/* Breathing only where it moves nothing else: buttons marked -steady (the
+   account cluster, buttons inside the pill and popovers) and full-width
+   buttons nudge their arrow and show the sheen, but keep their width.
+   Round 2 (critic, 10 Nov): Sign up's breathing pushed Log in 8px left. */
+@media (hover: hover) and (any-pointer: fine) {
+  .a-button:hover::before { opacity: 1; background-position: 0 0; }
+}
+@media (hover: hover) and (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .a-button:hover { padding-left: 3.2rem; padding-right: 3.2rem; }
+  .a-button.-small:hover { padding-left: 2rem; padding-right: 2rem; }
+  .a-button.-steady:hover, .a-button.-block:hover { padding-left: 2.4rem; padding-right: 2.4rem; }
+  .a-button.-small.-steady:hover { padding-left: 1.6rem; padding-right: 1.6rem; }
+  .a-button:hover .a-button__icon { transform: translateX(.6rem); }
+}
+
+/* ---- round icon button (close, menu, steppers' bigger sibling) ---- */
+.a-round { position: relative; display: inline-grid; place-items: center; flex: none; width: var(--h-control); height: var(--h-control); padding: 0; border: 0; border-radius: 50%; background: var(--c-tint); color: var(--c-ink); cursor: pointer; transition: background-color var(--d-fast) var(--ease-std), transform var(--d-fast) var(--ease-std); }
+.a-round:active { transform: scale(var(--press)); }
+@media (hover: hover) and (any-pointer: fine) {
+  .a-round:hover { background: var(--c-line); }
+}
+
+/* ---- text link button ---- */
+.a-link { padding: .4rem 0; border: 0; background: none; color: var(--c-ink); font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .3em; cursor: pointer; transition: color var(--d-fast) var(--ease-std), text-decoration-color var(--d-fast) var(--ease-std); }
+.a-link:disabled { color: var(--c-muted); text-decoration-color: transparent; cursor: default; }
+.a-link:focus-visible { border-radius: .6rem; }
+@media (hover: hover) and (any-pointer: fine) {
+  .a-link:not(:disabled):hover { text-decoration-color: var(--c-accent); }
+}
+
+/* ---- segmented toggle (Hipcamp's sliding thumb) ---- */
+.a-toggle { position: relative; display: inline-flex; gap: .4rem; padding: .4rem; border-radius: var(--r-pill); background: var(--c-tint); }
+.a-toggle__thumb { position: absolute; top: .4rem; left: .4rem; width: 0; height: var(--h-thumb); border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-thumb); pointer-events: none; transition: left var(--d-thumb) var(--ease-spring), width var(--d-thumb) var(--ease-spring); }
+.a-toggle__btn { position: relative; height: var(--h-thumb); padding: 0 1.8rem; white-space: nowrap; border: 0; border-radius: var(--r-pill); background: none; color: var(--c-muted); font: var(--fw-ui-strong) 1.4rem/1 var(--f-ui); cursor: pointer; transition: color var(--d-fast) var(--ease-std); }
+.a-toggle__btn[aria-pressed="true"] { color: var(--c-ink); }
+/* without JS the thumb cannot slide, so the pressed button carries its own white */
+.a-toggle:not(.is-ready) .a-toggle__btn[aria-pressed="true"] { background: var(--c-surface); box-shadow: var(--sh-thumb); }
+.a-toggle.-small .a-toggle__btn { padding: 0 1.4rem; font-size: 1.3rem; }
+@media (hover: hover) and (any-pointer: fine) {
+  .a-toggle__btn[aria-pressed="false"]:hover { color: var(--c-ink); }
+}
+
+/* ---- choice pill (The Hoxton's region pills: faint outline, fills deep when chosen; hover differs from chosen) ---- */
+.a-choice { position: relative; display: inline-flex; align-items: center; height: 4rem; padding: 0 1.6rem; border-radius: var(--r-pill); color: var(--c-ink); font: var(--fw-ui-medium) 1.4rem/1 var(--f-ui); cursor: pointer; transition: background-color var(--d-fast) var(--ease-std), color var(--d-fast) var(--ease-std); }
+.a-choice::before { content: ""; position: absolute; inset: 0; border: 1px solid currentColor; border-radius: inherit; opacity: .28; pointer-events: none; transition: opacity var(--d-fast) var(--ease-std); }
+.a-choice__input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.a-choice:has(.a-choice__input:checked) { background: var(--c-deep); color: #FFFFFF; }
+.a-choice:has(.a-choice__input:checked)::before { opacity: 0; }
+.a-choice:has(.a-choice__input:focus-visible) { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+.a-choice:active { transform: scale(var(--press)); }
+@media (hover: hover) and (any-pointer: fine) {
+  .a-choice:not(:has(.a-choice__input:checked)):hover { background: var(--c-tint); }
+  .a-choice:not(:has(.a-choice__input:checked)):hover::before { opacity: .5; }
+}
+
+/* ---- cabin window glyph: the placeholder brand's one shape ----
+   A tall rounded window with its blind half down. Sized in em, coloured
+   by currentColor (ring and blind) over a pane in the palette's light. */
+.a-glyph { position: relative; display: inline-block; flex: none; width: .46em; height: .62em; border-radius: var(--r-window); background: linear-gradient(var(--c-cream) 30%, var(--c-accent-soft)); box-shadow: inset 0 0 0 .08em currentColor; overflow: hidden; }
+/* the blind, pulled a little under halfway, with a lip so it reads apart from the frame */
+.a-glyph::after { content: ""; position: absolute; inset: 0 0 56% 0; background: currentColor; box-shadow: 0 .03em 0 rgba(15, 29, 39, .25); }
+
+/* ---- wordmark (placeholder: lowercase name in Calibre Bold, the o drawn as the window) ---- */
+.a-wordmark { display: inline-flex; align-items: baseline; color: var(--c-ink); font: var(--fw-bold) 2.6rem/1 var(--f-display); letter-spacing: -.035em; white-space: nowrap; }
+/* a little taller than the x-height, with a thinner frame and a shorter blind, so it reads as a window at 26px, not a block (round 3, critic) */
+.a-wordmark .a-glyph { width: .42em; height: .6em; margin-right: .05em; box-shadow: inset 0 0 0 .07em currentColor; }
+.a-wordmark .a-glyph::after { bottom: 62%; }
+
+/* ===== Header (chrome: rail, account pills, phone bar, tab bar, More menu) ===== */
+.o-header { position: sticky; z-index: var(--z-header); top: 0; }
+/* ---- phone bar (also carries the account pills on desktop) ---- */
+.o-header__bar { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; height: var(--h-header); padding: 0 var(--gutter); background: var(--c-ground); transition: box-shadow var(--d-panel) var(--ease-std), background-color var(--d-panel) var(--ease-std); }
+.o-header.is-scrolled .o-header__bar { box-shadow: 0 1px 0 var(--c-line); }
+.o-header__wordmark { display: inline-flex; align-items: center; min-height: var(--h-control); border-radius: var(--r-sm); color: var(--c-ink); text-decoration: none; }
+.o-header__actions { display: flex; align-items: center; gap: .8rem; }
+.o-header__signup { display: none; }
+.o-header__menuBtn { width: 4rem; height: 4rem; }
+.o-header__menuBtn::after { content: ""; position: absolute; inset: -.2rem; }
+/* ---- rail (desktop) ---- */
+.o-header__rail { display: none; }
+.o-header__brand { display: flex; flex-direction: column; align-items: center; gap: .5rem; width: 7.6rem; margin: 0 0 1.6rem; padding: .4rem 0; border-radius: var(--r-sm); color: var(--c-ink); font: var(--fw-ui-strong) var(--t-micro)/1.2 var(--f-ui); text-decoration: none; }
+.o-header__tile { display: grid; place-items: center; width: 4.4rem; height: 4.4rem; border-radius: var(--r-sm); background: var(--c-deep); color: var(--c-surface); font-size: 4rem; transition: transform var(--d-fast) var(--ease-std); }
+.o-header__railList { display: flex; flex-direction: column; gap: .4rem; padding: 0; list-style: none; }
+.m-railItem { display: flex; flex-direction: column; align-items: center; gap: .3rem; width: 7.6rem; padding: .6rem 0; border: 0; border-radius: var(--r-sm); background: none; color: var(--c-ink); font: var(--fw-ui-strong) var(--t-micro)/1.2 var(--f-ui); text-decoration: none; cursor: pointer; }
+.m-railItem__icon { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: var(--r-sm); transition: background-color var(--d-fast) var(--ease-std); }
+/* any aria-current value: "page" for pages, "true" for the product the home search is set to (critic, 11 Nov) */
+.m-railItem[aria-current] .m-railItem__icon, .m-railItem[aria-expanded="true"] .m-railItem__icon { background: var(--c-tint); }
+/* revision 2026-11-11: More sits with the other items, not 800px away at the foot of the rail */
+.o-header__railList .m-railItem.-more { margin-top: 0; }
+.m-railItem:active .m-railItem__icon { transform: scale(var(--press)); }
+@media (hover: hover) and (any-pointer: fine) {
+  /* hover is a faint ring of tint, so it never reads as a second current page (round 3, critic) */
+  .m-railItem:not([aria-current="page"]):not([aria-expanded="true"]):hover .m-railItem__icon { box-shadow: inset 0 0 0 1.5px var(--c-tint); }
+  .o-header__brand:hover .o-header__tile { transform: translateY(-1px); }
+}
+/* ---- floating tab bar (phone; Hipcamp's rail on a phone) ---- */
+.o-header__tabs { position: fixed; z-index: var(--z-tabbar); left: 50%; bottom: calc(2rem + env(safe-area-inset-bottom, 0px)); display: flex; gap: .2rem; height: var(--h-tabbar); padding: .6rem; border: 1px solid var(--c-line); border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-float); transform: translateX(-50%); transition: transform var(--d-bar) var(--ease-std); }
+/* revision 2026-11-11: the bar steps out of the way while the visitor scrolls down and comes back on any scroll up, near the top, or on focus */
+.o-header.is-barHidden .o-header__tabs { transform: translate(-50%, calc(100% + 2rem + env(safe-area-inset-bottom, 0px))); }
+.m-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .2rem; width: 7rem; border-radius: var(--r-pill); color: var(--c-ink); font: var(--fw-ui-strong) var(--t-micro)/1.2 var(--f-ui); text-decoration: none; transition: background-color var(--d-fast) var(--ease-std); }
+.m-tab[aria-current] { background: var(--c-tint); }
+.m-tab:active { transform: scale(var(--press)); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-tab:not([aria-current="page"]):hover { background: color-mix(in srgb, var(--c-tint) 60%, transparent); }
+}
+@media (min-width: 1025px) {
+  .o-header { position: static; }
+  .o-header__rail { position: fixed; z-index: var(--z-rail); top: 0; left: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; width: var(--rail-w); padding: 1.6rem .6rem 1.6rem; background: var(--c-ground); }
+  /* desktop (revision 2026-11-11): a solid top bar beside the rail holds the account cluster at every scroll position.
+     The floating cluster sat over headings and photos, and the build's fix hid it after 160px, so Log in vanished.
+     Content now scrolls under a solid bar; a hairline appears once scrolled. Inner pages put the compact search in its middle. */
+  .o-header__bar { position: fixed; z-index: var(--z-header); top: 0; left: var(--rail-w); right: 0; justify-content: flex-end; height: var(--topbar-h); padding: 0 2.4rem; background: var(--c-ground); }
+  .o-header.is-scrolled .o-header__bar { box-shadow: 0 1px 0 var(--c-line); }
+  .o-header__wordmark, .o-header__menuBtn, .o-header__tabs { display: none; }
+  .o-header__signup { display: inline-flex; }
+}
+
+/* ---- More menu: a popover beside the rail on desktop, a bottom sheet on the phone ---- */
+.m-more { position: fixed; z-index: var(--z-sheet); inset: 0; }
+.m-more__scrim { position: absolute; inset: 0; background: var(--c-scrim); }
+.m-more__panel { position: absolute; left: 0; right: 0; bottom: 0; max-height: 88vh; overflow-y: auto; padding: 1.6rem var(--gutter) calc(2.4rem + env(safe-area-inset-bottom, 0px)); border-radius: var(--r-lg) var(--r-lg) 0 0; background: var(--c-surface); box-shadow: var(--sh-pop); }
+.m-more__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.6rem; }
+.m-more__title { font: var(--fw-bold) 2.2rem/1.2 var(--f-display); letter-spacing: var(--tr-head); }
+.m-more__account { display: grid; gap: .8rem; margin-bottom: 1.6rem; }
+.m-more__list { padding: 0; list-style: none; }
+.m-more__link { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; min-height: 4.8rem; padding: 0 1.2rem; border-radius: var(--r-sm); color: var(--c-ink); font: var(--fw-ui-medium) 1.6rem/1.3 var(--f-ui); text-decoration: none; transition: background-color var(--d-fast) var(--ease-std); }
+.m-more__link .a-icon { color: var(--c-muted); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-more__link:hover { background: var(--c-tint); }
+}
+@media (min-width: 1025px) {
+  .m-more__scrim { background: transparent; }
+  /* opens beside its own button (global.js sets --more-top on open; critic, 11 Nov: it opened 130px below it) */
+  .m-more__panel { top: var(--more-top, 38rem); left: calc(var(--rail-w) + .8rem); right: auto; bottom: auto; width: 32rem; padding: 1.6rem; border: 1px solid var(--c-line); border-radius: var(--r-lg); animation: pop-in var(--d-pop) var(--ease-pop); }
+  .m-more__account { display: none; }
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(calc(var(--pop-rise) * -1)); }
+}
+
+/* ===== Search (Hipcamp's pill, The Hoxton's labelled cells) ===== */
+.m-search { position: relative; width: 100%; max-width: var(--w-pill); margin: 0 auto; text-align: left; }
+/* ---- phone trigger: one pill that opens the full-screen search (with JS only; without it the cells show inline) ---- */
+.m-search__trigger { display: none; align-items: center; gap: 1.2rem; width: 100%; height: 6.4rem; padding: .8rem .8rem .8rem 2rem; border: 1px solid var(--c-line); border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-pill); color: var(--c-ink); text-align: left; cursor: pointer; transition: transform var(--d-fast) var(--ease-std); }
+.m-search__trigger:active { transform: scale(.99); }
+.m-search__triggerText { display: flex; flex-direction: column; gap: .3rem; flex: 1; min-width: 0; }
+.m-search__triggerText .a-label, .m-search__triggerValue { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.m-search__triggerValue { color: var(--c-muted); font: var(--fw-ui) 1.6rem/1.2 var(--f-ui); }
+.m-search__triggerValue.is-set { color: var(--c-ink); }
+.m-search__triggerGo { display: grid; place-items: center; flex: none; width: 4.8rem; height: 4.8rem; border-radius: 50%; background: var(--c-deep); color: #FFFFFF; }
+/* tablets: a 560px trigger, not a wide empty bar (round 3, critic) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .m-search__trigger { max-width: 56rem; margin: 0 auto; }
+}
+/* ---- the panel: inline everywhere (revision 2026-11-11). On phones and tablets the cells show on the hero
+   as one white card, as on the big booking sites, and touching a cell opens the full-screen sheet on that cell.
+   The single "Where to?" trigger hid the Flights / Hotels choice and every field behind a tap. ---- */
+.m-search__trigger { display: none !important; }
+.m-search__panel.is-sheet { position: fixed; z-index: var(--z-sheet); inset: 0; display: block; overflow-y: auto; overscroll-behavior: contain; padding: 0 var(--gutter) calc(3.2rem + env(safe-area-inset-bottom, 0px)); background: var(--c-ground); }
+.m-search__sheetHead { display: none; }
+/* the sheet's head and its Search pill stay on screen while pickers grow (critic, 11 Nov) */
+.m-search__panel.is-sheet .m-search__sheetHead { position: sticky; z-index: 5; top: 0; display: flex; align-items: center; justify-content: space-between; height: var(--h-header); margin: 0 calc(var(--gutter) * -1) .8rem; padding: 0 var(--gutter); background: var(--c-ground); box-shadow: 0 1px 0 var(--c-line); }
+.m-search__panel.is-sheet .m-search__go { position: sticky; z-index: 5; bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px)); box-shadow: 0 0 0 .4rem var(--c-surface); }
+.m-search__modes .a-toggle__btn { display: inline-flex; align-items: center; gap: .8rem; }
+.m-search__sheetTitle { font: var(--fw-bold) 2.4rem/1 var(--f-display); letter-spacing: var(--tr-head); }
+.m-search__modes { margin-bottom: 1.6rem; }
+.m-search__panel.is-sheet .a-toggle__btn { height: 4.4rem; }
+.m-search__panel.is-sheet .a-toggle__thumb { height: 4.4rem; }
+/* ---- fields, stacked on the phone (The Hoxton's 390 stack) ---- */
+/* phones and tablets: one white card of stacked cells with hairlines between, the Search pill full width at its foot */
+.m-search__pill { position: relative; display: grid; padding: .4rem; border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); box-shadow: var(--sh-pill-hero); }
+.m-search__thumb { display: none; }
+.m-search__seg { position: relative; border-radius: var(--r-md); background: var(--c-surface); }
+@media (max-width: 1024px) {
+  /* a straight hairline between stacked cells, inset to the text */
+  .m-search__seg + .m-search__seg::before { content: ""; position: absolute; z-index: 1; top: 0; left: 1.6rem; right: 1.6rem; height: 1px; background: var(--c-line); pointer-events: none; }
+}
+.m-search__field { display: flex; align-items: center; gap: 1.2rem; width: 100%; min-height: var(--h-cell); padding: 0 1.6rem; border: 0; border-radius: inherit; background: none; color: var(--c-ink); text-align: left; cursor: pointer; }
+.m-search__field > .a-icon { color: var(--c-muted); }
+.m-search__text { display: flex; flex-direction: column; align-items: flex-start; gap: .4rem; flex: 1; min-width: 0; }
+.m-search__labelRow { display: flex; align-items: baseline; gap: .8rem; }
+.m-search__label { color: var(--c-ink); cursor: pointer; }
+/* the chosen airport's code, on the label row, so the value can stay the city name */
+.m-search__code { color: var(--c-muted); }
+.m-search__value, .m-search__input { display: block; width: 100%; overflow: hidden; color: var(--c-muted); font: var(--fw-ui) var(--t-value)/1.25 var(--f-ui); white-space: nowrap; text-overflow: ellipsis; }
+.m-search__value.is-set { color: var(--c-ink); }
+.m-search__input { margin: 0; padding: 0; border: 0; background: transparent; color: var(--c-ink); outline: none; }
+.m-search__input::placeholder { color: var(--c-muted); opacity: 1; }
+.m-search__input[aria-invalid="true"]::placeholder, .m-search__field[aria-invalid="true"] .m-search__value { color: var(--c-error); }
+.m-search__seg.is-invalid { box-shadow: inset 0 0 0 1px var(--c-error); }
+/* keyboard focus inside a field shows the accent ring on the whole cell (inputs and buttons alike) */
+.is-kbd .m-search__seg:focus-within:not(:has(.m-pop :focus)) { outline: 2px solid var(--c-focus); outline-offset: -2px; }
+.m-search__field:focus-visible { outline: none; }
+.m-search__go { width: 100%; height: 5.6rem; margin-top: .4rem; border-radius: var(--r-md); }
+/* the sheet keeps the stacked card on the page ground */
+.m-search__panel.is-sheet .m-search__pill { box-shadow: none; }
+/* tablets: the card stays a readable width */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .m-search__form { max-width: 64rem; margin: 0 auto; }
+  .m-search__panel.is-sheet .m-search__form { max-width: none; }
+}
+.m-search__status { margin: 0 auto; max-width: 64rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); text-align: center; text-wrap: balance; }
+.m-search__status:not(:empty) { margin-top: 1.4rem; }
+.m-search__status.is-error { color: var(--c-error); }
+.m-search__status.is-done { color: var(--c-ink); }
+
+/* ---- popovers (inline panels inside the phone sheet) ---- */
+.m-pop { padding: 1.2rem; border-top: 1px solid var(--c-line); color: var(--c-ink); text-align: left; }
+.m-pop__head { margin: .4rem .8rem .8rem; color: var(--c-muted); font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); }
+.m-pop__list { max-height: 34rem; margin: 0; padding: 0 0 .8rem; overflow-y: auto; list-style: none; overscroll-behavior: contain; scroll-padding-bottom: .8rem; }
+.m-pop__empty { padding: 1.2rem .8rem; color: var(--c-muted); font-size: 1.4rem; }
+.m-pop__foot { display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; margin-top: 1.2rem; }
+.m-pop__sub { margin: 2rem 0 1rem; color: var(--c-muted); font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); }
+/* list rows (Hipcamp's popover rows with a tinted icon disc) */
+.m-option { display: flex; align-items: center; gap: 1.2rem; min-height: 5.6rem; padding: 1rem 1.2rem; border-radius: var(--r-md); cursor: pointer; transition: background-color var(--d-fast) var(--ease-std); }
+.m-option[aria-selected="true"] { background: var(--c-tint); }
+.m-option__disc { display: grid; place-items: center; flex: none; width: 3.6rem; height: 3.6rem; border-radius: 50%; background: var(--c-tint); color: var(--c-ink); transition: background-color var(--d-fast) var(--ease-std); }
+.m-option[aria-selected="true"] .m-option__disc { background: var(--c-surface); }
+.m-option__text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.m-option__title { overflow: hidden; font: var(--fw-ui-strong) 1.6rem/1.3 var(--f-ui); white-space: nowrap; text-overflow: ellipsis; }
+.m-option__sub { overflow: hidden; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); white-space: nowrap; text-overflow: ellipsis; }
+.m-option__code { flex: none; color: var(--c-muted); font: var(--fw-ui-strong) 1.4rem/1 var(--f-ui); letter-spacing: .06em; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-option:hover { background: var(--c-tint); }
+  .m-option:hover .m-option__disc { background: var(--c-surface); }
+}
+
+/* ---- calendar (Hipcamp's range calendar: dark ends, tint band between) ---- */
+.m-cal__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem; margin-bottom: 1.2rem; }
+/* the hint keeps its own line on the phone and one line on desktop, so the month grid never jumps (round 2, critic) */
+.m-cal__hint { flex: 1 0 100%; min-height: 1.3em; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); }
+.m-cal__body { position: relative; }
+.m-cal__nav { position: absolute; z-index: 1; top: -.4rem; width: 3.6rem; height: 3.6rem; }
+.m-cal__nav.-prev { left: 0; }
+.m-cal__nav.-next { right: 0; }
+.m-cal__nav:disabled { opacity: .35; cursor: default; }
+.m-cal__months { display: grid; gap: 2.4rem; }
+.m-cal__title { height: 2.8rem; margin-bottom: .4rem; font: var(--fw-ui-heavy) 1.6rem/2.8rem var(--f-ui); text-align: center; }
+.m-cal__grid { --day: 4.4rem; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: .2rem; }
+.m-cal__dow { display: grid; place-items: center; height: 3.2rem; color: var(--c-muted); font: var(--fw-ui-medium) 1.2rem/1 var(--f-ui); }
+.m-cal__cell { position: relative; display: grid; place-items: center; height: 4.4rem; }
+.m-cal__cell.is-band::before { content: ""; position: absolute; top: .2rem; bottom: .2rem; left: 0; right: 0; background: var(--c-tint); }
+.m-cal__cell.is-start.is-band::before { left: 50%; }
+.m-cal__cell.is-end.is-band::before { right: 50%; }
+/* at a row's edge the band stops where a day circle would, with a round end */
+.m-cal__cell.is-band.is-rowEnd:not(.is-end)::before { right: calc(50% - var(--day) / 2); border-radius: 0 var(--day) var(--day) 0; }
+.m-cal__cell.is-band.is-rowStart:not(.is-start)::before { left: calc(50% - var(--day) / 2); border-radius: var(--day) 0 0 var(--day); }
+.m-cal__day { position: relative; width: 4.4rem; height: 4.4rem; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--c-ink); font: var(--fw-ui-medium) 1.5rem/1 var(--f-ui); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color var(--d-fast) var(--ease-std), color var(--d-fast) var(--ease-std); }
+.m-cal__day:disabled { color: var(--c-muted); text-decoration: line-through; cursor: default; }
+.m-cal__day.is-today::after { content: ""; position: absolute; left: 50%; bottom: .7rem; width: .4rem; height: .4rem; margin-left: -.2rem; border-radius: 50%; background: var(--c-accent); }
+.m-cal__day[aria-pressed="true"] { background: var(--c-deep); color: #FFFFFF; font-weight: var(--fw-ui-heavy); }
+.m-cal__day[aria-pressed="true"]::after { background: var(--c-accent-soft); }
+.m-cal__day:focus-visible { outline-offset: 1px; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-cal__day:not(:disabled):not([aria-pressed="true"]):hover { background: var(--c-deep); color: #FFFFFF; }
+}
+
+/* ---- steppers (Hipcamp's campers rows) ---- */
+.m-stepper { display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; padding: 1.2rem 0; border-bottom: 1px solid var(--c-line); }
+.m-stepper:first-child { padding-top: .4rem; }
+.m-stepper__title { font: var(--fw-ui-heavy) 1.6rem/1.3 var(--f-ui); }
+.m-stepper__help { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); }
+.m-stepper__ctrl { display: flex; align-items: center; gap: 1.2rem; }
+.m-stepper__btn { width: 3.6rem; height: 3.6rem; }
+.m-stepper__btn::after { content: ""; position: absolute; inset: -.4rem; }
+.m-stepper__btn:disabled { opacity: .4; cursor: default; }
+.m-stepper__count { min-width: 2.4rem; font: var(--fw-ui) 1.8rem/1 var(--f-ui); font-variant-numeric: tabular-nums; text-align: center; }
+.m-choices { display: flex; flex-wrap: wrap; gap: .8rem; margin: 1.6rem 0 0; padding: 0; border: 0; }
+.m-choices > .m-pop__sub { margin: 0 0 1rem; padding: 0; }
+
+/* ---- desktop: one 72px pill, a white thumb lifts under the open field, popovers 12px below ---- */
+@media (min-width: 1025px) {
+  .js .m-search__trigger, .m-search__sheetHead { display: none; }
+  .js .m-search__panel { display: block; }
+  .m-search__modes { display: flex; justify-content: center; }
+  .m-search__pill { display: flex; align-items: center; height: var(--h-pill); padding: 0 1.2rem 0 .5rem; border: 1px solid transparent; border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-pill-hero); transition: background-color var(--d-seg) var(--ease-std); }
+  .m-search__pill.is-active { background: var(--c-tint); }
+  .m-search__thumb { position: absolute; top: .4rem; left: 0; display: block; width: 0; height: var(--h-seg); border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-pill); opacity: 0; pointer-events: none; transition: left var(--d-thumb) var(--ease-spring), width var(--d-thumb) var(--ease-spring), opacity var(--d-fast) var(--ease-std); }
+  .m-search__pill.is-active .m-search__thumb { opacity: 1; }
+  .m-search__seg { flex: 1 1 0; min-width: 0; height: var(--h-seg); border: 0; border-radius: var(--r-pill); background: transparent; transition: background-color var(--d-seg) var(--ease-std); }
+  /* fitted to the longest values (round 2, critic: dates and travelers clipped):
+     "Mexico City" in From and To (the code sits on the label row), "Nov 28 to Dec 3"
+     in Dates, "9 travelers, Business" in Travelers */
+  .m-search__seg.-from, .m-search__seg.-to { flex-grow: 1; }
+  .m-search__seg.-dates { flex-grow: 1.15; }
+  .m-search__seg.-who { flex-grow: 1.3; }
+  .m-search__seg.-place { flex-grow: 1.35; }
+  .m-search__seg.-stay { flex-grow: 1.2; }
+  .m-search__seg + .m-search__seg::before { content: ""; position: absolute; left: 0; top: 1.6rem; bottom: 1.6rem; width: 1px; background: var(--c-line); transition: opacity var(--d-panel) var(--ease-std); }
+  .m-search__seg.is-open::before, .m-search__seg.is-open + .m-search__seg::before { opacity: 0; }
+  .m-search__seg.is-invalid { box-shadow: inset 0 0 0 1px var(--c-error); }
+  .m-search__field { position: relative; z-index: 1; height: 100%; min-height: 0; padding: 0 1.6rem 0 2rem; }
+  .is-kbd .m-search__seg:focus-within:not(:has(.m-pop :focus)) { outline-offset: -4px; }
+  .m-search__go { width: auto; height: var(--h-go); margin: 0 0 0 .6rem; border-radius: var(--r-pill); font-size: 1.6rem; }
+  /* the message takes the trust line's place under the pill, so nothing below moves */
+  /* the message sits under the fact chips, so the pricing chip never disappears (critic, 11 Nov) */
+  .m-search__status { position: absolute; left: 0; right: 0; top: calc(100% + 6.2rem); }
+  .m-search__status:not(:empty) { margin-top: 0; }
+  .m-pop { position: absolute; z-index: var(--z-pop); top: calc(100% + 1.7rem); left: 0; width: 41.6rem; max-width: calc(100vw - 4.8rem); padding: 1.2rem; border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); box-shadow: var(--sh-pop); animation: pop-in var(--d-pop) var(--ease-pop); }
+  .m-pop.-dates { width: 70rem; padding: 1.6rem 2rem; }
+  .m-pop.-who { width: 39rem; padding: 1.6rem 2rem; }
+  .m-cal__top { flex-wrap: nowrap; }
+  .m-cal__hint { flex: 0 1 auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: right; }
+  .m-cal__months { grid-template-columns: 1fr 1fr; gap: 4rem; }
+  .m-cal__grid { --day: 4rem; }
+  .m-cal__cell { height: 4rem; }
+  .m-cal__day { width: 4rem; height: 4rem; }
+  .m-cal__day.is-today::after { bottom: .5rem; }
+}
+@media (hover: hover) and (any-pointer: fine) and (min-width: 1025px) {
+  .m-search__pill:not(.is-active) .m-search__seg:hover { background: var(--c-tint); }
+  .m-search__pill:not(.is-active) .m-search__seg:hover::before, .m-search__pill:not(.is-active) .m-search__seg:hover + .m-search__seg::before { opacity: 0; }
+}
+
+/* ===== Home hero: the cabin wall ===== */
+/* Revision 2026-11-11: the hero is the cabin wall at night. One rounded navy panel (--c-hero) holds the
+   headline, the search and the windows, so the white search pill is the brightest, largest control on the
+   first screen and the windows read as lit. In Cabin dawn the --c-hero roles map back to the blush ground. */
+.o-homeHero { --c-focus: var(--c-hero-focus); position: relative; margin: .8rem .8rem 0; padding-top: 2.8rem; border-radius: var(--r-lg); background: var(--c-hero); color: var(--c-hero-ink); text-align: center; }
+/* inside white surfaces the ring goes back to the light-ground accent */
+.o-homeHero .m-search__pill, .o-homeHero .m-pop { --c-focus: var(--c-accent); }
+.o-homeHero__inner { container-type: inline-size; position: relative; z-index: 2; }
+/* sized off its column so "Fly there, stay there" (the longest row, about 10.5em) holds one row from a 600px column up, and balances into two rows below */
+.o-homeHero__title { max-width: 18em; margin: 0 auto; color: var(--c-hero-ink); font-size: clamp(3.6rem, 9.4cqi, 6rem); }
+.o-homeHero__lead { max-width: 30em; margin: .8rem auto 0; color: var(--c-hero-muted); text-wrap: balance; }
+.o-homeHero__search { margin-top: 2.4rem; }
+/* Flights / Hotels as tabs with icons on the wall (revision: bigger, labelled, the product choice in plain sight) */
+.o-homeHero .m-search__modes { display: flex; justify-content: center; }
+.m-search__panel.is-sheet .m-search__modes { justify-content: flex-start; }
+.o-homeHero .m-search__modes .a-toggle { background: var(--c-hero-tint); }
+.o-homeHero .m-search__modes .a-toggle__btn { display: inline-flex; align-items: center; gap: .8rem; height: var(--h-thumb); padding: 0 2rem; color: var(--c-hero-muted); font-size: 1.5rem; }
+.o-homeHero .m-search__modes .a-toggle__btn .a-icon { width: 1.8rem; height: 1.8rem; }
+.o-homeHero .m-search__modes .a-toggle__btn[aria-pressed="true"] { color: var(--c-ink); }
+@media (hover: hover) and (any-pointer: fine) {
+  .o-homeHero .m-search__modes .a-toggle__btn[aria-pressed="false"]:hover { color: var(--c-hero-ink); }
+}
+/* search messages on the wall */
+.o-homeHero .m-search__status { color: var(--c-hero-muted); }
+.o-homeHero .m-search__status.is-error { color: var(--c-hero-error); }
+.o-homeHero .m-search__status.is-done { color: var(--c-hero-ink); }
+/* ---- fact chips (Varun V3: facts in outlined chips under the copy; only facts from the scope) ---- */
+.o-homeHero__facts { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.a-fact { display: inline-flex; align-items: center; gap: .6rem; height: 3.2rem; padding: 0 1.4rem 0 1.1rem; border: 1px solid currentColor; border-radius: 3rem; color: var(--c-ink); font: var(--fw-ui-medium) 1.3rem/1 var(--f-ui); opacity: .75; white-space: nowrap; }
+/* on the wall the chips take the hero's muted colour at full strength (9.3:1 on navy, 6.0:1 on blush) */
+.o-homeHero .a-fact { border-color: var(--c-hero-chip); color: var(--c-hero-muted); opacity: 1; }
+/* Cabin dawn: the white pill gets an edge on the blush wall (critic, 11 Nov: 1.2:1 against the wall) */
+.o-homeHero .m-search__pill { border-color: var(--c-pill-edge); }
+.o-homeHero .a-fact .a-icon { color: var(--c-hero-focus); }
+.a-fact .a-icon { width: 1.5rem; height: 1.5rem; }
+/* phones: two rows, not three (fitted to a 358px column) */
+@media (max-width: 640px) {
+  .o-homeHero__facts { gap: .6rem; }
+  .a-fact { height: 3rem; padding: 0 1rem 0 .8rem; gap: .5rem; font-size: 1.2rem; }
+}
+
+/* ---- the windows ----
+   One photo runs behind every window as a single panorama: each window
+   holds the same image, shifted left by its own position in the row, so
+   the view continues from pane to pane. The row is its own container, so
+   sizes are in cqw of the row; it is capped at --win-max per window and
+   inset by the bezel, so no bezel touches the rail or the screen edge
+   (round 2, critic: 15px from the rail at 1280, 290px windows at 1024). */
+.o-homeHero__cabin { --win-n: 2; --gap: 6.4; --view-top: -3cqw; --bezel: .5rem; position: relative; z-index: 1; margin-top: 4rem; padding-bottom: 3.2rem; padding-left: calc(var(--gutter) + var(--bezel) + .8rem); padding-right: calc(var(--gutter) + var(--bezel) + .8rem); }
+.o-homeHero__windows { container-type: inline-size; display: grid; grid-template-columns: repeat(var(--win-n), minmax(0, 1fr)); column-gap: calc(var(--gap) * 1%); width: 100%; max-width: calc(var(--win-max) * var(--win-n) / (1 - (var(--win-n) - 1) * var(--gap) / 100)); margin: 0 auto; }
+.m-window { --i: 0; position: relative; aspect-ratio: 236 / 318; border-radius: var(--r-window); overflow: hidden; background: var(--c-deep); box-shadow: 0 0 0 var(--bezel) var(--c-bezel), 0 0 0 calc(var(--bezel) + 1px) var(--c-bezel-ring), var(--sh-window); isolation: isolate; }
+.m-window:nth-child(2) { --i: 1; }
+.m-window:nth-child(3) { --i: 2; }
+.m-window:nth-child(4) { --i: 3; }
+.m-window:nth-child(n + 3) { display: none; }
+/* --view-x pulls the photo left so a chosen detail lands in the first pane (desktop: the wingtip);
+   the photo is wide enough for that pull plus the full drift */
+.m-window__view { position: absolute; top: var(--view-top); left: calc((100cqw + var(--gap) * 1cqw) / var(--win-n) * var(--i) * -1 + var(--view-x, 0cqw)); width: calc(107cqw - var(--view-x, 0cqw)); max-width: none; max-width: none; height: auto; filter: var(--fx-grade); transform: translate3d(var(--drift-x, 0px), 0, 0); will-change: transform; }
+/* the acrylic pane catches the light: one faint diagonal sheen, under the blind */
+.m-window::before { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(118deg, rgba(255, 255, 255, .18) 0, rgba(255, 255, 255, .06) 24%, rgba(255, 255, 255, 0) 46%); pointer-events: none; }
+/* the blind: a soft plastic gradient with a lip along its lower edge */
+.m-window__blind { position: absolute; z-index: 2; inset: 0; border-bottom: 2px solid var(--c-blind-end); background: linear-gradient(var(--c-blind), var(--c-blind-end)); box-shadow: 0 .2rem .6rem rgba(15, 29, 39, .16), inset 0 -3px 0 rgba(15, 29, 39, .05); transform: translateY(-79%); }
+.m-window__blind::after { content: ""; position: absolute; left: 43%; right: 43%; bottom: 7%; height: .5rem; border-radius: .5rem; background: rgba(15, 29, 39, .16); }
+/* the recess the window sits in: above the blind */
+.m-window::after { content: ""; position: absolute; z-index: 3; inset: 0; border-radius: inherit; box-shadow: inset 0 .6rem 1.8rem rgba(15, 29, 39, .22), inset 0 0 0 1px rgba(15, 29, 39, .08); pointer-events: none; }
+/* load moment: the blinds start down and rise one after another */
+.js .o-homeHero__cabin:not(.is-shown) .m-window__blind { transform: translateY(0); }
+.o-homeHero__cabin.is-shown .m-window__blind { transition: transform var(--d-blind) var(--ease-out-long) calc(var(--d-blind-delay) + var(--i) * var(--d-blind-stagger)); }
+
+@media (min-width: 641px) {
+  .o-homeHero { margin: 1.2rem var(--hero-inset) 0; padding-top: 4.8rem; border-radius: var(--r-xl); }
+  .o-homeHero__cabin { --win-n: 3; --gap: 6; --view-top: -18cqw; --bezel: .7rem; margin-top: 5.6rem; padding-bottom: 5.6rem; }
+  .m-window:nth-child(3) { display: block; }
+}
+@media (min-width: 1025px) {
+  .o-homeHero { margin-top: .4rem; padding-top: clamp(4.8rem, 8vh, 8rem); }
+  .o-homeHero__search { margin-top: 2.4rem; }
+  /* revision 2026-11-11: the coast view. Windows 256 x 345 at 1440 (were 229 x 309): the gap drops from 7.8% to 4.8%.
+     Pulled 7cqw left and 26cqw up, so the city and the beach fill panes one and two, the sea and its ships pane
+     three, and the wing crosses pane four */
+  .o-homeHero__cabin { --win-n: 4; --gap: 4.8; --view-top: -26cqw; --view-x: -7cqw; --bezel: .9rem; margin-top: 5.6rem; padding-bottom: 4.8rem; }
+  .m-window:nth-child(4) { display: block; }
+}
+/* tablets: the wall ends above the floating tab bar in the first screen. 52rem is the wall's top
+   (about 41rem at 1024 x 768) plus the tab bar and its clearance (about 11rem); 236:318 is the window,
+   .88 the share of the row left after two 6% gaps (round 3, critic: the tab bar sat on the middle window) */
+/* revision 2026-11-11: the tablet cap from the viewport height is gone. The inline search card now fills the
+   first screen there, and the tab bar steps aside on scroll, so the wall starts under the fold at 1024 x 768 */
+/* short laptop screens: the whole wall, bezels and pull tabs, stays in the first screen (fitted to 1280 x 720) */
+@media (min-width: 1025px) and (max-height: 820px) {
+  .o-homeHero { padding-top: 4rem; }
+  .o-homeHero__cabin { margin-top: 4rem; }
+}
+/* phones on their side: the search and the facts stay clear of the tab bar (fitted to 844 x 390) */
+@media (orientation: landscape) and (max-height: 500px) {
+  .o-homeHero { padding-top: 1.2rem; }
+  .o-homeHero__search { margin-top: 2rem; }
+  .o-homeHero__cabin { margin-top: 3.2rem; }
+}
+
+/* ===== Reduced motion =====
+   No load moment, no drift, no sliding thumbs: everything shows at rest. */
+@media (prefers-reduced-motion: reduce) {
+  .js .o-homeHero__cabin:not(.is-shown) .m-window__blind { transform: translateY(-79%); }
+  .o-homeHero__cabin.is-shown .m-window__blind { transition: none; }
+  .m-window__view { transform: none; will-change: auto; }
+  .a-toggle__thumb, .m-search__thumb { transition: none; }
+  .m-pop, .m-more__panel { animation: none; }
+  .a-button, .a-button::before, .a-button__icon, .a-skip, .o-header__tabs { transition-duration: 0s; }
+}
+
+/* ===== Phones on their side (max-height 500) =====
+   The tab bar goes compact, icon beside label, so it clears the search and facts. */
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 1024px) {
+  .o-header__tabs { bottom: calc(.8rem + env(safe-area-inset-bottom, 0px)); height: 5.2rem; padding: .4rem; }
+  .m-tab { flex-direction: row; gap: .6rem; width: auto; padding: 0 1.4rem; }
+  .m-tab .a-icon { width: 2rem; height: 2rem; }
+}

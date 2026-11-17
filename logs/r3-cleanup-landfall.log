@@ -1,0 +1,46 @@
+All three jobs are done by 16:58, before the 17:20 stop. Landfall now has no demo wording, a deal charges the same price at every step, and both production builds pass. The Studio Lead's dev server on 3003 is still running, and I didn't touch Overwing.
+
+**Job 1: demo lines removed** (some on the list were already gone when I started)
+- **Footer:** the demo notice is gone, the "Email previews (demo)" link is dropped (the /emails page still works), and the "company details will be shown here before the site takes real bookings" line is removed.
+- **Homepage:** the "Demo prices from the simulated backend" and "demo reviews" notes are gone from deals, trending and Recommended for you.
+- **Contact:** the form now shows a normal confirmation: "Your message is sent. We'll reply to <their email>."
+- **Emails and files:** the demo paragraph is out of the email footers, the password reset link no longer says "demo", and the calendar file's IDs now read `@landfall`.
+- **Terms and Privacy:** each keeps its headings and anchors, with one neutral line saying the full text comes from Landfall.
+- **Sign-in, checkout and the hotel pages:** these were already clean.
+- **Kept:** "Nothing has been charged" when a card is declined or a booking can't be confirmed. Real booking sites show this too, and it doesn't suggest a demo.
+
+**Job 1b: one price at every step.** The lower weekend, weeknight, long-stay and next-month rates now live in `lib/mock/hotels.ts`, and the homepage reads the same table. A rate applies when the whole stay falls inside its window. I checked one deal end to end: Hotel Sal e Vela, Nov 13 to 15, is $265 a night on the homepage, results, the hotel page and the guest form, and checkout shows "Pay $530.00".
+
+**Job 1c: critic round on the inner pages.** All 8 pages fall short of the 9.2 target on the benchmark:
+
+| Page | Benchmark | Studio |
+|---|---|---|
+| Flight results | 8.0 | 6.2 |
+| Fares | 8.2 | 6.4 |
+| Travelers | 7.9 | 6.3 |
+| Checkout | 7.3 | 6.0 |
+| Hotel results | 7.3 | 6.2 |
+| Hotel page | 7.6 | 6.3 |
+| Guests | 7.8 | 6.2 |
+| My bookings | 7.7 | 6.5 |
+
+Visual design scored lowest on every page, and the studio rubric fails on originality (5.5). I fixed 8 quick issues afterwards but didn't re-score them:
+- Hotel result cards claimed "free cancellation" and "breakfast included" next to the price of a non-refundable, room-only rate.
+- Cancellation deadlines that had already passed (Nov 10 shown for a Nov 13 check-in).
+- Flight filters showing a price on options with 0 flights.
+- The guest summary saying "Non-refundable" twice.
+- The tourist tax line repeated in checkout's checklist.
+- The guest summary now shows the room photo.
+- Hotel result chips at 390 now stay on one line and scroll sideways.
+- The footer photo: it now loads its 1600 file at 1024 instead of stretching the 960 one.
+
+**Job 2.** The type-check is clean and both `build:navy` and `build:harbour` pass. On a production server on 3006 for each palette, the homepage footer in both modes, sign-in (/login), checkout, the hotel page, Contact and Terms show none of the banned lines and look tidy at 1440 and 390. I stopped 3006 afterwards.
+
+**Needs you:**
+- **Contact details:** the footer, Terms and Privacy still show `hello@example.com` and a +1 (555) phone number, which read as placeholders under your 16:28 ruling. We don't have the client's real details, so either send them or tell me to remove those lines.
+- **Bigger gaps the critic found:** no main photo with smaller photos and a photo count on the hotel page, and catalogue hotels never show the hotel itself. Card is the only way to pay, and the two booking cards in My bookings don't match each other.
+- **Smaller ones I saw:** checkout still mentions the tourist tax twice. At 390 the hotel page's section tabs sit tight under the search bar.
+
+Scores and notes are under "Cleanup round" in `landfall/build/progress.md`. Screenshots are in `landfall/build/critic-cleanup/`, including the critic's, which I moved there from the studio root. The run is logged in `review-log.md`.
+
+Good commit point. Suggested message: "Landfall: remove demo disclosures, one deal price at every step, inner page fixes".

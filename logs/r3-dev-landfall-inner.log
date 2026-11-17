@@ -1,0 +1,36 @@
+Part B is built and logged. The one critic round scored it **7.6 on the benchmark rubric** (target 9.2) and **7.9 on the studio rubric**, a fail by 0.1. I fixed both score caps and 12 more issues after that round, but nothing has been re-scored.
+
+**Simulated backend**
+- The full mock catalogue now drives the backend: 24 cities, 12 airlines each with its own fare families, and 96 hotels with rate plans, reviews and guest scores.
+- Every existing id, route and export name still works, so Developer A's homepage picks up the new data.
+- Hotel photos come from a pool of this design's own photos. No two hotels in a city share a lead photo, and neighbouring results never repeat one in any sort.
+
+**Pages built (P1)**
+- **Flight results:** date and price strip, Best / Cheapest / Fastest tabs, 10 filter groups with counts, all kept in the URL.
+- **Flight details:** a side-by-side comparison of the owning airline's fare families.
+- **Hotel results:** filters and sorts in the URL, and a map whose price pins no longer overlap.
+- **Hotel detail:** section nav, availability table with one Reserve button, reviews, location with airports, house rules, FAQs, similar stays.
+- **Booking and account:** step line on fares, travelers, checkout and guests; calendar and print on confirmation; tabs and searches on My bookings; an account section list.
+
+**Critic scores and the two caps**
+- Benchmark per criterion: depth 7, ease 8, visual 8, craft 7, pricing 8, mobile 8.
+- The craft cap came from overlapping map pins on hotel results; fixed.
+- The depth cap came from a half-empty row on My bookings; it now shows "Popular searches from London" when there are no recent searches.
+
+**QA:** clean at 1440, 1024 and 390 on 13 pages. No console errors, failed requests, sideways scroll, dashes or upscaled images of mine.
+
+**For you:**
+- **Your 16:28 no-demo ruling:** I removed the demo wording from my pages. The footer notice and the "Email previews (demo)" link are still there; they're in Developer A's footer, and the 17:05 cleanup run covers them.
+- **One process slip:** I started the first three builders in the background by mistake. I stopped them within a minute, before they changed any files, and relaunched them in the foreground.
+- **Not done:**
+  - Hotel savings lines, held back on purpose. They change prices on five pages at once, and wiring them late risked pages showing different prices.
+  - New photos for the six cities with no hotel photos of their own (Paris, Barcelona, Amsterdam, Singapore, Sydney, Marrakech). Their hotels lead with interiors from the pool.
+  - A second critic round.
+- **Note for Developer A:** at 1024 the footer photo renders 1024 wide from its 960 file. It's in my progress section for them.
+- **Stray screenshots:** I moved my critic's 13 screenshots from the studio root to my scratch folder. The `r3b-critic-*` files still there aren't from this session.
+
+This is a good commit point. Suggested message: "Landfall round 3 Part B: catalogue in the backend (96 hotels, 12 airlines, fare families, rate plans), inner pages rebuilt at competitor depth, critic fixes, demo wording removed"
+
+The shared server on 3003 is still running; I didn't start any other.
+
+Details are in `landfall/build/progress.md` under "Round 3, Developer B", with the QA notes in `landfall/build/qa-report.md`. The run is logged in `review-log.md`.

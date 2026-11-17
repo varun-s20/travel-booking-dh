@@ -1,0 +1,40 @@
+Ignoring 2 permissions.allow entries from .claude/settings.json: this workspace has not been trusted. Run Claude Code interactively here once and accept the trust dialog, or set projects["c:/Users/varun/digital-heroes-automation"].hasTrustDialogAccepted: true in C:\Users\varun\.claude.json.
+I've written the round 3 spec for Overwing at `projects/travel-booking/design/round3-spec.md`, finished at 15:23. The Chief Officer **approved it with notes**. I applied all six notes and recorded the decision at the top of the spec. No prototype was built in this time box, so none of the new sections have been seen working yet.
+
+**One decision for you before 15:45.** Your round 3 note (ruling 4) says to stop for your own review of both homepages before the inner pages are rebuilt. Today's instruction says Developer B starts at 15:45. The Chief Officer said it can't waive your review. So the spec defaults to this: Developer B starts on shared work only (wiring in the mock data and building the shared components with Developer A). The inner pages wait for your homepage review. One word from you lets Part B build in full now.
+
+**Part A, homepage and footer (Developer A)**
+- **Switch:** Flights / Hotels switches the homepage between `/?mode=flights` and `/?mode=hotels`. The back button and shared links work, and the right mode loads first with no flash. Eleven sections swap their content.
+- **Animation:** the swap closes small blinds over the cards and reopens them on the new content, staggered, about 0.8 seconds. With reduced motion it swaps instantly.
+- **Kept:** the hero and the two entry cards stay as they are, with four small fixes.
+- **New lower sections, in order:**
+  - recent searches;
+  - Recommended for you, from the visitor's searches and views in the browser, with a first-visit default from London;
+  - a deal banner with two cabin windows, then 8 deal cards;
+  - trending routes or cities;
+  - browse by region or property type;
+  - cheapest months to fly, or stays for this weekend;
+  - how booking works;
+  - the trust panel;
+  - 8 FAQs per mode;
+  - a city directory where each city opens to priced routes or hotels.
+- **Footer:** 6 columns and 42 links. Every link goes to an existing page or a real search. A QA step checks every link and anchor.
+
+**Part B, inner pages (Developer B)**
+- P1 and P2 depth for every page you listed, each with a 390 version.
+- Flight results get a 7-day price strip, Best / Cheapest / Fastest tabs, 7 sorts and 10 filter groups.
+- Fares get side-by-side fare columns using the window's teal edge.
+- Hotel detail gets all 10 sections you named, with a sticky section nav.
+- The 72 hotels without full catalogue records get a defined shorter page, so there are no empty sections.
+
+**Identity:** Overwing stays its own design. The window shape carries through the review score badge, the price strip and the deal banner. Competitor looks are ruled out by name, and seven conflicts between the competitors, your signature moves and the anti-slop rules are listed in the spec. Mock data is aligned to what the catalogue has so far: London is the only origin, it has 6 regions, and 12 cities have hotels (8 each). Prices are shown as "typical $300" in words, never struck through. The spec has no em dashes and no invented client facts; the Chief Officer removed a support response time I had made up.
+
+**What I could not check, or guessed:**
+- The written Booking.com and Expedia deconstructions didn't exist when I finished. I used their screenshots and my own knowledge; inner-page depth for those two is from memory.
+- `content/mock-catalogue.md` was still being written: no "Catalogue complete." and no deals or recommendations sections yet. Until those arrive, the deal and recommendation cards show computed prices only, with no headline lines.
+- The new colour values, including all of Cabin dawn's, haven't been contrast-checked.
+- On Cabin dawn I looked only at the home hero at 1440.
+
+I logged the run in `review-log.md` and started no servers.
+
+If you want to commit, a suggested message: `travel-booking: Overwing round 3 spec (homepage modes, lower sections, footer, inner page depth)`

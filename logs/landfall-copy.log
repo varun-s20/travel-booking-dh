@@ -1,0 +1,45 @@
+I've written the Landfall copy deck at `projects/travel-booking/landfall/content/copy.md`. It ends with the line `Copy complete.`, so the Developer can start on it. I also logged the run in `review-log.md`.
+
+**How the deck works.** It sits on top of the shared deck. Up front there are six swaps that apply to every borrowed line:
+- "Overwing" becomes "Landfall".
+- "Log in" becomes "Sign in", to match Landfall's header.
+- "Bookings" as a place becomes "My bookings".
+- Date ranges keep both months ("Nov 20 to Nov 27").
+- Price blocks put the total first, then the per-traveler or per-night price, then "taxes and fees included".
+- The expiry line reads "Price valid until 10:42".
+
+After that, each section either says "As content/copy.md, X" and lists only the lines that change, or is written out in full where Landfall differs.
+
+**New copy:**
+- **Home:**
+  - The hero headline and subline stay as in the prototype. The scrim behind the subline was measured on that exact text, so changing it would mean re-measuring.
+  - Three arrival captions, each with a "Fly here" button.
+  - Destinations headline "Return fares from London".
+  - Three "What happens when you book" rows about the full total, Stripe and My bookings.
+  - Pre-footer "Where will you land next?".
+- **Shared parts:** header, menu, the compact search labels (replacing the prototype's "Anywhere to anywhere"), and the footer columns and trust row.
+- **Booking flow:** fare conditions, the price breakdown, a confirmation page headed "You're going to Lisbon", the My bookings countdown, and two new emails (e-tickets issued, booking not completed).
+- **Items from `build/handover.md`:**
+  - "Show 20 more flights" and "That's all 86 flights".
+  - A refund banner and payment row after a cancel.
+  - Title and passport-country errors.
+  - The two password emails no longer ask for a booking reference.
+- **Photo alts:** all 9 prototype photos, checked against the images. The 5 photos still to source have alt briefs to adjust once they're picked.
+
+There is no cabin, wing or window wording in any site copy.
+
+**Calls I made that you may want to overrule:**
+- **Passenger ages:** I kept the shared deck's age bands (adults 12 and over, children 2 to 11). The prototype's "18 and over" and "2 to 17" change to match. If Duffel's live rules differ, three places change together.
+- **404 headline:** I didn't use the spec's "This page has sailed". It reads as "too late", which is the wrong message for a broken link.
+- **Destinations headline:** "Cities worth the crossing" was too close to Overwing's "Cities worth the flight".
+- **Status chip:** "Ticketed" became "Tickets issued", which is easier to understand.
+- **Demo sign-in hint:** the copy is written but marked optional. Whether to show it is your call.
+
+**Left out because the client hasn't supplied it:**
+- **Company details:** the footer's trust row gets one line saying name, address and registration number will appear before real bookings, with nothing invented in their place.
+- **Support hours** on Contact.
+- **A "Last updated" date** on the legal pages.
+
+I point to the shared deck's 15 client questions rather than repeat them, and added three new ones: which card brands to show, whether to show crossed-out "was" prices and "Only 2 left" lines, and which three cities open the home page.
+
+Copy is done, so this is a good point to commit. Suggested message: `Landfall copy deck (landfall/content/copy.md)`.

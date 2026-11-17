@@ -1,0 +1,22 @@
+I removed every demo line from the Overwing site, but JOB 2 hasn't run. The type-check (`npx tsc --noEmit` in site/) needed your permission twice and wasn't granted, so I stopped there. That means no type-check, no `build:navy` / `build:cabin`, and no check on port 3005. Developer B's type error in Sections.tsx is still unchecked. If you approve those commands now, I can finish JOB 2 before 17:20.
+
+**JOB 1, done by 16:49.** Developer B had already removed the sign-in hint, the checkout payment note and the review and deal notes. I removed the rest:
+- **Footer:** the demo notice and its styling are gone. The critic measured the spacing and the facts row now sits evenly above the copyright line.
+- **Terms and Privacy:** each keeps its heading and the footer anchors (cookies, payments, changes), with one neutral line: the full text comes from Overwing and is available on request. No legal terms written.
+- **Contact:** a sent message now shows the confirmation from copy.md: "Thanks, your message is on its way. We'll reply to [their email]."
+- **Emails:** the demo paragraph is gone from the footer, and the password-reset link no longer ends in `token=demo`.
+- **Other:** the leftover "Demo reviews" text constant is deleted. The calendar download already had no demo word, and the footer never linked the email previews; that route still works.
+
+I scanned 12 pages and the emails on 3001 and found none of the words. All of this was on the dev server; I haven't seen it in a production build.
+
+**JOB 1c critic round (high effort):** 8.2 on the benchmark rubric (target 9.2) and about 7.9 on the studio rubric. It was a short pass that covered Night navy only, not Cabin dawn. It confirmed that the fixes it checked from both Developers' last rounds landed. I fixed two things afterwards, not re-scored:
+- Hotel cards on the homepage now lead with a room, building or view photo, not a bathroom or restaurant shot.
+- The hotel page's section tabs fade at the right edge on phones, so the cut-off tab reads as "more".
+
+**Needs your call:** the critic's top issue is the footer phone "+1 (555) 010-0199" and "hello@example.com", which look as fake as the word "demo" would. They are the contacts approved at checkpoint 2b, so I left them. They need real details from you or the client.
+
+Still open: the footer's top band is sparse at 1440, homepage deal cards lead with the nightly rate while results lead with the total, and the homepage is 13,328px tall at 390. The arcs the critic saw on the flight date strip are the cabin-window caps, which are there by design.
+
+I didn't touch Landfall. The 3001 server is still running and I never started 3005. Scores and open items are under "Cleanup round" in `build/progress.md`, and the run is in `review-log.md`. The critic saved six screenshots (`r3c-critic-*.png`) in the studio root folder.
+
+This is a good commit point. Suggested message: `Overwing: remove demo disclosures, lead photos and hotel nav fade`

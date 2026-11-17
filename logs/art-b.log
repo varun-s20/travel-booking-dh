@@ -1,0 +1,45 @@
+Phase B is done and I've stopped at checkpoint 2b for you. The hero prototype did not pass the critic: the last score was **7.65, FAIL**, held back by originality at 7 (pass needs 8). It has no design tells and no copy tells.
+
+**Critic rounds (both run in the foreground)**
+
+| | Design | Originality | Craft | Functionality | Total |
+|---|---|---|---|---|---|
+| Round 1 | 8 | 7 | 6.5 (capped: the pill cut off dates) | 9 | 7.45 |
+| Round 2 | 8 | 7 | 8 | 8 | 7.65 |
+
+- **Why originality stays at 7:** the layout is Hipcamp's, the one brand idea rests on a familiar stock shot (a wing over clouds), and there is no client name, logo, photo or copy. The cabin windows are the only decision that's ours.
+- **Fixes after round 2 are unscored.** I fixed all nine round 2 issues and checked each in the browser, but the skill stops at two critic rounds, so no critic has seen them.
+
+**What's built**
+- **The prototype:** the navigation and hero, with a working search: airport list, date-range calendar, travellers picker, error messages, and a full-screen search on phones. It shows the four cabin windows as one continuous view, with the blinds rising on load. Add `?palette=cabin` to the address to see Cabin dawn.
+- **`design/tokens.css`:** plain CSS custom properties a Next.js app can import directly. Your two palettes are one swappable token set (one attribute switches them), and each palette carries its own colour grade for the photos, so both versions share the same image files.
+- **`design/design-spec.md`:** layouts and image direction for every section in the brief, a section on wiring tokens, Calibre, Geist, the palette switch and Stripe into Next.js, and 23 resolved conflicts.
+- **Contrast:** every piece of text passes against the real pixels behind it, in both palettes at 1440 and 390. The lowest is 5.0:1, and no text sits on the photo.
+
+**Decisions for you**
+1. Approve the demo-notice wording (spec section 7) and the placeholder contacts: +1 (555) 010-0199 and hello@example.com, both reserved for fiction.
+2. Does a preview link sent to the client count as public? If yes, Calibre needs a Klim web licence first, or that preview ships in Rethink Sans.
+3. I changed Harbour gold's interactive tint and hairlines from cool blue-grey to sand (#EEE4D5, #E4DACB). It wasn't a contrast failure, which is the only reason you allowed shade changes; the critic found the blue clashed with the sand. Keep the sand, or go back to P3 as sampled?
+4. Which map for hotel results in the simulated build: MapLibre with OpenStreetMap, Mapbox, Google, or a static image per city.
+5. The working headline "Fly there, stay there" promises hotels. Should the Copywriter also write a flights-only line, in case Duffel Stays isn't approved?
+
+**What I couldn't check, or did differently**
+- **Not tested:** real phones and touch, Safari, Firefox and screen readers. The scroll drift can't be judged on a page that's only a hero (about 30px of scroll).
+- **Geist isn't self-hosted in the prototype.** It loads from Google Fonts, because the allowed tools couldn't save a font file. The app self-hosts it.
+- **Correction to `choices.md`:** Calibre Regular does have the no-break space. It also has no tabular figures, so prices are set in Calibre Bold or Geist.
+- **Bash use beyond the preview server and image/colour scripts:** a font-inspection script, copying the Calibre files and one script into the prototype, and two small scripted edits to the page. No git.
+
+The preview server is still running at http://127.0.0.1:8765/. Handover notes are in `design/handover.md`, and `review-log.md` has the three new rows.
+
+This is a good checkpoint to commit. Suggested message: `travel-booking: phase B spec, two-palette tokens and Overwing hero prototype`
+
+The local preview server stopped when it hit its two-hour limit, so http://127.0.0.1:8765/ no longer loads. I haven't restarted it: that was already the longest limit allowed, and nothing in progress needs it.
+
+To open the prototype again, start a server from the prototype folder:
+
+```
+cd projects/travel-booking/prototype
+python -m http.server 8765 --bind 127.0.0.1
+```
+
+Then go to http://127.0.0.1:8765/index.html, and add `?palette=cabin` to the address for Cabin dawn.

@@ -1,0 +1,54 @@
+The critic is still running (whole site, xhigh; I asked it to report by 11:45). The QA report, a draft handover and the progress notes are written. When it reports, I'll fix its issues worst first, rebuild both palettes and check each fix, then run the Chief Officer.
+
+Waiting on the Chief Officer's second call; the progress notes, handover and QA report are up to date apart from its verdict.
+
+Landfall's final pass is done, a little before the 12:20 stop. The Chief Officer approved it with notes, and the approval holds after its two blocking notes were fixed. The final critic scored it about 6.9, a FAIL.
+
+**Scores across every Landfall round**
+| Round | Overall | Design | Originality | Craft | Functionality |
+|---|---|---|---|---|---|
+| Hero (Art Director) | 6.25 FAIL | 7 | 6 | 5 | 7 |
+| Home | 6.45 FAIL | 7 | 6 | 6 | 7 |
+| Group F | 7.4 FAIL | 7.5 | 7 | 7.5 | 8 |
+| Final pass (xhigh) | about 6.9 FAIL | 7 | 6.5 | 7 (capped by one overlap) | 8 |
+
+- **No design or copy tells** in the final round.
+- **The final critic pass was partial.** It focused on group H and didn't view about half the pages.
+- **Group H's own critic scores are lost.** The restart came before they were written down anywhere.
+- **The fixes I made after the critic were not re-scored.**
+
+**Group H review and the open items**
+- **Hotel page:** this was the main break. It had been rewritten just before the restart and had no styling, so photos were blown up 2.6 times and the rooms ran in one column. I wrote the missing styles.
+- **Compact search showing twice:** now fixed. The search opens in place of the bar and dims the page behind it.
+- **Dateless hotel pages:** fixed. The bar now reads "Hotels in Lisbon" and "Add dates".
+- **Footer photo at 390:** fixed. It now shows at its own resolution.
+- **No-results photo:** a city with no photo of its own now gets no photo rather than a stand-in. The panel reads as a finished card.
+- **Image workaround:** removed. About and Contact load their photos normally again.
+- **Shared email subject:** not changed. The copy deck gives only one subject for both emails, so it's flagged for the Copywriter.
+
+**Fixes after the critic and the Chief Officer** (each checked in the browser)
+- The hotel page now draws the stay across its lead photo: check-in date, the landfall line with "4 nights", check-out date. This was the critic's originality ask.
+- Every hotel now leads with its water photo. For Casa Lanterna that's the houses stepping down to the river.
+- Price-rule gaps fixed on the booking payment cards and the 390 price bar.
+- Smaller fixes: the amenities grid, room cards no longer losing their shadows, and a brief flash of "Sign in" for signed-in visitors.
+- **Harbour's buttons are now gold with ink labels.** I had argued for keeping its sea-navy fills; the Chief Officer overruled me because they sat too close to both Overwing palettes.
+- **The 390 hotel page was rebuilt** because it ran the same layout as Overwing's. The photo now runs edge to edge with the title and the stay on it.
+- The confirmation's green "Booking confirmed" pill matched Overwing's, so it's now Landfall's own dot mark. I made this after the Chief Officer's second call, so it hasn't seen it.
+
+**QA:** both palettes, at 1440 and 390, 29 pages each, were clean on the final build: no console errors, no failed requests, no image shown above its resolution, no sideways scroll, no dashes. Not checked: real phones, Safari, Firefox, screen readers, and widths between 641 and 1024.
+
+**Needs your attention**
+- **Shared icons:** the Chief Officer found that Landfall's icon set is a lightly edited copy of Overwing's: same names, paths shifted by half a pixel. It dates from the foundation session. This breaks the "share nothing" rule and should be redrawn before the client sees both designs.
+- **Three photos to replace:** the Terrace Suite and River View Double rooms, and the 404, don't read as Lisbon by the water.
+- **Critic run in the background:** I launched it in the background by mistake (I left out the foreground setting). It finished, and nothing else used the browser while it ran. It's recorded in the log.
+- **Stray screenshot:** the critic left `h-results-1440-studio.png` in the studio root. You may want to delete it.
+
+Ports 3003 and 3004 are stopped and 3001 and 3002 were not touched. No packages were installed and no git commands were run. The run is logged in `review-log.md`.
+
+This is a good commit point. Suggested message: "Landfall: final pass – hotel detail finished, open items settled, critic and Chief Officer fixes, handover"
+
+Files are in `projects/travel-booking/landfall/build/`:
+- handover.md
+- progress.md
+- qa-report.md
+- critic/final-pass-report.md

@@ -1,0 +1,26 @@
+I ran one critic round and fixed six of its ten items. The pages are not re-scored after the fixes; the one round is used.
+
+**Scores (before the fixes):**
+- **Benchmark rubric: 8.0, FAIL** against the 9.2 target (was 7.9). Depth 8.0, ease 8.3, visual 7.8, craft 7.8, pricing 8.2, mobile 8.0.
+- **Studio rubric: 7.6, FAIL** (was 7.5).
+- The overlapping-pin craft cap from last round is gone, and there are no design or copy tells.
+
+**What I fixed, worst first.** I checked each one in the browser at 1440 and 390.
+1. **No-demo ruling on my pages.** Removed the "Demo reviews" notice from hotel results, the hotel page and the cross-sell rows, the "Demo payment" card hint at checkout, and the "Demo account" hint on log in.
+2. **Price pin on water.** Each hotel now sits in the centre of its own neighbourhood (all 96 hotels, all on land). When pins collide, they now move toward the land side of the city. In the Lisbon map, every pin is on land, none overlap, and Hotel Sal e Vela is in Belém, as its card says.
+3. **Fares page:** one countdown instead of two.
+4. **Fare grid:** a fee that already names a price no longer adds "for a fee".
+5. **Hotel page at 390:** the pinned search bar steps aside, so the screen shows only the header, section nav and Reserve bar. Reading space goes from about 590px to 668px. Dates and guests can still be changed in Availability.
+6. **Travelers and checkout summary:** each flight now shows its times and flight number, e.g. "LHR 18:45 to LIS 21:30, LP 207".
+
+No console errors and no sideways scrolling on the pages I swept.
+
+**Still between the pages and 9.2:**
+- **The footer demo notice ("This is a demo build…") still shows on every page.** The footer belongs to Developer A, so I left it alone. It breaks your 16:28 ruling and blocks the target until it is removed.
+- **Only 8 stays per city,** against Booking.com's long lists. This is the biggest depth gap and needs more hotels in the catalogue.
+- **The fare grid has no Priority boarding or Meal rows.** The catalogue has no data for them.
+- **Not checked this round:** the critic did not see checkout or the guest form. Nobody re-checked 1024, hover states or reduced motion after today's changes.
+
+The critic can't write files, so I saved its report to `build/critic/r3-inner-b2/report.md`. Its screenshots had landed in the studio root folder, so I moved them there too. `build/progress.md` (under "Developer B, round 2"), `build/qa-report.md` and `review-log.md` are updated.
+
+This is a good commit point. Suggested message: "Overwing round 3 Part B round 2: no demo disclosures on inner pages, pins in their own districts and pushed inland, one fare countdown, flight times in the trip summary, hotel page chrome at 390".

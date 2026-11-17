@@ -1,0 +1,8 @@
+<!-- Landfall: confirm a new email address (Supabase Auth > Email Templates > Change email address).
+     Subject: Confirm your new email address -->
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#16225A">
+  <p style="font-size:20px;font-weight:bold;margin:0 0 24px">Landfall</p>
+  <h1 style="font-size:22px;margin:0 0 12px">Confirm your new email</h1>
+  <p style="font-size:16px;line-height:1.5;margin:0 0 24px">Confirm that {{ .NewEmail }} should be the email for your account. Booking confirmations go to the address you give at checkout.</p>
+  <p style="margin:0 0 24px"><a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email_change&next=/account" style="background:#14A08B;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:999px;font-weight:bold;display:inline-block">Confirm new email</a></p>
+</div>

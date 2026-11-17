@@ -1,0 +1,43 @@
+Every page and screen in `build/plan.md` is now built in both palettes, Harbour gold and Cabin dawn, with the simulated backend working end to end. The site did not pass the critic, though: the final whole-site pass scored **7.2, FAIL**. As on the home page, originality is what holds it back, because there is still no client name, logo or media.
+
+| Critic round | Total | Verdict |
+|---|---|---|
+| Flight flow | 6.6 | FAIL |
+| Hotel flow | 6.8 | FAIL |
+| Account and content pages | 6.8 | FAIL |
+| Final pass, whole site, both palettes (xhigh) | 7.2 | FAIL (design 7.5, originality 6.5, craft 7, functionality 8.5) |
+
+No round found a design tell or a copy tell. I fixed every issue the three page-group rounds raised, and the final pass confirmed nearly all of those fixes. After the final pass I fixed its eight craft issues and checked them in the browser, but they haven't been re-scored. It also raised two copy items, which are in the Copywriter list in `build/handover.md`.
+
+**What works:**
+- **Booking flows:** flights and hotels run from search to confirmation, including fares, the traveler and guest forms, and checkout with Stripe's test cards (declines included).
+- **Accounts:** log in, sign up, password reset, profile, the bookings dashboard and online cancellation.
+- **Content pages:** About, Contact, Terms, Privacy, the 404 and error pages, and six emails at `/emails` for review.
+- **Demo states:** every state copy.md describes can be shown: the price going up or down, sold out, expired, no results, a failed search and a declined card. Which flight or search triggers each one is in the demo script in `build/handover.md`.
+
+**QA:** both production builds pass. No em dashes, AI attribution, failed requests, console errors, upscaled images or sideways scroll. Lowest text contrast is 5.04:1 (Cabin dawn). Not checked: real phones, Safari, Firefox, screen readers and retina screens.
+
+**Decisions I made:**
+1. **Demo log in:** any email with a password of 8 or more characters opens the demo account. There's no copy for a demo hint, and adding one would be a visible placeholder.
+2. **Hotel maps:** live OpenStreetMap tiles with attribution, but no pan or zoom (your "static map" answer at 2b).
+3. **Flight results:** 20 cards load at a time. The critic wants a "Show more" button, which needs a label from the Copywriter.
+4. **The other seven hotels:** copy.md only details Casa Lanterna, so their rooms and policies are mock data in its pattern.
+5. **Session 1 decisions** (the account cluster showing only near the top, and the trust panel photo) are unchanged and still need your call.
+
+**For you and the client:**
+- Calibre needs a Klim web licence before any public preview.
+- I sourced 36 more Unsplash License photos (45 in total), each checked on its photo page and credited in `site/public/images/credits.md`. Two are weak: the Contact photo shows a recognisable phone model, and the Terrace Suite photo is from Vietnam.
+- The Copywriter has a list in `build/handover.md`, including the home facts that repeat (flagged in every round).
+
+**To preview:** in `projects/travel-booking/site/`, run `npm run build:harbour && npm run start:harbour` for http://localhost:3001, or the same with `cabin` for http://localhost:3002. I changed the dev server's build folder because the old one reloaded the page in a loop. No packages were installed and every server I started is stopped.
+
+I saw that status.md now lists the redesign stages (O1, O2). I didn't touch them; they're separate from this build.
+
+This is a good commit point. Suggested message:
+`travel-booking: remaining pages, simulated backend, both palettes, final pass`
+
+Files are in `projects/travel-booking/`:
+- build/handover.md
+- build/progress.md
+- build/qa-report.md
+- site/README.md

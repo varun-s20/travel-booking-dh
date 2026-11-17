@@ -1,0 +1,205 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): ui.css
+   Shared atoms and modules the inner pages add to base.css: the outline
+   button, back link, status chips, form fields, notices, dialogs,
+   toasts and the account menu. Loads after base.css, before chrome.css.
+   Values are tokens only. Hand-written, not generated.
+   ===================================================================== */
+
+/* ===== Atoms ===== */
+/* ---- outline pill (spec 2b: "one outline pill Select"); a 1px border that reads as a control (3:1) ---- */
+.a-button.-outline { background: transparent; color: var(--c-ink); box-shadow: inset 0 0 0 1px var(--c-field); }
+.a-button.-outline::before { background-image: linear-gradient(rgba(11, 27, 46, .05), rgba(11, 27, 46, 0) 70%); }
+.a-button.-soft.-small, .a-button.-outline.-small { font-size: 1.4rem; }
+/* a whole-card link carries its pill as decoration only: no own hover breathing */
+.a-button[aria-hidden="true"] { pointer-events: none; }
+
+/* ---- back link: Kasa's quiet "Back to results" ---- */
+.a-back { display: inline-flex; align-items: center; gap: .4rem; min-height: var(--h-control); margin-left: -.4rem; padding: 0 .4rem; border-radius: .8rem; color: var(--c-ink); font: var(--fw-ui-medium) 1.4rem/1.2 var(--f-ui); text-decoration: none; }
+.a-back .a-icon { transition: transform var(--d-fast) var(--ease-std); }
+@media (hover: hover) and (any-pointer: fine) {
+  .a-back:hover { text-decoration: underline; text-underline-offset: .3em; }
+  .a-back:hover .a-icon { transform: translateX(-.2rem); }
+}
+
+/* ---- choice pills carry an icon now and then (Filters, Sort on phones) ---- */
+.a-choice { gap: .6rem; }
+.a-choice .a-icon { width: 1.6rem; height: 1.6rem; }
+
+/* ---- status chip (copy.md: Confirmed, Pending, Changed by airline, Canceled, Completed) ---- */
+.a-status { display: inline-flex; align-items: center; gap: .5rem; height: 2.8rem; padding: 0 1.2rem 0 1rem; border-radius: var(--r-pill); font: var(--fw-ui-strong) 1.3rem/1 var(--f-ui); white-space: nowrap; }
+.a-status .a-icon { width: 1.4rem; height: 1.4rem; stroke-width: 2.2; }
+.a-status.-success { background: var(--c-success-tint); color: var(--c-success); }
+.a-status.-warn { background: var(--c-warn-tint); color: var(--c-warn); }
+.a-status.-muted { background: var(--c-tint); color: var(--c-ink); }
+
+/* ---- destructive action (Delete my account): the error colour, so it never reads as the page's main step; white on it 6.8:1 ---- */
+.a-button.-danger { background: var(--c-error); }
+
+/* ---- range slider (filters): the platform's own, in the deep colour ---- */
+.a-range { display: block; width: 100%; height: 4.4rem; margin: .6rem 0 0; background: transparent; cursor: pointer; appearance: none; -webkit-appearance: none; }
+/* revision 2026-11-11, item 22: the track in tint, the chosen part in teal (--fill from lib/client.ts rangeFill), a white thumb with a field-colour edge */
+.a-range::-webkit-slider-runnable-track { height: .6rem; border-radius: var(--r-pill); background: linear-gradient(to right, var(--c-accent) var(--fill, 100%), var(--c-tint) var(--fill, 100%)); }
+.a-range::-webkit-slider-thumb { width: 2.4rem; height: 2.4rem; margin-top: -.9rem; border: 0; border-radius: 50%; background: var(--c-surface); box-shadow: 0 0 0 1px var(--c-field), var(--sh-thumb); appearance: none; -webkit-appearance: none; }
+.a-range::-moz-range-track { height: .6rem; border-radius: var(--r-pill); background: var(--c-tint); }
+.a-range::-moz-range-progress { height: .6rem; border-radius: var(--r-pill); background: var(--c-accent); }
+.a-range::-moz-range-thumb { width: 2.4rem; height: 2.4rem; border: 0; border-radius: 50%; background: var(--c-surface); box-shadow: 0 0 0 1px var(--c-field), var(--sh-thumb); }
+
+
+
+/* ===== Page heads (inner pages): H1, then a 14px meta line or an intro ===== */
+.o-pageHead { padding: 2.4rem 0 2.4rem; }
+/* ---- the small cabin window beside a results title (revision 2026-11-11, item 22): 72 x 96 at 1440, the photo
+   graded inside the window shape, a white bezel with a hairline ring on the white page (as the closed window, item 34) ---- */
+.o-pageHead.-window { display: flex; align-items: center; gap: 1.6rem; }
+.o-pageHead__text { min-width: 0; }
+.a-porthole { flex: none; display: block; width: 5.4rem; height: 7.2rem; padding: .3rem; border-radius: var(--r-window); background: #FFFFFF; box-shadow: 0 0 0 1px var(--c-line), var(--sh-card); }
+.a-porthole picture, .a-porthole__img { display: block; width: 100%; height: 100%; }
+.a-porthole__img { border-radius: var(--r-window); object-fit: cover; }
+@media (min-width: 641px) {
+  .o-pageHead.-window { gap: 2.4rem; }
+  .a-porthole { width: 7.2rem; height: 9.6rem; padding: .4rem; }
+}
+.o-pageHead .a-back { margin-bottom: .8rem; }
+.o-pageHead__meta { margin-top: .8rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); }
+.o-pageHead__intro { max-width: 40em; margin-top: 1.2rem; color: var(--c-ink); font: var(--fw-regular) var(--t-lead)/1.4 var(--f-display); text-wrap: pretty; }
+@media (min-width: 1025px) {
+  .o-pageHead { padding: 3.2rem 0; }
+  .o-pageHead.-detail { padding-top: 2.4rem; }
+}
+
+/* ===== Form fields (spec 2b, passenger form: 56px, radius 16, 3:1 border, label above, error under) ===== */
+.m-field { display: grid; gap: .6rem; min-width: 0; }
+.m-field__label { display: block; padding: 0; color: var(--c-ink); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); }
+.m-field__help { margin-top: -.2rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); text-wrap: pretty; }
+.m-field__control { position: relative; display: flex; align-items: center; }
+.m-field__input { width: 100%; height: var(--h-field); margin: 0; padding: 0 1.6rem; border: 1px solid var(--c-field); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); font: var(--fw-ui) 1.6rem/1.3 var(--f-ui); -webkit-appearance: none; appearance: none; transition: border-color var(--d-fast) var(--ease-std), box-shadow var(--d-fast) var(--ease-std); }
+.m-field__input::placeholder { color: var(--c-muted); opacity: 1; }
+.m-field__input:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.m-field__input[aria-invalid="true"] { border-color: var(--c-error); box-shadow: inset 0 0 0 1px var(--c-error); }
+.m-field__input.-area { height: auto; min-height: 12.8rem; padding: 1.4rem 1.6rem; line-height: 1.5; resize: vertical; }
+.m-field__control.-select .m-field__input { padding-right: 4.4rem; cursor: pointer; }
+.m-field__chev { position: absolute; right: 1.6rem; color: var(--c-muted); pointer-events: none; }
+/* a button inside the field (Show / Hide on passwords) */
+.m-field__control .a-link { position: absolute; right: 1.2rem; padding: .8rem; }
+.m-field__control:has(.a-link) .m-field__input { padding-right: 7.2rem; }
+.m-field__error { display: flex; align-items: flex-start; gap: .6rem; color: var(--c-error); font: var(--fw-ui-medium) 1.4rem/1.4 var(--f-ui); }
+.m-field__error .a-icon { margin-top: .1rem; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-field__input:not([aria-invalid="true"]):hover { border-color: var(--c-ink); }
+}
+/* ---- checkbox row ---- */
+.m-check { display: grid; gap: .6rem; }
+.m-check__row { display: flex; align-items: flex-start; gap: 1.2rem; }
+.m-check__box { flex: none; width: 2.2rem; height: 2.2rem; margin: .1rem 0 0; accent-color: var(--c-deep); cursor: pointer; }
+.m-check__box[aria-invalid="true"] { outline: 2px solid var(--c-error); outline-offset: 1px; }
+.m-check__label { font: var(--fw-ui) 1.5rem/1.45 var(--f-ui); cursor: pointer; text-wrap: pretty; }
+.m-check__label a { color: inherit; text-underline-offset: .2em; }
+/* ---- grouped fields: dates as three selects, radios as Hoxton pills ---- */
+.m-dateField, .m-radios { min-width: 0; margin: 0; padding: 0; border: 0; }
+.m-dateField > legend, .m-radios > legend { float: left; width: 100%; margin-bottom: .6rem; }
+.m-dateField > legend + *, .m-radios > legend + * { clear: both; }
+.m-dateField__row { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.45fr) minmax(10.4rem, 1.2fr); gap: 1.2rem; } /* critic, 11 Nov: Year needs 104px at 390 ("1986" clipped to "198") */
+.m-dateField__row .m-field__label { color: var(--c-muted); font-weight: var(--fw-ui-medium); }
+.m-dateField > .m-field__error { margin-top: .6rem; }
+.m-radios__row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .8rem; }
+.m-radios > .m-field__error { margin-top: .6rem; }
+.m-radios .a-choice:has([aria-invalid="true"])::before { opacity: 1; border-color: var(--c-error); }
+/* ---- error summary: takes focus when a form is sent with errors ---- */
+.m-errorSum { padding: 2rem 2.4rem; border-radius: var(--r-md); background: var(--c-error-tint); color: var(--c-ink); }
+.m-errorSum:focus-visible { outline: 2px solid var(--c-error); outline-offset: 3px; }
+.m-errorSum__title { display: flex; align-items: center; gap: .8rem; font: var(--fw-ui-strong) 1.6rem/1.35 var(--f-ui); }
+.m-errorSum__title .a-icon { color: var(--c-error); }
+.m-errorSum__list { margin: .8rem 0 0; padding: 0 0 0 2.8rem; }
+.m-errorSum__list li + li { margin-top: .4rem; }
+.m-errorSum__link { padding: .3rem 0; color: var(--c-error); font: var(--fw-ui-medium) 1.4rem/1.4 var(--f-ui); text-underline-offset: .2em; }
+
+/* ===== Notices (spec 2b: inline state panels; cream, radius 16, 24 padding, a 20px Calibre Bold line, one action) ===== */
+.m-notice { display: flex; gap: 1.6rem; padding: 2.4rem; border-radius: var(--r-md); background: var(--c-cream); color: var(--c-ink); }
+.m-notice:focus { outline: none; }
+.m-notice.-warn { background: var(--c-warn-tint); }
+.m-notice.-error { background: var(--c-error-tint); box-shadow: inset 0 0 0 1px var(--c-error); }
+.m-notice.-success { background: var(--c-success-tint); }
+.m-notice__icon { flex: none; margin-top: .2rem; }
+.m-notice.-warn .m-notice__icon, .m-notice__delta { color: var(--c-warn); }
+.m-notice.-error .m-notice__icon { color: var(--c-error); }
+.m-notice.-success .m-notice__icon { color: var(--c-success); }
+.m-notice__text { min-width: 0; }
+.m-notice__title { font: var(--fw-bold) 2rem/1.3 var(--f-display); letter-spacing: var(--tr-head); text-wrap: balance; font-variant-numeric: tabular-nums; }
+.m-notice__body { margin-top: .6rem; font: var(--fw-ui) 1.6rem/1.5 var(--f-ui); text-wrap: pretty; }
+.m-notice__body p + p { margin-top: .6rem; }
+.m-notice__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.6rem 2.4rem; margin-top: 2rem; }
+.m-notice__actions .a-link { font-size: 1.5rem; }
+
+/* ===== Dialogs and sheets (conventions.md: page inert, focus inside, Escape closes) ===== */
+html.is-locked { overflow: hidden; }
+.m-dialog { position: fixed; z-index: var(--z-sheet); inset: 0; display: grid; place-items: center; padding: 1.6rem; }
+.m-dialog__scrim { position: absolute; inset: 0; background: var(--c-scrim); }
+.m-dialog__panel { position: relative; display: flex; flex-direction: column; width: 100%; max-width: 64rem; max-height: calc(100vh - 3.2rem); max-height: calc(100dvh - 3.2rem); overflow: hidden; border-radius: var(--r-lg); background: var(--c-surface); color: var(--c-ink); box-shadow: var(--sh-pop); }
+.m-dialog__panel:focus { outline: none; }
+.m-dialog__head { display: flex; flex: none; align-items: center; justify-content: space-between; gap: 1.6rem; padding: 1.6rem 1.6rem 1.2rem 2.4rem; }
+.m-dialog__title { font: var(--fw-bold) 2.4rem/1.2 var(--f-display); letter-spacing: var(--tr-head); text-wrap: balance; }
+.m-dialog__body { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; padding: 0 2.4rem 2.4rem; font: var(--fw-ui) 1.6rem/1.55 var(--f-ui); }
+.m-dialog__body > p + p { margin-top: 1.2rem; }
+.m-dialog__foot { display: flex; flex: none; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem 2.4rem; padding: 1.6rem 2.4rem calc(1.6rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--c-line); }
+.m-dialog.-confirm .m-dialog__panel { max-width: 48rem; }
+.m-dialog.-confirm .m-dialog__foot { justify-content: flex-start; border-top: 0; padding-top: 0; }
+/* full screen: the phone filters sheet and the gallery */
+.m-dialog.-full { padding: 0; }
+.m-dialog.-full .m-dialog__panel { max-width: none; height: 100%; max-height: none; border-radius: 0; }
+/* bottom sheet on phones (sort), a small centred card from 641 */
+.m-dialog.-sheet { align-items: end; padding: 0; }
+.m-dialog.-sheet .m-dialog__panel { max-height: 88vh; border-radius: var(--r-lg) var(--r-lg) 0 0; }
+@media (min-width: 641px) {
+  .m-dialog { padding: 3.2rem; }
+  .m-dialog.-sheet { align-items: center; padding: 3.2rem; }
+  .m-dialog.-sheet .m-dialog__panel { max-width: 44rem; border-radius: var(--r-lg); }
+  .m-dialog:not(.-full) .m-dialog__panel { animation: pop-in var(--d-pop) var(--ease-pop); }
+}
+@media (min-width: 1025px) {
+  .m-dialog.-full:not(.-gallery) { padding: 3.2rem; }
+  .m-dialog.-full:not(.-gallery) .m-dialog__panel { max-width: 56rem; height: auto; max-height: calc(100vh - 6.4rem); border-radius: var(--r-lg); }
+}
+
+/* ===== Toast (copy.md, system messages): one line, bottom centre, above the tab bar ===== */
+.m-toast { position: fixed; z-index: calc(var(--z-sheet) + 10); left: 50%; bottom: calc(var(--h-tabbar) + 3.6rem + env(safe-area-inset-bottom, 0px)); width: max-content; max-width: calc(100vw - 3.2rem); transform: translateX(-50%); pointer-events: none; }
+.m-toast__msg { display: flex; align-items: center; gap: .8rem; padding: 1.2rem 2rem; border-radius: var(--r-pill); background: var(--c-ink); color: #FFFFFF; font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); box-shadow: var(--sh-float); animation: toast-in var(--d-pop) var(--ease-pop); }
+.m-toast__msg .a-icon { color: var(--c-accent-soft); stroke-width: 2.2; }
+@media (min-width: 1025px) {
+  /* bottom left beside the rail, clear of centred form actions (critic round 1: Saved sat on the Password card's pills) */
+  .m-toast { left: calc(var(--rail-w) + 2.4rem); bottom: 2.4rem; transform: none; }
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(.8rem); }
+}
+
+/* ===== Account menu (logged in: the initials button, copy.md shared chrome) ===== */
+.m-acct { position: relative; }
+/* revision 2026-11-11, item 8: the visitor's first name with the user icon, one pill (was a round initials button) */
+.m-acct__btn { position: relative; display: inline-flex; align-items: center; gap: .6rem; height: 4rem; max-width: 18rem; padding: 0 1.6rem 0 1.2rem; border: 0; border-radius: var(--r-pill); background: var(--c-deep); color: #FFFFFF; font: var(--fw-ui-strong) 1.4rem/1 var(--f-ui); letter-spacing: .02em; cursor: pointer; transition: transform var(--d-fast) var(--ease-std); }
+.m-acct__btn::after { content: ""; position: absolute; inset: -.2rem; }
+.m-acct__name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.m-acct__btn:active { transform: scale(var(--press)); }
+.m-acct__menu { position: absolute; z-index: var(--z-pop); top: calc(100% + 1rem); right: 0; min-width: 20rem; margin: 0; padding: .8rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); box-shadow: var(--sh-pop); list-style: none; animation: pop-in var(--d-pop) var(--ease-pop); }
+.m-acct__item { display: flex; align-items: center; width: 100%; min-height: 4.4rem; padding: 0 1.2rem; border: 0; border-radius: var(--r-sm); background: none; color: var(--c-ink); font: var(--fw-ui-medium) 1.5rem/1.2 var(--f-ui); text-align: left; text-decoration: none; cursor: pointer; transition: background-color var(--d-fast) var(--ease-std); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-acct__item:hover { background: var(--c-tint); }
+}
+
+/* Chief Officer, 11 Nov (call 2): at 390 the date selects clipped ("D" for Day, "Septem" for September). Inside a date
+   row the chevron sits 6px from the edge and the text gets the room it frees; on phones Day and Year keep a floor
+   (72px, 88px) and Month takes the rest, so "Day", "28", "September" and "1987" show whole at 16px (no iOS zoom) */
+.m-dateField__row .m-field__control.-select .m-field__input { padding: 0 2.8rem 0 .8rem; } /* must out-rank the -select padding above */
+.m-dateField__row .m-field__chev { right: .6rem; }
+@media (max-width: 640px) {
+  .m-dateField__row { grid-template-columns: minmax(6.8rem, .8fr) minmax(0, 1.6fr) minmax(8rem, 1fr); }
+}
+
+/* polish round, 11 Nov (critic, new issue 4): the date selects started their text 8px in, against 16px on Title and every
+   text field. Back to 16px; the chevron keeps its 6px edge, and the right side drops to the 24px the 16px chevron needs.
+   On phones the Day floor grows to 76px so "Day" still shows whole with room to spare (measured at 390: "Day" 28.5px in 34,
+   "September" 82px in 90, "1987" 35px in 43). */
+.m-dateField__row .m-field__control.-select .m-field__input { padding: 0 2.4rem 0 1.6rem; }
+@media (max-width: 640px) {
+  .m-dateField__row { grid-template-columns: minmax(7.6rem, .8fr) minmax(0, 1.6fr) minmax(8rem, 1fr); }
+}

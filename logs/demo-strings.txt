@@ -1,0 +1,71 @@
+Demo disclosure spots found by the Studio Lead at 16:29 (user-visible strings, comments excluded). Developers may have added more since; search again.
+site\app\privacy\page.tsx:8: return <LegalNotice anchors={['cookies']} title="Privacy policy" notice="How Overwing collects, uses and protects your details will be set out here before the site takes 
+site\app\terms\page.tsx:8: return <LegalNotice anchors={['payments', 'changes']} title="Terms and conditions" notice="The terms for booking flights and hotels on Overwing will be published here bef
+site\components\chrome\Footer.tsx:40: <span>This is a demo build. Overwing is a working name, and the logo, photos, contact details, flights, hotels and prices are placeholders. No booking is real and no card
+site\components\home\r3\Sections.tsx:24: const REVIEWS_NOTE = 'Demo reviews, written for this preview. They are not from real guests.';
+site\components\home\r3\Sections.tsx:25: const DEALS_NOTE = 'Demo prices from the simulated backend.';
+site\components\home\r3\Sections.tsx:227: <p className="o-r3__fine r3-text">Typical price is the usual fare or rate for the same trip in this demo’s data. {DEALS_NOTE}{!f && ` ${REVIEWS_NOTE}`}</p>
+site\components\pages\ContactForm.tsx:34: setResult(j.data?.demo ? 'This is a demo, so your message wasn’t sent anywhere. On the live site it will reach our support inbox.' : 'Your message didn’t send. Try again,
+site\components\search\Search.tsx:132: const { id, label, placeholder, icon, head, name, kind, chosen, text, away, isOpen, invalid, quiet, onOpen, onClose, onText, onChoose } = props;
+site\lib\emails.ts:80: button: { label: 'Choose a new password', href: `${o}/reset-password?token=demo` }
+site\lib\emails.ts:120: ${p('This is a demo build. Overwing is a working name, and the logo, photos, contact details, flights, hotels and prices are placeholders. No booking is real and no card 
+site\lib\store.ts:189: return [...mine, ...demo].map((b) => withChanges(s, b));
+site\lib\mock\hotels.ts:406: export const REVIEWS_NOTE = 'Demo reviews, written for this preview. They are not from real guests.';
+landfall/site\app\privacy\page.tsx:13: <p className="x-legal__notice">How Landfall collects, uses and protects your details will be set out here before the site takes real bookings. This demo takes no bookings
+landfall/site\app\terms\page.tsx:13: <p className="x-legal__notice">The terms for booking flights and hotels on Landfall will be published here before the site takes real bookings. This demo takes no booking
+landfall/site\components\account\Bookings.tsx:433: <p className="t-small">{SITE.name} demo. No booking is real and no card is charged.</p>
+landfall/site\components\account\Pages.tsx:23: const [state, setState] = useState<'idle' | 'sending' | 'demo' | 'failed'>('idle');
+landfall/site\components\account\Pages.tsx:39: setState(json.data && json.data.delivered === false ? 'demo' : json.errors ? 'failed' : 'demo');
+landfall/site\components\account\Pages.tsx:51: {state === 'demo' && <Notice tone="info">This is a demo, so your message wasn’t sent anywhere. On the live site it will reach our support inbox.</Notice>}
+landfall/site\components\booking\tools.tsx:37: 'BEGIN:VEVENT', `UID:${b.ref}-${i}@landfall.demo`, `DTSTAMP:${dtstamp}`,
+landfall/site\components\booking\tools.tsx:48: 'BEGIN:VEVENT', `UID:${b.ref}@landfall.demo`, `DTSTAMP:${dtstamp}`,
+landfall/site\components\booking\tools.tsx:56: return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Landfall demo//Bookings//EN', 'CALSCALE:GREGORIAN', ...events, 'END:VCALENDAR', ''].join('\r\n');
+landfall/site\components\chrome\Footer.tsx:101: { text: 'Email previews (demo)', href: '/emails' }
+landfall/site\components\chrome\Footer.tsx:159: <p>This is a demo build. Landfall is a working name, and the logo, photos, contact details, company details, flights, hotels, prices, deals, review scores and reviews are
+landfall/site\components\flights\email.ts:82: ${p(e.demo, `font-size:13px;color:${c.muted}`)}
+landfall/site\components\home\HowTo.tsx:24: text: "Card payments run through Stripe. You enter your card in Stripe's payment form on our checkout page, so your card number goes to Stripe, not to us. If your card is
+landfall/site\lib\emails.ts:121: button: { label: 'Choose a new password', href: `${o}/reset-password?token=demo` }
+landfall/site\lib\store.ts:178: return [...mine, ...demo].map((b) => withChanges(s, b));
+site/components/account/AuthForms.tsx:80:      <p className="o-auth__demo"><Icon name="info" size="s" /><span>Demo account: maya.okafor@example.com with any password of 8 or more characters.</span></p
+site/components/account/Dashboard.tsx:17:import { REVIEWS_NOTE, cityById, hotelById, nightsOf } from '@/lib/mock/hotels';
+site/components/account/Dashboard.tsx:173:      <p className="m-cross__note">{REVIEWS_NOTE}</p>
+site/components/booking/BookingView.tsx:22:import { HOTELS, REVIEWS_NOTE, cityById, hotelById, nightsOf, planById, stayQuery, stayTotals, type Hotel, type StaySearch } from '@/lib/mock/hotels';
+site/components/booking/BookingView.tsx:420:      <p className="m-cross__note">{REVIEWS_NOTE}</p>
+site/components/booking/Checkout.tsx:309:            <p className="o-checkout__demo"><Icon name="info" size="s" />Demo payment. Use card 4242 4242 4242 4242 with any future date and any security code.
+site/components/home/r3/Sections.tsx:24:const REVIEWS_NOTE = 'Demo reviews, written for this preview. They are not from real guests.';
+site/components/home/r3/Sections.tsx:25:const DEALS_NOTE = 'Demo prices from the simulated backend.';
+site/components/home/r3/Sections.tsx:99:        {row.stays ? REVIEWS_NOTE : 'Return fares for one adult in Economy from London Heathrow, taxes and fees included.'}
+site/components/home/r3/Sections.tsx:227:      <p className="o-r3__fine r3-text">Typical price is the usual fare or rate for the same trip in this demoâ€™s data. {DEALS_NOTE}{!f && ` ${REVIEWS_NOTE}`}
+site/components/home/r3/Sections.tsx:380:        <p className="o-r3__fine r3-text">{REVIEWS_NOTE}</p>
+site/components/home/r3/Sections.tsx:425:      <p className="o-r3__fine r3-text">The three cheapest months are marked. Choose a month to search its cheapest dates. {DEALS_NOTE}</p>
+site/components/home/r3/Sections.tsx:579:        <p className="o-r3__fine r3-text">{f ? 'Lowest return for one adult in Economy from London Heathrow; each airline opens its own search.' : `Lowest rate
+site/components/hotels/HotelDetail.tsx:32:import { AMENITY_ICON, REVIEWS_NOTE, type Hotel, type PhotoCat, type RatePlanId, type StaySearch } from '@/lib/mock/hotels';
+site/components/hotels/HotelDetail.tsx:264:          <p className="o-hotel__demo">{REVIEWS_NOTE}</p>
+site/components/hotels/HotelDetail.tsx:367:              <p className="o-hotel__demo">{REVIEWS_NOTE}</p>
+site/components/hotels/HotelResults.tsx:29:import { CITY_CENTRE, HOTELS, PROPERTY_TYPES, REVIEWS_NOTE, freeCancelUntil, nightsOf, type Hotel, type PropertyType, type StaySearch } from '@/lib/mock/hote
+site/components/hotels/HotelResults.tsx:264:        <p className="o-hotel__demo">{REVIEWS_NOTE}</p>
+site/components/hotels/HotelResults.tsx:394:        <p className="o-results__note">A local tourist tax, where there is one, is paid at the hotel. {REVIEWS_NOTE}</p>
+site/components/ui/Score.tsx:5:   every block that shows them carries REVIEWS_NOTE (lib/mock/hotels.ts).
+site/lib/mock/hotels.ts:406:export const REVIEWS_NOTE = 'Demo reviews, written for this preview. They are not from real guests.';
+landfall/site/components/booking/Extras.tsx:18:import ScoreBadge, { DEMO_REVIEWS_LINE, scoreName } from '@/components/ui/ScoreBadge';
+landfall/site/components/booking/Extras.tsx:43:      <p className="t-small t-muted bk-after__note t-num">{dayRange(search.checkin, search.checkout)}, the dates of your flights. {DEMO_REVIEWS_LINE}</p>
+landfall/site/components/booking/tools.tsx:37:        'BEGIN:VEVENT', `UID:${b.ref}-${i}@landfall.demo`, `DTSTAMP:${dtstamp}`,
+landfall/site/components/booking/tools.tsx:48:      'BEGIN:VEVENT', `UID:${b.ref}@landfall.demo`, `DTSTAMP:${dtstamp}`,
+landfall/site/components/booking/tools.tsx:56:  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Landfall demo//Bookings//EN', 'CALSCALE:GREGORIAN', ...events, 'END:VCALENDAR', ''].join('\r\n');
+landfall/site/components/chrome/Footer.tsx:101:    { text: 'Email previews (demo)', href: '/emails' }
+landfall/site/components/flights/email.ts:82:  ${p(e.demo, `font-size:13px;color:${c.muted}`)}
+landfall/site/components/home/Deals.tsx:17:import ScoreBadge, { DEMO_REVIEWS_LINE } from '@/components/ui/ScoreBadge';
+landfall/site/components/home/Deals.tsx:164:      <p className="m-demo-reviews">Demo prices from the simulated backend.{flights ? '' : ` ${DEMO_REVIEWS_LINE}`}</p>
+landfall/site/components/home/Explore.tsx:19:import ScoreBadge, { DEMO_REVIEWS_LINE } from '@/components/ui/ScoreBadge';
+landfall/site/components/home/Explore.tsx:78:      <p className="m-demo-reviews">{DEMO_REVIEWS_LINE}</p>
+landfall/site/components/home/Recommended.tsx:18:import { DEMO_REVIEWS_LINE } from '@/components/ui/ScoreBadge';
+landfall/site/components/home/Recommended.tsx:75:      {mode === 'hotels' && <p className="m-demo-reviews">{DEMO_REVIEWS_LINE}</p>}
+landfall/site/components/home/Recommended.tsx:123:      {!flights && because && <p className="m-demo-reviews">{DEMO_REVIEWS_LINE}</p>}
+landfall/site/components/hotels/Detail.tsx:34:import ScoreBadge, { DEMO_REVIEWS_LINE } from '@/components/ui/ScoreBadge';
+landfall/site/components/hotels/Detail.tsx:489:                <p className="t-small t-muted h-reviews__demo">{DEMO_REVIEWS_LINE}</p>
+landfall/site/components/hotels/Detail.tsx:581:            <p className="t-small t-muted">{DEMO_REVIEWS_LINE}</p>
+landfall/site/components/hotels/Results.tsx:34:import ScoreBadge, { DEMO_REVIEWS_LINE } from '@/components/ui/ScoreBadge';
+landfall/site/components/hotels/Results.tsx:352:            <p className="h-results__note t-small t-muted">{DEMO_REVIEWS_LINE} A local tourist tax, where there is one, is paid at the hotel.</p>
+landfall/site/components/ui/ScoreBadge.tsx:10:   Every surface that shows a score also shows DEMO_REVIEWS_LINE once.
+landfall/site/components/ui/ScoreBadge.tsx:13:export const DEMO_REVIEWS_LINE = 'Demo reviews, written for this preview. They are not from real guests.';
+landfall/site/lib/mock/catalogue/index.ts:56:export const DEMO_REVIEWS_LINE = CAT.demoReviewsLine;

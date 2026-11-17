@@ -1,0 +1,33 @@
+Ignoring 2 permissions.allow entries from .claude/settings.json: this workspace has not been trusted. Run Claude Code interactively here once and accept the trust dialog, or set projects["c:/Users/varun/digital-heroes-automation"].hasTrustDialogAccepted: true in C:\Users\varun\.claude.json.
+The round 3 spec for Landfall is written at `projects/travel-booking/landfall/design/round3-spec.md`, finished at 15:22, ahead of the 15:42 stop. The Chief Officer approved it with 6 notes. All 6 are applied and its decision is recorded at the top of the spec.
+
+**One thing you need to decide before 15:45.** Your ruling 4 says to stop for your review once the homepages are rebuilt, before the inner pages. Following that, the Chief Officer limited Developer B to setup work until you sign off the homepage: mock data, URL and filter state, and saving recently viewed items in the browser. That works against your plan of two Developers building in parallel. If you want Developer B to start the visual rebuild of the inner pages at 15:45 anyway, say so.
+
+**Part A (homepage and footer):**
+- **Flights / Hotels switch:** the hero and popular destinations keep their layout and photos. Only their text, prices and links change. The ten parts below the hero (the eight new homepage sections, the destinations and the pre-footer) swap content in the same order, so the page keeps its shape.
+- **URL:** Hotels mode is `/?mode=hotels`. The page draws the right mode from the URL on the first load, so a shared link opens in the right mode, and the back button goes to the previous mode.
+- **Animation:** the line under the active tab slides across, the headline reveals again word by word, and cards in view fade up one after another. Sections out of view swap without animation, and everything is instant with reduced motion on.
+- **New sections, in order:** deal banners, deal cards, "Recommended for you", trending, browse by region, city and property type, how booking works with a trust row, popular searches for 24 cities, and FAQs. Each has its layout, item counts, data, behaviour at 1440, 1024 and 390, and final copy.
+- **"Recommended for you":** it reads the visitor's recent searches and views from the browser, and first-time visitors get a default list.
+- **Trending:** a route board where each route's line grows with its flight time. It is the most distinctive new idea.
+- **Footer:** about 70 links, every one going to an existing page or running a real search. Phone and email stay first.
+
+**Part B (inner pages):** everything you listed is there in P1/P2 order, including 390 versions.
+- **Flight results and fares:** a date and price strip, Best / Cheapest / Fastest tabs, ten filter groups, and a fare comparison table.
+- **Hotel results:** ten filter groups and a fuller result card.
+- **Hotel detail:** a sticky section nav, an availability table with rate plans, review category bars and snippets, location, house rules, FAQs and similar stays.
+- **Other pages:** confirmation, guests, account and dashboard.
+
+**Conflicts you may want to overrule:**
+- The footer has five link columns instead of your usual four. The Chief Officer approved it.
+- Deals show a "below the usual price" line instead of a struck-through old price, because the mock data has no real earlier price.
+- The three photo rows in "What happens when you book" are replaced by the booking steps drawn as Landfall's line.
+
+**What I couldn't check:**
+- **Booking.com and Expedia:** their deconstructions weren't written by the time I finished, so what the spec takes from them comes from my own knowledge, not measurement. Priceline's file was used, but it covers the homepage only because its inner pages were blocked.
+- **Catalogue:** the Copywriter's catalogue wasn't finished. I matched what existed: fare families, the six property types, score words, the demo-reviews line, and London as the only departure city. The numbers in the spec's copy are stand-ins for the catalogue's figures.
+- **Live site:** I looked at the current homepage at 1440 on port 3003 only. I didn't see 3004 (Harbour) or 390 this round, and the Chief Officer judged from my 1440 screenshot.
+
+I added a screenshot of the current homepage at `landfall/design/screens/r3-current-home-1440.jpeg`. I started no servers, and the run is logged in `review-log.md`.
+
+This is a good checkpoint. Suggested commit message: `Landfall round 3 redesign spec: homepage mode switch, lower sections, footer and inner page depth`

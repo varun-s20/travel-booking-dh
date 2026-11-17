@@ -1,0 +1,195 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): chrome.css
+   The shared chrome every page carries: header (rail, account cluster,
+   phone bar, tab bar), the More menu, and the footer.
+   Loads after base.css (uses its atoms), before search.css.
+   Header values ported from the approved prototype; footer from spec 2b
+   (Varun V10).
+   ===================================================================== */
+
+/* ===== Header ===== */
+.o-header { position: sticky; z-index: var(--z-header); top: 0; }
+/* the pinned search band sits under the bar (z-header - 1), so the bar's upward cover and the band's 1px overlap meet cleanly (results.css) */
+/* ---- phone bar (also carries the account pills on desktop) ---- */
+.o-header__bar { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; height: var(--h-header); padding: 0 var(--gutter); background: var(--c-ground); transition: box-shadow var(--d-panel) var(--ease-std), background-color var(--d-panel) var(--ease-std); }
+.o-header.is-scrolled .o-header__bar { box-shadow: 0 1px 0 var(--c-line); }
+.o-header__wordmark { display: inline-flex; align-items: center; min-height: var(--h-control); border-radius: var(--r-sm); color: var(--c-ink); text-decoration: none; }
+.o-header__actions { display: flex; align-items: center; gap: .8rem; }
+.o-header__signup { display: none; }
+.o-header__menuBtn { width: 4rem; height: 4rem; }
+.o-header__menuBtn::after { content: ""; position: absolute; inset: -.2rem; }
+/* ---- rail (desktop) ---- */
+.o-header__rail { display: none; }
+.o-header__brand { display: flex; flex-direction: column; align-items: center; gap: .5rem; width: 7.6rem; margin: 0 0 1.6rem; padding: .4rem 0; border-radius: var(--r-sm); color: var(--c-ink); font: var(--fw-ui-strong) var(--t-micro)/1.2 var(--f-ui); text-decoration: none; }
+.o-header__tile { display: grid; place-items: center; width: 4.4rem; height: 4.4rem; border-radius: var(--r-sm); background: var(--c-deep); color: var(--c-surface); font-size: 4rem; transition: transform var(--d-fast) var(--ease-std); }
+.o-header__railList { display: flex; flex-direction: column; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.m-railItem { display: flex; flex-direction: column; align-items: center; gap: .3rem; width: 7.6rem; padding: .6rem 0; border: 0; border-radius: var(--r-sm); background: none; color: var(--c-muted); font: var(--fw-ui-strong) var(--t-micro)/1.2 var(--f-ui); text-decoration: none; cursor: pointer; transition: color var(--d-fast) var(--ease-std); }
+.m-railItem__icon { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: var(--r-sm); transition: background-color var(--d-fast) var(--ease-std); }
+/* critic round 1: the tint square alone is 1.5:1 on the ground (1.1:1 in Cabin dawn), so the items rest in muted
+   (6.7:1 in navy, 5.7:1 in Cabin dawn) and the current item, the open menu and hover turn ink.
+   Any aria-current value (revision 2026-11-11, item 7): "page" for pages, "true" for the product the home search is set to.
+   More sits in the same list, 4px from Help (item 7: it sat about 800px below the rest, pinned to the foot). */
+.m-railItem[aria-current], .m-railItem[aria-expanded="true"] { color: var(--c-ink); }
+.m-railItem[aria-current] .m-railItem__icon, .m-railItem[aria-expanded="true"] .m-railItem__icon { background: var(--c-tint); }
+.m-railItem:active .m-railItem__icon { transform: scale(var(--press)); }
+@media (hover: hover) and (any-pointer: fine) {
+  /* hover is a faint ring of tint, so it never reads as a second current page (round 3, critic) */
+  .m-railItem:not([aria-current]):not([aria-expanded="true"]):hover .m-railItem__icon { box-shadow: inset 0 0 0 1.5px var(--c-tint); }
+  .m-railItem:hover { color: var(--c-ink); }
+  .o-header__brand:hover .o-header__tile { transform: translateY(-1px); }
+}
+/* ---- floating tab bar (phone; Hipcamp's rail on a phone) ---- */
+.o-header__tabs { position: fixed; z-index: var(--z-tabbar); left: 50%; bottom: calc(2rem + env(safe-area-inset-bottom, 0px)); display: flex; gap: .2rem; height: var(--h-tabbar); padding: .6rem; border: 1px solid var(--c-line); border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-float); transform: translateX(-50%); transition: transform var(--d-bar) var(--ease-std); }
+/* revision 2026-11-11, item 10: the bar steps aside while the visitor scrolls down or types in the search, and returns
+   on any scroll up, near the top, at the page end, or when it takes focus (Header.tsx) */
+.o-header.is-barHidden .o-header__tabs:not(:focus-within) { transform: translate(-50%, calc(100% + 2rem + env(safe-area-inset-bottom, 0px))); }
+.m-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .2rem; width: 7rem; border-radius: var(--r-pill); color: var(--c-muted); font: var(--fw-ui-strong) var(--t-micro)/1.2 var(--f-ui); text-decoration: none; transition: background-color var(--d-fast) var(--ease-std); }
+.m-tab[aria-current] { background: var(--c-tint); color: var(--c-ink); }
+.m-tab:active { transform: scale(var(--press)); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-tab:not([aria-current]):hover { background: color-mix(in srgb, var(--c-tint) 60%, transparent); color: var(--c-ink); }
+}
+/* item 11: the tab bar shows only below 900px; from 900 the horizontal search takes over and the More menu holds the rest */
+@media (min-width: 900px) {
+  .o-header__tabs { display: none; }
+}
+@media (min-width: 1025px) {
+  .o-header { position: static; }
+  .o-header__rail { position: fixed; z-index: var(--z-rail); top: 0; left: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; width: var(--rail-w); padding: 1.6rem .6rem 1.6rem; background: var(--c-ground); }
+  /* desktop (revision 2026-11-11, item 8): a solid top bar beside the rail holds the account cluster at every scroll
+     position. The floating cluster sat over headings and photos, and the build's fix hid it after 160px, so Log in
+     vanished. Content scrolls under a solid bar; a hairline appears once scrolled. Main clears it (base.css).
+     Inner pages put the compact search in its middle (results.css, .o-pinned). */
+  .o-header__bar { position: fixed; z-index: var(--z-header); top: 0; left: var(--rail-w); right: 0; justify-content: flex-end; height: var(--topbar-h); padding: 0 2.4rem; background: var(--c-ground); }
+  .o-header.is-scrolled .o-header__bar { box-shadow: 0 1px 0 var(--c-line); }
+  .o-header__wordmark, .o-header__menuBtn, .o-header__tabs { display: none; }
+  .o-header__signup { display: inline-flex; }
+}
+
+/* ---- More menu: a popover beside the rail on desktop, a bottom sheet on the phone ---- */
+.m-more { position: fixed; z-index: var(--z-sheet); inset: 0; }
+.m-more__scrim { position: absolute; inset: 0; background: var(--c-scrim); }
+.m-more__panel { position: absolute; left: 0; right: 0; bottom: 0; max-height: 88vh; overflow-y: auto; padding: 1.6rem var(--gutter) calc(2.4rem + env(safe-area-inset-bottom, 0px)); border-radius: var(--r-lg) var(--r-lg) 0 0; background: var(--c-surface); box-shadow: var(--sh-pop); }
+.m-more__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.6rem; }
+.m-more__title { font: var(--fw-bold) 2.2rem/1.2 var(--f-display); letter-spacing: var(--tr-head); }
+.m-more__account { display: grid; gap: .8rem; margin-bottom: 1.6rem; }
+.m-more__list { padding: 0; list-style: none; }
+.m-more__link { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; min-height: 4.8rem; padding: 0 1.2rem; border-radius: var(--r-sm); color: var(--c-ink); font: var(--fw-ui-medium) 1.6rem/1.3 var(--f-ui); text-decoration: none; transition: background-color var(--d-fast) var(--ease-std); }
+.m-more__link .a-icon { color: var(--c-muted); }
+/* the product rows (Flights, Hotels, Bookings, Account) show only from 900 to 1024, where neither the rail nor the tab bar does */
+.m-more__products { display: none; margin-bottom: .8rem; padding-bottom: .8rem; border-bottom: 1px solid var(--c-line); }
+.m-more__linkText { display: inline-flex; align-items: center; gap: 1.2rem; }
+.m-more__link[aria-current] { background: var(--c-tint); }
+@media (min-width: 900px) and (max-width: 1024px) {
+  .m-more__products { display: block; }
+}
+/* tablets: the sheet is a 480px card, centred, not a 1024px bar (critic, 11 Nov) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .m-more__panel { left: 50%; right: auto; width: 48rem; transform: translateX(-50%); }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .m-more__link:hover { background: var(--c-tint); }
+}
+@media (min-width: 1025px) {
+  .m-more__scrim { background: transparent; }
+  /* opens level with its own button (Header.tsx sets --more-top, clamped to the screen; revision item 9: it opened at the foot) */
+  .m-more__panel { top: var(--more-top, 1.6rem); left: calc(var(--rail-w) + .8rem); right: auto; bottom: auto; width: 32rem; padding: 1.6rem; border: 1px solid var(--c-line); border-radius: var(--r-lg); animation: pop-in var(--d-pop) var(--ease-pop); }
+  .m-more__account { display: none; }
+  /* Help is in the rail on desktop, so the sheet's Help and contact row would repeat it */
+  .m-more__phoneOnly { display: none; }
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(calc(var(--pop-rise) * -1)); }
+}
+
+/* ===== Footer (Varun V10: contact first, short link columns, the demo notice, the credit) ===== */
+.o-footer { position: relative; isolation: isolate; overflow: hidden; padding: 6.4rem 0 calc(var(--h-tabbar) + 2rem + 2.8rem + env(safe-area-inset-bottom, 0px)); border-radius: 3.2rem 3.2rem 0 0; background: var(--c-ink); color: #FFFFFF; }
+/* after the home band the footer rises 32px over it (Varun V7's rising block), so the two darks meet with a step
+   and the band's foot has no seam to show (critic round 2: a hairline at 390, no step at 1440) */
+.b-main:has(.o-homeBand) + .o-footer { margin-top: -3.2rem; }
+/* the hero view at 12% under the ink: the footer keeps the window seat's light */
+.o-footer__photo { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; opacity: .12; pointer-events: none; }
+.o-footer__top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 2.4rem; }
+.o-footer__contact { display: flex; flex-direction: column; align-items: flex-start; gap: .4rem; }
+.o-footer__phone, .o-footer__email { display: inline-flex; align-items: center; min-height: var(--h-control); border-radius: .6rem; color: #FFFFFF; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; transition: text-decoration-color var(--d-fast) var(--ease-std); }
+.o-footer__phone { font: var(--fw-bold) 2.6rem/1.1 var(--f-display); letter-spacing: var(--tr-head); }
+.o-footer__email { font: var(--fw-bold) 1.8rem/1.2 var(--f-display); text-decoration-color: rgba(255, 255, 255, .4); }
+/* the arrow points up; the individual rotate property keeps the hover nudge (a transform) moving along it */
+.o-footer__top .a-button__icon { rotate: -90deg; }
+.o-footer__cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3.2rem 2.4rem; margin-top: 4.8rem; padding-top: 4rem; border-top: 1px solid rgba(255, 255, 255, .14); }
+.o-footer__head { margin-bottom: .8rem; color: var(--c-accent-soft); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); }
+.o-footer__list { margin: 0; padding: 0; list-style: none; }
+.o-footer__link { display: inline-flex; align-items: center; min-height: var(--h-control); border-radius: .6rem; color: rgba(255, 255, 255, .84); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); text-decoration: none; transition: color var(--d-fast) var(--ease-std); }
+/* Log out is a button among the links: it wears the link (FooterLinks.tsx) */
+.o-footer__link.-button { padding: 0; border: 0; background: none; cursor: pointer; }
+/* the More sheet's Log out row is a button too */
+button.m-more__link { width: 100%; border: 0; background: none; text-align: left; cursor: pointer; }
+.o-footer__strip { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem 2.4rem; margin-top: 2.4rem; color: rgba(255, 255, 255, .72); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+@media (hover: hover) and (any-pointer: fine) {
+  .o-footer__phone:hover, .o-footer__email:hover { text-decoration-color: var(--c-accent-soft); }
+  .o-footer__link:hover { color: #FFFFFF; text-decoration: underline; text-underline-offset: .3em; }
+}
+@media (min-width: 641px) {
+  .o-footer__top { align-items: center; }
+}
+@media (min-width: 1025px) {
+  .o-footer { padding: 9.6rem 0 4.8rem; }
+  .o-footer__cols { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* final pass (critic, 11 Nov): from 900 to 1024, logged in, the product rows already hold Bookings and Account, so the
+   account group keeps only Log out */
+@media (min-width: 900px) and (max-width: 1024px) {
+  .m-more__account.-rows li:not(:last-child) { display: none; }
+}
+
+/* polish round, 11 Nov (critic): from 900 to 1024, logged in, the account group steps out and Log out closes the menu
+   after a divider (Header.tsx renders it last for these widths only); everywhere else the account rows lead as before */
+.m-more__logout { display: none; }
+@media (min-width: 900px) and (max-width: 1024px) {
+  .m-more__account.-rows { display: none; }
+  .m-more__logout { display: block; margin-top: .8rem; padding-top: .8rem; border-top: 1px solid var(--c-line); }
+}
+
+/* polish round, 11 Nov (critic, new issue 5): on Home the hero and the pre-footer band sit 16px in from the rail and the
+   screen edge, but the footer that rises over the band ran edge to edge, so its round corners stuck out past the band.
+   There it takes the same inset and closes the page as a card, the way the hero panel opens it. Inner pages keep the
+   full-width footer: nothing above it is inset. */
+@media (min-width: 1025px) {
+  .b-main:has(.o-homeBand) + .o-footer { margin: -3.2rem var(--hero-inset) var(--hero-inset) calc(var(--rail-w) + var(--hero-inset)); border-radius: 3.2rem; } /* the left margin keeps the rail clear (base.css) */
+}
+
+/* ===== Round 3 footer (spec A14, Developer A): six columns, 42 links; accordions at 390, Support open ===== */
+/* the hero photo under the top third only */
+.o-footer__photo { -webkit-mask-image: linear-gradient(#000 0, #000 22%, transparent 40%); mask-image: linear-gradient(#000 0, #000 22%, transparent 40%); }
+.o-footer__cols { gap: 3.2rem 2.4rem; }
+.o-footer__list li { min-height: 3.2rem; }
+.o-footer__link { min-height: 3.2rem; color: rgba(255, 255, 255, .8); }
+.o-footer__link:focus-visible { outline: 2px solid var(--c-hero-focus); outline-offset: 2px; }
+.o-footer__facts { display: flex; flex-wrap: wrap; gap: 1.2rem 2.8rem; margin: 4rem 0 0; padding: 0; color: var(--c-hero-muted); font: var(--fw-ui) 1.3rem/1.4 var(--f-ui); list-style: none; }
+.o-footer__facts li { display: inline-flex; align-items: center; gap: .8rem; }
+.o-footer__facts .a-icon { width: 1.8rem; height: 1.8rem; color: var(--c-accent-soft); }
+@media (max-width: 640px) {
+  .o-footer__cols { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .o-footer__acc { border-bottom: 1px solid rgba(255, 255, 255, .14); }
+  .o-footer__sum { display: flex; align-items: center; justify-content: space-between; min-height: 5.6rem; list-style: none; cursor: pointer; border-radius: .6rem; }
+  .o-footer__sum::-webkit-details-marker { display: none; }
+  .o-footer__sum .o-footer__head { margin: 0; font-size: 1.6rem; }
+  .o-footer__sum .a-icon { width: 2rem; height: 2rem; color: var(--c-accent-soft); transition: transform 240ms var(--ease-std); }
+  .o-footer__acc[open] .o-footer__sum .a-icon { transform: rotate(180deg); }
+  .o-footer__sum:focus-visible { outline: 2px solid var(--c-hero-focus); outline-offset: 2px; }
+  .o-footer__acc .o-footer__list { padding-bottom: 1.6rem; }
+  .o-footer__acc .o-footer__link { min-height: 4.4rem; }
+}
+@media (min-width: 641px) and (max-width: 1024px) { .o-footer__cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1025px) { .o-footer__cols { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3.2rem 2.4rem; } }
+.o-footer__group + .o-footer__group { margin-top: 3.2rem; }
+/* the contact lines are placeholders until the client gives real ones: set at body-large size, not display size */
+.o-footer__phone { font: var(--fw-bold) 1.8rem/1.2 var(--f-display); }
+.o-legal__anchor { display: block; scroll-margin-top: 8.8rem; }
+/* critic, round 3 second pass: the photo at 12% under the footer's top third read as a murky sky after the band's
+   clear window; the footer is flat ink now, so the band ends on a clean edge */
+.o-footer__photo { display: none; }
+/* with the photo layer off, the footer's 96px top read as an empty band above the contact lines */
+@media (min-width: 1025px) { .o-footer { padding-top: 7.2rem; } }

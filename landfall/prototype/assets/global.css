@@ -1,0 +1,610 @@
+/* =====================================================================
+   travel-booking, Landfall (working name, a placeholder): global.css
+   The one stylesheet for every page. Loads after nothing; global.js
+   loads after it (deferred). The :root blocks below are pasted from
+   landfall/design/tokens.css: change a value there and here together.
+   Order: @font-face, tokens, reset, type, container, reveal, atoms,
+   chrome (header, menu sheet, compact search), hero, search card and
+   panels, destinations band, reduced motion.
+   ===================================================================== */
+
+/* Newsreader and Albert Sans: SIL OFL 1.1, licence files in assets/fonts/.
+   Latin subset only; add latin-ext in the build if the market needs it. */
+@font-face { font-family: "Newsreader"; src: url("fonts/newsreader-latin-var.woff2") format("woff2"); font-weight: 300 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Albert Sans"; src: url("fonts/albert-sans-latin-var.woff2") format("woff2"); font-weight: 300 700; font-style: normal; font-display: swap; }
+
+/* ===== Tokens (pasted from landfall/design/tokens.css) ===== */
+:root {
+  /* ---- Palette P-N: Landfall navy, white and teal (default) ----
+     Revised 2026-11-11, see "Palette distinctness" in choices.md.
+     Overwing puts navy on every call to action and on a dark navy wall,
+     with teal as a thin accent. Landfall turns the roles round: teal acts
+     (every call to action, picked dates, checked options), navy speaks
+     (type, links, focus ring, the small navy destination cards), and there
+     is no navy wall. Hues moved apart too: navy is an indigo true navy
+     (hue 229 against Overwing's 211 to 213), teal a brighter, greener
+     lagoon (hue 171, about twice the luminance of Overwing's teal). */
+  --c-navy: #1B2A6E;        /* indigo navy. Links, focus ring on light, destination cards, the photo frame, the open field ring. Never a button fill. White on it 13.1:1 */
+  --c-ink: #121839;         /* indigo ink. Headlines, body, and the label on every teal button. 17.3:1 on white, 16.0:1 on foam */
+  --c-muted: #4D5478;       /* secondary text, helper lines, icons. 7.4:1 on white, 6.8:1 on foam and shade */
+  --c-accent: #14A08B;      /* lagoon teal, the action colour: calls to action, picked dates, checked options, the landfall line. Ink label on it 5.3:1; its edge 3.3:1 on white, 3.0:1 on foam and shade. Never text on light grounds */
+  --c-accent-bright: #5FE3C2; /* shallows. On navy and on the photo only: fares on navy cards, active tab line, focus ring on dark, the call to action on dark grounds. 8.3:1 on navy; navy text on it 8.3:1. No glow, no gradient */
+  --c-tint: #EDF9F6;        /* foam. The one interactive tint: field hover, steppers, chips, calendar range */
+  --c-ground: #FFFFFF;      /* page ground (the client's white) */
+  --c-shade: #F5F6FB;       /* alternate light band, quiet panels. Ink 16.0:1, muted 6.8:1 */
+  --c-surface: #FFFFFF;     /* cards, the search card, panels, sheets */
+  --c-line: #E3E5F0;        /* hairlines and section rules (decorative only) */
+  --c-field: #8085A6;       /* borders that must read as controls: 3.6:1 on white */
+  --c-on-dark: #FFFFFF;     /* text on navy */
+  --c-on-dark-muted: #C3C8EA; /* secondary text on navy: 8.0:1 */
+  --c-on-photo: #FDFDFB;    /* text on the hero photo, same in both palettes */
+  --c-scrim-rgb: 18, 24, 57; /* the hero scrim and dialog backdrop colour (ink) */
+  --c-theme: #1B2A6E;       /* meta theme-color */
+  --fx-grade: saturate(.94) contrast(1.04) brightness(.98); /* one grade on studio and stock photos only, never on Duffel hotel photos or airline logos: calms the three skies to one blue */
+
+  /* ---- Action roles (Palette distinctness): buttons and selections use these, never a palette colour directly ---- */
+  --c-action: var(--c-accent);      /* fill of every call to action on light grounds and of picked or checked states */
+  --c-on-action: var(--c-ink);      /* its label: 5.3:1 */
+  --c-action-hover: color-mix(in srgb, var(--c-accent) 72%, var(--c-accent-bright)); /* lighter on hover, ink label 6.6:1 */
+
+  /* ---- State colours, shared by both palettes ---- */
+  --c-error: #B3261E;       /* field errors, failed payment. 6.5:1 on white, 5.6:1 on its tint */
+  --c-error-tint: #FBEAE8;
+  --c-success: #1D6B4A;     /* confirmed booking, ticket issued. 6.5:1 on white, 5.6:1 on its tint */
+  --c-success-tint: #E5F2EB;
+  --c-warn: #8A5A00;        /* fare changed, offer about to expire, few left. 5.9:1 on white, 5.2:1 on its tint */
+  --c-warn-tint: #FBF0DA;
+  --c-focus: var(--c-navy);       /* 13.1:1 on white, 4.0:1 against a teal button */
+  --c-focus-on-dark: var(--c-accent-bright);
+
+  /* ---- Type families (Chief Officer 2a: T1) ----
+     Newsreader (Production Type, SIL OFL 1.1), variable opsz 6-72, wght 300-600:
+     H1, H2 and destination city names only, weight 400, upright, never italic.
+     Albert Sans (SIL OFL 1.1), variable wght 300-700: every other word.
+     T2 fallback if the client wants no serif: set --f-display to --f-ui. */
+  --f-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-ui: "Albert Sans", "Helvetica Neue", Arial, sans-serif;
+  --fw-display: 400;
+  --fw-regular: 400;
+  --fw-medium: 500;         /* labels, values, nav links, card titles (Kasa's 500) */
+  --fw-strong: 600;         /* buttons, totals, tabs */
+  --opsz-display: 72;       /* Newsreader optical size at display sizes */
+
+  /* ---- Type scale (390 to 1440, fluid between) ---- */
+  --t-hero: clamp(4rem, 3.26rem + 1.9vw, 6rem);         /* 40 to 60 (Kasa 40 to 56, opened up for the serif) */
+  --t-h1: clamp(3.2rem, 2.83rem + .95vw, 4.2rem);       /* 32 to 42: page titles */
+  --t-h2: clamp(2.6rem, 2.23rem + .95vw, 3.6rem);       /* 26 to 36: section headings */
+  --t-h3: 2rem;             /* sub-sections, panel titles (Albert Sans 500) */
+  --t-city: clamp(2.2rem, 2.05rem + .38vw, 2.6rem);     /* destination city names (Newsreader) */
+  --t-lead: clamp(1.6rem, 1.45rem + .38vw, 2rem);       /* hero subline, intros (Kasa 16 to 20/500) */
+  --t-title: 1.8rem;        /* card titles (Kasa 18/500) */
+  --t-total: 2.2rem;        /* price totals (600, tabular) */
+  --t-total-lg: 2.8rem;     /* booking summary total */
+  --t-ref: clamp(2.8rem, 2.5rem + .76vw, 3.6rem);       /* booking reference, 600, tracked .06em */
+  --t-body: 1.6rem;
+  --t-small: 1.4rem;
+  --t-label: 1.2rem;        /* field labels inside the search card (Expedia technique), sentence case */
+  --t-button: 1.5rem;       /* Varun's buttons 14 to 15px/600 */
+  --t-nav: 1.5rem;
+
+  --lh-hero: 1.12;
+  --lh-head: 1.2;
+  --lh-title: 1.4;
+  --lh-body: 1.5;
+  --lh-ui: 1.3;
+  --tr-display: -.005em;    /* Newsreader at display sizes: near Kasa's normal tracking */
+  --tr-ref: .06em;          /* booking reference and airport codes */
+
+  /* ---- Space (4px base) ---- */
+  --s-1: .4rem;
+  --s-2: .8rem;
+  --s-3: 1.2rem;
+  --s-4: 1.6rem;
+  --s-5: 2.4rem;
+  --s-6: 3.2rem;
+  --s-7: 4rem;
+  --s-8: 4.8rem;
+  --s-9: 6.4rem;
+  --s-10: 8rem;
+  --s-11: 11.2rem;
+  --s-band: clamp(5.6rem, 4.12rem + 3.8vw, 9.6rem);     /* band padding: 56 to 96 (Kasa 56 to 72, more air for photos) */
+
+  /* ---- Layout ---- */
+  --container: 124.8rem;    /* 1248 (Kasa) */
+  --gutter: 1.6rem;         /* phone; 3.2rem from 641px, 9.6rem from 1440 (Kasa's x 96) */
+  --w-card: 100rem;         /* hero search card at 1440 (Kasa 916, widened for From, swap, To) */
+  --w-text: 68rem;          /* reading column (About, legal) */
+  --w-list: 68rem;          /* results list column (Kasa 680) */
+  --h-nav: 6.6rem;          /* header strip (Kasa 66) */
+  --h-control: 4.4rem;      /* pills, tap targets */
+  --h-field: 5.6rem;        /* search card fields, form fields */
+  --h-go: 5.6rem;           /* Search button inside the card */
+  --h-compact: 5.2rem;      /* pinned compact search bar */
+  --h-tabs: 4rem;           /* Flights / Hotels tabs over the photo */
+  --h-pricebar: 7.2rem;     /* sticky bottom price bar on phones */
+
+  /* ---- Radii: one system ---- */
+  --r-sm: .8rem;            /* fields inside the card, chips, icon tiles (Kasa 8) */
+  --r-inner: 1.2rem;        /* buttons inside a search surface, compact bar (ruling, conflict 5) */
+  --r-md: 1.6rem;           /* cards, the search card, panels, photo grids (Kasa 16) */
+  --r-lg: 2.4rem;           /* destination cards and their photos (European Sleeper 24) */
+  --r-band: clamp(3.2rem, 2.59rem + 1.52vw, 4.8rem);    /* band joins and the hero's lower corners: 32 to 48 (European Sleeper 32 to 64, softened) */
+  --r-pill: 999px;          /* every other button (Varun V9) */
+
+  /* ---- Shadows (ink-tinted, Kasa's very soft long shadows) ---- */
+  --sh-card: 0 14px 16px -2px rgba(11, 24, 48, .04);
+  --sh-panel: 0 24px 40px -12px rgba(11, 24, 48, .22);  /* the search card and its panel over the photo */
+  --sh-compact: 0 6px 14px rgba(11, 24, 48, .10);
+  --sh-arrow: 0 6px 8px rgba(11, 24, 48, .06);
+  --sh-nav: 0 1px 2px rgba(11, 24, 48, .06);
+
+  /* ---- Easing ---- */
+  --ease-std: cubic-bezier(.4, 0, .2, 1);          /* quick state changes */
+  --ease-settle: cubic-bezier(.34, 1.2, .64, 1);   /* nav hide and show, compact bar (Kasa: a small overshoot) */
+  --ease-reveal: cubic-bezier(.16, 1, .3, 1);      /* word reveal, panel growth, long ease-out (Kasa's expo-out) */
+  --ease-fade: cubic-bezier(.45, 0, .55, 1);       /* the hero crossfade */
+  --ease-in: cubic-bezier(.4, 0, 1, 1);            /* exits */
+
+  /* ---- Durations ---- */
+  --d-fast: 150ms;          /* colour and tint (Kasa field 150ms) */
+  --d-panel: 200ms;         /* panel height, accordion (Kasa 200ms) */
+  --d-nav: 400ms;           /* nav and compact bar transform (Kasa) */
+  --d-zoom: 500ms;          /* destination photo zoom to 1.1 (European Sleeper) */
+  --d-reveal: 600ms;        /* word reveal per word (Kasa) */
+  --d-stagger: 45ms;        /* between words (Kasa 38 to 50) */
+  --d-fade: 900ms;          /* hero crossfade (Kasa about 650, slowed for stills) */
+  --d-slide: 6500ms;        /* each hero photo holds (Kasa about 5s per video) */
+  --d-breathe: 1000ms;      /* button label breathing and sheen (Varun V9) */
+  --d-nudge: 400ms;         /* button arrow nudge (Varun V9) */
+  --d-settle: 7000ms;       /* each hero photo settles from 1.06 to 1 while it shows */
+
+  /* ---- Motion amounts ---- */
+  --zoom-scroll: 1.125;     /* hero photo scale at the end of the hero (Varun V5) */
+  --zoom-settle: 1.06;      /* each slide starts this much larger and settles */
+  --zoom-card: 1.1;         /* destination photo on hover (European Sleeper) */
+  --reveal-rise: 8px;       /* word reveal starts this low (Kasa) */
+  --reveal-blur: 8px;       /* and this blurred (Kasa) */
+  --press: .97;
+
+  /* ---- Layers ---- */
+  --z-hero-ui: 2;
+  --z-panel: 40;
+  --z-compact: 110;        /* above the header (100) so the docked bar sits on the header's white strip (Chief Officer 2b, note 1) */
+  --z-nav: 100;
+  --z-sheet: 1000;
+  --z-skip: 1100;
+}
+
+:root[data-palette="harbour"] {
+  --c-navy: #173B4F;        /* sea, from the river deepened. Calls to action, dark bands. Sand on it 11.0:1, white 11.8:1 */
+  --c-ink: #1A1712;         /* 16.6:1 on sand */
+  --c-muted: #5E5548;       /* 6.8:1 on sand, 6.1:1 on shell */
+  --c-accent: #A34A26;      /* terracotta, from the sunlit roofs. Focus, links, the landfall line. 5.5:1 on sand, 5.9:1 on white */
+  --c-accent-bright: #E6B56A; /* gold, from the lit facades warmed. Highlights on sea: 6.3:1; sea text on it 6.3:1 */
+  --c-tint: #F3E9DC;        /* shell, the interactive tint */
+  --c-ground: #FBF6EF;      /* sand */
+  --c-shade: #F6EEE3;       /* alternate band. Ink 15.5:1, muted 6.4:1 */
+  --c-surface: #FFFFFF;
+  --c-line: #E8DDCF;
+  --c-field: #8E8373;       /* 3.7:1 on white */
+  --c-on-dark: #FBF6EF;
+  --c-on-dark-muted: #CBD3D6; /* 7.8:1 on sea */
+  --c-scrim-rgb: 26, 23, 18;
+  --c-theme: #173B4F;
+  --fx-grade: sepia(.12) saturate(.92) contrast(1.03); /* warms the same photos toward the roofs */
+  /* Harbour keeps its roles as they were: navy fills, terracotta focus */
+  --c-action: var(--c-navy);
+  --c-on-action: var(--c-on-dark);
+  --c-action-hover: color-mix(in srgb, var(--c-navy) 84%, var(--c-accent));
+  --c-focus: var(--c-accent);
+}
+
+/* ===== Reset ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 62.5%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; min-height: 100vh; background: var(--c-ground); color: var(--c-ink); font-family: var(--f-ui); font-size: var(--t-body); line-height: var(--lh-body); font-weight: var(--fw-regular); font-synthesis: none; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; }
+button, input, select { font: inherit; color: inherit; }
+button { margin: 0; padding: 0; border: 0; background: none; cursor: pointer; }
+picture { display: contents; }
+img { display: block; width: 100%; height: auto; }
+svg { display: block; }
+[hidden] { display: none !important; }
+.a-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+body.is-locked { overflow: hidden; }
+
+/* ===== Type ===== */
+.t-display { font-family: var(--f-display); font-weight: var(--fw-display); font-variation-settings: "opsz" var(--opsz-display); letter-spacing: var(--tr-display); text-wrap: balance; }
+.t-h2 { font-size: var(--t-h2); line-height: var(--lh-head); }
+.t-lead { font-size: var(--t-lead); line-height: 1.45; font-weight: var(--fw-medium); text-wrap: pretty; }
+.t-small { font-size: var(--t-small); line-height: 1.5; }
+.t-num { font-variant-numeric: tabular-nums lining-nums; }
+
+/* ===== Container ===== */
+.l-container { width: 100%; max-width: calc(var(--container) + 2 * var(--gutter)); margin: 0 auto; padding: 0 var(--gutter); }
+@media (min-width: 641px) { :root { --gutter: 3.2rem; } }
+
+/* ===== Skip link ===== */
+.a-skip { position: fixed; top: var(--s-3); left: var(--s-3); z-index: var(--z-skip); padding: var(--s-3) var(--s-4); border-radius: var(--r-pill); background: var(--c-surface); color: var(--c-ink); font-weight: var(--fw-strong); text-decoration: none; transform: translateY(-200%); }
+.a-skip:focus-visible { transform: none; }
+
+/* ===== Icons ===== */
+.a-svg { width: 2rem; height: 2rem; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ===== Wordmark (placeholder) =====
+   Lowercase "landfall" with the landfall line: a hairline horizon that runs
+   under and past the word and ends in a short accent segment, where the land
+   would be. The line is the one brand device (wordmark, flight legs, active
+   tab, total rule). */
+.a-wordmark { position: relative; display: inline-flex; align-items: center; height: 4.4rem; padding-bottom: .6rem; color: inherit; text-decoration: none; font-family: var(--f-display); font-variation-settings: "opsz" 36; font-size: 2.6rem; font-weight: 500; letter-spacing: -.01em; line-height: 1; }
+.a-wordmark::after { content: ""; position: absolute; left: 0; right: -1.6rem; bottom: .9rem; height: 1.5px; background: linear-gradient(90deg, currentColor 0 74%, var(--wm-land, var(--c-accent)) 74% 100%); opacity: .9; }
+
+/* ===== Buttons (Varun V9): pills, sentence case, small arrow, quiet hover ===== */
+.a-button { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .8rem; height: var(--h-control); padding: 0 2.4rem; overflow: hidden; border-radius: var(--r-pill); background: var(--c-action); color: var(--c-on-action); font-size: var(--t-button); font-weight: var(--fw-strong); line-height: 1; text-decoration: none; white-space: nowrap; transition: padding var(--d-breathe) var(--ease-reveal), background-color var(--d-fast) var(--ease-std); }
+.a-button::before { content: ""; position: absolute; inset: 0 0 50% 0; background: linear-gradient(rgba(255, 255, 255, .10), rgba(255, 255, 255, 0)); opacity: 0; transition: opacity var(--d-breathe) var(--ease-reveal); }
+.a-button .a-svg { width: 1.6rem; height: 1.6rem; transition: transform var(--d-nudge) var(--ease-reveal); }
+.a-button.-ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px currentColor; }
+.a-button.-bright { background: var(--c-accent-bright); color: var(--c-navy); }
+.a-button:active { transform: scale(var(--press)); }
+@media (hover: hover) and (any-pointer: fine) {
+  .a-button:hover { padding: 0 3.2rem; }
+  .a-button:hover::before { opacity: 1; }
+  .a-button:hover .a-svg { transform: translateX(.4rem); }
+  .o-header__signin:hover { padding: 0 2rem; }
+}
+
+/* ===== Header (Kasa: frosted strip over the hero, solid after it) ===== */
+.o-header { position: fixed; top: 0; left: 0; right: 0; z-index: var(--z-nav); height: var(--h-nav); color: var(--c-on-photo); background: rgba(253, 253, 251, .10); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: transform var(--d-nav) var(--ease-settle), background-color 250ms var(--ease-std), color 250ms var(--ease-std), box-shadow 250ms var(--ease-std); }
+.o-header__in { display: flex; align-items: center; gap: var(--s-6); height: 100%; padding: 0 var(--s-4); }
+.o-header__nav { display: none; }
+.o-header__links { display: flex; gap: var(--s-1); }
+.o-header__link { display: inline-flex; align-items: center; height: 4.4rem; padding: 0 1.2rem; border-radius: var(--r-sm); font-size: var(--t-nav); font-weight: var(--fw-medium); text-decoration: none; transition: background-color var(--d-fast) var(--ease-std); }
+.o-header__end { display: flex; align-items: center; gap: var(--s-1); margin-left: auto; }
+.o-header__bookings { display: none; }
+.o-header__icon { display: inline-flex; align-items: center; justify-content: center; width: 4.4rem; height: 4.4rem; border-radius: var(--r-inner); transition: background-color var(--d-fast) var(--ease-std); }
+.o-header__icon .a-svg { width: 2.2rem; height: 2.2rem; }
+.o-header__signin { display: none; height: 4rem; padding: 0 2rem; }
+.o-header.is-solid { background: var(--c-surface); color: var(--c-ink); box-shadow: var(--sh-nav); -webkit-backdrop-filter: none; backdrop-filter: none; --wm-land: var(--c-accent); }
+.o-header { --wm-land: var(--c-accent-bright); }
+.o-header.is-hidden { transform: translateY(-100%); }
+.o-header::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: calc(var(--h-compact) + 1.6rem); background: var(--c-surface); box-shadow: var(--sh-nav); opacity: 0; visibility: hidden; transition: opacity var(--d-fast) var(--ease-std), visibility 0s linear var(--d-fast); }
+.o-header.has-strip::after { opacity: 1; visibility: visible; transition: opacity var(--d-fast) var(--ease-std), visibility 0s; }
+.o-header.has-strip .o-header__in { box-shadow: 0 1px 0 var(--c-line); }
+.o-header.is-solid .o-header__signin { background: var(--c-action); color: var(--c-on-action); box-shadow: none; }
+.o-header :focus-visible { outline-color: var(--c-focus-on-dark); }
+.o-header.is-solid :focus-visible { outline-color: var(--c-focus); }
+@media (hover: hover) and (any-pointer: fine) {
+  .o-header__link:hover, .o-header__icon:hover { background: rgba(255, 255, 255, .14); }
+  .o-header.is-solid .o-header__link:hover, .o-header.is-solid .o-header__icon:hover { background: var(--c-tint); }
+}
+.o-header__link { position: relative; }
+.o-header__link[aria-current="page"]::after { content: ""; position: absolute; left: 1.2rem; right: 1.2rem; bottom: .6rem; height: 2px; background: linear-gradient(90deg, currentColor 0 72%, var(--wm-land) 72% 100%); }
+@media (min-width: 1025px) {
+  .o-header__in { padding: 0 var(--s-6); gap: var(--s-7); }
+  .o-header__nav { display: block; }
+  .o-header__bookings { display: inline-flex; }
+  .o-header__signin { display: inline-flex; }
+  .o-header__menu, .o-header__account { display: none; }
+}
+
+/* ---- menu sheet (Kasa at 390: a full-screen sheet of grouped links) ---- */
+.o-menu { position: fixed; inset: 0; z-index: var(--z-sheet); display: flex; flex-direction: column; background: var(--c-surface); color: var(--c-ink); overflow-y: auto; opacity: 0; transform: translateY(1.2rem); transition: opacity var(--d-panel) var(--ease-std), transform var(--d-nav) var(--ease-reveal); }
+.o-menu.is-open { opacity: 1; transform: none; }
+.o-menu__top { display: flex; align-items: center; justify-content: space-between; height: var(--h-nav); padding: 0 var(--s-4); border-bottom: 1px solid var(--c-line); }
+.o-menu__close { display: inline-flex; align-items: center; justify-content: center; width: 4.4rem; height: 4.4rem; border-radius: var(--r-pill); background: var(--c-tint); }
+.o-menu__groups { display: grid; gap: var(--s-5); padding: var(--s-5) var(--s-4) var(--s-8); }
+.o-menu__head { margin-bottom: var(--s-1); padding: 0 var(--s-3); color: var(--c-muted); font-size: var(--t-small); font-weight: var(--fw-medium); }
+.o-menu__link { display: flex; align-items: center; justify-content: space-between; min-height: 4.8rem; padding: 0 var(--s-3); border-radius: var(--r-sm); font-size: 1.8rem; font-weight: var(--fw-medium); text-decoration: none; }
+.o-menu__link .a-svg { color: var(--c-muted); }
+.o-menu__group + .o-menu__group { padding-top: var(--s-5); border-top: 1px solid var(--c-line); }
+.o-menu__cta { display: grid; gap: var(--s-2); padding: 0 var(--s-3); }
+.o-menu__cta .a-button { width: 100%; height: 4.8rem; }
+@media (hover: hover) and (any-pointer: fine) { .o-menu__link:hover { background: var(--c-tint); } }
+
+/* ===== Hero =====
+   Kasa's full-viewport, full-bleed photo hero, rebuilt with stills that
+   crossfade (Kasa crossfades video), Kasa's four-layer scrim, the search
+   card under the headline at 1440 (Kasa) and docked over the photo's lower
+   edge at 390 (European Sleeper at 390). Lower corners round off over the
+   white page (European Sleeper's band joins). */
+.o-hero { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 3.2rem auto; }
+.o-hero__photo { position: relative; grid-row: 1 / 3; grid-column: 1; overflow: hidden; border-radius: 0 0 var(--r-band) var(--r-band); background: var(--c-navy); }
+.o-hero__zoom { position: absolute; inset: 0; transform-origin: 50% 40%; will-change: transform; }
+.o-hero__slide { position: absolute; inset: 0; opacity: 0; transition: opacity var(--d-fade) var(--ease-fade); }
+.o-hero__slide.is-current { opacity: 1; }
+/* focal points per photo: the city and the water stay in frame at every width */
+.o-hero__slide.-lisbon { --fx: 46%; --fy: 58%; }
+.o-hero__slide.-capetown { --fx: 40%; --fy: 62%; }
+.o-hero__slide.-newyork { --fx: 62%; --fy: 55%; } /* spire kept clear of the centred subline at 1440 */
+.o-hero__slide img { width: 100%; height: 100%; object-fit: cover; object-position: var(--fx, 50%) var(--fy, 50%); filter: var(--fx-grade); transform: scale(1); }
+.o-hero__slide.is-settling img { animation: hero-settle var(--d-settle) var(--ease-reveal) both; }
+@keyframes hero-settle { from { transform: scale(var(--zoom-settle)); } to { transform: scale(1); } }
+.o-hero.is-paused .o-hero__slide img { animation-play-state: paused; }
+/* Scrim, measured on all three photos behind every text line (see the spec,
+   section 2c): a flat ink wash, a deep top fade behind the nav, headline and
+   tabs, a bottom haze, and a corner fade under the arrival caption. */
+.o-hero__scrim { position: absolute; inset: 0; pointer-events: none; background:
+  radial-gradient(70% 60% at 0% 100%, rgba(var(--c-scrim-rgb), .70), rgba(var(--c-scrim-rgb), 0) 72%),
+  linear-gradient(to top, rgba(var(--c-scrim-rgb), .30), rgba(var(--c-scrim-rgb), 0) 26%),
+  linear-gradient(rgba(var(--c-scrim-rgb), .66), rgba(var(--c-scrim-rgb), .30) 38%, rgba(var(--c-scrim-rgb), 0) 62%),
+  rgba(var(--c-scrim-rgb), .16); }
+.o-hero__inner { position: relative; z-index: var(--z-hero-ui); grid-row: 1; grid-column: 1; display: flex; flex-direction: column; align-items: center; min-height: 53rem; padding: calc(var(--h-nav) + 2.8rem) var(--gutter) 1.2rem; color: var(--c-on-photo); text-align: center; }
+/* the text column spans the photo at 390, so it lets clicks through to the caption and pause button */
+.o-hero__inner { pointer-events: none; }
+.o-hero__inner > * { pointer-events: auto; }
+.o-hero__title { max-width: 18ch; font-size: var(--t-hero); line-height: var(--lh-hero); }
+.o-hero__title .w { display: inline-block; }
+.o-hero__sub { max-width: 46ch; margin-top: var(--s-3); }
+/* ---- tabs over the photo: the active one carries the landfall line ---- */
+.o-hero__tabs { display: flex; gap: var(--s-1); margin-top: var(--s-5); transition: opacity var(--d-fast) var(--ease-std), visibility 0s; }
+.a-tab { position: relative; display: inline-flex; align-items: center; gap: .8rem; height: var(--h-tabs); padding: 0 1.4rem; border-radius: var(--r-sm); color: var(--c-on-photo); font-size: var(--t-button); font-weight: var(--fw-strong); opacity: .92; transition: opacity var(--d-fast) var(--ease-std), background-color var(--d-fast) var(--ease-std); }
+.a-tab .a-svg { width: 1.8rem; height: 1.8rem; }
+.a-tab::after { content: ""; position: absolute; left: 1.4rem; right: 1.4rem; bottom: .2rem; height: 2px; background: linear-gradient(90deg, currentColor 0 72%, var(--c-accent-bright) 72% 100%); transform: scaleX(0); transform-origin: 0 50%; transition: transform var(--d-nav) var(--ease-reveal); }
+.a-tab[aria-selected="true"] { opacity: 1; }
+.a-tab[aria-selected="true"]::after { transform: scaleX(1); }
+.a-tab:focus-visible { outline-color: var(--c-focus-on-dark); }
+/* Focus on the photo: the bright ring sits on an ink halo so it holds 3:1 over the whitest facades (Palette distinctness, choices.md) */
+.a-tab:focus-visible, .a-flyhere:focus-visible, .o-hero__pause:focus-visible, .o-header:not(.is-solid) :focus-visible { box-shadow: 0 0 0 7px rgba(var(--c-scrim-rgb), .9); }
+@media (hover: hover) and (any-pointer: fine) { .a-tab:hover { opacity: 1; background: rgba(255, 255, 255, .12); } }
+/* ---- the arrival caption (Kasa's credit line, carrying a fare) ---- */
+.o-hero__caption { position: relative; z-index: var(--z-hero-ui); grid-row: 1; grid-column: 1; align-self: end; justify-self: start; margin: 0 0 7.2rem var(--gutter); color: var(--c-on-photo); transition: opacity var(--d-fast) var(--ease-std), visibility 0s; }
+.o-hero__place { display: block; font-family: var(--f-display); font-variation-settings: "opsz" 36; font-size: 2.2rem; line-height: 1.2; font-weight: 400; transition: opacity 300ms var(--ease-std); }
+.o-hero__fare { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--s-3); margin-top: .2rem; font-size: 1.5rem; font-weight: var(--fw-medium); transition: opacity 300ms var(--ease-std); }
+.o-hero__caption.is-swapping .o-hero__place, .o-hero__caption.is-swapping .o-hero__fare { opacity: 0; }
+.o-hero__caption.is-covered, .o-hero__pause.is-covered, .o-hero__tabs.is-covered { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity var(--d-fast) var(--ease-std), visibility 0s linear var(--d-fast); }
+.o-hero.is-searching .o-hero__caption { opacity: 0; visibility: hidden; transition: opacity var(--d-fast) var(--ease-std), visibility 0s linear var(--d-fast); }
+.a-flyhere { display: inline-flex; align-items: center; gap: .6rem; min-height: 4.4rem; padding: 0 .4rem; border-radius: var(--r-sm); color: var(--c-on-photo); font-weight: var(--fw-strong); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .4rem; }
+.a-flyhere .a-svg { width: 1.6rem; height: 1.6rem; transition: transform var(--d-nudge) var(--ease-reveal); }
+.a-flyhere:focus-visible { outline-color: var(--c-focus-on-dark); }
+@media (hover: hover) and (any-pointer: fine) { .a-flyhere:hover .a-svg { transform: translateX(.4rem); } }
+.o-hero__pause { position: relative; z-index: var(--z-hero-ui); grid-row: 1; grid-column: 1; align-self: end; justify-self: end; margin: 0 var(--gutter) 7.2rem 0; display: inline-flex; align-items: center; justify-content: center; width: 4.4rem; height: 4.4rem; border-radius: var(--r-pill); background: rgba(253, 253, 251, .92); color: var(--c-ink); transition: background-color var(--d-fast) var(--ease-std), opacity var(--d-fast) var(--ease-std), visibility 0s; }
+.o-hero__pause .a-svg { width: 1.6rem; height: 1.6rem; }
+.o-hero__pause .i-play-use { display: none; }
+.o-hero.is-paused .o-hero__pause .i-pause-use { display: none; }
+.o-hero.is-paused .o-hero__pause .i-play-use { display: inline; }
+.o-hero__pause:focus-visible { outline-color: var(--c-focus-on-dark); }
+@media (hover: hover) and (any-pointer: fine) { .o-hero__pause:hover { background: #fff; } }
+/* Phones and tablets: the lower photo is bright city, so the tabs and the
+   caption sit on small frosted ink panels (Kasa's frosted strip) instead of
+   darkening the whole photo; the top fade runs deeper behind the subline.
+   Measured at 390 and 1024 on all three photos (spec 2c). */
+@media (max-width: 1024px) {
+  .o-hero__scrim { background: linear-gradient(rgba(var(--c-scrim-rgb), .72), rgba(var(--c-scrim-rgb), .46) 44%, rgba(var(--c-scrim-rgb), 0) 70%), rgba(var(--c-scrim-rgb), .14); }
+  .o-hero__tabs { margin-top: auto; padding: .4rem; border-radius: var(--r-inner); background: rgba(var(--c-scrim-rgb), .64); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .o-hero__caption { max-width: calc(100% - 2 * var(--gutter) - 5.6rem); padding: .2rem .2rem .2rem 1.4rem; border-radius: var(--r-inner); background: rgba(var(--c-scrim-rgb), .64); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  /* one line on phones: the route names the city, so the place name steps aside */
+  .o-hero__place { display: none; }
+  .o-hero__fare { flex-wrap: nowrap; margin: 0; font-size: 1.4rem; line-height: 1.3; }
+  .a-flyhere { justify-content: center; min-width: 4rem; min-height: 4rem; text-decoration: none; }
+  .a-flyhere__text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media (min-width: 1025px) {
+  .o-hero { grid-template-rows: auto auto 1fr; min-height: max(64rem, 100vh); min-height: max(64rem, 100svh); }
+  .o-hero__photo { grid-row: 1 / -1; }
+  .o-hero__inner { min-height: 0; padding: calc(var(--h-nav) + 6.4rem) var(--gutter) var(--s-3); }
+  .o-hero__tabs { margin-top: var(--s-5); padding-top: 0; }
+  .o-hero__caption { grid-row: 1 / -1; margin: 0 0 4.8rem 4.8rem; }
+  .o-hero__pause { grid-row: 1 / -1; margin: 0 4.8rem 4.8rem 0; }
+}
+
+/* ===== Search card (Kasa's card; labels inside the fields, Expedia technique) ===== */
+.m-search { position: relative; z-index: var(--z-panel); grid-row: 2 / 4; grid-column: 1; width: calc(100% - 2 * var(--gutter)); max-width: var(--w-card); margin: 0 auto; }
+.m-search__card { position: relative; display: block; padding: .5rem; border: 1px solid rgba(var(--c-scrim-rgb), .16); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); box-shadow: var(--sh-panel); transition: border-radius var(--d-panel) var(--ease-std); }
+.m-search__form { display: grid; grid-template-columns: minmax(0, 1fr); }
+.m-search__form[hidden] { display: none; }
+.m-search__fields { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); }
+.m-search__field { position: relative; display: flex; flex-direction: column; justify-content: center; gap: .1rem; min-width: 0; height: var(--h-field); padding: 0 1.6rem; border-radius: var(--r-sm); text-align: left; transition: background-color var(--d-fast) ease-in-out, box-shadow 50ms ease-in-out; }
+.m-search__field ~ .m-search__field::before { content: ""; position: absolute; left: 1.6rem; right: 1.6rem; top: 0; height: 1px; background: var(--c-line); transition: opacity var(--d-fast) var(--ease-std); }
+.m-search__label { display: flex; align-items: center; gap: .6rem; color: var(--c-muted); font-size: var(--t-label); line-height: var(--lh-ui); }
+.m-search__label .a-svg { width: 1.4rem; height: 1.4rem; }
+.m-search__value { overflow: hidden; font-size: var(--t-body); line-height: var(--lh-ui); font-weight: var(--fw-medium); white-space: nowrap; text-overflow: ellipsis; }
+.m-search__value.is-empty { color: var(--c-muted); font-weight: var(--fw-regular); }
+.m-search__field[aria-expanded="true"] { background: var(--c-tint); box-shadow: inset 0 0 0 1px var(--c-navy); }
+.m-search__field[aria-expanded="true"]::before, .m-search__field[aria-expanded="true"] + .m-search__field::before { opacity: 0; }
+.m-search__field[aria-invalid="true"] .m-search__label { color: var(--c-error); }
+.m-search__swap { position: absolute; z-index: 2; right: 1.2rem; top: calc(var(--h-field) - 1.8rem); display: inline-flex; align-items: center; justify-content: center; width: 3.6rem; height: 3.6rem; border: 1px solid var(--c-line); border-radius: var(--r-pill); background: var(--c-surface); color: var(--c-ink); transition: transform var(--d-nav) var(--ease-settle), background-color var(--d-fast) var(--ease-std); }
+.m-search__swap::after { content: ""; position: absolute; inset: -.4rem; }
+.m-search__swap .a-svg { width: 1.6rem; height: 1.6rem; }
+.m-search__swap.is-turned { transform: rotate(180deg); }
+.m-search__go { display: inline-flex; align-items: center; justify-content: center; gap: .8rem; height: var(--h-go); margin-top: .5rem; padding: 0 2.2rem; border-radius: var(--r-inner); background: var(--c-action); color: var(--c-on-action); font-size: var(--t-button); font-weight: var(--fw-strong); transition: background-color 200ms var(--ease-std); }
+.m-search__go .a-svg { width: 1.8rem; height: 1.8rem; }
+.m-search__go:active { transform: scale(var(--press)); }
+.m-search__status { margin: var(--s-2) var(--s-2) 0; min-height: 2rem; font-size: var(--t-small); font-weight: var(--fw-medium); color: var(--c-ink); }
+.m-search__status.is-error { color: var(--c-error); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-search__field:hover { background: var(--c-tint); }
+  .m-search__field:hover::before, .m-search__field:hover + .m-search__field::before { opacity: 0; }
+  .m-search__swap:hover { background: var(--c-tint); }
+  .m-search__go:hover { background: var(--c-action-hover); }
+}
+@media (min-width: 1025px) {
+  .m-search { grid-row: 2; align-self: start; }
+  .m-search__form { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .m-search__fields { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+  .m-search__fields.-flights { grid-template-columns: 1fr 1fr 1.08fr 1.08fr; }
+  .m-search__field ~ .m-search__field::before { left: 0; right: auto; top: .8rem; bottom: .8rem; width: 1px; height: auto; }
+  .m-search__field.-to { padding-left: 2.8rem; }
+  .m-search__swap { right: auto; left: calc(25% - 1.8rem); top: calc(50% - 1.8rem); }
+  .m-search__fields.-flights .m-search__swap { left: calc((100% * 1 / 4.16) - 1.8rem); }
+  .m-search__go { margin: 0 0 0 .5rem; }
+  .m-search__status { display: table; min-height: 0; margin: var(--s-2) auto 0; padding: .8rem 1.6rem; border-radius: var(--r-pill); background: var(--c-surface); color: var(--c-ink); box-shadow: var(--sh-compact); }
+  .m-search__status:empty { display: none; }
+  .m-search__status.is-error::before { content: ""; display: inline-block; width: .8rem; height: .8rem; margin-right: .8rem; border-radius: 50%; background: var(--c-error); vertical-align: .1rem; }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .m-search { max-width: 72rem; }
+  .m-search__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+  .m-search__fields:not(.-flights) .m-search__field:first-child { grid-column: 1 / -1; }
+  .m-search__field { box-shadow: inset 0 0 0 1px var(--c-line); }
+  .m-search__field ~ .m-search__field::before { display: none; }
+  .m-search__field.-to { padding-left: 2.8rem; }
+  .m-search__swap { right: auto; left: calc(50% - 1.8rem); top: calc(var(--h-field) / 2 - 1.8rem); }
+}
+
+/* ---- panels: grow out of the card as one surface (Kasa) ---- */
+.m-panel { position: absolute; z-index: var(--z-panel); left: -1px; right: -1px; top: calc(100% - 1px); overflow: hidden; height: 0; border: 1px solid rgba(var(--c-scrim-rgb), .16); border-top: 0; border-radius: 0 0 var(--r-md) var(--r-md); background: var(--c-surface); color: var(--c-ink); box-shadow: var(--sh-panel); visibility: hidden; transition: height var(--d-panel) var(--ease-reveal), visibility 0s linear var(--d-panel); }
+.m-panel.is-open { visibility: visible; transition: height var(--d-panel) var(--ease-reveal), visibility 0s; }
+.m-search__card.is-open { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.m-panel__in { border-top: 1px solid var(--c-line); }
+.m-panel__head { display: none; }
+.m-panel__body { padding: var(--s-4) var(--s-5) var(--s-3); }
+.m-panel__foot { display: flex; align-items: center; justify-content: flex-end; gap: var(--s-4); padding: var(--s-3) var(--s-5) var(--s-4); border-top: 1px solid var(--c-line); }
+.a-textbtn { min-height: 4.4rem; padding: 0 .4rem; font-weight: var(--fw-strong); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .4rem; }
+.m-panel__done { display: inline-flex; margin-left: auto; align-items: center; height: 4.4rem; padding: 0 2rem; border-radius: var(--r-inner); background: var(--c-action); color: var(--c-on-action); font-weight: var(--fw-strong); font-size: var(--t-button); }
+.m-panel__group { margin-bottom: var(--s-2); color: var(--c-muted); font-size: var(--t-small); font-weight: var(--fw-medium); }
+.m-panel__find { display: flex; align-items: center; gap: var(--s-2); height: 4.8rem; margin-bottom: var(--s-3); padding: 0 var(--s-3); border: 1px solid var(--c-field); border-radius: var(--r-sm); }
+.m-panel__find input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: none; font-size: var(--t-body); }
+.m-panel__find:focus-within { box-shadow: 0 0 0 2px var(--c-focus); border-color: transparent; }
+/* place list */
+.m-places { display: grid; grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr)); gap: .2rem var(--s-3); max-height: 30rem; overflow-y: auto; }
+.m-place { display: flex; align-items: center; gap: var(--s-3); width: 100%; min-height: 6rem; padding: .8rem; border-radius: var(--r-sm); text-align: left; }
+.m-place__tile { display: inline-flex; align-items: center; justify-content: center; width: 4.2rem; height: 4.2rem; border-radius: var(--r-sm); background: var(--c-tint); color: var(--c-ink); }
+.m-place__name { display: block; font-weight: var(--fw-medium); }
+.m-place__meta { display: block; color: var(--c-muted); font-size: var(--t-small); }
+.m-place__code { margin-left: auto; color: var(--c-muted); font-size: var(--t-small); font-weight: var(--fw-strong); letter-spacing: var(--tr-ref); }
+.m-place[aria-selected="true"] { background: var(--c-tint); }
+.m-places__none { padding: var(--s-3) .8rem; color: var(--c-muted); }
+@media (hover: hover) and (any-pointer: fine) { .m-place:hover { background: var(--c-tint); } }
+/* calendar */
+.m-cal { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-6); }
+.m-cal__month { position: relative; }
+.m-cal__cap { display: flex; align-items: center; justify-content: center; height: 4rem; margin-bottom: var(--s-2); font-size: 1.7rem; font-weight: var(--fw-strong); }
+.m-cal__nav { position: absolute; top: .4rem; display: inline-flex; align-items: center; justify-content: center; width: 3.2rem; height: 3.2rem; border-radius: var(--r-pill); background: var(--c-tint); }
+.m-cal__nav .a-svg { width: 1.6rem; height: 1.6rem; }
+.m-cal__nav.-prev { left: 0; }
+.m-cal__nav.-next { right: 0; }
+.m-cal__nav:disabled { opacity: .4; cursor: default; }
+.m-cal__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: .2rem; }
+.m-cal__dow { display: flex; align-items: center; justify-content: center; height: 3.2rem; color: var(--c-muted); font-size: 1.3rem; font-weight: var(--fw-medium); }
+.m-cal__cell { position: relative; display: flex; align-items: center; justify-content: center; height: 4.4rem; }
+.m-cal__cell.is-between::before, .m-cal__cell.is-start::before, .m-cal__cell.is-end::before { content: ""; position: absolute; top: .2rem; bottom: .2rem; left: 0; right: 0; background: var(--c-tint); }
+.m-cal__cell.is-start::before { left: 50%; }
+.m-cal__cell.is-end::before { right: 50%; }
+.m-cal__cell.is-start.is-end::before { display: none; }
+.m-cal__day { position: relative; width: 4rem; height: 4rem; border-radius: var(--r-pill); font-size: 1.4rem; font-weight: var(--fw-medium); font-variant-numeric: tabular-nums; }
+.m-cal__day:disabled { color: rgba(var(--c-scrim-rgb), .32); cursor: default; }
+.m-cal__day.is-today { box-shadow: inset 0 0 0 1px var(--c-field); }
+.m-cal__day.is-picked { background: var(--c-action); color: var(--c-on-action); }
+.m-cal__hint { margin-top: var(--s-3); color: var(--c-muted); font-size: var(--t-small); }
+@media (hover: hover) and (any-pointer: fine) { .m-cal__day:not(:disabled):not(.is-picked):hover { box-shadow: inset 0 0 0 1.5px var(--c-navy); } }
+@media (min-width: 641px) { .m-cal { grid-template-columns: 1fr 1fr; } }
+/* steppers and options */
+.m-steps { display: grid; gap: 0; }
+.m-step { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); min-height: 7.2rem; padding: var(--s-2) 0; }
+.m-step + .m-step { border-top: 1px solid var(--c-line); }
+.m-step__name { display: block; font-weight: var(--fw-medium); }
+.m-step__help { display: block; color: var(--c-muted); font-size: var(--t-small); }
+.m-step__ctrl { display: flex; align-items: center; gap: var(--s-3); }
+.m-step__btn { display: inline-flex; align-items: center; justify-content: center; width: 4.4rem; height: 4.4rem; border-radius: var(--r-pill); background: var(--c-tint); }
+.m-step__btn .a-svg { width: 1.6rem; height: 1.6rem; }
+.m-step__btn:disabled { opacity: .4; cursor: default; }
+.m-step__n { min-width: 2.4rem; text-align: center; font-weight: var(--fw-strong); font-variant-numeric: tabular-nums; }
+.m-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2); margin-top: var(--s-3); padding-top: var(--s-4); border-top: 1px solid var(--c-line); }
+.m-opts legend { grid-column: 1 / -1; margin-bottom: var(--s-2); padding: 0; font-weight: var(--fw-medium); }
+.m-opts { border-left: 0; border-right: 0; border-bottom: 0; margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; }
+.m-opt { position: relative; display: flex; align-items: center; gap: var(--s-2); min-height: 4.4rem; padding: 0 var(--s-3); border-radius: var(--r-sm); box-shadow: inset 0 0 0 1px var(--c-line); cursor: pointer; }
+.m-opt input { width: 1.8rem; height: 1.8rem; margin: 0; accent-color: var(--c-action); }
+.m-opt:has(input:checked) { box-shadow: inset 0 0 0 1.5px var(--c-action); background: var(--c-tint); }
+.m-opt:has(input:focus-visible) { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.m-steps__note { margin-top: var(--s-2); color: var(--c-muted); font-size: var(--t-small); }
+@media (max-width: 640px) { .m-opts { grid-template-columns: minmax(0, 1fr); } }
+@media (min-width: 1025px) {
+  .m-panel__body.-split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); }
+  .m-panel__body.-split .m-opts { align-content: start; margin-top: 0; padding-top: var(--s-2); border-top: 0; }
+  .m-steps.-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .m-steps.-row .m-step { padding: var(--s-2) var(--s-5); }
+  .m-steps.-row .m-step:first-child { padding-left: 0; }
+  .m-steps.-row .m-step + .m-step { border-top: 0; box-shadow: -1px 0 0 var(--c-line); }
+}
+/* ---- phones: every panel is Kasa's full-screen sheet ---- */
+@media (max-width: 1024px) {
+  .m-panel { position: fixed; inset: 0; z-index: var(--z-sheet); display: flex; flex-direction: column; height: auto; padding: 0; border: 0; border-radius: 0; box-shadow: none; opacity: 0; transform: translateY(2.4rem); transition: opacity var(--d-panel) var(--ease-std), transform var(--d-nav) var(--ease-reveal), visibility 0s linear var(--d-nav); }
+  .m-panel.is-open { opacity: 1; transform: none; transition: opacity var(--d-panel) var(--ease-std), transform var(--d-nav) var(--ease-reveal), visibility 0s; }
+  .m-panel__in { display: flex; flex-direction: column; height: 100%; border-top: 0; }
+  .m-panel__head { display: flex; align-items: center; justify-content: space-between; min-height: 6.4rem; padding: 0 var(--s-4); border-bottom: 1px solid var(--c-line); }
+  .m-panel__title { font-family: var(--f-display); font-variation-settings: "opsz" 36; font-size: 2.4rem; font-weight: 400; }
+  .m-panel__x { display: inline-flex; align-items: center; justify-content: center; width: 4.4rem; height: 4.4rem; border-radius: var(--r-pill); background: var(--c-tint); }
+  .m-panel__body { flex: 1; overflow-y: auto; padding: var(--s-4); }
+  .m-places { max-height: none; }
+  .m-panel__foot { justify-content: space-between; padding: var(--s-3) var(--s-4) calc(var(--s-3) + env(safe-area-inset-bottom)); }
+  .m-search__card.is-open { border-radius: var(--r-md); }
+  /* the open sheet must sit above the fixed header */
+  .is-sheet .m-search { z-index: var(--z-sheet); }
+}
+
+/* ===== Pinned compact search (Kasa): floats at the top once the hero card
+   has scrolled away; docks under the header when the header comes back ===== */
+.m-compact { position: fixed; z-index: var(--z-compact); top: var(--s-3); left: 50%; width: min(calc(100% - 2 * var(--s-3)), 86rem); transform: translate(-50%, -160%); transition: transform var(--d-nav) var(--ease-settle), top var(--d-nav) var(--ease-settle); }
+.m-compact.is-shown { transform: translate(-50%, 0); }
+.m-compact.is-docked { top: calc(var(--h-nav) + var(--s-2)); }
+@media (min-width: 1025px) { .m-compact.is-docked { top: calc(var(--h-nav) + var(--s-2)); } }
+.m-compact__bar { display: flex; align-items: center; width: 100%; height: var(--h-compact); padding: .4rem; border: 1px solid rgba(var(--c-scrim-rgb), .14); border-radius: var(--r-inner); background: var(--c-surface); box-shadow: var(--sh-compact); color: var(--c-ink); }
+.m-compact__seg { display: none; flex: 1 1 0; align-items: center; gap: .8rem; min-width: 0; height: 100%; padding: 0 1.4rem; border-radius: var(--r-sm); font-weight: var(--fw-medium); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+.m-compact__seg .a-svg { width: 1.6rem; height: 1.6rem; color: var(--c-muted); }
+.m-compact__seg > span { overflow: hidden; text-overflow: ellipsis; }
+.m-compact__seg + .m-compact__seg { box-shadow: -1px 0 0 var(--c-line); }
+.m-compact__one { display: flex; flex: 1; flex-direction: column; justify-content: center; min-width: 0; height: 100%; padding: 0 1.2rem; text-align: left; }
+.m-compact__one b { overflow: hidden; font-weight: var(--fw-strong); white-space: nowrap; text-overflow: ellipsis; }
+.m-compact__one span { overflow: hidden; color: var(--c-muted); font-size: 1.3rem; white-space: nowrap; text-overflow: ellipsis; }
+.m-compact__go { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 4.4rem; height: 4.4rem; border-radius: var(--r-sm); background: var(--c-action); color: var(--c-on-action); }
+.m-compact__go .a-svg { width: 1.8rem; height: 1.8rem; }
+@media (hover: hover) and (any-pointer: fine) { .m-compact__seg:hover { background: var(--c-tint); } }
+@media (min-width: 1025px) {
+  .m-compact { top: 2.4rem; }
+  .m-compact__seg { display: flex; }
+  .m-compact__one { display: none; }
+}
+
+/* ===== Destinations band (European Sleeper's price-led cards) ===== */
+.o-dest { padding: var(--s-band) 0; }
+.o-dest__title { text-align: center; }
+.o-dest__note { max-width: 60ch; margin: var(--s-3) auto 0; color: var(--c-muted); text-align: center; text-wrap: pretty; }
+.o-dest__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-3); margin-top: var(--s-7); }
+.m-dest { position: relative; display: grid; grid-template-columns: 10rem minmax(0, 1fr) auto; align-items: center; gap: var(--s-4); min-height: 8rem; padding-right: var(--s-4); overflow: hidden; border-radius: var(--r-md); background: var(--c-navy); color: var(--c-on-dark); text-decoration: none; }
+.m-dest__media { height: 100%; min-height: 8rem; overflow: hidden; border-radius: var(--r-md); }
+.m-dest__media img { width: 100%; height: 100%; object-fit: cover; filter: var(--fx-grade); transition: transform var(--d-zoom) var(--ease-std); }
+.m-dest__city { display: block; font-family: var(--f-display); font-variation-settings: "opsz" 36; font-size: var(--t-city); line-height: 1.15; font-weight: 400; }
+.m-dest__fare { display: block; margin-top: .2rem; color: var(--c-accent-bright); font-weight: var(--fw-medium); font-variant-numeric: tabular-nums; }
+.m-dest__arrow { color: var(--c-accent-bright); }
+.m-dest__arrow .a-svg { width: 2.4rem; height: 2.4rem; transition: transform var(--d-nudge) var(--ease-reveal); }
+.m-dest:focus-visible { outline-offset: 4px; }
+.m-dest:active { transform: scale(.99); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-dest:hover .m-dest__media img { transform: scale(var(--zoom-card)); }
+  .m-dest:hover .m-dest__arrow .a-svg { transform: translateX(.4rem); }
+}
+@media (min-width: 641px) {
+  .o-dest__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4); }
+  .m-dest { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; align-items: end; gap: 0 var(--s-3); padding: 0 var(--s-5) var(--s-5) var(--s-5); border-radius: var(--r-lg); }
+  .m-dest__media { grid-column: 1 / -1; aspect-ratio: 8 / 5; height: auto; margin: 0 calc(-1 * var(--s-5)) var(--s-4); border-radius: var(--r-lg); }
+  .m-dest__arrow { align-self: end; padding-bottom: .2rem; }
+}
+@media (min-width: 1025px) { .o-dest__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-5); } }
+
+/* ===== Load sequence (gated by the js class, so nothing hides without JS) ===== */
+.js .o-hero__sub, .js .o-hero__tabs, .js .m-search, .js .o-hero__caption, .js .o-hero__pause { opacity: 0; transform: translateY(1.2rem); }
+.is-loaded .o-hero__sub, .is-loaded .o-hero__tabs, .is-loaded .m-search, .is-loaded .o-hero__caption, .is-loaded .o-hero__pause { opacity: 1; transform: none; transition: opacity 700ms var(--ease-reveal), transform 900ms var(--ease-reveal); }
+.is-loaded .o-hero__sub { transition-delay: 380ms; }
+.is-loaded .o-hero__tabs { transition-delay: 480ms; }
+.is-loaded .m-search { transition-delay: 560ms; }
+.is-loaded .o-hero__caption, .is-loaded .o-hero__pause { transition-delay: 900ms; }
+.js .o-hero__title .w { opacity: 0; filter: blur(var(--reveal-blur)); transform: translateY(var(--reveal-rise)); }
+.is-loaded .o-hero__title .w { opacity: 1; filter: none; transform: none; transition: opacity var(--d-reveal) var(--ease-reveal), filter var(--d-reveal) var(--ease-reveal), transform var(--d-reveal) var(--ease-reveal); transition-delay: calc(120ms + var(--i, 0) * var(--d-stagger)); }
+.js .o-dest__title .w { display: inline-block; opacity: 0; filter: blur(var(--reveal-blur)); transform: translateY(var(--reveal-rise)); }
+.o-dest__title.is-inview .w { opacity: 1; filter: none; transform: none; transition: opacity var(--d-reveal) var(--ease-reveal), filter var(--d-reveal) var(--ease-reveal), transform var(--d-reveal) var(--ease-reveal); transition-delay: calc(var(--i, 0) * var(--d-stagger)); }
+
+/* ===== Reduced motion: everything visible at once, nothing moves =====
+   global.js also never starts the crossfade, the settle zoom or the scroll
+   zoom when the visitor asks for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .js .o-hero__sub, .js .o-hero__tabs, .js .m-search, .js .o-hero__caption, .js .o-hero__pause, .js .o-hero__title .w, .js .o-dest__title .w { opacity: 1; filter: none; transform: none; transition: none; }
+  .o-hero__slide, .o-hero__place, .o-hero__fare { transition: none; }
+  .o-hero__slide.is-settling img { animation: none; }
+  .o-header, .o-menu, .m-compact, .m-panel, .m-search__swap, .a-tab::after, .a-button, .a-button::before, .a-button .a-svg, .m-dest__media img, .m-dest__arrow .a-svg, .a-flyhere .a-svg { transition-duration: 1ms; transition-delay: 0ms; }
+  .a-button:hover { padding: 0 2.4rem; }
+}

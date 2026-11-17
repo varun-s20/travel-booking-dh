@@ -1,0 +1,25 @@
+Landfall's app skeleton is set up in `landfall/site/`, and `npm run build:navy` passes. `build:harbour` passes too. I also ran `start:navy` on port 3003 to check the fake backend. Flights from London to Lisbon return 86 offers. Casa Lanterna comes to $744.00 for 4 nights, the same as copy.md. The declined test card is refused, and the contact form answers that nothing was sent. I stopped that server and nothing is left on 3003 or 3004. I installed no packages and didn't touch `landfall/design/`.
+
+**What's there**
+- **Copied:** the fake backend (`lib/mock/` and all 8 routes in `app/api/`), plus store, client, dates, format, text and `lib/data/`. I also copied `lib/cabins.ts`, which wasn't on your list, because the build needs it.
+- **Emails:** I kept only the email wording as data and added `emailContent()` to read it. Overwing's email layout and colours stay behind.
+- **Palettes and scripts:** navy (the default, port 3003) and harbour (port 3004), each building into its own `.next-navy` or `.next-harbour` folder. All six scripts are in place.
+- **Other files:** `next.config.ts`, `tsconfig.json`, `tools/run.mjs`, `.gitignore`, a README, and a plain `app/layout.tsx` and `app/page.tsx` with no styling.
+
+**Changes to the copied files you may want to check**
+- **Hotel photos:** I emptied the 25 photo lists in the hotel data and dropped the image name and alt text from each destination. They named Overwing's photo files and described Overwing's photos. The slots are still there for Landfall's own photos.
+- **Amenity icons:** I removed the table that matched amenities to Overwing's icons.
+- **Working name:** `SITE.name` is "Landfall", the same way Overwing's concept name became its working name. That's my guess, not a client fact, and the Landfall copy deck may change it.
+- **Image script:** I removed the `images` script from `package.json`, because the image tool it runs wasn't copied.
+- **Storage key and event names:** these now start with `landfall:` instead of `overwing:`.
+
+`landfall/build/plumbing.md` lists every file I copied or changed and why. It also lists 15 places where the copied logic still assumes Overwing's design. The ones the Landfall build will hit first are:
+- The search code is built around Overwing's search bar and its fields.
+- The pop-up messages only show if a page listens for them, and that listener is in an Overwing component I didn't copy.
+- The checkout form stores dates as separate day, month and year fields.
+- The region filter on destinations comes from The Hoxton, which only Overwing may use.
+- The search delays and failures in the backend exist to show Overwing's loading and error screens.
+
+I logged the run in `review-log.md` and started `landfall/build/progress.md`.
+
+This is a good point to commit. Suggested message: `Landfall: app skeleton with simulated backend and palette runner (navy 3003, harbour 3004), no visual layer`

@@ -1,0 +1,28 @@
+Ignoring 2 permissions.allow entries from .claude/settings.json: this workspace has not been trusted. Run Claude Code interactively here once and accept the trust dialog, or set projects["c:/Users/varun/digital-heroes-automation"].hasTrustDialogAccepted: true in C:\Users\varun\.claude.json.
+I've written the Booking.com deconstruction to `projects/travel-booking/references/deconstruct/booking-com.md`, with 42 screenshots in `projects/travel-booking/references/deconstruct/booking-com/`. Every page you listed is covered except the flight step after Continue (below). It took about 75 minutes against the 60 you allowed.
+
+**What matters most for the two rebuilds:**
+- **Switching products:** Booking does not swap content in place. Clicking Flights loads a separate Flights page. Only the header stays; the hero, the search form, every section below it and the footer all change. That page sets the depth for our in-place Flights state: a map entry, country tiles, route cards with dates (no prices), three selling points, a tabbed route directory and a six-question FAQ.
+- **Personalisation:** after one hotel search, one flight search and one hotel view, the homepage added a "recent searches" row (flights and stays mixed, each card with a product badge) and a "still interested" row right under the hero. Its destination rows also switched to the last place searched. This maps directly onto your ruling that recommendations come from searches and views stored in the browser.
+- **How detailed the pages are:**
+  - **Hotel results:** 23 filter groups, each option with a live count, plus 10 sort options.
+  - **Hotel cards:** the room name, cancellation date, payment terms and stay total sit on the card, with taxes on a separate line.
+  - **Flight cards:** both legs, a fare name, baggage, and a "?" popover that breaks the price into traveller lines, a discount and the total.
+  - **Hotel detail page:** 20 sections, including a rooms table of 8 room types and 22 rates. Picking a number of rooms updates a running total and a summary column.
+- **Flight results have no price calendar or flexible-dates tool.** That's an easy place to beat Booking.
+- **Phones get a separate mobile site,** chosen by device type. In a narrow desktop window the hotel results page simply scrolls sideways, so I opened a session posing as a phone for the real 390 views. Those screenshots end in `-390m` and are 780px wide (2x scale).
+
+Each page in the file has an inventory, layout and key measures, a 390 view and what makes it precise. A depth checklist for the benchmark closes the file, one section per page type. Booking features your rulings exclude (the Genius loyalty programme, app prompts, "Mobile-only price", currency and language switchers) are marked out of scope.
+
+**What I could not see:**
+- **The flight step after Continue (fare choice or trip details):** three different flights each opened their details panel, then switched to "This flight's not available" within 2 to 5 seconds. I did not try to get round it. The details panel and that sold-out screen are recorded instead.
+- **Flights on a phone:** I only saw them in a 390px desktop window, where filters become an inline card and sort a popover.
+- **Room prices on the phone hotel page:** it showed "Change your dates to find available rooms" for my dates, so I couldn't see the phone rooms list or its prices.
+- **The signed-in account menu,** since signing in isn't allowed.
+- **Smaller gaps:** hotel grid view, the full reviews page, most hover and focus states, and reduced-motion handling.
+- **Currency:** USD did not stick on the Flights page, the hotel detail page or the guest form, so those screenshots show prices in Indian rupees.
+- **Location:** Booking placed me in India, so the destination rows on a first visit are Indian.
+
+I stopped at the guest-details form without typing anything. I didn't sign in, submit anything or book. The only pop-ups were sign-in and app prompts, which I closed; no cookie banner or captcha appeared.
+
+I haven't added this run to `review-log.md`, since I write only the one file you name. Please log it as: deconstructor, Opus 5.5, outcome "complete except the flight step after Continue".

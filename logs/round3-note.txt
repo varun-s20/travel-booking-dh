@@ -1,0 +1,32 @@
+travel-booking: round 3 note (Studio Lead, 2026-11-11). Read this before anything else. It adds to logs/redesign-note.txt and overrides it where they conflict.
+
+VARUN'S FEEDBACK ON THE TWO BUILT DESIGNS
+- Both are capable but not up to the mark. He rates them about 6 out of 10. The target is at least 9.2 for each.
+- The client sent Booking.com, Expedia (expedia.com) and Priceline (priceline.com) as the main reference websites and direct competitors.
+- Homepages: on both Overwing and Landfall the first two sections are strong. Everything below them falls off: Overwing's lower sections and footer, Landfall's "What happens when you book" and footer.
+- Booking.com offers many flight and hotel options, and switching the product changes the homepage itself. Ours only changes the search or sends you to another section. On both designs, switching Flights / Hotels must change the homepage content in place.
+- Every other page falls short of the three competitors in depth, options and detail. Even the moodboard picks (Hipcamp, Kasa and the donors) were more detailed and precise than our builds. That level of detail and precision is the standard.
+
+VARUN'S RULINGS FOR THIS ROUND
+1. Scoring: the Critic scores each design with projects/travel-booking/benchmark-rubric.md, side by side against Booking.com, Expedia and Priceline, and also reports the studio rubric score for reference. The target is 9.2 or more on the benchmark rubric.
+2. Scope: add "Recommended for you" rows and deal banners. Do not flag them as outside the scope. Everything else stays in scope: no promo code field, no loyalty, points or member prices, one currency (USD) and one language (English), no app.
+   - Deals and recommendations run on the simulated backend. Deals come from the mock fares and rates. Recommendations come from the visitor's recent searches and views stored in the browser, with a sensible default for a first visit.
+3. References: all three competitors feed both designs. Each design takes them through its own concept, layout system, type, palette, photos and icons. The two designs must still share no design resources and must not converge; the Chief Officer and the Critic check this side by side.
+4. Checkpoint: after both homepages are rebuilt, stop for Varun's own review before the inner pages are rebuilt.
+   SUPERSEDED at 15:03 by Varun: "you have 2.5 hours at max to complete the redesign for the complete sites". The homepages and the inner pages are rebuilt in parallel now, with no stop; Varun sees the homepages as soon as they are viewable, and the whole round ends by 17:30. Any spec or Chief Officer note that holds Part B back for his review no longer applies.
+
+WHAT STAYS
+- Overwing (design/, prototype/, build/, site/): the cabin window concept, Hipcamp as its identity reference, Calibre plus Geist, Night navy plus Cabin dawn. Its first two homepage sections (the navy cabin hero with the search, and the section after it) stay as they are, apart from fixes.
+- Landfall (landfall/): the "see the place first" concept, Kasa as its identity reference, Newsreader plus Albert Sans, its navy and teal ("teal acts, navy speaks") plus Harbour gold, its own icon set. Its first two homepage sections (the photo hero with the search card, and popular destinations) stay as they are, apart from fixes.
+- Every rule in logs/redesign-note.txt about no shared design resources, photos, placeholders, servers and logging still applies.
+
+COMPETITOR RULES
+- Take technique, structure and depth, never their look, code, text, images, logos, icons or brand names.
+- Never sign in, never submit a form, never complete a booking. Choosing a result to see the next page is fine; stop at the first form.
+- If a site shows a bot check, captcha or block page, do not try to get around it. Record what was blocked, use the pages that load, and say plainly what could not be seen.
+- Cookie banners: use Reject or close, never Accept.
+- Never invent client facts. Mock data (fictional airlines, hotels, reviews, fares, deals) is fine and marked as demo data, as before.
+
+VARUN'S RULING, 16:28: NO DEMO DISCLOSURES
+- Neither site may say anywhere that it is a demo build, a working name, placeholder, sample, mock, simulated or test data, or that no booking is real or no card is charged. Remove the footer demo notice, demo hints on sign-in and checkout, demo labels on reviews, scores and deals, and any demo wording in the contact result, emails or legal pages. Code comments are fine.
+- This replaces the earlier ruling 9 notice (design/choices.md) and copy.md note 10.

@@ -1,0 +1,28 @@
+{
+  "name": "travel-booking-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node tools/run.mjs dev navy",
+    "build": "node tools/run.mjs build navy",
+    "start": "node tools/run.mjs start navy",
+    "dev:navy": "node tools/run.mjs dev navy",
+    "dev:cabin": "node tools/run.mjs dev cabin",
+    "build:navy": "node tools/run.mjs build navy",
+    "build:cabin": "node tools/run.mjs build cabin",
+    "start:navy": "node tools/run.mjs start navy",
+    "start:cabin": "node tools/run.mjs start cabin",
+    "images": "node tools/images.mjs"
+  },
+  "dependencies": {
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}

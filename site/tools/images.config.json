@@ -1,0 +1,2359 @@
+{
+  "_about": "Read by tools/images.mjs. One entry per published image: its source in assets-src/, the slot ratio it is cropped to (null keeps the source ratio), the focal point as fractions of the source (x, y), and the derivative widths. Widths are fitted to each slot at 2x and never exceed the source. Credits live in public/images/credits.md.",
+  "images": [
+    {
+      "name": "kiama-harbour-first-light",
+      "topic": "hero",
+      "src": "assets-src/hero/kiama-harbour-first-light.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        800,
+        1200,
+        1600,
+        2400,
+        3200
+      ],
+      "fallback": 1600,
+      "_why": "Revision 2026-11-11, item 16 and the Chief Officer's condition: a coast at first light from high up, with a place in it (Kiama harbour, NSW), no industry, land in every pane. Widths: a 358px row at 390 (x2 is 716) up to about 1300px at 1440 with the drift margin, 3200 for 2x screens."
+    },
+    {
+      "name": "departure-hall-walker",
+      "topic": "home",
+      "src": "assets-src/unsplash/departure-hall-walker.jpg",
+      "ratio": [
+        3,
+        2
+      ],
+      "focus": [
+        0.5,
+        0.625
+      ],
+      "widths": [
+        640,
+        960,
+        1280,
+        1800
+      ],
+      "fallback": 1280,
+      "_why": "The walker sits at 40 to 65% of the source height; this crop keeps them in the top two thirds of the card, clear of the text band. Revision 2026-11-11, item 17: the entry cards are 3:2 at 1440 (604 x 403), so the crop is 3:2 too."
+    },
+    {
+      "name": "hotel-room-sheer-window",
+      "topic": "home",
+      "src": "assets-src/unsplash/hotel-room-sheer-window.jpg",
+      "ratio": [
+        3,
+        2
+      ],
+      "focus": [
+        0.4,
+        0.62
+      ],
+      "widths": [
+        640,
+        960,
+        1280,
+        1800
+      ],
+      "fallback": 1280,
+      "_why": "Critic round 2 found the first hotel photo soft and windowless in its crop. This crop sits low, so the pillows and duvet stay above the text band and the tall windows fill the top. Revision 2026-11-11, item 17: the entry cards are 3:2 at 1440 (604 x 403), so the crop is 3:2 too."
+    },
+    {
+      "name": "trust-reception-sign",
+      "topic": "home",
+      "src": "assets-src/unsplash/trust-reception-sign.jpg",
+      "ratio": [
+        3,
+        2
+      ],
+      "focus": [
+        0.5,
+        0.6
+      ],
+      "widths": [
+        640,
+        960,
+        1280,
+        1800
+      ],
+      "fallback": 1280,
+      "_why": "Revision 2026-11-11, item 19: a calm check-in subject, faces out of frame, no national emblems. Critic round, 11 Nov: the first pick (a brass bell) was dark and showed the photographer reflected in it; this reception sign on a whitewashed wall over the sea is light and on-brand."
+    },
+    {
+      "name": "lisbon-tram-hill",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/lisbon-tram-hill.jpg",
+      "ratio": [
+        1,
+        1
+      ],
+      "focus": [
+        0.5,
+        0.6
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800
+    },
+    {
+      "name": "rome-scooter-lane",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/rome-scooter-lane.jpg",
+      "ratio": [
+        1,
+        1
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800
+    },
+    {
+      "name": "new-york-crossing",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/new-york-crossing.jpg",
+      "ratio": [
+        1,
+        1
+      ],
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800
+    },
+    {
+      "name": "mexico-city-cyclist",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/mexico-city-cyclist.jpg",
+      "ratio": [
+        1,
+        1
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800
+    },
+    {
+      "name": "tokyo-lantern-lane",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/tokyo-lantern-lane.jpg",
+      "ratio": [
+        1,
+        1
+      ],
+      "focus": [
+        0.45,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800
+    },
+    {
+      "name": "cape-town-bo-kaap",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/cape-town-bo-kaap.jpg",
+      "ratio": [
+        1,
+        1
+      ],
+      "focus": [
+        0.62,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800
+    },
+    {
+      "name": "casa-lanterna-lane",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-lane.jpg",
+      "ratio": null,
+      "focus": [
+        0.55,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "casa-lanterna-courtyard",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-courtyard.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.45
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "casa-lanterna-terrace",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-terrace.jpg",
+      "ratio": null,
+      "focus": [
+        0.58,
+        0.65
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "casa-lanterna-courtyard-double",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-courtyard-double.jpg",
+      "ratio": null,
+      "focus": [
+        0.45,
+        0.7
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "casa-lanterna-river-double",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-river-double-2.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.45
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Critic round 1 (hotels): the first photo was a glass high-rise over a lake; this is an old townhouse room with tall windows over roof tiles."
+    },
+    {
+      "name": "casa-lanterna-terrace-suite",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-terrace-suite-3.jpg",
+      "ratio": null,
+      "focus": [
+        0.6,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Revision 2026-11-11, item 38: the earlier suite photo was shot in Vietnam and showed a lantern lamp; this is a terrace room with glazed doors and no regional props."
+    },
+    {
+      "name": "casa-lanterna-breakfast",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-breakfast.jpg",
+      "ratio": null,
+      "focus": [
+        0.45,
+        0.65
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "casa-lanterna-stairs",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-stairs.jpg",
+      "ratio": null,
+      "focus": [
+        0.4,
+        0.4
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "casa-lanterna-bathroom",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-bathroom.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.65
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "casa-lanterna-lounge",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/casa-lanterna-lounge.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.6
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "cais-verde-exterior",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/cais-verde-exterior.jpg",
+      "ratio": null,
+      "focus": [
+        0.4,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "cais-verde-room",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/cais-verde-room.jpg",
+      "ratio": null,
+      "focus": [
+        0.45,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "cais-verde-bar",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/cais-verde-bar.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.6
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "patio-quinze-courtyard",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/patio-quinze-courtyard.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "patio-quinze-room",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/patio-quinze-room.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "patio-quinze-detail",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/patio-quinze-detail.jpg",
+      "ratio": null,
+      "focus": [
+        0.4,
+        0.4
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "ladeira-room",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/ladeira-room.jpg",
+      "ratio": null,
+      "focus": [
+        0.45,
+        0.65
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "ladeira-lounge",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/ladeira-lounge.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.65
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "ladeira-kitchen",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/ladeira-kitchen.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.6
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "ribeira-loft",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/ribeira-loft.jpg",
+      "ratio": null,
+      "focus": [
+        0.45,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "ribeira-kitchen",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/ribeira-kitchen.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.45
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "ribeira-living",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/ribeira-living.jpg",
+      "ratio": null,
+      "focus": [
+        0.6,
+        0.45
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "albergo-street",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/albergo-street.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "albergo-room",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/albergo-room.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.65
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "albergo-breakfast",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/albergo-breakfast.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "kumo-room",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/kumo-room.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "kumo-bath",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/kumo-bath.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.65
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "kumo-river",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/kumo-river.jpg",
+      "ratio": null,
+      "focus": [
+        0.42,
+        0.65
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "halyard-room",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/halyard-room.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.45
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "halyard-rooftop",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/halyard-rooftop.jpg",
+      "ratio": null,
+      "focus": [
+        0.6,
+        0.6
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "halyard-lobby",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/halyard-lobby.jpg",
+      "ratio": null,
+      "focus": [
+        0.62,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Stands in for Duffel's hotel photos (never graded). Kept at 3:2; each slot crops by the focal point (results 1:1, grid tracks, room cards 3:2, gallery)."
+    },
+    {
+      "name": "about-harbour-window",
+      "topic": "pages",
+      "src": "assets-src/unsplash/about-harbour-window.jpg",
+      "ratio": [
+        21,
+        9
+      ],
+      "focus": [
+        0.45,
+        0.6
+      ],
+      "widths": [
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Revision 2026-11-11, item 32: About shows the wing once (banner) and one new 21:9 photo; the coast photo is not repeated there."
+    },
+    {
+      "name": "about-wing-cloud",
+      "topic": "pages",
+      "src": "assets-src/unsplash/about-wing-cloud.jpg",
+      "ratio": null,
+      "focus": [
+        0.55,
+        0.55
+      ],
+      "widths": [
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Revision 2026-11-11, item 32: the old hero's subject moves to the About banner (object-fit cover), so the full frame is kept."
+    },
+    {
+      "name": "contact-map-pen",
+      "topic": "pages",
+      "src": "assets-src/unsplash/contact-map-pen.jpg",
+      "ratio": null,
+      "focus": [
+        0.6,
+        0.5
+      ],
+      "widths": [
+        800,
+        1200,
+        1600,
+        2400
+      ],
+      "fallback": 1200,
+      "_why": "Revision 2026-11-11, item 33 (critic: the phone on a map was a recognisable phone model): a hand tracing a route on a paper map."
+    },
+    {
+      "name": "barcelona-gothic-walker",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/barcelona-gothic-walker.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "athens-acropolis-hill",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/athens-acropolis-hill.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.35
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "paris-street-walkers",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/paris-street-walkers.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "amsterdam-bridge-bikes",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/amsterdam-bridge-bikes.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "copenhagen-canal-houses",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/copenhagen-canal-houses.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.45
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "reykjavik-rainbow-street",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/reykjavik-rainbow-street.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "toronto-flatiron-crossing",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/toronto-flatiron-crossing.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "los-angeles-palm-skater",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/los-angeles-palm-skater.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "miami-lifeguard-tower",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/miami-lifeguard-tower.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "cancun-palm-beach",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/cancun-palm-beach.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.45
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "rio-beach-mountain",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/rio-beach-mountain.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.4
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "buenos-aires-obelisk-avenue",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/buenos-aires-obelisk-avenue.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "singapore-shophouses",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/singapore-shophouses.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "sydney-harbour-ferry",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/sydney-harbour-ferry.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.6,
+        0.55
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "bangkok-flag-lane",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/bangkok-flag-lane.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "marrakech-medina-alley",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/marrakech-medina-alley.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "dubai-creek-abra",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/dubai-creek-abra.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "nairobi-skyline",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/nairobi-skyline.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A): city photo for deal cards, rails, trending and region windows, up to 592px wide at 1440"
+    },
+    {
+      "name": "type-hotel-balconies",
+      "topic": "home",
+      "src": "assets-src/unsplash/type-hotel-balconies.jpg",
+      "ratio": [
+        3,
+        4
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800
+      ],
+      "fallback": 600,
+      "_why": "Round 3 homepage (Developer A): property type tile, a 176 x 236 window at 1440"
+    },
+    {
+      "name": "type-boutique-lounge",
+      "topic": "home",
+      "src": "assets-src/unsplash/type-boutique-lounge.jpg",
+      "ratio": [
+        3,
+        4
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800
+      ],
+      "fallback": 600,
+      "_why": "Round 3 homepage (Developer A): property type tile, a 176 x 236 window at 1440"
+    },
+    {
+      "name": "type-guesthouse-door",
+      "topic": "home",
+      "src": "assets-src/unsplash/type-guesthouse-door.jpg",
+      "ratio": [
+        3,
+        4
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800
+      ],
+      "fallback": 600,
+      "_why": "Round 3 homepage (Developer A): property type tile, a 176 x 236 window at 1440"
+    },
+    {
+      "name": "type-apartment-living",
+      "topic": "home",
+      "src": "assets-src/unsplash/type-apartment-living.jpg",
+      "ratio": [
+        3,
+        4
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800
+      ],
+      "fallback": 600,
+      "_why": "Round 3 homepage (Developer A): property type tile, a 176 x 236 window at 1440"
+    },
+    {
+      "name": "type-aparthotel-kitchen",
+      "topic": "home",
+      "src": "assets-src/unsplash/type-aparthotel-kitchen.jpg",
+      "ratio": [
+        3,
+        4
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800
+      ],
+      "fallback": 600,
+      "_why": "Round 3 homepage (Developer A): property type tile, a 176 x 236 window at 1440"
+    },
+    {
+      "name": "type-resort-pool",
+      "topic": "home",
+      "src": "assets-src/unsplash/type-resort-pool.jpg",
+      "ratio": [
+        3,
+        4
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800
+      ],
+      "fallback": 600,
+      "_why": "Round 3 homepage (Developer A): property type tile, a 176 x 236 window at 1440"
+    },
+    {
+      "name": "hotel-pool-twin-room-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-twin-room-1.jpg",
+      "ratio": null,
+      "focus": [
+        0.45,
+        0.6
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-twin-room-2",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-twin-room-2.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-twin-room-3",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-twin-room-3.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-garden-suite-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-garden-suite-1.jpg",
+      "ratio": null,
+      "focus": [
+        0.6,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-king-room-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-king-room-1.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-city-room-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-city-room-1.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.45
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-king-room-2",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-king-room-2.jpg",
+      "ratio": null,
+      "focus": [
+        0.55,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-shower-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-shower-1.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.45
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-bathroom-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-bathroom-1.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-bathroom-2",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-bathroom-2.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.4
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-pool-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-pool-1.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.62
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-pool-2",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-pool-2.jpg",
+      "ratio": null,
+      "focus": [
+        0.55,
+        0.6
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-pool-3",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-pool-3.jpg",
+      "ratio": null,
+      "focus": [
+        0.4,
+        0.6
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-apartment-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-apartment-1.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-apartment-2",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-apartment-2.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-studio-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-studio-1.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-guesthouse-room-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-guesthouse-room-1.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.4,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-lobby-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-lobby-1.jpg",
+      "ratio": null,
+      "focus": [
+        0.45,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-lobby-2",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-lobby-2.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-balcony-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-balcony-1.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-balcony-2",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-balcony-2.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.4
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-facade-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-facade-1.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.4,
+        0.29
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-facade-2",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-facade-2.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.65
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-breakfast-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-breakfast-1.jpg",
+      "ratio": null,
+      "focus": [
+        0.5,
+        0.55
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-restaurant-1",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-restaurant-1.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.58
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "hotel-pool-breakfast-2",
+      "topic": "hotels",
+      "src": "assets-src/unsplash/hotels-r3/hotel-pool-breakfast-2.jpg",
+      "ratio": [
+        4,
+        3
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        480,
+        800,
+        1200,
+        1600
+      ],
+      "fallback": 1200,
+      "_why": "Round 3 hotel photo pool (lib/data/hotel-photos.ts): stands in for Duffel hotel media on the catalogue hotels (never graded), so neighbouring results do not repeat photos. Slots crop again by the focal point (results 1:1, gallery, room cards)."
+    },
+    {
+      "name": "lisbon-rooftops-river",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/lisbon-rooftops-river.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "rome-colosseum-street",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/rome-colosseum-street.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "new-york-manhattan-bridge",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/new-york-manhattan-bridge.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "mexico-city-bellas-artes",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/mexico-city-bellas-artes.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "tokyo-street-cyclist",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/tokyo-street-cyclist.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "cape-town-table-mountain",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/cape-town-table-mountain.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "barcelona-sagrada-familia",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/barcelona-sagrada-familia.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "athens-street-walkers",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/athens-street-walkers.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "paris-bridge-walkers",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/paris-bridge-walkers.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "amsterdam-canal-gables",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/amsterdam-canal-gables.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "copenhagen-arch-cyclist",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/copenhagen-arch-cyclist.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "reykjavik-harbour-boat",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/reykjavik-harbour-boat.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "toronto-buildings-view",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/toronto-buildings-view.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "los-angeles-boat-sea",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/los-angeles-boat-sea.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "miami-lifeguard-house",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/miami-lifeguard-house.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "cancun-palm-shore",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/cancun-palm-shore.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "rio-street-walkers",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/rio-street-walkers.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "buenos-aires-la-boca",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/buenos-aires-la-boca.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "singapore-supertrees",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/singapore-supertrees.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "sydney-opera-house",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/sydney-opera-house.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "bangkok-temple-water",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/bangkok-temple-water.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "marrakech-shop-front",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/marrakech-shop-front.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "dubai-burj-al-arab",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/dubai-burj-al-arab.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    },
+    {
+      "name": "nairobi-park-lioness",
+      "topic": "destinations",
+      "src": "assets-src/unsplash/nairobi-park-lioness.jpg",
+      "ratio": [
+        4,
+        5
+      ],
+      "focus": [
+        0.5,
+        0.5
+      ],
+      "widths": [
+        400,
+        600,
+        800,
+        1200
+      ],
+      "fallback": 800,
+      "_why": "Round 3 homepage (Developer A, critic fix 1): a second photo per city, so no section repeats the one before it"
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): home.css
+   The home page sections in page order: hero and cabin wall (ported
+   from the approved prototype), entry cards (Hipcamp promo cards),
+   popular destinations (Monocle mat tiles in the cabin-window mask),
+   trust panel (Hipcamp host banner, Faye disc ticks) and the pre-footer
+   band (Varun V10). Every rule hangs off a home block (o-home*, m-entry,
+   m-dest), so nothing here touches another page.
+   Loads after search.css, before pages.css and motion.css.
+   ===================================================================== */
+
+/* ===== Home hero: the cabin wall at night ===== */
+/* Revision 2026-11-11 (client: "deep navy, white and teal", "a prominent search"), from the approved prototype's
+   .o-homeHero block: one rounded navy panel (--c-hero) holds the headline, the search and the windows, so the white
+   search is the brightest, largest control on the first screen and the windows read as lit. In Cabin dawn the
+   --c-hero roles map back to the blush ground (tokens.css). */
+.o-homeHero { --c-focus: var(--c-hero-focus); position: relative; margin: .8rem .8rem 0; padding-top: 2.4rem; border-radius: var(--r-lg); background: var(--c-hero); color: var(--c-hero-ink); text-align: center; }
+/* inside white surfaces the ring goes back to the light-ground accent */
+.o-homeHero .m-search__pill, .o-homeHero .m-pop { --c-focus: var(--c-accent); }
+.o-homeHero__inner { container-type: inline-size; position: relative; z-index: 2; }
+/* sized off its column so "Fly there, stay there" (the longest row, about 10.5em) holds one row from a 600px column up,
+   and balances into two rows below; 60px at most (revision item 12, was 56) */
+.o-homeHero__title { max-width: 18em; margin: 0 auto; color: var(--c-hero-ink); font-size: clamp(3.6rem, 9.4cqi, 6rem); }
+.o-homeHero__lead { max-width: 30em; margin: .8rem auto 0; color: var(--c-hero-muted); text-wrap: balance; }
+.o-homeHero__search { margin-top: 2rem; }
+/* Flights / Hotels as tabs with 18px icons on the wall (item 13): 36px tabs in a 44px track on the hero tint */
+.o-homeHero .m-search__modes { display: flex; justify-content: center; margin-bottom: 1.2rem; }
+.m-search__panel.is-sheet .m-search__modes { justify-content: flex-start; }
+.o-homeHero .m-search__modes .a-toggle { background: var(--c-hero-tint); }
+.o-homeHero .m-search__modes .a-toggle__btn { display: inline-flex; align-items: center; gap: .8rem; height: var(--h-thumb); padding: 0 2rem; color: var(--c-hero-muted); font-size: 1.5rem; }
+.o-homeHero .m-search__modes .a-toggle__btn .a-icon { width: 1.8rem; height: 1.8rem; }
+.o-homeHero .m-search__modes .a-toggle__btn[aria-pressed="true"] { color: var(--c-ink); }
+@media (hover: hover) and (any-pointer: fine) {
+  .o-homeHero .m-search__modes .a-toggle__btn[aria-pressed="false"]:hover { color: var(--c-hero-ink); }
+}
+/* search messages on the wall */
+.o-homeHero .m-search__status { color: var(--c-hero-muted); }
+.o-homeHero .m-search__status.is-error { color: var(--c-hero-error); }
+.o-homeHero .m-search__status.is-done { color: var(--c-hero-ink); }
+/* ---- fact chips (Varun V3: facts in outlined chips under the copy; only facts from the scope) ----
+   On the wall (item 15): the hero's muted colour at full strength (9.3:1 on navy, 6.1:1 on blush), a teal outline,
+   teal icons. The chips never hide; a search message sits under them (search.css). */
+.o-homeHero__facts { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.o-homeHero .a-fact { border-color: var(--c-hero-chip); color: var(--c-hero-muted); opacity: 1; }
+.o-homeHero .a-fact .a-icon { color: var(--c-hero-focus); }
+/* Cabin dawn: the white pill gets an edge on the blush wall (critic, 11 Nov: 1.2:1 against the wall) */
+.o-homeHero .m-search__pill { border-color: var(--c-pill-edge); }
+/* phones: 12px chips, padding 0 10 0 8, so two fit on the first row (fitted to a 358px column) */
+@media (max-width: 640px) {
+  .o-homeHero__facts { gap: .6rem; margin-top: 1.2rem; }
+  .o-homeHero .a-fact { height: 2.8rem; padding: 0 1rem 0 .8rem; gap: .5rem; font-size: 1.2rem; }
+}
+
+/* ---- the windows ----
+   One photo runs behind every window as a single panorama: each window
+   holds the same image, shifted left by its own position in the row, so
+   the view continues from pane to pane. The row is its own container, so
+   sizes are in cqw of the row; it is capped at --win-max per window and
+   inset by the bezel, so no bezel touches the rail or the screen edge
+   (round 2, critic: 15px from the rail at 1280, 290px windows at 1024).
+   Phones (Chief Officer, 11 Nov, note 4): 24px under the chips (was 40), so the tops of both windows show above
+   the tab bar on a 390 x 844 first screen, with Search above the fold. */
+/* phones (picked by eye at 390): the dawn sky, the town, the bay with the marina, the headland and the sea */
+.o-homeHero__cabin { --win-n: 2; --gap: 6.4; --view-top: -12cqw; --view-x: -4cqw; --bezel: .5rem; position: relative; z-index: 1; margin-top: 2.4rem; padding-bottom: 3.2rem; padding-left: calc(var(--gutter) + var(--bezel) + .8rem); padding-right: calc(var(--gutter) + var(--bezel) + .8rem); }
+.o-homeHero__windows { container-type: inline-size; display: grid; grid-template-columns: repeat(var(--win-n), minmax(0, 1fr)); column-gap: calc(var(--gap) * 1%); width: 100%; max-width: calc(var(--win-max) * var(--win-n) / (1 - (var(--win-n) - 1) * var(--gap) / 100)); margin: 0 auto; }
+/* the bezel, its 1px teal ring, and (Chief Officer, 11 Nov, note 2: "teal must read at arm's length") a 2px lit edge
+   of full bright teal on the lit side, top and left: the bezel's own shape set 2px up and left, under the bezel */
+.m-window { --i: 0; position: relative; aspect-ratio: 236 / 318; border-radius: var(--r-window); overflow: hidden; background: var(--c-deep); box-shadow: 0 0 0 var(--bezel) var(--c-bezel), -2px -2px 0 var(--bezel) var(--c-accent-soft), 0 0 0 calc(var(--bezel) + 1px) var(--c-bezel-ring), var(--sh-window); isolation: isolate; }
+.m-window:nth-child(2) { --i: 1; }
+.m-window:nth-child(3) { --i: 2; }
+.m-window:nth-child(4) { --i: 3; }
+.m-window:nth-child(n + 3) { display: none; }
+/* --view-x pulls the photo left so a chosen detail lands in the first pane; the photo is wide enough for that pull plus the full drift */
+.m-window__view { position: absolute; top: var(--view-top); left: calc((100cqw + var(--gap) * 1cqw) / var(--win-n) * var(--i) * -1 + var(--view-x, 0cqw)); width: calc(107cqw - var(--view-x, 0cqw)); max-width: none; height: auto; filter: var(--fx-grade); transform: translate3d(var(--drift-x, 0px), 0, 0); will-change: transform; }
+/* the acrylic pane catches the light: one faint diagonal sheen, under the blind */
+.m-window::before { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(118deg, rgba(255, 255, 255, .18) 0, rgba(255, 255, 255, .06) 24%, rgba(255, 255, 255, 0) 46%); pointer-events: none; }
+/* the blind: a soft plastic gradient with a lip along its lower edge */
+.m-window__blind { position: absolute; z-index: 2; inset: 0; border-bottom: 2px solid var(--c-blind-end); background: linear-gradient(var(--c-blind), var(--c-blind-end)); box-shadow: 0 .2rem .6rem rgba(11, 27, 46, .16), inset 0 -3px 0 rgba(11, 27, 46, .05); transform: translateY(-79%); }
+.m-window__blind::after { content: ""; position: absolute; left: 43%; right: 43%; bottom: 7%; height: .5rem; border-radius: .5rem; background: rgba(11, 27, 46, .16); }
+/* the recess the window sits in: above the blind */
+.m-window::after { content: ""; position: absolute; z-index: 3; inset: 0; border-radius: inherit; box-shadow: inset 0 .6rem 1.8rem rgba(11, 27, 46, .22), inset 0 0 0 1px rgba(11, 27, 46, .08); pointer-events: none; }
+/* load moment: the blinds start down and rise one after another */
+.js .o-homeHero__cabin:not(.is-shown) .m-window__blind { transform: translateY(0); }
+.o-homeHero__cabin.is-shown .m-window__blind { transition: transform var(--d-blind) var(--ease-out-long) calc(var(--d-blind-delay) + var(--i) * var(--d-blind-stagger)); }
+
+@media (min-width: 641px) {
+  .o-homeHero { margin: 1.2rem var(--hero-inset) 0; padding-top: 4.8rem; border-radius: var(--r-xl); }
+  .o-homeHero__search { margin-top: 2.4rem; }
+  .o-homeHero .m-search__modes { margin-bottom: 1.6rem; }
+  /* tablets (picked by eye at 1024): the town, the bay in the first light with the marina, then the beach and the sea */
+  .o-homeHero__cabin { --win-n: 3; --gap: 6; --view-top: -16cqw; --view-x: -3cqw; --bezel: .7rem; margin-top: 5.6rem; padding-bottom: 5.6rem; }
+  .m-window:nth-child(3) { display: block; }
+}
+@media (min-width: 1025px) {
+  .o-homeHero { margin-top: .4rem; padding-top: clamp(4.8rem, 8vh, 8rem); }
+  /* the harbour view (picked by eye at 1440): pulled 4cqw left and 17cqw up (critic rounds, 11 Nov: was 24, then 20;
+     both kept the sunrise tucked under the blinds), so the gold sky sits a third into all four panes, the town fills panes one to three,
+     the bay in the first light crosses panes two and three, and the beach and the open sea fill pane four; land shows
+     in every pane (the Chief Officer asks for three of four).
+     Windows 256 x 345 at 1440 (were 229 x 309): the gap drops from 7.8% to 4.8% */
+  .o-homeHero__cabin { --win-n: 4; --gap: 4.8; --view-top: -17cqw; --view-x: -4cqw; --bezel: .9rem; margin-top: 5.6rem; padding-bottom: 4.8rem; }
+  .m-window:nth-child(4) { display: block; }
+}
+/* short laptop screens: the whole wall, bezels and pull tabs, stays in the first screen (fitted to 1280 x 720) */
+@media (min-width: 1025px) and (max-height: 820px) {
+  .o-homeHero { padding-top: 4rem; }
+  .o-homeHero__cabin { margin-top: 4rem; }
+}
+/* phones on their side: the search and the facts stay clear of the tab bar (fitted to 844 x 390) */
+@media (orientation: landscape) and (max-height: 500px) {
+  .o-homeHero { padding-top: 1.2rem; }
+  .o-homeHero__search { margin-top: 2rem; }
+  .o-homeHero__cabin { margin-top: 3.2rem; }
+}
+
+/* ===== Entry cards (Hipcamp promo cards: one photo, a band in the hero's navy, one white pill) ===== */
+.o-homeEntry__grid { display: grid; gap: 2.4rem; margin: 0; padding: 0; list-style: none; }
+.m-entry { --c-focus: var(--c-hero-focus); position: relative; isolation: isolate; display: flex; flex-direction: column; height: 100%; overflow: hidden; border-radius: var(--r-lg); background: var(--c-hero); color: var(--c-hero-ink); cursor: pointer; }
+/* revision 2026-11-11, item 17: the band is the hero wall's navy (blush in Cabin dawn, where the white pill gets its edge) */
+.m-entry .a-button.-light, .o-homeBand .a-button.-light { box-shadow: 0 0 0 1px var(--c-pill-edge); }
+.m-entry :focus-visible, .o-homeTrust__panel :focus-visible, .o-homeBand__panel :focus-visible { outline-color: var(--c-hero-focus); }
+.m-entry__media { position: relative; aspect-ratio: 2 / 1; overflow: hidden; }
+.m-entry__img { height: 100%; object-fit: cover; transition: transform var(--d-zoom) var(--ease-std); }
+.m-entry__band { display: flex; flex: 1; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 1.6rem; padding: 2rem 2rem 2.4rem; }
+.m-entry__title { font: var(--fw-bold) 2.4rem/1.15 var(--f-display); letter-spacing: var(--tr-head); text-wrap: balance; }
+@media (min-width: 641px) {
+  .o-homeEntry__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .m-entry__band { padding: 2.4rem 2.4rem 2.8rem; }
+}
+@media (min-width: 1025px) {
+  /* revision 2026-11-11, item 17: 604 x 403 at 1440 (3:2, was 2:1), so each photo is a third bigger; the band overlaps its bottom 112px */
+  .m-entry { aspect-ratio: 3 / 2; }
+  .m-entry__media { position: absolute; z-index: -1; inset: 0; aspect-ratio: auto; }
+  /* the title keeps a fixed measure, so the pill's breathing grows into the free space and never re-wraps it */
+  .m-entry__band { position: absolute; left: 0; right: 0; bottom: 0; flex-direction: row; align-items: center; min-height: 11.2rem; padding: 1.6rem 2.4rem 1.6rem 3.2rem; background: var(--c-hero); }
+  .m-entry__title { flex: 0 1 32rem; }
+  .m-entry__band .a-button { margin-left: auto; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .m-entry:hover .a-button::before { opacity: 1; background-position: 0 0; }
+}
+@media (hover: hover) and (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .m-entry:hover .m-entry__img { transform: scale(1.04); }
+  .m-entry:hover .a-button { padding-left: 3.2rem; padding-right: 3.2rem; }
+  .m-entry:hover .a-button__icon { transform: translateX(.6rem); }
+}
+
+/* ===== Popular destinations (Monocle's mat tiles; the photo looks out through the cabin window) ===== */
+.o-homeDest { margin-top: var(--s-section); }
+.o-homeDest__head { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 2.4rem; }
+/* on phones and tablets the pills run sideways to the screen edge; the padding keeps their focus rings inside the scroller */
+.o-homeDest__pills { display: flex; gap: .8rem; margin: 0 calc(var(--gutter) * -1); padding: .6rem var(--gutter); overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+.o-homeDest__pills::-webkit-scrollbar { display: none; }
+/* six cards: 4 across at 1440 (286 x 385, gap 32; revision item 18), 3 on tablets, a sideways rail on phones.
+   A wrapping row, centred, so the second row of two and a filtered region sit in the middle */
+.o-homeDest__grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 4rem 3.2rem; margin: 0; padding: 0; list-style: none; }
+.o-homeDest__grid > li { flex: 0 0 100%; min-width: 0; }
+.o-homeDest__empty { padding: 2.4rem; border-radius: var(--r-md); background: var(--c-cream); }
+.o-homeDest__note { max-width: 64rem; margin: 3.2rem auto 0; color: var(--c-muted); text-align: center; }
+/* ---- the card: the photo fills a tall cabin window (236:318), graded; the city, the fare and what it covers under it
+   on the page ground (revision 2026-11-11, item 18; Monocle's mat survives only on the empty states) ---- */
+.m-dest { display: flex; flex-direction: column; height: 100%; color: var(--c-ink); text-decoration: none; }
+.m-dest:focus-visible { outline: none; }
+.m-dest__window { position: relative; isolation: isolate; display: block; aspect-ratio: 236 / 318; overflow: hidden; border-radius: var(--r-window); background: var(--c-deep); box-shadow: var(--sh-card); }
+.m-dest__window picture, .m-dest__img { display: block; width: 100%; height: 100%; }
+.m-dest__img { object-fit: cover; transition: transform var(--d-zoom) ease-in-out; }
+/* the recess the pane sits in, as on the hero windows */
+.m-dest__window::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 .4rem 1.2rem rgba(11, 27, 46, .22), inset 0 0 0 1px rgba(11, 27, 46, .08); pointer-events: none; }
+/* focus: a 2px ring that follows the window shape */
+.m-dest:focus-visible .m-dest__window { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+.m-dest__name { margin-top: 1.6rem; font: var(--fw-bold) 2rem/1.25 var(--f-display); letter-spacing: var(--tr-head); text-decoration: underline 1px transparent; text-underline-offset: .14em; transition: text-decoration-color var(--d-fast) var(--ease-std); }
+.m-dest__price { margin-top: .4rem; color: var(--c-price); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-dest__note { margin-top: .2rem; color: var(--c-price-note); font: var(--fw-ui) 1.3rem/1.35 var(--f-ui); }
+.m-dest:focus-visible .m-dest__name { text-decoration-color: currentColor; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-dest:hover .m-dest__name { text-decoration-color: currentColor; }
+  .m-dest:hover .m-dest__img { transform: scale(1.05); }
+}
+/* phones: a sideways rail of 240px cards with the next one peeking (critic rounds 1 and 2: six stacked cards ran to
+   2,700px); the padding keeps focus rings inside the scroller */
+@media (max-width: 640px) {
+  .o-homeDest__grid { flex-wrap: nowrap; justify-content: flex-start; gap: 1.6rem; margin: 0 calc(var(--gutter) * -1); padding: .6rem var(--gutter) 1.2rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter); scrollbar-width: none; }
+  .o-homeDest__grid::-webkit-scrollbar { display: none; }
+  .o-homeDest__grid > li { flex: 0 0 24rem; scroll-snap-align: start; }
+  .o-homeDest__note { margin-top: 1.6rem; }
+}
+@media (min-width: 641px) {
+  .o-homeDest__grid > li { flex-basis: calc((100% - 6.4rem) / 3); }
+}
+@media (min-width: 1025px) {
+  .o-homeDest__head { flex-direction: row; align-items: center; justify-content: space-between; gap: 3.2rem; margin-bottom: 3.2rem; }
+  .o-homeDest__pills { margin: 0; padding: .6rem; overflow: visible; }
+  .o-homeDest__grid > li { flex-basis: calc((100% - 9.6rem) / 4); }
+}
+
+/* ===== Trust panel (Hipcamp's host banner: one panel in the hero's navy, copy left, photo right; revision item 19) ===== */
+.o-homeTrust { margin-top: var(--s-section); }
+.o-homeTrust__panel { display: grid; overflow: hidden; border-radius: var(--r-lg); background: var(--c-hero); color: var(--c-hero-ink); }
+.o-homeTrust__media { position: relative; aspect-ratio: 3 / 2; }
+.o-homeTrust__img { height: 100%; object-fit: cover; }
+.o-homeTrust__copy { padding: 3.2rem 2.4rem 4rem; }
+.o-homeTrust__title { max-width: 16em; }
+.o-homeTrust__facts { display: grid; gap: 1.6rem; max-width: 44ch; margin: 2.4rem 0 0; padding: 0; list-style: none; }
+.o-homeTrust__fact { display: flex; gap: 1.2rem; color: var(--c-hero-ink); font: var(--fw-ui) var(--t-body)/var(--lh-body) var(--f-ui); text-wrap: pretty; }
+/* the ticks in bright teal (the hero's focus teal, so they hold on the blush wall in Cabin dawn too) */
+.o-homeTrust .a-disc { background: var(--c-hero-focus); color: var(--c-hero); }
+/* the 14px disc centred on the first 24px line */
+.o-homeTrust__fact .a-disc { margin-top: .5rem; }
+@media (min-width: 641px) {
+  .o-homeTrust__media { aspect-ratio: 2 / 1; }
+  .o-homeTrust__copy { padding: 4.8rem; }
+}
+@media (min-width: 1025px) {
+  .o-homeTrust__panel { grid-template-columns: repeat(2, minmax(0, 1fr)); min-height: 48rem; }
+  .o-homeTrust__media { order: 2; aspect-ratio: auto; }
+  .o-homeTrust__copy { align-self: center; padding: 6.4rem 4.8rem 6.4rem 6.4rem; }
+  .o-homeTrust__facts { margin-top: 3.2rem; }
+}
+
+/* ===== Pre-footer band (Varun V10: one line, one button; revision 2026-11-11, item 20: a real window behind it) ===== */
+/* full width of the page beside the rail, so it rises out of the footer with its rounded top and leaves no
+   notches at its foot (critic round 1: the inset band left cream notches on the full-bleed footer) */
+.o-homeBand { margin-top: var(--s-section); }
+.o-homeBand__panel { --c-focus: var(--c-hero-focus); position: relative; isolation: isolate; display: flex; flex-direction: column; align-items: center; gap: 3.2rem; overflow: hidden; padding: 9.6rem 2.4rem 15.2rem; border-radius: 3.2rem 3.2rem 0 0; background: var(--c-hero); color: var(--c-hero-ink); text-align: center; }
+.o-homeBand__title { max-width: 16em; }
+/* the faint glyph became a real cabin window: the hero view, graded, with its blind 79% up, a white bezel at 8%.
+   Decorative, no alt. 240px tall at 390, 440 at 1440 (the band is about 490px tall there) */
+.o-homeBand__window { position: absolute; z-index: -1; top: 50%; left: 50%; height: 24rem; aspect-ratio: 236 / 318; overflow: hidden; border-radius: var(--r-window); box-shadow: 0 0 0 1.2rem rgba(255, 255, 255, .08); opacity: .5; transform: translate(-50%, -50%); }
+.o-homeBand__window picture, .o-homeBand__img { display: block; width: 100%; height: 100%; }
+.o-homeBand__img { object-fit: cover; object-position: 30% 50%; }
+.o-homeBand__window::after { content: ""; position: absolute; inset: 0 0 79% 0; border-bottom: 2px solid var(--c-blind-end); background: linear-gradient(var(--c-blind), var(--c-blind-end)); }
+@media (min-width: 1025px) {
+  .o-homeBand__panel { padding: 16rem 4.8rem 23.2rem; }
+  .o-homeBand__window { height: 44rem; box-shadow: 0 0 0 2rem rgba(255, 255, 255, .08); }
+}
+
+/* ==== Critic round, 11 Nov (Developer) ==== */
+/* the entry cards stand clear of the hero panel (they touched at every width) */
+.o-homeEntry { margin-top: 3.2rem; }
+@media (min-width: 641px) { .o-homeEntry { margin-top: 4.8rem; } }
+/* the pre-footer window sits quieter, so the white line over it holds 4.5:1 on its brightest band (was 3.2:1 at .5),
+   and it is 400px tall so the footer's rise never cuts its bezel */
+.o-homeBand__window { opacity: .3; }
+@media (min-width: 1025px) {
+  .o-homeBand__window { height: 40rem; }
+  /* inset like the hero panel, 16px from the rail and the screen edge (critic: it ran to the edge beside an inset hero) */
+  .o-homeBand { margin-left: var(--hero-inset); margin-right: var(--hero-inset); }
+}
+/* destinations: six cards as two rows of three at 286px (no row of two under a row of four), centred */
+@media (min-width: 1025px) {
+  .o-homeDest__grid { gap: 4rem 4.8rem; }
+  .o-homeDest__grid > li { flex: 0 0 28.6rem; }
+}
+/* the dawn photo is dim at source: a light lift on the hero view only, so the first light reads at arm's length
+   (critic, 11 Nov: "the warm light shows only in thin strips"); the grade still runs first */
+.m-window__view { filter: var(--fx-grade) brightness(1.22) saturate(1.1); }
+
+/* final pass (critic, 11 Nov): the heading row, the pills, the grid and the note share the grid's own centred axis
+   (three 286px columns and two 48px gaps, 954px) instead of a 1232px heading over a 954px grid */
+@media (min-width: 1025px) {
+  .o-homeDest { max-width: calc(95.4rem + 2 * var(--gutter)); }
+}

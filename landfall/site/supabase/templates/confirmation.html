@@ -1,0 +1,9 @@
+<!-- Landfall: confirm sign-up (Supabase Auth > Email Templates > Confirm sign up).
+     Subject: Confirm your Landfall account -->
+<div style="font-family:Arial,Helvetica,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#16225A">
+  <p style="font-size:20px;font-weight:bold;margin:0 0 24px">Landfall</p>
+  <h1 style="font-size:22px;margin:0 0 12px">Confirm your email</h1>
+  <p style="font-size:16px;line-height:1.5;margin:0 0 24px">Confirm this address to finish creating your account. Bookings you made with it while signed out will appear in My bookings.</p>
+  <p style="margin:0 0 24px"><a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email&next=/bookings" style="background:#14A08B;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:999px;font-weight:bold;display:inline-block">Confirm my email</a></p>
+  <p style="font-size:14px;line-height:1.5;color:#555;margin:0">If you didn't create an account, you can ignore this email.</p>
+</div>

@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en" data-palette="navy">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Search flights and hotels | Overwing</title>
+<meta name="description" content="Search flights and hotels and see the total before you pay. Card payments by Stripe, travel documents in your account.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FFFFFF">
+<!-- SITE_URL REQUIRED: canonical, og:url and JSON-LD wait for the client's domain. Overwing is a placeholder name. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Overwing">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Search flights and hotels | Overwing">
+<meta property="og:description" content="Search flights and hotels and see the total before you pay.">
+<meta property="og:image" content="assets/images/hero/wing-coast-first-light-1200.webp">
+<meta property="og:image:alt" content="A coastline at first light from a window seat, the wing at lower right">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/icons/overwing-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icons/overwing-touch-180.png">
+<link rel="preload" href="assets/fonts/Calibre-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Prototype only: Geist (SIL OFL) from Google Fonts. The Next.js app self-hosts it with next/font. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="assets/global.css">
+<script>document.documentElement.className+=' js';(function(m){if(!m)return;document.documentElement.setAttribute('data-palette',m[1]);var t=document.querySelector('meta[name="theme-color"]');if(t)t.content=m[1]==='cabin'?'#FBF8F7':'#FFFFFF';})(/[?&]palette=(cabin|navy)\b/.exec(location.search));</script>
+<script src="assets/global.js" defer></script>
+</head>
+<body>
+
+<!-- ===== Header partial: sprite, skip link, rail, account pills, phone bar, tab bar, More menu =====
+     Self-contained: everything it opens it closes, so it moves to src/partials/ (or a layout component) unchanged.
+     PLACEHOLDER BRAND: "overwing" and the window glyph stand in until the client supplies a name and logo. -->
+<svg class="a-sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- Colour grade, one per palette (tools/grade_filter.py writes these; --fx-grade in tokens.css picks one) -->
+    <filter id="fx-grade-navy" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%"><feColorMatrix in="SourceGraphic" type="saturate" values="0.96" result="base"/><feColorMatrix in="SourceGraphic" type="saturate" values="0" result="grey"/><feComponentTransfer in="grey" result="map"><feFuncR type="table" tableValues="0.024 0.028 0.033 0.038 0.043 0.048 0.067 0.108 0.149 0.190 0.231 0.310 0.414 0.519 0.624 0.728 0.796 0.855 0.914 0.957 1.000"/><feFuncG type="table" tableValues="0.078 0.095 0.111 0.127 0.143 0.159 0.196 0.265 0.333 0.402 0.471 0.544 0.620 0.696 0.772 0.848 0.890 0.923 0.957 0.978 1.000"/><feFuncB type="table" tableValues="0.165 0.189 0.212 0.236 0.260 0.284 0.318 0.367 0.416 0.465 0.514 0.576 0.647 0.718 0.789 0.860 0.899 0.930 0.961 0.980 1.000"/></feComponentTransfer><feComposite in="base" in2="map" operator="arithmetic" k1="0" k2="0.80" k3="0.20" k4="0"/></filter>
+    <filter id="fx-grade-cabin" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%"><feColorMatrix in="SourceGraphic" type="saturate" values="0.96" result="base"/><feColorMatrix in="SourceGraphic" type="saturate" values="0" result="grey"/><feComponentTransfer in="grey" result="map"><feFuncR type="table" tableValues="0.071 0.079 0.088 0.096 0.105 0.113 0.122 0.184 0.245 0.307 0.369 0.431 0.531 0.631 0.731 0.831 0.880 0.917 0.953 0.976 1.000"/><feFuncG type="table" tableValues="0.114 0.133 0.153 0.173 0.192 0.212 0.231 0.296 0.362 0.427 0.492 0.557 0.606 0.656 0.705 0.755 0.802 0.848 0.894 0.939 0.984"/><feFuncB type="table" tableValues="0.125 0.147 0.169 0.190 0.212 0.233 0.255 0.319 0.384 0.448 0.512 0.576 0.620 0.664 0.708 0.752 0.797 0.841 0.886 0.933 0.980"/></feComponentTransfer><feComposite in="base" in2="map" operator="arithmetic" k1="0" k2="0.82" k3="0.18" k4="0"/></filter>
+  </defs>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h13A1.5 1.5 0 0 1 20 7.5V10a2 2 0 0 0 0 4v2.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 16.5V14a2 2 0 0 0 0-4z"/><path d="M14.5 6.5v11" stroke-dasharray="1.6 2"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 19.5c1.2-3.3 3.8-5 7-5s5.8 1.7 7 5"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M9.8 9.6a2.3 2.3 0 0 1 4.4.8c0 1.6-2.2 1.9-2.2 3.4"/><path d="M12 16.6v.2"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M5 8h14M5 12h14M5 16h14"/></symbol>
+  <symbol id="i-depart" viewBox="0 0 24 24"><path d="M3 19h18"/><path d="M5.5 14.5l12.8-4.6a1.6 1.6 0 0 0-1-3l-4 1.4-5-3.3-1.7.6 3 3.9-3.2 1.1-2-1.4-1.3.5 1.7 3.4z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 20s6-5.4 6-10a6 6 0 0 0-12 0c0 4.6 6 10 6 10z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3.5 18.5c.9-2.7 2.9-4.2 5.5-4.2s4.6 1.5 5.5 4.2"/><path d="M15.5 6.4a3 3 0 0 1 0 5.4M17.5 14.6c1.3.7 2.3 2 2.8 3.9"/></symbol>
+  <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3.5 18.5v-11M3.5 14h17v4.5M20.5 14v-2.5a3 3 0 0 0-3-3H11V14"/><circle cx="7.3" cy="11" r="1.8"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M10.6 4.6a1.4 1.4 0 0 1 2.8 0v4.9l6.6 3.9v1.9l-6.6-2v3.9l2 1.5v1.6L12 19.4l-3.4.9v-1.6l2-1.5v-3.9L4 15.3v-1.9l6.6-3.9z"/></symbol>
+  <symbol id="i-city" viewBox="0 0 24 24"><path d="M3.5 20h17M5.5 20V10l5-2.5V20M10.5 20V5l8 3v12"/><path d="M13.5 10.5h2M13.5 13.5h2M13.5 16.5h2M7.5 13h1M7.5 16h1"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></symbol>
+  <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></symbol>
+  <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="M9.5 6l6 6-6 6"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2.5"/><path d="M4.8 7.2l7.2 5.6 7.2-5.6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8v.2"/></symbol>
+</svg>
+
+<a class="a-skip" href="#main">Skip to content</a>
+
+<header class="o-header" data-header>
+
+  <!-- ---- rail (desktop) ---- -->
+  <nav class="o-header__rail" aria-label="Main">
+    <a class="o-header__brand" href="index.html" aria-label="overwing, home">
+      <span class="o-header__tile"><span class="a-glyph" aria-hidden="true"></span></span>
+      <span aria-hidden="true">overwing</span>
+    </a>
+    <!-- revision 2026-11-11: the products are the first two items (a traveler looks for "Flights" and "Hotels", not "Search");
+         Account moves to the top bar's Log in and Sign up; More sits with the rest instead of at the foot of the rail -->
+    <ul class="o-header__railList">
+      <li><a class="m-railItem" href="index.html#flights" data-nav data-mode-link="flights"><span class="m-railItem__icon"><svg class="a-icon -l" aria-hidden="true"><use href="#i-plane"/></svg></span>Flights</a></li>
+      <li><a class="m-railItem" href="index.html#hotels" data-nav data-mode-link="hotels"><span class="m-railItem__icon"><svg class="a-icon -l" aria-hidden="true"><use href="#i-bed"/></svg></span>Hotels</a></li>
+      <li><a class="m-railItem" href="bookings.html" data-nav><span class="m-railItem__icon"><svg class="a-icon -l" aria-hidden="true"><use href="#i-ticket"/></svg></span>Bookings</a></li>
+      <li><a class="m-railItem" href="contact.html" data-nav><span class="m-railItem__icon"><svg class="a-icon -l" aria-hidden="true"><use href="#i-help"/></svg></span>Help</a></li>
+      <li><button class="m-railItem -more" type="button" aria-expanded="false" aria-controls="more-menu" data-more-open><span class="m-railItem__icon"><svg class="a-icon -l" aria-hidden="true"><use href="#i-menu"/></svg></span>More</button></li>
+    </ul>
+  </nav>
+
+  <!-- ---- phone bar; on desktop only its account pills show, top right ---- -->
+  <div class="o-header__bar">
+    <a class="o-header__wordmark" href="index.html" aria-label="overwing, home">
+      <span class="a-wordmark" aria-hidden="true"><span class="a-glyph"></span>verwing</span>
+    </a>
+    <div class="o-header__actions">
+      <a class="a-button -soft -small -steady" href="login.html"><span class="a-button__label">Log in</span></a>
+      <a class="a-button -small -steady o-header__signup" href="register.html"><span class="a-button__label">Sign up</span></a>
+      <button class="a-round o-header__menuBtn" type="button" aria-label="More" aria-expanded="false" aria-controls="more-menu" data-more-open><svg class="a-icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ---- floating tab bar (phone) ---- -->
+  <nav class="o-header__tabs" aria-label="App">
+    <a class="m-tab" href="index.html#flights" data-nav data-mode-link="flights"><svg class="a-icon -l" aria-hidden="true"><use href="#i-plane"/></svg>Flights</a>
+    <a class="m-tab" href="index.html#hotels" data-nav data-mode-link="hotels"><svg class="a-icon -l" aria-hidden="true"><use href="#i-bed"/></svg>Hotels</a>
+    <a class="m-tab" href="bookings.html" data-nav><svg class="a-icon -l" aria-hidden="true"><use href="#i-ticket"/></svg>Bookings</a>
+    <a class="m-tab" href="account.html" data-nav><svg class="a-icon -l" aria-hidden="true"><use href="#i-user"/></svg>Account</a>
+  </nav>
+
+  <!-- ---- More menu (dialog) ---- -->
+  <div class="m-more" id="more-menu" role="dialog" aria-modal="true" aria-labelledby="more-title" hidden data-more>
+    <div class="m-more__scrim" data-more-close></div>
+    <div class="m-more__panel">
+      <div class="m-more__head">
+        <h2 class="m-more__title" id="more-title">More</h2>
+        <button class="a-round" type="button" aria-label="Close" data-more-close><svg class="a-icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+      <div class="m-more__account">
+        <a class="a-button -soft -block" href="login.html"><span class="a-button__label">Log in</span></a>
+        <a class="a-button -block" href="register.html"><span class="a-button__label">Sign up</span></a>
+      </div>
+      <ul class="m-more__list">
+        <li><a class="m-more__link" href="about.html">About us<svg class="a-icon -s" aria-hidden="true"><use href="#i-chev-right"/></svg></a></li>
+        <li><a class="m-more__link" href="contact.html">Help and contact<svg class="a-icon -s" aria-hidden="true"><use href="#i-chev-right"/></svg></a></li>
+        <li><a class="m-more__link" href="terms.html">Terms and conditions<svg class="a-icon -s" aria-hidden="true"><use href="#i-chev-right"/></svg></a></li>
+        <li><a class="m-more__link" href="privacy.html">Privacy policy<svg class="a-icon -s" aria-hidden="true"><use href="#i-chev-right"/></svg></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<!-- ===== /Header partial ===== -->
+
+<main id="main" class="b-main" tabindex="-1">
+<div class="t-home">
+
+  <!-- ===== Home hero: headline, the search, and the cabin wall =====
+       Working copy (headline, lead): the Copywriter replaces it in content/copy.md. -->
+  <section class="o-homeHero" aria-labelledby="home-hero-title">
+    <div class="o-homeHero__inner b-wrap">
+      <h1 class="o-homeHero__title a-display" id="home-hero-title">Fly there, stay there</h1>
+      <p class="o-homeHero__lead a-lead">Search flights and hotels and see the total before you pay</p>
+
+      <!-- ---- search ---- -->
+      <div class="o-homeHero__search m-search" data-search>
+
+        <div class="m-search__panel" id="search-panel" aria-labelledby="search-sheet-title" data-search-panel>
+          <div class="m-search__sheetHead">
+            <h2 class="m-search__sheetTitle" id="search-sheet-title">Search</h2>
+            <button class="a-round" type="button" aria-label="Close search" data-search-close><svg class="a-icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+          </div>
+
+          <div class="m-search__modes">
+            <div class="a-toggle" role="group" aria-label="What to search" data-toggle>
+              <span class="a-toggle__thumb" aria-hidden="true"></span>
+              <button class="a-toggle__btn" type="button" aria-pressed="true" aria-controls="search-flights" data-mode="flights"><svg class="a-icon" aria-hidden="true"><use href="#i-plane"/></svg>Flights</button>
+              <button class="a-toggle__btn" type="button" aria-pressed="false" aria-controls="search-hotels" data-mode="hotels"><svg class="a-icon" aria-hidden="true"><use href="#i-bed"/></svg>Hotels</button>
+            </div>
+          </div>
+
+          <!-- Flights: From, To, Dates (with return or one way), Travelers and cabin -->
+          <form class="m-search__form" id="search-flights" action="#" method="get" novalidate aria-label="Search flights" data-form="flights">
+            <div class="m-search__pill" data-pill>
+              <span class="m-search__thumb" aria-hidden="true" data-thumb></span>
+
+              <div class="m-search__seg -from" data-seg="from">
+                <div class="m-search__field" data-field>
+                  <svg class="a-icon" aria-hidden="true"><use href="#i-depart"/></svg>
+                  <span class="m-search__text">
+                    <span class="m-search__labelRow"><label class="m-search__label a-label" for="fl-from">From</label><span class="m-search__code a-label" id="fl-from-code" data-code-label></span></span>
+                    <input class="m-search__input" id="fl-from" type="text" name="from_label" placeholder="City or airport" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fl-from-list" aria-describedby="fl-from-code" data-combo="airports">
+                  </span>
+                </div>
+                <input type="hidden" name="from" data-code>
+                <div class="m-pop -list" id="fl-from-pop" hidden data-pop>
+                  <p class="m-pop__head" id="fl-from-head">Cities and airports</p>
+                  <ul class="m-pop__list" id="fl-from-list" role="listbox" aria-labelledby="fl-from-head"></ul>
+                </div>
+              </div>
+
+              <div class="m-search__seg -to" data-seg="to">
+                <div class="m-search__field" data-field>
+                  <svg class="a-icon" aria-hidden="true"><use href="#i-pin"/></svg>
+                  <span class="m-search__text">
+                    <span class="m-search__labelRow"><label class="m-search__label a-label" for="fl-to">To</label><span class="m-search__code a-label" id="fl-to-code" data-code-label></span></span>
+                    <input class="m-search__input" id="fl-to" type="text" name="to_label" placeholder="Where to?" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fl-to-list" aria-describedby="fl-to-code" data-combo="airports">
+                  </span>
+                </div>
+                <input type="hidden" name="to" data-code>
+                <div class="m-pop -list" id="fl-to-pop" hidden data-pop>
+                  <p class="m-pop__head" id="fl-to-head">Cities and airports</p>
+                  <ul class="m-pop__list" id="fl-to-list" role="listbox" aria-labelledby="fl-to-head"></ul>
+                </div>
+              </div>
+
+              <div class="m-search__seg -dates" data-seg="dates">
+                <button class="m-search__field" type="button" aria-expanded="false" aria-controls="fl-dates-pop" data-field>
+                  <svg class="a-icon" aria-hidden="true"><use href="#i-cal"/></svg>
+                  <span class="m-search__text">
+                    <span class="m-search__label a-label">Dates</span>
+                    <span class="m-search__value" data-value>Add dates</span>
+                  </span>
+                </button>
+                <input type="hidden" name="depart" data-date="start">
+                <input type="hidden" name="return" data-date="end">
+                <div class="m-pop -dates" id="fl-dates-pop" role="group" aria-label="Choose dates" hidden data-pop>
+                  <div class="m-cal" data-cal="flights">
+                    <div class="m-cal__top">
+                      <div class="a-toggle -small" role="group" aria-label="Trip type" data-toggle data-trip>
+                        <span class="a-toggle__thumb" aria-hidden="true"></span>
+                        <button class="a-toggle__btn" type="button" aria-pressed="true" data-trip-type="return">Return</button>
+                        <button class="a-toggle__btn" type="button" aria-pressed="false" data-trip-type="oneway">One way</button>
+                      </div>
+                      <p class="m-cal__hint" data-cal-hint aria-live="polite">Choose your departure date</p>
+                    </div>
+                    <div class="m-cal__body" data-cal-body></div>
+                    <div class="m-pop__foot">
+                      <button class="a-link" type="button" data-cal-clear disabled>Clear dates</button>
+                      <button class="a-button -small -steady" type="button" data-pop-done><span class="a-button__label">Done</span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="m-search__seg -who" data-seg="who">
+                <button class="m-search__field" type="button" aria-expanded="false" aria-controls="fl-who-pop" data-field>
+                  <svg class="a-icon" aria-hidden="true"><use href="#i-people"/></svg>
+                  <span class="m-search__text">
+                    <span class="m-search__label a-label">Travelers</span>
+                    <span class="m-search__value is-set" data-value>1 adult, Economy</span>
+                  </span>
+                </button>
+                <div class="m-pop -who" id="fl-who-pop" role="group" aria-label="Travelers and cabin" hidden data-pop>
+                  <div class="m-stepper" data-stepper="adults" data-min="1" data-max="9">
+                    <div><p class="m-stepper__title" id="fl-adults-t">Adults</p><p class="m-stepper__help">Ages 12 or above</p></div>
+                    <div class="m-stepper__ctrl">
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Remove an adult" data-step="-1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-minus"/></svg></button>
+                      <output class="m-stepper__count" aria-labelledby="fl-adults-t" aria-live="polite" data-count>1</output>
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Add an adult" data-step="1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-plus"/></svg></button>
+                    </div>
+                    <input type="hidden" name="adults" value="1">
+                  </div>
+                  <div class="m-stepper" data-stepper="children" data-min="0" data-max="8">
+                    <div><p class="m-stepper__title" id="fl-children-t">Children</p><p class="m-stepper__help">Ages 2 to 11</p></div>
+                    <div class="m-stepper__ctrl">
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Remove a child" data-step="-1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-minus"/></svg></button>
+                      <output class="m-stepper__count" aria-labelledby="fl-children-t" aria-live="polite" data-count>0</output>
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Add a child" data-step="1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-plus"/></svg></button>
+                    </div>
+                    <input type="hidden" name="children" value="0">
+                  </div>
+                  <div class="m-stepper" data-stepper="infants" data-min="0" data-max="4">
+                    <div><p class="m-stepper__title" id="fl-infants-t">Infants</p><p class="m-stepper__help">Under 2, on a lap</p></div>
+                    <div class="m-stepper__ctrl">
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Remove an infant" data-step="-1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-minus"/></svg></button>
+                      <output class="m-stepper__count" aria-labelledby="fl-infants-t" aria-live="polite" data-count>0</output>
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Add an infant" data-step="1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-plus"/></svg></button>
+                    </div>
+                    <input type="hidden" name="infants" value="0">
+                  </div>
+                  <fieldset class="m-choices" data-cabin-class>
+                    <legend class="m-pop__sub">Cabin</legend>
+                    <label class="a-choice"><input class="a-choice__input" type="radio" name="cabin" value="economy" checked>Economy</label>
+                    <label class="a-choice" data-short="Premium"><input class="a-choice__input" type="radio" name="cabin" value="premium_economy">Premium economy</label>
+                    <label class="a-choice"><input class="a-choice__input" type="radio" name="cabin" value="business">Business</label>
+                    <label class="a-choice"><input class="a-choice__input" type="radio" name="cabin" value="first">First</label>
+                  </fieldset>
+                  <div class="m-pop__foot">
+                    <span></span>
+                    <button class="a-button -small -steady" type="button" data-pop-done><span class="a-button__label">Done</span></button>
+                  </div>
+                </div>
+              </div>
+
+              <button class="a-button -steady m-search__go" type="submit" data-go><span class="a-button__label">Search</span><svg class="a-icon a-button__icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+          </form>
+
+          <!-- Hotels: Destination, Dates (check in and out), Guests and rooms.
+               If the Duffel Stays account is not approved, delete this form and the toggle; nothing else depends on it. -->
+          <form class="m-search__form" id="search-hotels" action="#" method="get" novalidate aria-label="Search hotels" hidden data-form="hotels">
+            <div class="m-search__pill" data-pill>
+              <span class="m-search__thumb" aria-hidden="true" data-thumb></span>
+
+              <div class="m-search__seg -place" data-seg="place">
+                <div class="m-search__field" data-field>
+                  <svg class="a-icon" aria-hidden="true"><use href="#i-pin"/></svg>
+                  <span class="m-search__text">
+                    <label class="m-search__label a-label" for="ho-place">Destination</label>
+                    <input class="m-search__input" id="ho-place" type="text" name="place_label" placeholder="City or area" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ho-place-list" data-combo="cities">
+                  </span>
+                </div>
+                <input type="hidden" name="place" data-code>
+                <div class="m-pop -list" id="ho-place-pop" hidden data-pop>
+                  <p class="m-pop__head" id="ho-place-head">Cities</p>
+                  <ul class="m-pop__list" id="ho-place-list" role="listbox" aria-labelledby="ho-place-head"></ul>
+                </div>
+              </div>
+
+              <div class="m-search__seg -dates -stay" data-seg="dates">
+                <button class="m-search__field" type="button" aria-expanded="false" aria-controls="ho-dates-pop" data-field>
+                  <svg class="a-icon" aria-hidden="true"><use href="#i-cal"/></svg>
+                  <span class="m-search__text">
+                    <span class="m-search__label a-label">Check in and out</span>
+                    <span class="m-search__value" data-value>Add dates</span>
+                  </span>
+                </button>
+                <input type="hidden" name="check_in" data-date="start">
+                <input type="hidden" name="check_out" data-date="end">
+                <div class="m-pop -dates" id="ho-dates-pop" role="group" aria-label="Choose dates" hidden data-pop>
+                  <div class="m-cal" data-cal="hotels">
+                    <div class="m-cal__top">
+                      <p class="m-cal__hint" data-cal-hint aria-live="polite">Choose your check-in date</p>
+                    </div>
+                    <div class="m-cal__body" data-cal-body></div>
+                    <div class="m-pop__foot">
+                      <button class="a-link" type="button" data-cal-clear disabled>Clear dates</button>
+                      <button class="a-button -small -steady" type="button" data-pop-done><span class="a-button__label">Done</span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="m-search__seg -who" data-seg="who">
+                <button class="m-search__field" type="button" aria-expanded="false" aria-controls="ho-who-pop" data-field>
+                  <svg class="a-icon" aria-hidden="true"><use href="#i-bed"/></svg>
+                  <span class="m-search__text">
+                    <span class="m-search__label a-label">Guests and rooms</span>
+                    <span class="m-search__value is-set" data-value>2 adults, 1 room</span>
+                  </span>
+                </button>
+                <div class="m-pop -who" id="ho-who-pop" role="group" aria-label="Guests and rooms" hidden data-pop>
+                  <div class="m-stepper" data-stepper="adults" data-min="1" data-max="8">
+                    <div><p class="m-stepper__title" id="ho-adults-t">Adults</p><p class="m-stepper__help">Ages 18 or above</p></div>
+                    <div class="m-stepper__ctrl">
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Remove an adult" data-step="-1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-minus"/></svg></button>
+                      <output class="m-stepper__count" aria-labelledby="ho-adults-t" aria-live="polite" data-count>2</output>
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Add an adult" data-step="1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-plus"/></svg></button>
+                    </div>
+                    <input type="hidden" name="adults" value="2">
+                  </div>
+                  <div class="m-stepper" data-stepper="children" data-min="0" data-max="6">
+                    <div><p class="m-stepper__title" id="ho-children-t">Children</p><p class="m-stepper__help">Ages 0 to 17</p></div>
+                    <div class="m-stepper__ctrl">
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Remove a child" data-step="-1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-minus"/></svg></button>
+                      <output class="m-stepper__count" aria-labelledby="ho-children-t" aria-live="polite" data-count>0</output>
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Add a child" data-step="1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-plus"/></svg></button>
+                    </div>
+                    <input type="hidden" name="children" value="0">
+                  </div>
+                  <div class="m-stepper" data-stepper="rooms" data-min="1" data-max="4">
+                    <div><p class="m-stepper__title" id="ho-rooms-t">Rooms</p><p class="m-stepper__help">Up to one per adult</p></div>
+                    <div class="m-stepper__ctrl">
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Remove a room" data-step="-1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-minus"/></svg></button>
+                      <output class="m-stepper__count" aria-labelledby="ho-rooms-t" aria-live="polite" data-count>1</output>
+                      <button class="a-round m-stepper__btn" type="button" aria-label="Add a room" data-step="1"><svg class="a-icon -s" aria-hidden="true"><use href="#i-plus"/></svg></button>
+                    </div>
+                    <input type="hidden" name="rooms" value="1">
+                  </div>
+                  <div class="m-pop__foot">
+                    <span></span>
+                    <button class="a-button -small -steady" type="button" data-pop-done><span class="a-button__label">Done</span></button>
+                  </div>
+                </div>
+              </div>
+
+              <button class="a-button -steady m-search__go" type="submit" data-go><span class="a-button__label">Search</span><svg class="a-icon a-button__icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            </div>
+          </form>
+
+          <p class="m-search__status" role="status" data-status></p>
+        </div>
+      </div>
+
+      <!-- Facts from the scope only (PRD: Stripe checkout, fare totals with taxes and fees from the fare data, confirmation email). Revision: the pricing fact replaces "Documents in your account" (the client asked for clear pricing) -->
+      <ul class="o-homeHero__facts" aria-label="Booking with us">
+        <li class="a-fact"><svg class="a-icon" aria-hidden="true"><use href="#i-lock"/></svg>Payments by Stripe</li>
+        <li class="a-fact"><svg class="a-icon" aria-hidden="true"><use href="#i-ticket"/></svg>Taxes and fees included</li>
+        <li class="a-fact"><svg class="a-icon" aria-hidden="true"><use href="#i-mail"/></svg>Confirmation by email</li>
+      </ul>
+    </div>
+
+    <!-- ---- the cabin wall: four windows, one continuous view (2 at 390, 3 from 641, 4 from 1025) ---- -->
+    <div class="o-homeHero__cabin b-wrap" data-cabin-wall>
+      <div class="o-homeHero__windows">
+        <div class="m-window">
+          <picture><source type="image/webp" srcset="assets/images/hero/wing-coast-first-light-800.webp 800w, assets/images/hero/wing-coast-first-light-1200.webp 1200w, assets/images/hero/wing-coast-first-light-1600.webp 1600w, assets/images/hero/wing-coast-first-light-2400.webp 2400w" sizes="(min-width: 1441px) 89vw, (min-width: 1025px) calc((100vw - 88px) * 1.02), 107vw"><img class="m-window__view" src="assets/images/hero/wing-coast-first-light.jpg" width="1600" height="1067" alt="A coastline at first light from a window seat, the wing at lower right" fetchpriority="high" decoding="async" data-view></picture>
+          <span class="m-window__blind" aria-hidden="true"></span>
+        </div>
+        <div class="m-window" aria-hidden="true">
+          <picture><source type="image/webp" srcset="assets/images/hero/wing-coast-first-light-800.webp 800w, assets/images/hero/wing-coast-first-light-1200.webp 1200w, assets/images/hero/wing-coast-first-light-1600.webp 1600w, assets/images/hero/wing-coast-first-light-2400.webp 2400w" sizes="(min-width: 1441px) 89vw, (min-width: 1025px) calc((100vw - 88px) * 1.02), 107vw"><img class="m-window__view" src="assets/images/hero/wing-coast-first-light.jpg" width="1600" height="1067" alt="" decoding="async" data-view></picture>
+          <span class="m-window__blind"></span>
+        </div>
+        <div class="m-window" aria-hidden="true">
+          <picture><source type="image/webp" srcset="assets/images/hero/wing-coast-first-light-800.webp 800w, assets/images/hero/wing-coast-first-light-1200.webp 1200w, assets/images/hero/wing-coast-first-light-1600.webp 1600w, assets/images/hero/wing-coast-first-light-2400.webp 2400w" sizes="(min-width: 1441px) 89vw, (min-width: 1025px) calc((100vw - 88px) * 1.02), 107vw"><img class="m-window__view" src="assets/images/hero/wing-coast-first-light.jpg" width="1600" height="1067" alt="" decoding="async" data-view></picture>
+          <span class="m-window__blind"></span>
+        </div>
+        <div class="m-window" aria-hidden="true">
+          <picture><source type="image/webp" srcset="assets/images/hero/wing-coast-first-light-800.webp 800w, assets/images/hero/wing-coast-first-light-1200.webp 1200w, assets/images/hero/wing-coast-first-light-1600.webp 1600w, assets/images/hero/wing-coast-first-light-2400.webp 2400w" sizes="(min-width: 1441px) 89vw, (min-width: 1025px) calc((100vw - 88px) * 1.02), 107vw"><img class="m-window__view" src="assets/images/hero/wing-coast-first-light.jpg" width="1600" height="1067" alt="" decoding="async" data-view></picture>
+          <span class="m-window__blind"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+</body>
+</html>

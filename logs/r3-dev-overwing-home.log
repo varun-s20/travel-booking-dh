@@ -1,0 +1,31 @@
+Part A is built on the shared server at http://localhost:3001, but it failed its one critic round: **7.6 on the benchmark rubric** against the 9.2 target, and 7.9 on the studio rubric. I then fixed 14 problems, worst first, and checked each in the browser. The rules allowed only one critic round, so the 7.6 was scored before those fixes and the page hasn't been re-scored.
+
+**What's built**
+- **The switch:** Flights / Hotels now changes the homepage in place. The hero tabs, the rail and the phone tab bar all set it, and the URL keeps `?mode=`. Back and Forward work, and the page title and screen-reader status follow the mode. Photos near the screen get the blind animation; reduced motion swaps at once. Old `/#hotels` links still work.
+- **New sections, in both modes:** recent searches, Recommended for you (rows from the visitor's history in the browser, with first-visit rows), the deal banner, deal cards, trending, explore by region / property type, cheapest months / this weekend, how booking works, FAQs and a by-city directory.
+- **Data:** `lib/mock/home.ts` computes all of it from Developer B's catalogue modules. Their 12 hotel cities came through without any change on my side. Homepage prices match what the results pages show.
+- **Footer:** six columns, 42 different links. Every link returns 200, and every link to a section lands on it in the right mode. On phones the columns become accordions.
+- **Photos:** 48 new Unsplash photos, two per city plus six property types. Each was checked on its photo page and credited, and none is used by Landfall.
+
+**What the critic found, and what I fixed**
+- The same photos repeated across sections. I added a second photo per city, and now no row or neighbouring section repeats one.
+- Facts were repeated: deal cards stated the saving three times, and the trust panel repeated its own points. I cut the repeats and removed the trust row.
+- Region descriptions were cut off mid-word, the month chart showed $412 in 8 of 12 months, and the rail's Hotels button jumped to the top of the page. All fixed.
+- Two footer links were duplicates; I replaced them so all 42 go somewhere different.
+- I also found and fixed: a horizontal scroll at 390, unreadable deal-banner text in Cabin dawn (caused by a class-name clash), and two bugs with old hash links.
+
+**Changes from the approved spec**
+- I left out the trust panel's three-fact row the spec asked for, because each fact repeated one already above it.
+- The rail and tab bar switch in place when the hero is off screen, instead of scrolling back to the search.
+- The month chart shows each month's average fare and names the cheapest date in its caption.
+- Deals use the catalogue's 12% rule rather than the spec's 10%.
+- The banner line says "for the dates shown" instead of "before December 15", because our deal dates run past that. The critic accepted this one.
+
+**Still open**
+- **Cabin dawn:** I only previewed it by switching the palette in the browser, because the brief allowed no extra server and port 3002 isn't running.
+- **Footer contact details:** the phone number and email are still placeholders. Only the client can supply real ones.
+- **Copywriter:** a few short lines I wrote (card price notes, chart caption, directory sublines) are listed in progress.md for the Copywriter to confirm.
+
+Details are in `build/progress.md`, the critic's report in `build/critic/r3-home-a/report.md`, and the run is logged in `review-log.md`. I also changed a few shared files (layout CSS imports, tokens, header links, search, store, sprite); they're listed under my heading in progress.md.
+
+This is a good commit point. Suggested message: "Overwing round 3 Part A: homepage swaps with Flights / Hotels in place (?mode=), deals, recommendations, trending, browse, timing, steps, FAQs, by-city directory, 42-link footer, 48 new photos"

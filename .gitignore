@@ -1,0 +1,34 @@
+# travel-booking: files git should never track, in every folder of this repo.
+# Patterns without a leading "/" match at any depth (landfall/site, site, prototypes...).
+
+# Installed packages: recreate with `npm ci` in each app folder
+node_modules/
+
+# Next.js build output (every app and palette: .next, .next-navy, .next-harbour...)
+.next/
+.next-*/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Secrets: real keys never go in git. .env.example (the blank template) stays tracked.
+.env
+.env*.local
+.env.development
+.env.production
+
+# Tool state
+supabase/.branches/
+supabase/.temp/
+.vercel/
+
+# Package-manager debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating system and editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp

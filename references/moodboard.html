@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Travel booking references</title>
+<style>
+  :root {
+    --ink: #1b1d21;
+    --muted: #5d6169;
+    --line: #e2e1dc;
+    --ground: #f6f5f1;
+    --card: #ffffff;
+    --accent: #1f4e8c;
+    --accent-soft: #e6eef8;
+    --primary: #8a4b0f;
+    --primary-soft: #f8ecdf;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  header, main, footer { max-width: 1320px; margin: 0 auto; padding: 0 20px; }
+  header { padding-top: 40px; padding-bottom: 8px; }
+  h1 { font-size: 28px; line-height: 1.2; margin: 0 0 8px; }
+  header p { margin: 0 0 6px; color: var(--muted); max-width: 760px; }
+  h2 { font-size: 18px; margin: 36px 0 14px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+  }
+  @media (max-width: 440px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card.is-primary { outline: 3px solid var(--primary); outline-offset: -1px; }
+  .shots { display: grid; grid-template-columns: 1fr; gap: 2px; background: var(--line); }
+  .shots.two { grid-template-columns: 1fr 1fr; }
+  .shots a { display: block; background: #ddd; }
+  .shots img {
+    display: block; width: 100%; aspect-ratio: 16 / 10;
+    object-fit: cover; object-position: top center;
+  }
+  .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .name { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .name h3 { margin: 0; font-size: 19px; }
+  .name a { color: var(--accent); font-size: 13px; white-space: nowrap; }
+  .role {
+    display: inline-block; font-size: 12px; font-weight: 600;
+    padding: 3px 10px; border-radius: 30px; background: var(--accent-soft); color: var(--accent);
+    align-self: flex-start;
+  }
+  .role.p { background: var(--primary-soft); color: var(--primary); }
+  .reason { margin: 0; color: var(--ink); }
+  .meta { margin: 0; font-size: 13px; color: var(--muted); }
+  .picks { margin-top: auto; border-top: 1px solid var(--line); padding-top: 12px; display: grid; gap: 8px; }
+  .picks label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .picks input[type=text] {
+    width: 100%; font: inherit; padding: 7px 10px;
+    border: 1px solid var(--line); border-radius: 8px; background: #fbfbfa;
+  }
+  .picks input[type=text]:disabled { opacity: .45; }
+  input[type=radio], input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--primary); }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .bar {
+    position: sticky; bottom: 0; margin-top: 32px;
+    background: var(--card); border-top: 1px solid var(--line);
+  }
+  .bar .inner { max-width: 1320px; margin: 0 auto; padding: 14px 20px; display: grid; gap: 10px; }
+  .bar textarea {
+    width: 100%; min-height: 54px; font: inherit; padding: 8px 10px;
+    border: 1px solid var(--line); border-radius: 8px; resize: vertical;
+  }
+  .row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  button {
+    font: inherit; font-weight: 600; font-size: 14px; cursor: pointer;
+    padding: 11px 22px; border-radius: 44px; border: 0; background: var(--ink); color: #fff;
+  }
+  button:hover { background: #34373d; }
+  #status { color: var(--muted); font-size: 13px; }
+  pre {
+    margin: 0; white-space: pre-wrap; font-size: 12.5px; background: #fbfbfa;
+    border: 1px solid var(--line); border-radius: 8px; padding: 10px; max-height: 160px; overflow: auto;
+  }
+  footer { padding: 20px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Travel booking: pick a primary reference</h1>
+  <p>Scout, 10 Nov 2026. Nine finalists from 46 screened sites. Choose one primary, tick any section donors and say which section, then copy your picks.</p>
+  <p>Screenshots open full size when clicked. They are working captures of live sites for this decision only. Details are in cards.md and shortlist.md.</p>
+</header>
+
+<main>
+  <h2>Primary candidates</h2>
+  <div class="grid" id="primaries"></div>
+  <h2>Section donors</h2>
+  <div class="grid" id="donors"></div>
+</main>
+
+<div class="bar">
+  <div class="inner">
+    <label for="notes"><strong>Notes for the Art Director</strong> (optional)</label>
+    <textarea id="notes" placeholder="Anything to keep or avoid"></textarea>
+    <div class="row">
+      <button type="button" id="copy">Copy my picks</button>
+      <span id="status" role="status" aria-live="polite"></span>
+    </div>
+    <pre id="preview" aria-label="Your picks as markdown"></pre>
+  </div>
+</div>
+
+<footer>Rank: Hipcamp, then Kasa, then European Sleeper. Gallery sites were screened too; none passed.</footer>
+
+<script>
+  const SITES = [
+    { id: 'hipcamp', name: 'Hipcamp', url: 'https://www.hipcamp.com/en-GB', group: 'primary', rank: 1,
+      role: 'Primary candidate 1',
+      reason: 'A working booking product: tabbed search hero, list plus map results with chip filters, priced cards with one action, and an app shell that becomes a bottom tab bar on mobile.',
+      meta: 'Calibre (commercial), Geist (free). Tells: one full-stop headline, one three-up row.',
+      shots: ['hipcamp-1440-hero.png', 'hipcamp-1440-results.png'], section: 'Whole results system' },
+    { id: 'kasa', name: 'Kasa', url: 'https://kasa.com', group: 'primary', rank: 2,
+      role: 'Primary candidate 2',
+      reason: 'The best hotel detail page: photo grid, room cards with filters, policy accordion, reviews and map, with a four-field search hero.',
+      meta: 'Tiempos Headline, TT Norms Pro (commercial). Tells: eyebrow on every section, heading-left FAQ.',
+      shots: ['kasa-1440-hero.png', 'kasa-1440-detail-full.png'], section: 'Hotel detail page' },
+    { id: 'european-sleeper', name: 'European Sleeper', url: 'https://www.europeansleeper.eu', group: 'primary', rank: 3,
+      role: 'Primary candidate 3',
+      reason: 'A small operator selling its own tickets: search docked on a rounded hero edge, rising rounded bands, a route map and a footer that names the company.',
+      meta: 'Ambit (licence unknown), GT Ultra (commercial). No tells seen.',
+      shots: ['european-sleeper-first.png', 'european-sleeper-1440-full.png'], section: 'Route map and trust footer' },
+    { id: 'ferryhopper', name: 'Ferryhopper', url: 'https://www.ferryhopper.com/en/', group: 'donor',
+      role: 'Donor: flight search card',
+      reason: 'One way, return and multi-destination tabs, From and To with a swap, stacked dates and a passenger row, over a custom illustration.',
+      meta: 'Averta (commercial). Lower homepage has tells; mobile layout unverified.',
+      shots: ['ferryhopper-1440-hero.png'], section: 'Flight search card and illustrated hero' },
+    { id: 'mercury', name: 'Mercury', url: 'https://mercury.com', group: 'donor',
+      role: 'Donor: account dashboard',
+      reason: 'Dashboard with totals, an account list and summary cards; superscript cents; a plain trust line under the hero.',
+      meta: 'Arcadia (licence unknown). Em dash in its top banner.',
+      shots: ['mercury-1440-hero.png', 'mercury-1440-section.png'], section: 'My bookings dashboard and price figures' },
+    { id: 'monocle', name: 'Monocle City Guides', url: 'https://monocle.com/travel-guides/', group: 'donor',
+      role: 'Donor: popular destinations',
+      reason: 'Illustrated city cards in a series system: label, rule, name. Shows how destinations work without stock photos.',
+      meta: 'Plantin, Helvetica Neue (commercial). Illustrations are David Doran’s: ours must be original.',
+      shots: ['monocle-1440-guides.png'], section: 'Popular destinations as illustrated cards' },
+    { id: 'sidetracked', name: 'Sidetracked', url: 'https://www.sidetracked.com', group: 'donor',
+      role: 'Donor: text pages',
+      reason: 'An 864px serif reading column with byline block, bold standfirst and rules, for About, Terms and Privacy.',
+      meta: 'Superior Title, Freight Text Pro, Proxima Nova (Adobe Fonts, commercial).',
+      shots: ['sidetracked-1440-article.png', 'sidetracked-first.png'], section: 'About, Terms and Privacy pages' },
+    { id: 'faye', name: 'Faye', url: 'https://www.withfaye.com', group: 'donor',
+      role: 'Donor: fare inclusions',
+      reason: 'Soft checklist cards and a "starting at" price line, as a model for what a fare or room includes.',
+      meta: 'Proprietary fonts. Tells elsewhere: eyebrows, giant wordmark band.',
+      shots: ['faye-first.png'], section: 'Fare and room inclusions cards' },
+    { id: 'hoxton', name: 'The Hoxton', url: 'https://thehoxton.com', group: 'donor',
+      role: 'Reserve donor',
+      reason: 'Labelled hotel search fields that stack into blocks on mobile, and region filter pills.',
+      meta: 'GT America, Tiempos Fine (commercial). One heading-left row, promo overlays.',
+      shots: ['hoxton-first.png'], section: 'Hotel search fields and region pills' }
+  ];
+
+  function el(tag, attrs, children) {
+    const n = document.createElement(tag);
+    for (const k in (attrs || {})) {
+      if (k === 'text') n.textContent = attrs[k];
+      else if (k === 'class') n.className = attrs[k];
+      else n.setAttribute(k, attrs[k]);
+    }
+    (children || []).forEach(c => n.appendChild(c));
+    return n;
+  }
+
+  function card(s) {
+    const shots = el('div', { class: 'shots' + (s.shots.length > 1 ? ' two' : '') },
+      s.shots.map(f => el('a', { href: 'screens/' + f, target: '_blank', rel: 'noopener' },
+        [el('img', { src: 'screens/' + f, alt: s.name + ' screenshot', loading: 'lazy' })])));
+    const radio = el('input', { type: 'radio', name: 'primary', value: s.id, id: 'p-' + s.id });
+    const check = el('input', { type: 'checkbox', value: s.id, id: 'd-' + s.id });
+    const section = el('input', { type: 'text', id: 's-' + s.id, 'aria-label': 'Section to take from ' + s.name, value: s.section });
+    section.disabled = true;
+    check.addEventListener('change', () => { section.disabled = !check.checked; update(); });
+    radio.addEventListener('change', update);
+    section.addEventListener('input', update);
+    const body = el('div', { class: 'body' }, [
+      el('div', { class: 'name' }, [el('h3', { text: s.name }), el('a', { href: s.url, target: '_blank', rel: 'noopener', text: 'Open site' })]),
+      el('span', { class: 'role' + (s.group === 'primary' ? ' p' : ''), text: s.role }),
+      el('p', { class: 'reason', text: s.reason }),
+      el('p', { class: 'meta', text: s.meta }),
+      el('div', { class: 'picks' }, [
+        el('label', { for: 'p-' + s.id }, [radio, document.createTextNode('Primary reference')]),
+        el('label', { for: 'd-' + s.id }, [check, document.createTextNode('Section donor')]),
+        section
+      ])
+    ]);
+    return el('article', { class: 'card', id: 'card-' + s.id }, [shots, body]);
+  }
+
+  const P = document.getElementById('primaries'), D = document.getElementById('donors');
+  SITES.forEach(s => (s.group === 'primary' ? P : D).appendChild(card(s)));
+
+  function picksMarkdown() {
+    const primary = SITES.find(s => document.getElementById('p-' + s.id).checked);
+    const donors = SITES.filter(s => document.getElementById('d-' + s.id).checked);
+    const notes = document.getElementById('notes').value.trim();
+    const lines = ['## Varun’s picks (travel-booking)', ''];
+    lines.push('- Primary: ' + (primary ? primary.name + ' (' + primary.url + ')' : 'not chosen yet'));
+    lines.push('- Section donors:' + (donors.length ? '' : ' none'));
+    donors.forEach(s => {
+      const sec = document.getElementById('s-' + s.id).value.trim() || 'section not named';
+      lines.push('  - ' + s.name + ' (' + s.url + '): ' + sec);
+    });
+    if (notes) lines.push('- Notes: ' + notes);
+    return lines.join('\n');
+  }
+
+  function update() {
+    SITES.forEach(s => document.getElementById('card-' + s.id)
+      .classList.toggle('is-primary', document.getElementById('p-' + s.id).checked));
+    document.getElementById('preview').textContent = picksMarkdown();
+  }
+  document.getElementById('notes').addEventListener('input', update);
+
+  document.getElementById('copy').addEventListener('click', async () => {
+    const text = picksMarkdown();
+    const status = document.getElementById('status');
+    try {
+      await navigator.clipboard.writeText(text);
+      status.textContent = 'Copied. Paste it to the Scout or the Art Director.';
+    } catch (e) {
+      const t = el('textarea', {});
+      t.value = text; document.body.appendChild(t); t.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
+      t.remove();
+      status.textContent = ok ? 'Copied.' : 'Copy was blocked here. Select the text below and copy it by hand.';
+    }
+  });
+
+  update();
+</script>
+</body>
+</html>

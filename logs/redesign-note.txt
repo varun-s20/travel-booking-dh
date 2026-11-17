@@ -1,0 +1,41 @@
+travel-booking: redesign note (Studio Lead, 2026-11-11). Read this before anything else. It overrides earlier notes where they conflict.
+
+WHY
+The client sent feedback (verbatim in brief.md, "Client feedback, 2026-11-11"):
+- A clean, modern travel platform with the ease of use of Booking.com, Expedia and Priceline, but its own distinct identity.
+- Deep navy, white and teal, with a clean, readable font.
+- Priorities: a prominent search section, easy navigation, clear pricing, strong travel imagery, a polished mobile experience.
+Varun also ruled that the two versions must be two completely different designs. Until now they were one layout (Overwing) in two palettes, which was wrong.
+
+THE TWO DESIGNS
+1. Overwing (concept A, the cabin windows). Lives where it is now: design/, prototype/, build/, site/.
+   - Primary reference Hipcamp, donors Kasa (hotel detail), Monocle, Faye, The Hoxton (as before).
+   - Type: Calibre plus Geist (as before).
+   - Palettes: a NEW navy, white and teal palette (Overwing's own take on the client's colours), which becomes the default, plus Cabin dawn as the alternate. Harbour gold leaves Overwing.
+   - Revise it for the client's priorities above. Keep the idea (the window).
+2. Landfall (concept C in design/concepts.md, the full photo hero with the search docked across its lower edge). New, in landfall/: landfall/design/, landfall/prototype/, landfall/content/, landfall/build/, landfall/site/, landfall/references/.
+   - Primary reference: Kasa (Varun's pick, https://kasa.com). It needs a full deconstruction (home and search hero, results, pinned compact search; the hotel detail is already in references/deconstruct/kasa-hotel-detail.md).
+   - Donors: choose from references/shortlist.md and cards.md among sites Overwing does not use (European Sleeper, Ferryhopper, Mercury, Sidetracked). Never Hipcamp, Monocle, Faye or The Hoxton.
+   - The client's three named sites (Booking.com, Expedia, Priceline) are ease-of-use benchmarks for both designs: technique only (how search, filters, price display and mobile flow work), never their look, code, text or images.
+   - Type: a clean, readable family that is not Calibre and not Geist. Prefer a free licence (SIL OFL) so it can ship.
+   - Palettes: Landfall's OWN navy, white and teal (different shades and roles from Overwing's), which is the default, plus Harbour gold as the alternate, re-measured on Landfall's own hero photo.
+
+NO SHARED DESIGN RESOURCES
+- Landfall shares nothing visual with Overwing: no tokens, CSS, components, layout system, icons, fonts, photos, wordmark, motion or prototype code. Hipcamp's app shell (icon rail, pill tab bar) and the cabin window stay with Overwing.
+- Both hotel pages draw on Kasa, because Varun picked Kasa for Landfall. Landfall's hotel page must still look plainly different from Overwing's; the Critic checks this.
+- What may be shared: the client material (prd/, brief.md), the copy facts and mock data in content/copy.md (Landfall gets its own copy deck in landfall/content/copy.md), and the simulated backend code (site/lib/mock/, site/lib/store.ts, site/app/api/), which Landfall's app copies into its own folder, because it is not design.
+- Photos: Landfall uses its own Unsplash License photos, none of the ones in site/public/images/. Same rules as before (credits.md, each checked on its photo page).
+
+HOW TO WORK
+- Varun asked to run straight through with no checkpoints. Where a skill would stop for Varun's choice, take your own recommendation, record it as provisional in the stage's choices.md, and continue.
+- Read taste/signature.md and taste/anti-slop.md first, and evals/lessons.md before screenshots.
+- Run your subagents (critic, deconstructor) in the foreground, never in the background.
+- Only one stage runs at a time, so the Playwright browser is yours. Stop every server you start before you finish.
+- Never install packages; the Studio Lead does installs. Never deploy.
+- Log your run in review-log.md. Write without em dashes.
+- Placeholders as before: working names, wordmarks, market (English, USD), contacts and legal facts are placeholders, not client facts.
+
+PORTS AND SCRIPTS (for the Developer)
+- Overwing (site/): palettes navy (default, port 3001) and cabin (port 3002). Scripts dev:navy, dev:cabin, build:navy, build:cabin, start:navy, start:cabin. Remove harbour from this app.
+- Landfall (landfall/site/): palettes navy (default, port 3003) and harbour (port 3004), with the same script names (navy and harbour).
+- Ports 4001 and 4002 are the Studio Lead's preview servers. Leave them alone.

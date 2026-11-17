@@ -1,0 +1,350 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): booking.css
+   The booking pages: the details layout (760 main beside the 392
+   sticky summary), the itinerary timeline, fare rows, Faye's inclusion
+   cards, the summary card and the phone bottom bar, the traveler and
+   guest forms, checkout with the payment card, and the confirmation.
+   Loads after results.css, before account.css. Values are tokens only.
+   ===================================================================== */
+
+/* ===== Details layout (spec 2b: 760 main and a 392 sticky summary at 1440; one column on phones) ===== */
+.o-detail { display: grid; gap: 4rem; padding-bottom: calc(var(--s-10) + 4rem); }
+.o-detail__main { display: grid; gap: 4.8rem; min-width: 0; align-content: start; }
+.o-detail__side { display: none; }
+.o-detail__section { display: grid; gap: 1.6rem; min-width: 0; }
+.o-detail__intro { max-width: 40em; color: var(--c-ink); font: var(--fw-ui) 1.6rem/1.5 var(--f-ui); text-wrap: pretty; }
+.o-detail__note { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); }
+@media (min-width: 1025px) {
+  .o-detail { grid-template-columns: minmax(0, 76rem) 39.2rem; justify-content: space-between; gap: 4rem; padding-bottom: var(--s-10); }
+  .o-detail__side { position: sticky; top: calc(var(--topbar-h) + 2.4rem); display: block; align-self: start; }
+}
+
+/* ===== Itinerary timeline ===== */
+.m-itin { display: grid; gap: 1.6rem; }
+.m-itin__leg { padding: 2rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.m-itin__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .4rem 1.6rem; margin-bottom: 1.6rem; }
+.m-itin__title { font: var(--fw-bold) 2rem/1.25 var(--f-display); letter-spacing: var(--tr-head); }
+.m-itin__note { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-itin__rows { position: relative; display: grid; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.m-itin__row { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1.6rem; align-items: baseline; }
+.m-itin__time { position: relative; font: var(--fw-bold) 1.8rem/1.3 var(--f-display); font-variant-numeric: tabular-nums; }
+.m-itin__next { margin-left: .2rem; color: var(--c-warn); font: var(--fw-ui-strong) 1.1rem/1 var(--f-ui); }
+.m-itin__place { font: var(--fw-ui-medium) 1.5rem/1.4 var(--f-ui); text-wrap: pretty; }
+/* the flight between two stops: a dotted line down the time column with the plane on it */
+.m-itin__row.-flight { align-items: center; min-height: 5.2rem; }
+.m-itin__plane { position: relative; display: grid; place-items: center; align-self: stretch; width: 2.4rem; color: var(--c-muted); }
+.m-itin__plane::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; border-left: 1.5px dotted var(--c-field); }
+.m-itin__plane .a-icon { position: relative; padding: .2rem 0; background: var(--c-surface); transform: rotate(90deg); }
+.m-itin__flight { display: grid; gap: .2rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.m-itin__op { color: var(--c-muted); }
+.m-itin__row.-layover { display: flex; align-items: center; gap: .8rem; margin: .8rem 0; padding: 1.2rem 1.6rem; border-radius: var(--r-sm); background: var(--c-tint); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); text-wrap: pretty; }
+.m-itin__row.-layover .a-icon { flex: none; color: var(--c-muted); }
+@media (min-width: 641px) {
+  .m-itin__leg { padding: 2.4rem; }
+  .m-itin__row { grid-template-columns: 7.2rem minmax(0, 1fr); }
+}
+
+/* ===== Fare rows (Hipcamp's option rows; the chosen row: a 2px deep border, a filled radio) ===== */
+.m-fares { display: grid; gap: 1.2rem; }
+.m-fare { border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); transition: box-shadow var(--d-fast) var(--ease-std), border-color var(--d-fast) var(--ease-std); }
+.m-fare.is-on { border-color: var(--c-deep); box-shadow: inset 0 0 0 1px var(--c-deep); }
+.m-fare__row { display: flex; align-items: center; gap: 1.6rem; padding: 2rem; border-radius: inherit; cursor: pointer; }
+.m-fare__radio { flex: none; width: 2.2rem; height: 2.2rem; margin: 0; accent-color: var(--c-deep); cursor: pointer; }
+.m-fare__radio:focus-visible { outline: none; }
+.m-fare__row:has(.m-fare__radio:focus-visible) { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+.m-fare__text { display: grid; flex: 1; gap: .2rem; min-width: 0; }
+.m-fare__name { font: var(--fw-bold) 2rem/1.2 var(--f-display); letter-spacing: var(--tr-head); }
+.m-fare__diff { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-fare__btn { display: none; }
+.m-fare__incl { padding: 0 1.2rem 1.2rem; }
+.m-fare.is-off .m-fare__row { cursor: default; opacity: .55; }
+@media (min-width: 641px) {
+  .m-fare__row { padding: 2.4rem; }
+  .m-fare__btn { display: inline-flex; }
+  .m-fare__incl { padding: 0 2.4rem 2.4rem; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .m-fare:not(.is-on):hover { border-color: var(--c-field); }
+}
+
+/* ===== Inclusion cards (Faye: flat tint, radius 16, padding 32, 14px filled disc; no hover) ===== */
+.m-incl { display: grid; gap: 1.2rem; }
+/* revision 2026-11-11, item 24: included in the cool cream, paid extras in the teal mist */
+.m-incl__card { padding: 2.4rem; border-radius: var(--r-md); background: var(--c-cream); }
+.m-incl__card.-extra { background: var(--c-extra); }
+.m-incl__title { margin-bottom: 1.6rem; font: var(--fw-bold) 2rem/1.2 var(--f-display); letter-spacing: var(--tr-head); }
+.m-incl__list { display: grid; gap: 1.2rem; margin: 0; padding: 0; list-style: none; }
+.m-incl__list.-condensed { gap: .8rem; }
+.m-incl__row { display: flex; align-items: flex-start; gap: 1.2rem; font: var(--fw-ui) 1.5rem/1.4 var(--f-ui); text-wrap: pretty; }
+.m-incl__row .a-disc { margin-top: .3rem; }
+.m-incl__list.-condensed .m-incl__row { font-size: 1.4rem; }
+.m-incl__list.-condensed .a-disc { margin-top: .2rem; }
+.m-incl__row.-no { padding-left: 2.6rem; color: var(--c-muted); }
+@media (min-width: 641px) {
+  .m-incl { grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr)); }
+  .m-incl__card { padding: 3.2rem; }
+}
+
+/* ===== Summary card (Hipcamp's booking card: radius 16, card shadow, 24 padding, 28px total, one deep pill) ===== */
+.m-summary { padding: 2.4rem; border-radius: var(--r-md); background: var(--c-surface); box-shadow: var(--sh-card); }
+.m-summary__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1.6rem; }
+.m-summary__title { font: var(--fw-bold) 2.4rem/1.2 var(--f-display); letter-spacing: var(--tr-head); }
+.m-summary__lines { display: grid; gap: .4rem; margin: 1.2rem 0 0; padding: 0; list-style: none; font: var(--fw-ui) 1.5rem/1.45 var(--f-ui); }
+.m-summary__rows { display: grid; gap: .8rem; margin: 2rem 0 0; padding-top: 1.6rem; border-top: 1px solid var(--c-line); }
+.m-summary__row { display: flex; align-items: baseline; justify-content: space-between; gap: 1.6rem; font: var(--fw-ui) 1.5rem/1.4 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-summary__row dd { margin: 0; }
+.m-summary__row.-total { margin-top: .8rem; padding-top: 1.6rem; border-top: 1px solid var(--c-line); }
+.m-summary__row.-total dt { font-weight: var(--fw-ui-strong); }
+.m-summary__row.-total dd { font: var(--fw-bold) var(--t-price)/1 var(--f-display); letter-spacing: var(--tr-head); }
+.m-summary__incl { margin-top: .6rem; color: var(--c-price-note); font: var(--fw-ui-medium) 1.4rem/1.4 var(--f-ui); text-align: right; }
+.m-summary__note { margin-top: 1.2rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); }
+.m-summary__expiry { margin-top: 1.6rem; color: var(--c-muted); font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); }
+.m-summary__expiry.is-warn { color: var(--c-warn); }
+.m-summary__action { margin-top: 2rem; }
+.m-summary__who { margin-top: 1.6rem; padding-top: 1.6rem; border-top: 1px solid var(--c-line); }
+.m-summary__whoHead { display: flex; align-items: baseline; justify-content: space-between; gap: 1.6rem; }
+.m-summary__whoTitle { font: var(--fw-ui-strong) 1.5rem/1.3 var(--f-ui); }
+.m-summary__whoList { display: grid; gap: .2rem; margin: .6rem 0 0; padding: 0; list-style: none; font: var(--fw-ui) 1.5rem/1.45 var(--f-ui); }
+
+/* ---- phone bottom bar (price left, action right); the tab bar hides while it shows ---- */
+.m-bottomBar { position: fixed; z-index: var(--z-tabbar); left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; padding: 1.2rem var(--gutter) calc(1.2rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--c-line); background: var(--c-surface); box-shadow: 0 -8px 24px -12px rgba(11, 27, 46, .18); }
+.m-bottomBar.is-away { visibility: hidden; transform: translateY(100%); }
+.m-bottomBar { transition: transform var(--d-panel) var(--ease-std), visibility 0s; }
+.m-bottomBar__price { font: var(--fw-ui) 1.4rem/1.2 var(--f-ui); }
+.m-bottomBar__price strong { font: var(--fw-bold) 2.2rem/1 var(--f-display); letter-spacing: var(--tr-head); font-variant-numeric: tabular-nums; }
+.b-app:has([data-bottom-bar]) .o-header__tabs { display: none; }
+@media (min-width: 1025px) {
+  .m-bottomBar { display: none; }
+}
+
+/* ===== Traveler and guest forms (spec 2b: one 640 column, one fieldset per traveler, 24px legends) ===== */
+.o-form { display: grid; gap: 2.4rem; max-width: 64rem; }
+.o-form__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.6rem 2.4rem; margin-top: .8rem; }
+.o-form__actions .a-link { font-size: 1.5rem; }
+.m-person { display: grid; gap: 2rem; min-width: 0; margin: 0; padding: 2rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.m-person__legend { float: left; width: 100%; margin: 0 0 .4rem; padding: 0; font: var(--fw-bold) 2.4rem/1.2 var(--f-display); letter-spacing: var(--tr-head); }
+.m-person__legend + * { clear: both; }
+.m-person__grid { display: grid; gap: 2rem; }
+.m-person__grid .-title { max-width: 16rem; }
+.m-person__passport { display: grid; gap: 2rem; padding-top: 2rem; border-top: 1px solid var(--c-line); }
+.m-person__note { display: flex; align-items: flex-start; gap: .8rem; padding: 1.2rem 1.6rem; border-radius: var(--r-sm); background: var(--c-cream); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); }
+.m-person__note .a-icon { margin-top: .1rem; }
+@media (min-width: 641px) {
+  .m-person { padding: 2.8rem 3.2rem 3.2rem; }
+}
+
+/* ===== Checkout (spec 2b: contact, the payment card, the terms row, one full-width Pay pill) ===== */
+.o-checkout { gap: 2.4rem; }
+.o-checkout__section { display: grid; gap: 1.6rem; min-width: 0; padding: 2.4rem 2rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.o-checkout__intro { margin-top: -.8rem; color: var(--c-muted); font: var(--fw-ui) 1.5rem/1.45 var(--f-ui); }
+.o-checkout__login { font: var(--fw-ui) 1.5rem/1.45 var(--f-ui); }
+.o-checkout__login .a-link { font-size: inherit; }
+/* the demo card note (copy.md: a cream note above the Payment Element) */
+.o-checkout__demo { display: flex; align-items: flex-start; gap: .8rem; padding: 1.2rem 1.6rem; border-radius: var(--r-sm); background: var(--c-cream); color: var(--c-ink); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); }
+.o-checkout__demo .a-icon { margin-top: .1rem; }
+.m-cardEl { display: grid; gap: 1.6rem; }
+.m-cardEl__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; align-items: start; }
+.m-cardEl .m-field__input { font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+/* phones: the Pay pill sticks to the bottom of the screen while the form is longer than it */
+.o-checkout__pay { position: sticky; z-index: 2; bottom: 0; display: grid; gap: .8rem; margin: 0 calc(var(--gutter) * -1); padding: 1.2rem var(--gutter) calc(1.2rem + env(safe-area-inset-bottom, 0px)); background: linear-gradient(rgba(0, 0, 0, 0), var(--c-ground) 1.6rem); }
+.o-checkout__payBtn { height: var(--h-field); font-size: 1.6rem; }
+.o-checkout__payBtn .a-button__lock { width: 1.8rem; height: 1.8rem; }
+.o-checkout__spinner { width: 1.8rem; height: 1.8rem; border: 2px solid rgba(255, 255, 255, .35); border-top-color: #FFFFFF; border-radius: 50%; animation: spin .8s linear infinite; }
+.o-checkout__trust { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); text-align: center; text-wrap: balance; }
+/* revision 2026-11-11, item 29: the lock in teal beside the Stripe line */
+.o-checkout__trustIcon { display: inline-block; margin-right: .6rem; color: var(--c-accent); vertical-align: -.2rem; } /* inline, so it stays with the first word when the line wraps (critic, 11 Nov) */
+.o-checkout__phoneSum { display: grid; gap: 1.2rem; }
+.o-checkout__sumToggle { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; width: 100%; min-height: var(--h-field); padding: 0 2rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); font: var(--fw-ui-strong) 1.5rem/1.2 var(--f-ui); font-variant-numeric: tabular-nums; cursor: pointer; }
+.o-checkout__sumToggle[aria-expanded="true"] .a-icon { transform: rotate(180deg); }
+.o-checkout__phoneSum .m-summary { box-shadow: none; border: 1px solid var(--c-line); }
+@media (min-width: 641px) {
+  .o-checkout__section { padding: 2.8rem 3.2rem 3.2rem; }
+}
+@media (min-width: 1025px) {
+  .o-checkout__phoneSum { display: none; }
+  .o-checkout__pay { position: static; margin: 0; padding: 0; background: none; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .o-checkout__spinner { animation-duration: 2.4s; }
+}
+
+/* ===== Confirmation and booking detail (spec 2b: one centred 720 column, the reference in Calibre Thin) ===== */
+.o-booking { display: grid; gap: 3.2rem; max-width: 72rem; margin: 0 auto; padding: 3.2rem 0 var(--s-10); }
+.o-booking__changed:focus { outline: none; }
+.o-booking.-loading { min-height: 60vh; }
+.o-booking__head { display: grid; justify-items: start; gap: 1.6rem; }
+.o-booking__head .a-back { margin-bottom: -.8rem; }
+.o-booking__title { margin-top: .4rem; }
+.o-booking__lead { font: var(--fw-regular) var(--t-lead)/1.4 var(--f-display); text-wrap: pretty; }
+.o-booking__section { display: grid; gap: 1.2rem; min-width: 0; }
+.o-booking__text { max-width: 44em; font: var(--fw-ui) 1.6rem/1.5 var(--f-ui); text-wrap: pretty; }
+.o-booking__text .a-link { font-size: inherit; }
+.o-booking__section > .a-button { justify-self: start; }
+.o-booking__rows { display: grid; gap: .8rem; margin: 0; padding: 0; list-style: none; }
+.o-booking__row { display: flex; align-items: flex-start; gap: 1rem; font: var(--fw-ui) 1.6rem/1.45 var(--f-ui); text-wrap: pretty; }
+.o-booking__row .a-icon { flex: none; margin-top: .3rem; color: var(--c-muted); }
+.o-booking__rows.-ticks .a-disc { margin-top: .5rem; }
+/* the tick inside the disc keeps the disc's own colour, not the row icons' muted grey (critic round 1: invisible ticks) */
+.o-booking__row .a-disc .a-icon { margin-top: 0; color: inherit; }
+.o-booking__mono { font-variant-numeric: tabular-nums; letter-spacing: .02em; white-space: nowrap; }
+.o-booking__note { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.o-booking__lines { display: grid; gap: .8rem; margin: 0; padding: 1.6rem 2rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.o-booking__lines > div { display: flex; justify-content: space-between; gap: 1.6rem; font: var(--fw-ui) 1.5rem/1.4 var(--f-ui); font-variant-numeric: tabular-nums; }
+.o-booking__lines dd { margin: 0; }
+.o-booking__lines .-paid { padding-top: .8rem; border-top: 1px solid var(--c-line); font-weight: var(--fw-ui-strong); }
+.o-booking__foot { display: grid; gap: 2rem; padding-top: 2.4rem; border-top: 1px solid var(--c-line); }
+.o-booking__sent { display: flex; align-items: center; gap: .8rem; font: var(--fw-ui) 1.5rem/1.4 var(--f-ui); }
+.o-booking__actions { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+/* ---- the reference: Calibre Thin, tabular, with a Copy pill ---- */
+.m-ref { display: grid; gap: .4rem; }
+.m-ref__label { color: var(--c-muted); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); }
+.m-ref__row { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 2rem; }
+.m-ref__value { font: var(--fw-thin) 3.6rem/1 var(--f-display); letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+.m-ref.-big .m-ref__value { font-size: var(--t-ref); }
+/* ---- the stay card ---- */
+.m-stayCard { display: grid; overflow: hidden; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.m-stayCard__media { aspect-ratio: 3 / 2; }
+.m-stayCard__img { height: 100%; object-fit: cover; }
+.m-stayCard__text { display: grid; align-content: center; gap: 1rem; padding: 2rem 2.4rem 2.4rem; }
+.m-stayCard__title { font: var(--fw-bold) 2.2rem/1.2 var(--f-display); letter-spacing: var(--tr-head); }
+.m-stayCard__rows { display: grid; gap: .4rem; margin: 0; padding: 0; list-style: none; font: var(--fw-ui) 1.5rem/1.45 var(--f-ui); }
+@media (min-width: 1025px) {
+  .o-booking { padding-top: 3.2rem; }
+}
+
+/* ===== Print: the confirmation alone ===== */
+@media print {
+  .o-header, .o-footer, .a-skip, .m-toast, .o-booking__actions, .m-ref .a-button { display: none !important; }
+  .b-main { margin: 0 !important; }
+  body { background: #FFFFFF; }
+  .o-booking { padding: 0; }
+}
+
+/* Chief Officer, 11 Nov: the hotel phone bar sets its total over the nightly rate on two lines */
+.m-bottomBar__price.-stacked span { display: block; color: var(--c-price-note); }
+/* Chief Officer, 11 Nov (note 4): the destination's window beside "You're booked" (.a-porthole lives in ui.css) */
+.o-booking__titleRow { display: flex; align-items: center; gap: 1.6rem; }
+@media (min-width: 641px) { .o-booking__titleRow { gap: 2.4rem; } }
+
+/* polish round, 11 Nov (critic, new issue 6): the sticky summary lines up with the first card in the main column, not
+   with what sits above it. Flight details: the "Your flights" heading (one line of h2) and the section gap. Checkout,
+   logged out: the "Have an account? Log in" line (one line at 15px/1.45) and the column gap. Passengers already align. */
+@media (min-width: 1025px) {
+  .o-detail:has(> .o-detail__main > .o-detail__section:first-child) > .o-detail__side { margin-top: calc(var(--t-h2) * var(--lh-head) + 1.6rem); }
+  .o-detail:has(> .o-detail__main > .o-checkout__login) > .o-detail__side { margin-top: calc(1.5rem * 1.45 + 4.8rem); }
+}
+
+/* ===== Round 3, Developer B: checkout revalidation, terms, hold chip, delta (spec B4, B2.6) ===== */
+.m-summary__hold { display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.6rem; padding: .5rem 1.2rem; border-radius: var(--r-pill); background: var(--c-tint); color: var(--c-ink); font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-summary__hold .a-icon { color: var(--c-accent); }
+.m-summary__holdTime { font-weight: var(--fw-ui-strong); }
+.m-summary__hold.is-warn { background: var(--c-surface); box-shadow: inset 0 0 0 1px currentColor; color: var(--c-warn); }
+.m-summary__hold.is-warn .a-icon { color: inherit; }
+.o-checkout__check { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; padding: 1.2rem 1.6rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); font: var(--fw-ui-medium) 1.5rem/1.4 var(--f-ui); font-variant-numeric: tabular-nums; }
+.o-checkout__check.is-ok { border-color: transparent; background: var(--c-tint); }
+.o-checkout__check .a-disc { width: 2rem; height: 2rem; background: var(--c-accent); }
+.o-checkout__spinner.-ink { flex: none; border-color: var(--c-line); border-top-color: var(--c-accent); }
+.o-checkout__terms { gap: 1.2rem; }
+.o-checkout__termList { display: grid; gap: 1.2rem; margin: 0; padding: 0; list-style: none; }
+.o-checkout__termList li { display: grid; grid-template-columns: 2rem 1fr; gap: 1.2rem; align-items: start; font: var(--fw-ui) 1.5rem/1.5 var(--f-ui); text-wrap: pretty; }
+.o-checkout__termList .a-icon { margin-top: .2rem; color: var(--c-accent); }
+.o-checkout__termList strong { display: block; color: var(--c-ink); font-weight: var(--fw-ui-strong); }
+.o-checkout__termNote { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.45 var(--f-ui); }
+.o-checkout__delta { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1.6rem 0 0; }
+.o-checkout__delta div { padding: 1.2rem 1.6rem; border: 1px solid var(--c-line); border-radius: var(--r-sm); }
+.o-checkout__delta dt { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.3 var(--f-ui); }
+.o-checkout__delta dd { margin: .4rem 0 0; font: var(--fw-bold) 2rem/1.2 var(--f-display); font-variant-numeric: tabular-nums; }
+.o-checkout__sumToggle strong { font-weight: var(--fw-ui-strong); }
+@media (min-width: 641px) {
+  .o-checkout__termList { grid-template-columns: 1fr 1fr; column-gap: 2.4rem; }
+}
+
+/* ===== Round 3, Developer B: confirmation and booking detail (spec B5, B10) ===== */
+.m-steps { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.m-steps__item { position: relative; display: grid; grid-template-columns: 4rem 1fr; gap: 1.6rem; padding-bottom: 2rem; }
+.m-steps__item:not(:last-child)::before { position: absolute; top: 4rem; bottom: 0; left: 2rem; width: 1px; background: var(--c-line); content: ""; }
+.m-steps__icon { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%; background: var(--c-tint); color: var(--c-accent); }
+.m-steps__text { padding-top: .2rem; font: var(--fw-ui) 1.6rem/1.5 var(--f-ui); text-wrap: pretty; }
+.m-steps__text strong { display: block; color: var(--c-ink); font: var(--fw-bold) 1.7rem/1.3 var(--f-display); }
+.o-booking__docActions { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+.m-receipt { display: grid; gap: 1.2rem; margin-top: .8rem; padding: 2rem 2.4rem; border: 1px dashed var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.m-receipt__title { display: flex; align-items: center; gap: .8rem; font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); }
+.m-receipt__title .a-icon { color: var(--c-accent); }
+.m-receipt__rows { display: grid; gap: .8rem; margin: 0; }
+.m-receipt__rows div { display: flex; justify-content: space-between; gap: 1.6rem; font: var(--fw-ui) 1.5rem/1.4 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-receipt__rows dt { color: var(--c-muted); }
+.m-receipt__rows dd { margin: 0; text-align: right; }
+.o-booking__row .a-icon[viewBox] { color: var(--c-accent); }
+.m-cross { min-width: 0; max-width: 100%; padding-top: 2.4rem; border-top: 1px solid var(--c-line); }
+.m-cross__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .8rem 2rem; }
+.m-cross__list { display: grid; grid-auto-flow: column; grid-auto-columns: 72vw; gap: 1.6rem; margin: 0 -1.6rem; padding: .4rem 1.6rem 1.2rem; overflow-x: auto; list-style: none; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.m-cross__list > li { scroll-snap-align: start; }
+.m-cross__note { color: var(--c-muted); font: var(--fw-ui) 1.2rem/1.4 var(--f-ui); }
+.m-crossCard { display: grid; gap: .5rem; height: 100%; padding-bottom: .4rem; border-radius: var(--r-md); color: var(--c-ink); text-decoration: none; }
+.m-crossCard__media { display: block; overflow: hidden; margin-bottom: .6rem; border-radius: var(--r-md); aspect-ratio: 4 / 3; }
+.m-crossCard__img { width: 100%; height: 100%; object-fit: cover; transition: transform 250ms var(--ease-out-long, ease-out); }
+.m-crossCard__kicker { color: var(--c-muted); font: var(--fw-ui-strong) 1.2rem/1.3 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; }
+.m-crossCard__name { font: var(--fw-bold) 1.7rem/1.25 var(--f-display); text-underline-offset: 3px; }
+.m-crossCard__meta { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.4 var(--f-ui); }
+.m-crossCard__price { margin-top: .4rem; font: var(--fw-ui) 1.3rem/1.4 var(--f-ui); color: var(--c-price-note); }
+.m-crossCard__price strong { display: block; color: var(--c-ink); font: var(--fw-bold) 2.2rem/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.m-crossCard:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; }
+.m-crossCard:active { transform: scale(.985); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-crossCard:hover .m-crossCard__img { transform: scale(1.04); }
+  .m-crossCard:hover .m-crossCard__name { text-decoration: underline; text-decoration-thickness: 1px; }
+}
+@media (min-width: 641px) {
+  .m-cross__list { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: .4rem 0 0; overflow: visible; }
+}
+@media (min-width: 1025px) {
+  .m-cross__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) { .m-crossCard__img { transition: none; } }
+@media print { .o-booking__docActions, .m-cross { display: none !important; } }
+.m-crossCard__score { margin-top: .2rem; }
+
+/* ---- booking step bar (components/booking/Steps.tsx): three stops on one line, the teal edge marks progress ---- */
+.m-steps { margin: 0 0 2.4rem; }
+.m-steps__list { display: flex; align-items: center; gap: 1.2rem; max-width: 64rem; margin: 0; padding: 0; list-style: none; }
+.m-steps__item { display: flex; flex: 1 1 0; align-items: center; gap: .8rem; min-width: 0; color: var(--c-muted); font: var(--fw-ui-medium) 1.3rem/1.3 var(--f-ui); }
+.m-steps__item::after { content: ""; flex: 1 1 auto; min-width: 1.6rem; height: 2px; border-radius: 2px; background: var(--c-line); }
+.m-steps__item:last-child { flex: 0 0 auto; }
+.m-steps__item:last-child::after { display: none; }
+.m-steps__item.is-done::after { background: var(--c-accent); }
+.m-steps__dot { flex: none; width: 1.2rem; height: 1.2rem; border: 2px solid var(--c-line); border-radius: 50%; background: var(--c-surface); }
+.m-steps__item.is-done .m-steps__dot { border-color: var(--c-accent); background: var(--c-accent); }
+.m-steps__item.is-current .m-steps__dot { border-color: var(--c-deep); box-shadow: 0 0 0 4px var(--c-tint); }
+.m-steps__item.is-current { color: var(--c-ink); font-weight: var(--fw-ui-strong); }
+.m-steps__label { flex: none; color: inherit; text-decoration: none; white-space: nowrap; }
+a.m-steps__label { text-decoration: underline; text-decoration-color: var(--c-line); text-underline-offset: 3px; transition: text-decoration-color var(--d-fast) var(--ease-std), color var(--d-fast) var(--ease-std); }
+a.m-steps__label:hover { color: var(--c-ink); text-decoration-color: currentColor; }
+a.m-steps__label:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; border-radius: 4px; }
+@media (max-width: 640px) {
+  .m-steps { margin-bottom: 1.6rem; }
+  .m-steps__list { gap: .6rem; }
+  .m-steps__item { gap: .6rem; font-size: 1.2rem; }
+  .m-steps__item::after { min-width: .8rem; }
+}
+
+
+/* ---- checkout, round 3 critic fixes ---- */
+/* the step bar sits above the page title, on the main column's width */
+.t-checkout > .m-steps { max-width: 76rem; margin: 2.4rem 0 0; }
+.t-checkout > .m-steps + .o-pageHead { padding-top: 1.6rem; }
+@media (min-width: 641px) {
+  .t-checkout > .m-steps { margin-top: 3.2rem; }
+}
+/* one column: from 1025 the form runs the full main column, so it lines up with the price check banner and meets the summary;
+   below that the form keeps its reading width and the banner follows it */
+.t-checkout__body .o-checkout__check { max-width: 64rem; margin-bottom: 0; }
+@media (min-width: 1025px) {
+  .t-checkout__body .o-form.o-checkout, .t-checkout__body .o-checkout__check { max-width: none; }
+}
+/* confirmation cross-sell: every card one height, the price on the floor */
+.m-cross__list > li { display: flex; }
+.m-crossCard { flex: 1; grid-template-rows: repeat(5, auto) 1fr; align-content: start; }
+.m-crossCard__price { align-self: end; }

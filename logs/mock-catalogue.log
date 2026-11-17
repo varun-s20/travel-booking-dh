@@ -1,0 +1,28 @@
+Ignoring 2 permissions.allow entries from .claude/settings.json: this workspace has not been trusted. Run Claude Code interactively here once and accept the trust dialog, or set projects["c:/Users/varun/digital-heroes-automation"].hasTrustDialogAccepted: true in C:\Users\varun\.claude.json.
+I've written the mock catalogue at `projects/travel-booking/content/mock-catalogue.md`. It ends with "Catalogue complete." and the run is logged in `review-log.md`. It took about 95 minutes, not the 60 you allowed; the 24 showcase hotels took most of the time.
+
+**Needs action now:** both round 3 specs (Overwing and Landfall) were written while this file was still half done. The Landfall spec says its numbers are stand-ins. The Developers building on 3001 and 3003 (hard stop 17:05) should re-read the finished file before they wire up the data.
+
+**What's in it**
+- **Destinations:** 24 cities in 6 regions. Each has its country, airport, a one-line description, flight time from London, a "Return from" fare (the six existing ones unchanged) and a typical fare that deals compare against. 12 cities have hotels, and there's a table of which airlines fly each route. Nine new airports need adding to the place list.
+- **Airlines:** the existing five unchanged, plus seven new fictional ones: Avocet Airways, Gannet Air, Vireo Air, Tailorbird Air, Houbara Air, Currawong Air and Lourie Air. Each has its code, base country, aircraft types and 3 or 4 fare families, with personal item, cabin bag, checked bag, seats, changes and refunds spelled out. Kittiwake keeps Light, Classic and Flex word for word.
+- **Hotels:** 96 hotels, 8 per city, with everything you listed, drawn from one master list of 62 amenities.
+  - The 24 showcase hotels have the full detail: description, rooms with rate plans, guest scores, 6 reviews, nearby places and house rules.
+  - All eight existing hotels keep their names, prices, descriptions, rooms and amenities. Every new rate plan costs more than the existing price, so the cards, the $744.00 Casa Lanterna booking and the demo account don't change.
+- **Review pool:** 60 snippets by score band, tagged (breakfast, pool, kitchen and so on) so a review only lands on a hotel it fits.
+- **Deals:** 10 banner and 8 card templates. Every deal is either lower than the usual price for the same room and dates, free cancellation, or breakfast included. 18 new hotels have lower rates; the existing eight have none, so the demo prices hold.
+- **Recommended for you:** row titles and one-line reasons for first visits and for returning visitors, built from searches stored in the browser, with a "Clear recent searches" link.
+
+**What I left out**
+- Tourist tax amounts, visa rules and weather claims.
+- "Only 1 left" counters and countdown timers. The competitors use them, but ours would be invented.
+- Prices for bags and seats. The fares say "For a fee", because Phase 1 has no flow for buying extras.
+- Rooms for the 64 new hotels that aren't showcases. A rule in the file generates them.
+- Map pins, street addresses and photos. Each design sources its own photos.
+
+**Before the client sees it**
+- I web-searched the seven new airline names and found none in use. Two first choices were taken and dropped: [Oriole](https://travelmarketreport.com/articles/Jamaica-Prepares-to-Welcome-its-Newest-Airline-Oriole-Limited) (a Jamaican airline start-up) and [Shearwater Air](https://aviapages.com/company/shearwater-air) (a US charter firm).
+- I did not check the 88 new hotel names one by one.
+- Every place that shows reviews, scores or deals needs the demo labels written in the file.
+
+This is a good checkpoint. Suggested commit message: `travel-booking: round 3 mock catalogue (destinations, airlines, 96 hotels, reviews, deals, recommendations)`

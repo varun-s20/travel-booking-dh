@@ -1,0 +1,95 @@
+/* =====================================================================
+   travel-booking, Landfall (working name, a placeholder): parts.css
+   Round 3 shared components (round3-spec.md, shared components 1 to 5),
+   written by Developer A for both parts: ScoreBadge (.m-score),
+   LandfallLine (.a-lline), SaveLine (.a-save), Rail (.m-rail) and
+   RailCard (.m-railcard), plus the round arrow button (.a-roundbtn).
+   Loads after global.css and before the page sheets. Page rules for
+   these parts hang off the page wrapper class in the page's own sheet.
+   ===================================================================== */
+
+/* ===== ScoreBadge ===== */
+.m-score { display: inline-flex; align-items: center; gap: 1rem; vertical-align: middle; }
+.m-score__badge { display: inline-grid; place-items: center; flex: 0 0 auto; width: 3.2rem; height: 3.2rem; border-radius: var(--r-sm); background: var(--c-score); color: #fff; font-size: var(--t-score); font-weight: var(--fw-strong); line-height: 1; }
+.m-score__text { display: inline-flex; flex-direction: column; gap: .1rem; line-height: 1.2; }
+.m-score__word { color: var(--c-ink); font-size: 1.5rem; font-weight: var(--fw-medium); }
+.m-score__count { color: var(--c-muted); font-size: var(--t-rank); font-weight: var(--fw-medium); }
+.m-score.-lg .m-score__badge { width: 5.6rem; height: 5.6rem; border-radius: var(--r-md); font-size: 2.4rem; }
+.m-score.-lg .m-score__word { font-size: var(--t-title); }
+.m-score.-dark .m-score__word { color: var(--c-on-dark); }
+.m-score.-dark .m-score__count { color: var(--c-on-dark-muted); }
+.m-score.-compact .m-score__badge { width: 2.8rem; height: 2.8rem; font-size: 1.4rem; }
+.m-demo-reviews { color: var(--c-muted); font-size: 1.3rem; line-height: 1.5; }
+
+/* ===== LandfallLine: a fine line ending in the landing dot ===== */
+.a-lline { --grow: 1; display: inline-flex; flex-direction: column; gap: .2rem; min-width: 0; vertical-align: middle; }
+.a-lline.-card { width: 12rem; }
+.a-lline.-fluid { display: flex; width: 100%; }
+.a-lline__row { display: flex; align-items: center; gap: .8rem; min-width: 0; }
+.a-lline__end { flex: 0 0 auto; color: var(--c-muted); font-size: var(--t-rank); font-weight: var(--fw-medium); letter-spacing: var(--tr-ref); }
+.a-lline__track { position: relative; flex: 0 1 calc(var(--grow) * 100%); min-width: 2.4rem; height: 1.2rem; }
+.a-lline__rule { position: absolute; left: 0; right: .4rem; top: calc(50% - .0625rem); height: 1.25px; background: var(--c-field); transform-origin: 0 50%; }
+.a-lline__dot { position: absolute; right: 0; top: calc(50% - .4rem); width: .8rem; height: .8rem; border-radius: 50%; background: var(--c-action); box-shadow: 0 0 0 2px var(--c-ground); transition: transform var(--d-nudge) var(--ease-reveal); }
+.a-lline__stop { position: absolute; top: calc(50% - .3rem); width: .6rem; height: .6rem; margin-left: -.3rem; border-radius: 50%; background: var(--c-surface); box-shadow: inset 0 0 0 1.25px var(--c-field); }
+.a-lline__stop::after { content: attr(data-code); position: absolute; bottom: 1.2rem; left: 50%; padding: .2rem .5rem; border-radius: .4rem; background: var(--c-ink); color: #fff; font-size: 1.1rem; letter-spacing: var(--tr-ref); white-space: nowrap; opacity: 0; transform: translateX(-50%); pointer-events: none; transition: opacity var(--d-fast) var(--ease-std); }
+.a-lline__stop:hover::after { opacity: 1; }
+.a-lline__label { color: var(--c-muted); font-size: var(--t-rank); font-weight: var(--fw-medium); line-height: 1.3; white-space: nowrap; }
+.a-lline.-dark .a-lline__rule { background: rgba(255, 255, 255, .62); }
+.a-lline.-dark .a-lline__dot { background: var(--c-accent-bright); box-shadow: 0 0 0 2px rgba(var(--c-scrim-rgb), .55); }
+.a-lline.-dark .a-lline__end, .a-lline.-dark .a-lline__label { color: var(--c-on-photo); }
+
+/* ===== SaveLine ===== */
+.a-save { display: inline-flex; align-items: center; gap: .4rem; color: var(--c-save); font-size: var(--t-small); font-weight: var(--fw-medium); line-height: 1.3; }
+.a-save .a-svg { width: 1.6rem; height: 1.6rem; stroke-width: 1.4; }
+.a-save.-photo { color: var(--c-accent-bright); }
+
+/* ===== Round arrow button (rails) ===== */
+.a-roundbtn { display: inline-grid; place-items: center; width: 4.4rem; height: 4.4rem; border-radius: 50%; background: var(--c-surface); color: var(--c-ink); box-shadow: inset 0 0 0 1px var(--c-line), var(--sh-arrow); transition: box-shadow var(--d-fast) var(--ease-std), opacity var(--d-fast) var(--ease-std); }
+.a-roundbtn .a-svg { width: 1.8rem; height: 1.8rem; }
+.a-roundbtn:disabled { opacity: .4; cursor: default; box-shadow: inset 0 0 0 1px var(--c-line); }
+.a-roundbtn:not(:disabled):active { transform: scale(var(--press)); }
+@media (hover: hover) and (any-pointer: fine) { .a-roundbtn:not(:disabled):hover { box-shadow: inset 0 0 0 1px var(--c-field), var(--sh-arrow); } }
+
+/* ===== Rail ===== */
+.m-rail { --rail-gap: 1.2rem; --rail-visible: 1.15; }
+.m-rail__head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-4); margin-bottom: var(--s-5); }
+.m-rail__heading { min-width: 0; }
+.m-rail__tools { display: flex; align-items: center; gap: var(--s-3); flex: 0 0 auto; }
+.m-rail__arrows { display: none; gap: .8rem; }
+.m-rail__arrows[hidden] { display: none !important; }
+.m-rail__track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - (var(--rail-visible) - 1) * var(--rail-gap) - .4rem) / var(--rail-visible)); column-gap: var(--rail-gap); margin: 0 calc(-1 * var(--gutter)); padding: .4rem var(--gutter) var(--s-4); overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter); scrollbar-width: none; list-style: none; }
+.m-rail__track::-webkit-scrollbar { display: none; }
+.m-rail__item { scroll-snap-align: start; display: flex; min-width: 0; }
+.m-rail__item > * { flex: 1 1 auto; min-width: 0; }
+@media (min-width: 641px) { .m-rail { --rail-gap: 2rem; --rail-visible: 2.3; } }
+@media (min-width: 1024px) {
+  .m-rail { --rail-gap: 2.4rem; --rail-visible: 3; }
+  .m-rail__arrows { display: inline-flex; }
+  .m-rail__track { margin: 0; padding: .4rem 0 var(--s-4); scroll-padding: 0; }
+}
+@media (min-width: 1280px) { .m-rail { --rail-visible: 4; } }
+
+/* ===== RailCard ===== */
+.m-railcard { position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); text-decoration: none; box-shadow: inset 0 0 0 1px var(--c-line), var(--sh-card); transition: box-shadow var(--d-fast) var(--ease-std); }
+.m-railcard__media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--r-md) var(--r-md) 0 0; background: var(--c-shade); }
+.m-railcard.-tall .m-railcard__media { aspect-ratio: 4 / 5; border-radius: var(--r-md); }
+.m-railcard__media img { width: 100%; height: 100%; object-fit: cover; object-position: var(--fx, 50%) var(--fy, 50%); filter: var(--fx-grade); transition: transform var(--d-zoom) var(--ease-std); }
+.m-railcard__media::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(var(--c-scrim-rgb), .08); pointer-events: none; }
+.m-railcard__body { display: flex; flex: 1 1 auto; flex-direction: column; gap: .6rem; padding: 1.6rem 2rem 2rem; }
+.m-railcard__title { font-size: var(--t-title); font-weight: var(--fw-medium); line-height: var(--lh-title, 1.3); }
+.m-railcard__meta { color: var(--c-muted); font-size: var(--t-small); line-height: 1.45; }
+.m-railcard__small { color: var(--c-muted); font-size: var(--t-rank); font-weight: var(--fw-medium); }
+.m-railcard__rule { display: block; height: 1px; margin: .6rem 0 .2rem; background: var(--c-line); }
+.m-railcard__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .8rem; }
+.m-railcard__total { font-size: 2.2rem; font-weight: var(--fw-strong); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .4rem; }
+.m-railcard__unit { color: var(--c-muted); font-size: var(--t-small); }
+.m-railcard__save { align-self: flex-start; }
+.m-railcard__free { color: var(--c-save); font-size: var(--t-small); font-weight: var(--fw-medium); }
+.m-railcard:focus-visible { outline-offset: 3px; }
+.m-railcard:active { transform: scale(.99); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-railcard:hover { box-shadow: inset 0 0 0 1px var(--c-field), var(--sh-card); }
+  .m-railcard:hover .m-railcard__media img { transform: scale(1.06); }
+  .m-railcard:hover .a-lline__dot { transform: translateX(.4rem); }
+}
+@media (prefers-reduced-motion: reduce) { .m-railcard__media img, .a-lline__dot { transition-duration: 1ms; } }

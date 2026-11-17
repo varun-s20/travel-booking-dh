@@ -1,0 +1,12 @@
+I didn't do the photography pass. Unsplash now shows a "Checking your browser" bot-check page (HTTP 401) to every automated request I made: the search via curl, and the same search in Playwright. Our rule is not to get around a bot check, so I couldn't find any new photos or check them on their photo pages. That means no second waterfront photo per city and no daylight Tokyo banner.
+
+I also checked whether the repeats could be fixed with the photos we already have. They can't:
+- **Too few photos:** Flights mode alone has about 60 photo slots (destinations, banners, deals, recommended, trending, browse tiles). We hold about 30 water photos, and most cities have only one.
+- **Worst repeats:** Tokyo's night bridge is in 5 sections. Rome, Lisbon's golden Tagus shot, Paris, Amsterdam and the New York harbour photo are each in 4.
+- **No easy way out:** taking photos out of sections would leave empty slots, which the spec doesn't allow.
+
+I changed no site files: home.ts, the home components and CSS, the images and credits.md are as round 2 left them. I didn't touch Developer B's files or read anything from Overwing.
+
+**Decision for you:** either you get past the Unsplash check by hand and pull the photos, or you approve another licensed source. Either way the next run needs about 24 city photos at 1600px wide or more: one more for each city, and two more for Tokyo, Rome, Paris, Amsterdam, Mexico City and Athens. It also needs one daylight Tokyo waterfront shot, such as the Sumida river, Odaiba or Tokyo Bay. With those in place, the change to home.ts is small (each section takes a photo of its city that no earlier section has used), and then the crop checks at 1440, 1024 and 390 in both modes.
+
+I logged the stop and these next steps under "Developer A, round 3" in `landfall/build/progress.md` and in `review-log.md`. Only those two notes changed, so this isn't a page commit point.

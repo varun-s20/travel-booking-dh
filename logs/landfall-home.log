@@ -1,0 +1,30 @@
+The plan, foundation and homepage for Landfall are done, and the Chief Officer approved them. It's 05:14, so this finished ahead of the 06:10 limit. Groups F and H can start from `landfall/build/progress.md` without any other context.
+
+**What's built** (in `landfall/site/`)
+- **Plan:** `landfall/build/plan.md` lists every page and state, split into group F and group H. Each page has a short "done when" contract, and the file has the ownership rules and how a hotel booking hands over to F's checkout.
+- **Foundation:**
+  - tokens for both palettes and self-hosted Newsreader and Albert Sans
+  - `global.css`, the header with the menu sheet, the pinned compact search, the pre-footer band and the footer
+  - the search card with its place list, range calendar and travelers steppers
+  - dialogs and sheets, toasts with their listener, form fields, the price display, the phone price bar, notices, an accordion and the photo component
+  - an icon set of about 60 icons
+- **Homepage:** hero, popular destinations and the three "What happens when you book" rows. These use 4 new Unsplash License photos, each checked on its photo page and listed in `credits.md`.
+
+**Reviews**
+- **QA:** both palettes at 1440 and 390 (`build/qa-report.md`). The only open console noise is 404s when you hover links to pages that don't exist yet; there are none on load, and they stop once group H builds those pages.
+- **Critic:** 6.45, a fail (design 7, originality 6, craft 6, functionality 7), with no design or copy tells. The hero re-score came out at 6.45 at 1440 and 6.55 at 390. I fixed all ten of its issues and checked each in the browser, but the critic didn't re-score them. The worst were the pinned search bar sliding over the hero caption and the Dates calendar never taking keyboard focus. The Chief Officer asked that group F's first critic round re-check these fixes.
+- **Chief Officer:** "approved with notes" on the first call, then "approved" on the second. Its decision is recorded in `progress.md`.
+
+**Calls I made that you should check**
+- **Teal buttons:** the Art Director's palette revision changed the colour roles partway through my build: teal now fills every button, and navy is used for text and links. I built with the token names and copied the values in after the "Palette distinctness" heading appeared. My first copy at 04:21 was taken before that heading existed, but the file had already changed at 04:18 and the recopy was identical.
+- **Dark footer:** the same revision says Landfall has no navy wall, so the pre-footer and footer use the darkest ink colour instead of navy. Harbour keeps its sea colour. The Chief Officer approved this.
+- **Navy and band colour:** the Chief Officer asked for two changes in `landfall/design/tokens.css`, which is the Art Director's file. I made both as single token edits and logged them in the file and in `choices.md`:
+  - navy goes to the Art Director's already-measured #16225A, because #1B2A6E read royal blue rather than deep navy;
+  - a new dark-band colour token for the footer and any dark surface on inner pages.
+- **Cafe photo:** the critic called the first one oversaturated, so I replaced it with a dusk canal terrace in Utrecht. The Chief Officer approved it.
+
+**Not done:** the Sign in / My bookings / both-months wording swaps in `lib/text.ts`, `lib/emails.ts` and `lib/mock/` (I left them for the groups). Touch devices, Safari, Firefox and 641 to 1024 weren't checked.
+
+No packages installed, no git commands. The servers on 3003 and 3004 are stopped, and my run is logged in `review-log.md`.
+
+This is a good commit point. Suggested message: `Landfall: build plan, foundation and homepage (navy and harbour), approved at checkpoint`

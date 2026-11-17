@@ -1,0 +1,204 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): search.css
+   The search: Hipcamp's 72px pill with a lifting white thumb and The
+   Hoxton's labelled cells from 900px; on phones and tablets one white
+   card of stacked cells on the page, each opening the full-screen sheet
+   (revision 2026-11-11, item 14). The compact bar on inner pages keeps
+   its one summary pill below 900. Popovers, calendar, steppers.
+   Loads after chrome.css, before home.css. Ported from the approved
+   prototype unchanged, plus the steppers' limit note (copy.md).
+   Components/search/ renders the markup these rules expect.
+   ===================================================================== */
+
+/* ===== Search (Hipcamp's pill, The Hoxton's labelled cells) ===== */
+.m-search { position: relative; width: 100%; max-width: var(--w-pill); margin: 0 auto; text-align: left; }
+/* ---- summary pill: the compact bar's trigger below 900 (inner pages), opening the full-screen search.
+   The home hero has no trigger since revision 2026-11-11 (item 14): its cells show inline. ---- */
+.m-search__trigger { display: none; align-items: center; gap: 1.2rem; width: 100%; height: 6.4rem; padding: .8rem .8rem .8rem 2rem; border: 1px solid var(--c-line); border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-pill); color: var(--c-ink); text-align: left; cursor: pointer; transition: transform var(--d-fast) var(--ease-std); }
+.m-search__trigger:active { transform: scale(.99); }
+.m-search__triggerText { display: flex; flex-direction: column; gap: .3rem; flex: 1; min-width: 0; }
+.m-search__triggerText .a-label, .m-search__triggerValue { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.m-search__triggerValue { color: var(--c-muted); font: var(--fw-ui) 1.6rem/1.2 var(--f-ui); }
+.m-search__triggerValue.is-set { color: var(--c-ink); }
+.m-search__triggerGo { display: grid; place-items: center; flex: none; width: 4.8rem; height: 4.8rem; border-radius: 50%; background: var(--c-deep); color: #FFFFFF; }
+/* tablets: a 560px trigger, not a wide empty bar (round 3, critic) */
+@media (min-width: 641px) and (max-width: 899px) {
+  .m-search__trigger { max-width: 56rem; margin: 0 auto; }
+}
+/* ---- the panel: inline everywhere on the home page; the compact bar shows its summary pill below 900 ---- */
+.js .m-search.-compact .m-search__trigger { display: flex; }
+.js .m-search.-compact .m-search__panel { display: none; }
+.m-search__panel.is-sheet { position: fixed; z-index: var(--z-sheet); inset: 0; display: block; overflow-y: auto; overscroll-behavior: contain; padding: 0 var(--gutter) calc(3.2rem + env(safe-area-inset-bottom, 0px)); background: var(--c-ground); }
+.m-search__sheetHead { display: none; }
+/* the sheet's head and its Search pill stay on screen while pickers grow (critic, 11 Nov) */
+.m-search__panel.is-sheet .m-search__sheetHead { position: sticky; z-index: 5; top: 0; display: flex; align-items: center; justify-content: space-between; height: var(--h-header); margin: 0 calc(var(--gutter) * -1) .8rem; padding: 0 var(--gutter); background: var(--c-ground); box-shadow: 0 1px 0 var(--c-line); }
+.m-search__panel.is-sheet .m-search__go { position: sticky; z-index: 5; bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px)); box-shadow: 0 0 0 .4rem var(--c-surface); }
+/* Flights / Hotels carry their icons with an 8px gap (item 13) */
+.m-search__modes .a-toggle__btn { display: inline-flex; align-items: center; justify-content: center; gap: .8rem; }
+.m-search__sheetTitle { font: var(--fw-bold) 2.4rem/1 var(--f-display); letter-spacing: var(--tr-head); }
+.m-search__modes { margin-bottom: 1.6rem; }
+.m-search__panel.is-sheet .a-toggle__btn { height: 4.4rem; }
+.m-search__panel.is-sheet .a-toggle__thumb { height: 4.4rem; }
+/* ---- fields, stacked on phones and tablets (The Hoxton's 390 stack) ----
+   Revision 2026-11-11, item 14: one white card of 64px cells with straight hairlines inset 16px between them,
+   the Search button full width at its foot. Touching a cell opens the sheet on it (Search.tsx). */
+.m-search__pill { position: relative; display: grid; padding: .4rem; border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); box-shadow: var(--sh-pill-hero); }
+.m-search__thumb { display: none; }
+.m-search__seg { position: relative; border-radius: var(--r-md); background: var(--c-surface); }
+@media (max-width: 899px) {
+  .m-search__seg + .m-search__seg::before { content: ""; position: absolute; z-index: 1; top: 0; left: 1.6rem; right: 1.6rem; height: 1px; background: var(--c-line); pointer-events: none; }
+}
+.m-search__field { display: flex; align-items: center; gap: 1.2rem; width: 100%; min-height: var(--h-cell); padding: 0 1.6rem; border: 0; border-radius: inherit; background: none; color: var(--c-ink); text-align: left; cursor: pointer; }
+.m-search__field > .a-icon { color: var(--c-muted); }
+.m-search__text { display: flex; flex-direction: column; align-items: flex-start; gap: .4rem; flex: 1; min-width: 0; }
+.m-search__labelRow { display: flex; align-items: baseline; gap: .8rem; }
+.m-search__label { color: var(--c-ink); cursor: pointer; }
+/* the chosen airport's code, on the label row, so the value can stay the city name */
+.m-search__code { color: var(--c-muted); }
+.m-search__value, .m-search__input { display: block; width: 100%; overflow: hidden; color: var(--c-muted); font: var(--fw-ui) var(--t-value)/1.25 var(--f-ui); white-space: nowrap; text-overflow: ellipsis; }
+.m-search__value.is-set { color: var(--c-ink); }
+.m-search__input { margin: 0; padding: 0; border: 0; background: transparent; color: var(--c-ink); outline: none; }
+.m-search__input::placeholder { color: var(--c-muted); opacity: 1; }
+.m-search__input[aria-invalid="true"]::placeholder, .m-search__field[aria-invalid="true"] .m-search__value { color: var(--c-error); }
+.m-search__seg.is-invalid { box-shadow: inset 0 0 0 1px var(--c-error); }
+/* keyboard focus inside a field shows the accent ring on the whole cell (inputs and buttons alike) */
+.is-kbd .m-search__seg:focus-within:not(:has(.m-pop :focus)) { outline: 2px solid var(--c-focus); outline-offset: -2px; }
+.m-search__field:focus-visible { outline: none; }
+.m-search__go { width: 100%; height: 5.6rem; margin-top: .4rem; border-radius: var(--r-md); }
+/* the sheet keeps the stacked card on the page ground */
+.m-search__panel.is-sheet .m-search__pill { box-shadow: none; }
+/* tablets: the card stays a readable width (item 14: capped at 640px) */
+@media (min-width: 641px) and (max-width: 899px) {
+  .m-search__form { max-width: 64rem; margin: 0 auto; }
+  .m-search__panel.is-sheet .m-search__form { max-width: none; }
+}
+.m-search__status { margin: 0 auto; max-width: 64rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); text-align: center; text-wrap: balance; }
+.m-search__status:not(:empty) { margin-top: 1.4rem; }
+.m-search__status.is-error { color: var(--c-error); }
+.m-search__status.is-done { color: var(--c-ink); }
+
+/* ---- popovers (inline panels inside the phone sheet) ---- */
+.m-pop { padding: 1.2rem; border-top: 1px solid var(--c-line); color: var(--c-ink); text-align: left; }
+.m-pop__head { margin: .4rem .8rem .8rem; color: var(--c-muted); font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); }
+.m-pop__list { max-height: 34rem; margin: 0; padding: 0 0 .8rem; overflow-y: auto; list-style: none; overscroll-behavior: contain; scroll-padding-bottom: .8rem; }
+.m-pop__empty { padding: 1.2rem .8rem; color: var(--c-muted); font-size: 1.4rem; }
+.m-pop__foot { display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; margin-top: 1.2rem; }
+.m-pop__sub { margin: 2rem 0 1rem; color: var(--c-muted); font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); }
+/* list rows (Hipcamp's popover rows with a tinted icon disc) */
+.m-option { display: flex; align-items: center; gap: 1.2rem; min-height: 5.6rem; padding: 1rem 1.2rem; border-radius: var(--r-md); cursor: pointer; transition: background-color var(--d-fast) var(--ease-std); }
+.m-option[aria-selected="true"] { background: var(--c-tint); }
+.m-option__disc { display: grid; place-items: center; flex: none; width: 3.6rem; height: 3.6rem; border-radius: 50%; background: var(--c-tint); color: var(--c-ink); transition: background-color var(--d-fast) var(--ease-std); }
+.m-option[aria-selected="true"] .m-option__disc { background: var(--c-surface); }
+.m-option__text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.m-option__title { overflow: hidden; font: var(--fw-ui-strong) 1.6rem/1.3 var(--f-ui); white-space: nowrap; text-overflow: ellipsis; }
+.m-option__sub { overflow: hidden; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); white-space: nowrap; text-overflow: ellipsis; }
+.m-option__code { flex: none; color: var(--c-muted); font: var(--fw-ui-strong) 1.4rem/1 var(--f-ui); letter-spacing: .06em; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-option:hover { background: var(--c-tint); }
+  .m-option:hover .m-option__disc { background: var(--c-surface); }
+}
+
+/* ---- calendar (Hipcamp's range calendar: dark ends, tint band between) ---- */
+.m-cal__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem; margin-bottom: 1.2rem; }
+/* the hint keeps its own line on the phone and one line on desktop, so the month grid never jumps (round 2, critic) */
+.m-cal__hint { flex: 1 0 100%; min-height: 1.3em; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); }
+.m-cal__body { position: relative; }
+.m-cal__nav { position: absolute; z-index: 1; top: -.4rem; width: 3.6rem; height: 3.6rem; }
+.m-cal__nav.-prev { left: 0; }
+.m-cal__nav.-next { right: 0; }
+.m-cal__nav:disabled { opacity: .35; cursor: default; }
+.m-cal__months { display: grid; gap: 2.4rem; }
+.m-cal__title { height: 2.8rem; margin-bottom: .4rem; font: var(--fw-ui-heavy) 1.6rem/2.8rem var(--f-ui); text-align: center; }
+.m-cal__grid { --day: 4.4rem; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: .2rem; }
+.m-cal__dow { display: grid; place-items: center; height: 3.2rem; color: var(--c-muted); font: var(--fw-ui-medium) 1.2rem/1 var(--f-ui); }
+.m-cal__cell { position: relative; display: grid; place-items: center; height: 4.4rem; }
+.m-cal__cell.is-band::before { content: ""; position: absolute; top: .2rem; bottom: .2rem; left: 0; right: 0; background: var(--c-tint); }
+.m-cal__cell.is-start.is-band::before { left: 50%; }
+.m-cal__cell.is-end.is-band::before { right: 50%; }
+/* at a row's edge the band stops where a day circle would, with a round end */
+.m-cal__cell.is-band.is-rowEnd:not(.is-end)::before { right: calc(50% - var(--day) / 2); border-radius: 0 var(--day) var(--day) 0; }
+.m-cal__cell.is-band.is-rowStart:not(.is-start)::before { left: calc(50% - var(--day) / 2); border-radius: var(--day) 0 0 var(--day); }
+.m-cal__day { position: relative; width: 4.4rem; height: 4.4rem; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--c-ink); font: var(--fw-ui-medium) 1.5rem/1 var(--f-ui); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color var(--d-fast) var(--ease-std), color var(--d-fast) var(--ease-std); }
+.m-cal__day:disabled { color: var(--c-muted); text-decoration: line-through; cursor: default; }
+.m-cal__day.is-today::after { content: ""; position: absolute; left: 50%; bottom: .7rem; width: .4rem; height: .4rem; margin-left: -.2rem; border-radius: 50%; background: var(--c-accent); }
+.m-cal__day[aria-pressed="true"] { background: var(--c-deep); color: #FFFFFF; font-weight: var(--fw-ui-heavy); }
+.m-cal__day[aria-pressed="true"]::after { background: var(--c-accent-soft); }
+.m-cal__day:focus-visible { outline-offset: 1px; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-cal__day:not(:disabled):not([aria-pressed="true"]):hover { background: var(--c-deep); color: #FFFFFF; }
+}
+
+/* ---- steppers (Hipcamp's campers rows) ---- */
+.m-stepper { display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; padding: 1.2rem 0; border-bottom: 1px solid var(--c-line); }
+.m-stepper:first-child { padding-top: .4rem; }
+.m-stepper__title { font: var(--fw-ui-heavy) 1.6rem/1.3 var(--f-ui); }
+.m-stepper__help { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); }
+.m-stepper__ctrl { display: flex; align-items: center; gap: 1.2rem; }
+.m-stepper__btn { width: 3.6rem; height: 3.6rem; }
+.m-stepper__btn::after { content: ""; position: absolute; inset: -.4rem; }
+.m-stepper__btn:disabled { opacity: .4; cursor: default; }
+.m-stepper__count { min-width: 2.4rem; font: var(--fw-ui) 1.8rem/1 var(--f-ui); font-variant-numeric: tabular-nums; text-align: center; }
+.m-choices { display: flex; flex-wrap: wrap; gap: .8rem; margin: 1.6rem 0 0; padding: 0; border: 0; }
+.m-choices > .m-pop__sub { margin: 0 0 1rem; padding: 0; }
+
+/* ---- from 900px: one 80px pill, a white thumb lifts under the open field, popovers 12px below ----
+   Revision 2026-11-11, item 11: from 900 (was 1025), so a 1024 tablet gets the pill, not the phone stack.
+   Item 13: no border on the navy wall (--c-pill-edge), the hero shadow, 17px values, a 56px Search with a 16px label. */
+@media (min-width: 900px) {
+  .js .m-search.-compact .m-search__trigger, .m-search__sheetHead { display: none; }
+  .js .m-search.-compact .m-search__panel { display: block; }
+  .m-search__modes { display: flex; justify-content: center; }
+  .m-search__pill { display: flex; align-items: center; height: var(--h-pill); padding: 0 1.2rem 0 .5rem; border: 1px solid var(--c-pill-edge); border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-pill-hero); transition: background-color var(--d-seg) var(--ease-std); }
+  .m-search__pill.is-active { background: var(--c-tint); }
+  .m-search__thumb { position: absolute; top: .4rem; left: 0; display: block; width: 0; height: var(--h-seg); border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-pill); opacity: 0; pointer-events: none; transition: left var(--d-thumb) var(--ease-spring), width var(--d-thumb) var(--ease-spring), opacity var(--d-fast) var(--ease-std); }
+  .m-search__pill.is-active .m-search__thumb { opacity: 1; }
+  .m-search__seg { flex: 1 1 0; min-width: 0; height: var(--h-seg); border: 0; border-radius: var(--r-pill); background: transparent; transition: background-color var(--d-seg) var(--ease-std); }
+  /* fitted to the longest values (round 2, critic: dates and travelers clipped):
+     "Mexico City" in From and To (the code sits on the label row), "Nov 28 to Dec 3"
+     in Dates, "9 travelers, Business" in Travelers */
+  .m-search__seg.-from, .m-search__seg.-to { flex-grow: 1; }
+  .m-search__seg.-dates { flex-grow: 1.15; }
+  .m-search__seg.-who { flex-grow: 1.3; }
+  .m-search__seg.-place { flex-grow: 1.35; }
+  .m-search__seg.-stay { flex-grow: 1.2; }
+  .m-search__seg + .m-search__seg::before { content: ""; position: absolute; left: 0; top: 1.6rem; bottom: 1.6rem; width: 1px; background: var(--c-line); transition: opacity var(--d-panel) var(--ease-std); }
+  .m-search__seg.is-open::before, .m-search__seg.is-open + .m-search__seg::before { opacity: 0; }
+  .m-search__seg.is-invalid { box-shadow: inset 0 0 0 1px var(--c-error); }
+  .m-search__field { position: relative; z-index: 1; height: 100%; min-height: 0; padding: 0 1.6rem 0 2rem; }
+  .is-kbd .m-search__seg:focus-within:not(:has(.m-pop :focus)) { outline-offset: -4px; }
+  .m-search__go { width: auto; height: var(--h-go); margin: 0 0 0 .6rem; border-radius: var(--r-pill); font-size: 1.6rem; }
+  .m-search__seg + .m-search__seg::before { z-index: 0; }
+  /* the message sits under the fact chips, so the pricing chip never hides (critic, 11 Nov; item 13) */
+  .m-search__status { position: absolute; left: 0; right: 0; top: calc(100% + 6.2rem); }
+  .m-search__status:not(:empty) { margin-top: 0; }
+  .m-pop { position: absolute; z-index: var(--z-pop); top: calc(100% + 1.7rem); left: 0; width: 41.6rem; max-width: calc(100vw - 4.8rem); padding: 1.2rem; border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); box-shadow: var(--sh-pop); animation: pop-in var(--d-pop) var(--ease-pop); }
+  .m-pop.-dates { width: 70rem; padding: 1.6rem 2rem; }
+  .m-pop.-who { width: 39rem; padding: 1.6rem 2rem; }
+  .m-cal__top { flex-wrap: nowrap; }
+  .m-cal__hint { flex: 0 1 auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: right; }
+  .m-cal__months { grid-template-columns: 1fr 1fr; gap: 4rem; }
+  .m-cal__grid { --day: 4rem; }
+  .m-cal__cell { height: 4rem; }
+  .m-cal__day { width: 4rem; height: 4rem; }
+  .m-cal__day.is-today::after { bottom: .5rem; }
+}
+/* item 11: between 900 and 1024 the cells narrow (no icons) and Search is its arrow only; the label stays for screen readers */
+@media (min-width: 900px) and (max-width: 1024px) {
+  .m-search__field { gap: 0; padding: 0 1.2rem 0 1.6rem; }
+  .m-search__field > .a-icon { display: none; }
+  .m-search__go { flex: none; width: var(--h-go); padding: 0; }
+  .m-search__go .a-button__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .m-search__go:hover { padding: 0; }
+}
+@media (hover: hover) and (any-pointer: fine) and (min-width: 900px) {
+  .m-search__pill:not(.is-active) .m-search__seg:hover { background: var(--c-tint); }
+  .m-search__pill:not(.is-active) .m-search__seg:hover::before, .m-search__pill:not(.is-active) .m-search__seg:hover + .m-search__seg::before { opacity: 0; }
+}
+
+/* ---- limits under the steppers, shown when one is reached (copy.md: Search, Flights) ---- */
+.m-stepper__note { display: flex; gap: .8rem; margin-top: 1.2rem; color: var(--c-ink); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); text-wrap: pretty; }
+.m-stepper__note .a-icon { margin-top: .1rem; color: var(--c-muted); }
+
+/* critic, 11 Nov: in the phone sheet the open cell carries the tint, so the picker below has a clear owner */
+.m-search__panel.is-sheet .m-search__seg.is-open { background: var(--c-tint); }
+.m-search__panel.is-sheet .m-search__seg.is-open .m-pop { background: var(--c-surface); border-radius: 0 0 var(--r-md) var(--r-md); }

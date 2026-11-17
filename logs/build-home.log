@@ -1,0 +1,35 @@
+I've built the foundation and the home page in both palette versions, but the home page **didn't pass the critic**: both rounds scored **7.3, FAIL**, against a pass mark of 8.0 that also needs originality at 8. Originality stayed at 7 in both rounds. The critic puts that down to having no client name, logo or media, which nothing in the build can supply. Neither round found a design tell or a copy tell.
+
+| Round | Design | Originality | Craft | Functionality | Total |
+|---|---|---|---|---|---|
+| 1 | 7.5 | 7 | 7 | 8 | 7.3 |
+| 2 | 7.5 | 7 | 7 (capped) | 8.5 | 7.3 |
+
+Round 2's craft cap came from the floating Log in / Sign up pill landing on the region filter pills. Without the cap the total would be 7.6, still a fail on originality.
+
+**After round 2 I made these fixes, but they haven't been scored.** The skill allows two critic rounds per page. I checked each one in the browser and a final QA pass came back clean on both palettes at 1440 and 390:
+- The Log in / Sign up pill only shows near the top of the page on desktop. The rail's Account link stays visible throughout.
+- On phones the six destination cards are now a sideways strip with the next card peeking. The page went from 7,176px to 4,134px tall.
+- The footer rises over the dark band above it with a rounded top, which removes a hairline seam at 390.
+- "Start a search" on the 404 page now puts you in the search.
+- The hotels card photo was soft and generic, so I replaced it with a sharper room shot.
+
+**What's built.** It's the Next.js app in `projects/travel-booking/site/` with no packages installed. It includes the shared header, menus and footer, the 404 page, and the full home page with the search ported from the approved prototype. Submitting the search builds the results address, but inner pages don't exist yet, so links land on the 404 page for now. There are 11 Unsplash License photos, each checked on its photo page and credited in `site/public/images/credits.md`. Next also writes an `AGENTS.md` file into the folder when the dev server runs. I deleted it and turned that off.
+
+**Decisions for you.** Each is easy to undo:
+1. **Log in / Sign up pill.** The spec keeps it fixed on screen, but fixed it sits over content while scrolling, which the critic flags. Keep it showing near the top only, or go back to the spec and accept the overlap?
+2. **Trust panel photo.** I swapped the generic phone-and-coffee shot for hands holding a phone up to a cabin window. The critic called the new one on-concept but off-message, since it shows a camera screen rather than a booking. Keep it, or brief another subject?
+3. **Cabin dawn card colour.** The sky-teal cards were the loudest thing on the page in both rounds, so I changed that one colour to the palette's own blush cream in `design/tokens.css`. The reason is logged beside it. Keep?
+
+The rest of the spec departures, with reasons, are listed in `build/progress.md`. The Copywriter has items in there too: three photo descriptions adjusted to the photos actually used, and facts repeated across the page.
+
+**To preview:** in `site/`, run `npm run build:harbour && npm run start:harbour` for port 3001, or the same with `cabin` for port 3002. Everything I started is stopped. The next page in `build/plan.md` is flight results, and `build/progress.md` has what a fresh session needs to resume.
+
+This is a good commit point. Suggested message:
+`travel-booking: Next.js foundation and home page, two palette versions`
+
+Files are in `projects/travel-booking/`:
+- build/progress.md
+- build/plan.md
+- build/qa-report.md
+- site/README.md

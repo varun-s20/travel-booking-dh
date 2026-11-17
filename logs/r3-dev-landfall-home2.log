@@ -1,0 +1,35 @@
+I've finished round 2 on the Landfall homepage and footer. The critic scored it **7.8 on the benchmark rubric** (up from 7.7) and **7.8 on the studio rubric (FAIL)**, so it's still short of 9.2. Those scores come from before I made the nine fixes below, which haven't been re-scored. I stopped at about 16:38, before the 17:05 cut-off.
+
+**Step 1, catalogue deals.** All of this is in my own home.ts, Deals.tsx and home.css. I didn't touch Developer B's files.
+- The stand-in usual rates are gone. As the catalogue says, the eight original hotels have no lower rate.
+- The catalogue's 18 hotels with lower rates (weekend, weeknight, long stay and next month) are each priced for their own dates. Fares only count as deals at 12% or more below the route's typical return, which gives exactly the catalogue's 10 routes.
+- Banner and card lines are taken word for word from the catalogue. The Lisbon banner shows "from $265 a night this weekend, $47 below the usual rate", the same figures as the catalogue's own example.
+
+**Step 2, critic** (high effort, run in the foreground, both modes, 1440, 1024 and 390):
+- Scores: depth 8, ease 8.5, visual 7, craft 7.5, pricing 8.5, mobile 7.5.
+- It found no design or copy tells, no overlaps or header collisions, and no console errors. It confirmed the deal rules work and that the prices match between banners and cards.
+- What holds the score down is mostly the photography: wrong subjects, the same photos in several sections, and bad crops at 390.
+- To meet its time limit it skipped the competitor deconstructions and signature.md, so its comparisons rest on the spec and its general knowledge of those sites.
+
+**Step 3, fixes, worst first.** I checked each one in the browser.
+1. At 390 the deal banners showed mostly sky. The photo now sits above the text at its own 3:2 shape, so the Lisbon quay and Table Mountain show.
+2. The Tokyo hotel-window photo (a curtain, no water) is replaced in the Hotels banner and on the Recommended card.
+3. The property-type cards showed city views. They now show the type itself: a hotel front, a courtyard, a riad, a kitchen and a loft.
+4. I dropped the flight-card tag that repeated the saving line.
+5. Flight deals each get their own week instead of all sharing the same dates.
+6. Saving lines no longer leave a single word on their second line.
+7. Prices line up across cards in a row.
+8. The gap in the Athens tile is gone.
+9. The "Free cancellation" deal filter matched every deal, so it filtered nothing. It's now "Weekend rate".
+
+**Still open:**
+- **Prices don't match across pages yet.** The homepage applies the lower rates, but Developer B's results and hotel pages don't, so the $265 weekend deal opens at the usual $312. B or the Studio Lead needs to add the rates to lib/mock/hotels.ts.
+- **Questions for the Copywriter:**
+  - The footer and terms price note says savings compare against the price "over the last 30 days", which doesn't match how the catalogue now defines "usual".
+  - The critic also wanted "usual" instead of "typical" for fares, and a separate deals heading for each mode. I kept the catalogue's wording exactly.
+- **Photos still repeat.** Several cities' photos appear in 3 or 4 sections. A second waterfront photo per city would fix it, and the Tokyo banner would be better with a daylight shot than its current dark night one.
+- **Not checked:** the Harbour palette, hover and focus states, reduced motion, and widths from 641 to 1023 (only 1024 itself).
+
+Everything is recorded under "Developer A, round 2" in landfall/build/progress.md and logged in review-log.md. The critic had saved its screenshots in the studio root, so I moved them, along with mine, into landfall/build/critic/r3a2/.
+
+This is a good commit point. Suggested message: "Landfall round 3: catalogue deals on the homepage, 390 banners, property type photos and critic fixes"

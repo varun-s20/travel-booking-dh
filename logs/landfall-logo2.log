@@ -1,0 +1,28 @@
+Landfall has a new logo, live on the navy dev server at http://localhost:3003. It's a solid monogram L built from the landfall line, with "landfall" set beside it in Newsreader. Both `npm run build:navy` and `npm run build:harbour` pass.
+
+**What the mark is.** The upright of the L is the headland, its top cut at 45° like the corners in the icon set. The foot is the landfall line, drawn as a thick bar, and it ends in the landing dot. Both parts are solid shapes, no thin lines. On light backgrounds the L is navy and the dot teal; on the photo hero and the dark footer band it is white with an aqua dot. Colours come from the live palette through CSS variables, with no raw hex in the component. A `-mono` class gives a one-colour version, which also turns on automatically in Windows high-contrast mode.
+
+**The lockup.** The mark is 32px tall and the word is Newsreader 500 at 30px. The foot of the L sits on the word's baseline, and the 44px link box is unchanged, so the header height doesn't move. `Logo.tsx` keeps its export names, the "Landfall, home" accessible name and its wiring in the header, menu sheet and footer.
+
+**How I chose it.** I sketched four concepts in `landfall/design/screens/logo/sketches.html` (not shipped):
+- **A, monogram L:** strongest everywhere, including at 16px. Picked.
+- **B, headland on a horizon bar:** fits the idea best, but reads thin.
+- **C, square tile with the shore cut out:** the cut-out disappears on the photo.
+- **D, sail:** a cliché, and a boat isn't a landfall.
+
+**What the critic changed.** The critic agreed A was the right pick but gave the first build 6/10, and raised a real resemblance risk. With the dot floating inside the corner of the L, it was a letter plus a coloured dot, the same formula as Booking.com's app icon. I moved the dot so it ends the foot, which puts the landfall line in the shape and breaks that formula. I also set the foot on the baseline and enlarged the word from 27px to 30px. The fixed version was not re-scored.
+
+**Favicon.** `app/icon.svg` is redrawn as navy plus teal, or white plus aqua in dark browser tabs. The colours are written as raw hex there, because a favicon can't read the site's CSS variables.
+
+**Checked in the browser** at 1440 and 390 wide: the header on the photo, the header on white after scrolling, the menu sheet and the footer. Screenshots are in `landfall/design/screens/logo/` (00 to 06).
+
+**Not checked:**
+- The final favicon at 16 and 32px: my capture came out blank. The file is served correctly, but I only saw the earlier version with the dot in the corner at those sizes.
+- The Riviera palette in a browser, because I didn't touch port 3004. Building it rewrote its build folder, so the Studio Lead's preview on 3004 may need a restart.
+- No mark was searched against registered trademarks. The Booking.com check was the critic's own judgement.
+
+**Decision for you:** the client has no logo yet and "Landfall" is a working name. The anti-slop rule against invented logos applies when a client already has a real one, which isn't the case here. Still, this is an invented mark, so it's your call before it goes to the client.
+
+I stopped the scratch server on port 3011 and left 3003 running as I found it. The run is logged in `review-log.md`.
+
+This is a good checkpoint. Suggested commit message: `Landfall: new logo, solid L mark with landing dot, Newsreader lockup, favicon`

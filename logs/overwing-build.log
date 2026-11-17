@@ -1,0 +1,51 @@
+The Overwing revision is applied to the whole site, both palettes build cleanly, and the Chief Officer approved it with notes on both calls. Every critic round still scored FAIL; the best, the final pass, was 7.4. It finished at about 05:30, well inside 07:15, and every server I started is stopped.
+
+**What's done**
+- **Palettes:** Night navy is the default on port 3001 and Cabin dawn runs on 3002. Harbour gold is gone from the app, its scripts, tokens, icons and emails.
+- **Navigation:**
+  - The rail reads Flights, Hotels, Bookings, Help, More.
+  - A solid top bar keeps Log in and Sign up at every scroll position. On results and hotel pages the compact search sits in that bar.
+  - The phone tab bar reads Flights, Hotels, Bookings, Account and slides away on scroll down.
+  - On phones the search fields show on the page; tapping one opens the full-screen picker on it.
+  - The wide search bar now starts at 900px, so a 1024 tablet gets it.
+- **Hero photo:** Kiama harbour at first light (Martin David, Unsplash License, checked on its photo page). It has a town in it, no industry, and land in all four windows. Four other photos were replaced too, all credited in credits.md.
+- **Pricing:** every result card and room card leads with the total, followed by what it covers and the price per person or per night.
+- **Inner pages:** every item in the revision doc is built.
+- **Results remember:** coming back from a flight keeps the list, filters and sort.
+
+**Critic scores (no design or copy tells in any round)**
+
+| Round | Total | Verdict |
+|---|---|---|
+| Home | 6.8 | FAIL |
+| Flight booking flow | 6.55 | FAIL |
+| Final whole-site pass (xhigh) | 7.4 | FAIL |
+
+The final pass fails on the total (under 8) and on originality (7). Originality is held back mainly by the missing client brand and media. I fixed the issues from each round, but the fixes have not been re-scored.
+
+**Chief Officer**
+- **Call 1, approved with notes.** All five of its art-direction conditions held in the browser. In your place it ruled:
+  - no compact search on flight details, passengers or checkout;
+  - destinations as two rows of three cards;
+  - "Select", "Day", "Month", "Year" as the first options in the date and title dropdowns.
+
+  I fixed all five of its notes.
+- **Call 2, approved with notes (final).** Its one open point was the date-of-birth dropdowns clipping at 390. I fixed that afterwards and measured it at 390, 768 and 1440, but the Chief Officer has not re-checked it.
+
+**Things you should know**
+- I launched the first two critics in the background by mistake. I stopped both within a minute, before they had opened a page, and re-ran them in the foreground one at a time.
+- An unused build folder, `site/.next-harbour`, is still on disk because my delete was refused. It is gitignored and safe to delete.
+- The browser tool wrote its snapshots and console logs to `.playwright-mcp/` at the studio root.
+- Not checked: real phones, Safari, Firefox and screen readers. The card fields are simulated, not Stripe's real ones.
+- I didn't tick stage O2 in `status.md`; that's the Studio Lead's file.
+- `build/handover.md` lists the open items for the Art Director, the Copywriter and the client (new copy lines, photo alt texts, the Calibre licence).
+
+This is a good commit point. Suggested message:
+`travel-booking: Overwing revision for client feedback (navy and cabin, nav, mobile search, pricing, new photos)`
+
+Files are in `projects/travel-booking/`:
+- build/handover.md
+- build/progress.md
+- build/qa-report.md
+- build/critic/final/report.md
+- review-log.md

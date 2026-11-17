@@ -1,0 +1,36 @@
+The Chief Officer approved Landfall's new palette with notes on the first call, and the outcome is recorded under **Palette distinctness** in `landfall/design/choices.md`. The Developer can start copying the palette now.
+
+**What changed: teal acts, navy speaks.** Overwing puts navy on every call to action and on a dark navy wall, with teal as a thin line. Landfall now does the opposite:
+
+| Role | Old | New | Overwing |
+|---|---|---|---|
+| Buttons and selections (Search, Done, Sign in, compact search, picked dates, checked options) | navy | lagoon teal #14A08B with an ink label (5.3:1) | navy |
+| Navy | #0F2747, on every call to action | indigo #1B2A6E, for words and the destination cards only, never a button, no navy wall | #0D2B4C, #0B2341 |
+| Teal shade | #0A7C78 | about twice as light and greener than Overwing's | #086F76 |
+| Bright teal | #4FD1C1 | #5FE3C2, used only on navy and the photo | #6FD6CE |
+| Ink | #0B1830 | #121839 | #0B1B2E |
+| Tint | #EAF2F4 | #EDF9F6 | #E6F0F2 |
+
+- **Harbour gold is unchanged.** Its Search button still shows #173B4F.
+- **Contrast:**
+  - Every text pair is 4.5:1 or better.
+  - Text on all three hero photos holds 4.9:1 or better at 1440 and 390.
+  - Teal is never used as text on white, because it only reaches 3.3:1 there.
+- **Focus ring fix:** the bright focus ring fell to 1.1:1 on Lisbon's white buildings at 390. The old palette had the same fault. I added a dark halo behind focus rings on the photo, and the ring now sits at about 8:1.
+- **Files:** besides `tokens.css` and `index.html`, I had to edit `prototype/assets/global.css`. That is where the prototype's copy of the tokens and its button rules live.
+- **Screenshots:** the hero at 1440 and 390, the open dates panel, the destination cards, the focus ring, and Harbour for comparison. They are in `landfall/design/screens/palette-distinctness/`.
+
+**Decisions for you:**
+1. **Teal buttons break your V6 default (navy on light backgrounds), and Kasa uses navy too.** Your instruction to use different roles comes first in the art-direct order, so I went with teal. It's marked provisional in `choices.md` until you confirm.
+2. **The Chief Officer thinks #1B2A6E looks royal blue rather than deep navy on the destination cards.** I kept the approved value so the Developer copies one settled set. If you agree, #16225A is the same hue but darker, already measured, and a one-value swap.
+
+**What I couldn't check:**
+- I never saw Overwing's screens, only the values you gave me.
+- I didn't check hover states on screen, real phones, Safari, Firefox, widths between 641 and 1024, or reduced motion.
+- The Chief Officer also spotted a small stray mark and a possibly hidden heading under the pinned search bar. That's layout, not palette, and it was there before this change, so I left it for the Developer.
+
+**Process slip:** I rewrote the palette blocks with a small Python script instead of the edit tool. It saved the two files with different line endings, so I put Windows line endings back to match the folder's other files. Checking against git needs your approval, so please glance at the diff for those two files.
+
+The run is logged in `review-log.md`, and the preview server I started is stopped.
+
+This is a good checkpoint. Suggested commit message: `Landfall: own navy and teal palette (teal fills actions, indigo navy), Palette distinctness approved`

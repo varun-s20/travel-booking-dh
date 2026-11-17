@@ -1,0 +1,32 @@
+{
+  "name": "wing-over-clouds",
+  "width": 2340,
+  "height": 1540,
+  "files": [
+    {
+      "file": "wing-over-clouds-800.webp",
+      "width": 800,
+      "height": 526
+    },
+    {
+      "file": "wing-over-clouds-1200.webp",
+      "width": 1200,
+      "height": 790
+    },
+    {
+      "file": "wing-over-clouds-1600.webp",
+      "width": 1600,
+      "height": 1053
+    },
+    {
+      "file": "wing-over-clouds-2340.webp",
+      "width": 2340,
+      "height": 1540
+    }
+  ],
+  "fallback": {
+    "file": "wing-over-clouds.jpg",
+    "width": 1600,
+    "height": 1053
+  }
+}

@@ -1,0 +1,224 @@
+/* =====================================================================
+   travel-booking, Landfall (working name, a placeholder): design tokens
+   Source of truth for every colour, type size, space, radius, easing and
+   duration in Landfall. Plain CSS custom properties: a Next.js build
+   imports this file once from the root layout; the prototype pastes it
+   into the first :root block of assets/global.css. No @import inside.
+   Shares nothing with Overwing (design/tokens.css): different names'
+   values, families, radii and motion.
+
+   Units: 1rem = 10px (root at 62.5% in global.css), sized from 1440.
+
+   Two palettes as swappable sets (Chief Officer, checkpoint 2a):
+   P-N Landfall navy is the default :root block. P-H Harbour gold
+   overrides only the palette tokens under :root[data-palette="harbour"].
+   Set data-palette on <html> once (build time in the app, ?palette=harbour
+   in the prototype). Components only ever use the role tokens.
+
+   Contrast ratios: WCAG 2.x, landfall/prototype/tools/palette.py,
+   2026-11-11. Both palettes sampled from the Lisbon hero photo.
+   ===================================================================== */
+
+:root {
+  /* ---- Palette P-N: Landfall navy, white and teal (default) ----
+     Revised 2026-11-11, see "Palette distinctness" in choices.md.
+     Overwing puts navy on every call to action and on a dark navy wall,
+     with teal as a thin accent. Landfall turns the roles round: teal acts
+     (every call to action, picked dates, checked options), navy speaks
+     (type, links, focus ring, the small navy destination cards), and there
+     is no navy wall. Hues moved apart too: navy is an indigo true navy
+     (hue 229 against Overwing's 211 to 213), teal a brighter, greener
+     lagoon (hue 171, about twice the luminance of Overwing's teal). */
+  --c-navy: #16225A;        /* deep indigo navy. Links, focus ring on light, destination cards, the photo frame, the open field ring. Never a button fill. White on it 14.9:1, shallows 9.4:1, on-dark muted 9.1:1, the navy ring against teal 4.6:1 (Art Director's measured candidate). Was #1B2A6E: the Chief Officer's build checkpoint (2026-11-11, note 1) found it read royal rather than the client's deep navy; same hue 229, so it stays apart from Overwing. Swapped by the Developer as one token */
+  --c-ink: #121839;         /* indigo ink. Headlines, body, and the label on every teal button. 17.3:1 on white, 16.0:1 on foam */
+  --c-muted: #4D5478;       /* secondary text, helper lines, icons. 7.4:1 on white, 6.8:1 on foam and shade */
+  --c-accent: #0BA3AD;       /* lagoon teal (revised 2026-11-11 for Varun): every call to action, picked dates, checked options. Ink label 5.6:1, edge 3.1:1 on white, navy ring against it 4.9:1 */
+  --c-accent-bright: #6FE3EA; /* aqua. On navy and on the photo only: 9.8:1 on navy, 11.4:1 on the ink band */
+  --c-tint: #E6F6F8;        /* aqua mist. The one interactive tint: ink 15.6:1, muted 6.6:1 */
+  --c-ground: #FFFFFF;      /* page ground (the client's white) */
+  --c-shade: #F5F6FB;       /* alternate light band, quiet panels. Ink 16.0:1, muted 6.8:1 */
+  --c-surface: #FFFFFF;     /* cards, the search card, panels, sheets */
+  --c-line: #E3E5F0;        /* hairlines and section rules (decorative only) */
+  --c-field: #8085A6;       /* borders that must read as controls: 3.6:1 on white */
+  --c-on-dark: #FFFFFF;     /* text on navy */
+  --c-on-dark-muted: #C3C8EA; /* secondary text on navy: 9.1:1 */
+  --c-on-photo: #FDFDFB;    /* text on the hero photo, same in both palettes */
+  --c-scrim-rgb: 18, 24, 57; /* the hero scrim and dialog backdrop colour (ink) */
+  --c-theme: #16225A;       /* meta theme-color */
+  --fx-grade: saturate(.94) contrast(1.04) brightness(.98); /* one grade on studio and stock photos only, never on Duffel hotel photos or airline logos: calms the three skies to one blue */
+
+  /* ---- Action roles (Palette distinctness): buttons and selections use these, never a palette colour directly ---- */
+  --c-action: var(--c-accent);      /* fill of every call to action on light grounds and of picked or checked states */
+  --c-on-action: var(--c-ink);      /* its label: 5.3:1 */
+  --c-action-hover: color-mix(in srgb, var(--c-accent) 72%, var(--c-accent-bright)); /* lighter on hover, ink label 6.6:1 */
+
+  /* ---- State colours, shared by both palettes ---- */
+  --c-error: #B3261E;       /* field errors, failed payment. 6.5:1 on white, 5.6:1 on its tint */
+  --c-error-tint: #FBEAE8;
+  --c-success: #1D6B4A;     /* confirmed booking, ticket issued. 6.5:1 on white, 5.6:1 on its tint */
+  --c-success-tint: #E5F2EB;
+  --c-warn: #8A5A00;        /* fare changed, offer about to expire, few left. 5.9:1 on white, 5.2:1 on its tint */
+  --c-warn-tint: #FBF0DA;
+  --c-focus: var(--c-navy);       /* 14.9:1 on white, 4.6:1 against a teal button */
+  --c-focus-on-dark: var(--c-accent-bright);
+  --c-band: var(--c-ink);         /* the dark band role: pre-footer, footer, and any dark surface on inner pages. Ink, because Landfall has no navy wall (Palette distinctness). Moved here from the app's global.css at the Chief Officer's build checkpoint (note 2) */
+
+  /* ---- Type families (Chief Officer 2a: T1) ----
+     Newsreader (Production Type, SIL OFL 1.1), variable opsz 6-72, wght 300-600:
+     H1, H2 and destination city names only, weight 400, upright, never italic.
+     Albert Sans (SIL OFL 1.1), variable wght 300-700: every other word.
+     T2 fallback if the client wants no serif: set --f-display to --f-ui. */
+  --f-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-ui: "Albert Sans", "Helvetica Neue", Arial, sans-serif;
+  --fw-display: 400;
+  --fw-regular: 400;
+  --fw-medium: 500;         /* labels, values, nav links, card titles (Kasa's 500) */
+  --fw-strong: 600;         /* buttons, totals, tabs */
+  --opsz-display: 72;       /* Newsreader optical size at display sizes */
+
+  /* ---- Type scale (390 to 1440, fluid between) ---- */
+  --t-hero: clamp(4rem, 3.26rem + 1.9vw, 6rem);         /* 40 to 60 (Kasa 40 to 56, opened up for the serif) */
+  --t-h1: clamp(3.2rem, 2.83rem + .95vw, 4.2rem);       /* 32 to 42: page titles */
+  --t-h2: clamp(2.6rem, 2.23rem + .95vw, 3.6rem);       /* 26 to 36: section headings */
+  --t-h3: 2rem;             /* sub-sections, panel titles (Albert Sans 500) */
+  --t-city: clamp(2.2rem, 2.05rem + .38vw, 2.6rem);     /* destination city names (Newsreader) */
+  --t-lead: clamp(1.6rem, 1.45rem + .38vw, 2rem);       /* hero subline, intros (Kasa 16 to 20/500) */
+  --t-title: 1.8rem;        /* card titles (Kasa 18/500) */
+  --t-total: 2.2rem;        /* price totals (600, tabular) */
+  --t-total-lg: 2.8rem;     /* booking summary total */
+  --t-ref: clamp(2.8rem, 2.5rem + .76vw, 3.6rem);       /* booking reference, 600, tracked .06em */
+  --t-body: 1.6rem;
+  --t-small: 1.4rem;
+  --t-label: 1.2rem;        /* field labels inside the search card (Expedia technique), sentence case */
+  --t-button: 1.5rem;       /* Varun's buttons 14 to 15px/600 */
+  --t-nav: 1.5rem;
+
+  --lh-hero: 1.12;
+  --lh-head: 1.2;
+  --lh-title: 1.4;
+  --lh-body: 1.5;
+  --lh-ui: 1.3;
+  --tr-display: -.005em;    /* Newsreader at display sizes: near Kasa's normal tracking */
+  --tr-ref: .06em;          /* booking reference and airport codes */
+
+  /* ---- Space (4px base) ---- */
+  --s-1: .4rem;
+  --s-2: .8rem;
+  --s-3: 1.2rem;
+  --s-4: 1.6rem;
+  --s-5: 2.4rem;
+  --s-6: 3.2rem;
+  --s-7: 4rem;
+  --s-8: 4.8rem;
+  --s-9: 6.4rem;
+  --s-10: 8rem;
+  --s-11: 11.2rem;
+  --s-band: clamp(5.6rem, 4.12rem + 3.8vw, 9.6rem);     /* band padding: 56 to 96 (Kasa 56 to 72, more air for photos) */
+
+  /* ---- Layout ---- */
+  --container: 124.8rem;    /* 1248 (Kasa) */
+  --gutter: 1.6rem;         /* phone; 3.2rem from 641px, 9.6rem from 1440 (Kasa's x 96) */
+  --w-card: 100rem;         /* hero search card at 1440 (Kasa 916, widened for From, swap, To) */
+  --w-text: 68rem;          /* reading column (About, legal) */
+  --w-list: 68rem;          /* results list column (Kasa 680) */
+  --h-nav: 6.6rem;          /* header strip (Kasa 66) */
+  --h-control: 4.4rem;      /* pills, tap targets */
+  --h-field: 5.6rem;        /* search card fields, form fields */
+  --h-go: 5.6rem;           /* Search button inside the card */
+  --h-compact: 5.2rem;      /* pinned compact search bar */
+  --h-tabs: 4rem;           /* Flights / Hotels tabs over the photo */
+  --h-pricebar: 7.2rem;     /* sticky bottom price bar on phones */
+
+  /* ---- Radii: one system ---- */
+  --r-sm: .8rem;            /* fields inside the card, chips, icon tiles (Kasa 8) */
+  --r-inner: 1.2rem;        /* buttons inside a search surface, compact bar (ruling, conflict 5) */
+  --r-md: 1.6rem;           /* cards, the search card, panels, photo grids (Kasa 16) */
+  --r-lg: 2.4rem;           /* destination cards and their photos (European Sleeper 24) */
+  --r-band: clamp(3.2rem, 2.59rem + 1.52vw, 4.8rem);    /* band joins and the hero's lower corners: 32 to 48 (European Sleeper 32 to 64, softened) */
+  --r-pill: 999px;          /* every other button (Varun V9) */
+
+  /* ---- Shadows (ink-tinted, Kasa's very soft long shadows) ---- */
+  --sh-card: 0 14px 16px -2px rgba(11, 24, 48, .04);
+  --sh-panel: 0 24px 40px -12px rgba(11, 24, 48, .22);  /* the search card and its panel over the photo */
+  --sh-compact: 0 6px 14px rgba(11, 24, 48, .10);
+  --sh-arrow: 0 6px 8px rgba(11, 24, 48, .06);
+  --sh-nav: 0 1px 2px rgba(11, 24, 48, .06);
+
+  /* ---- Easing ---- */
+  --ease-std: cubic-bezier(.4, 0, .2, 1);          /* quick state changes */
+  --ease-settle: cubic-bezier(.34, 1.2, .64, 1);   /* nav hide and show, compact bar (Kasa: a small overshoot) */
+  --ease-reveal: cubic-bezier(.16, 1, .3, 1);      /* word reveal, panel growth, long ease-out (Kasa's expo-out) */
+  --ease-fade: cubic-bezier(.45, 0, .55, 1);       /* the hero crossfade */
+  --ease-in: cubic-bezier(.4, 0, 1, 1);            /* exits */
+
+  /* ---- Durations ---- */
+  --d-fast: 150ms;          /* colour and tint (Kasa field 150ms) */
+  --d-panel: 200ms;         /* panel height, accordion (Kasa 200ms) */
+  --d-nav: 400ms;           /* nav and compact bar transform (Kasa) */
+  --d-zoom: 500ms;          /* destination photo zoom to 1.1 (European Sleeper) */
+  --d-reveal: 600ms;        /* word reveal per word (Kasa) */
+  --d-stagger: 45ms;        /* between words (Kasa 38 to 50) */
+  --d-fade: 900ms;          /* hero crossfade (Kasa about 650, slowed for stills) */
+  --d-slide: 6500ms;        /* each hero photo holds (Kasa about 5s per video) */
+  --d-breathe: 1000ms;      /* button label breathing and sheen (Varun V9) */
+  --d-nudge: 400ms;         /* button arrow nudge (Varun V9) */
+  --d-settle: 7000ms;       /* each hero photo settles from 1.06 to 1 while it shows */
+
+  /* ---- Motion amounts ---- */
+  --zoom-scroll: 1.125;     /* hero photo scale at the end of the hero (Varun V5) */
+  --zoom-settle: 1.06;      /* each slide starts this much larger and settles */
+  --zoom-card: 1.1;         /* destination photo on hover (European Sleeper) */
+  --reveal-rise: 8px;       /* word reveal starts this low (Kasa) */
+  --reveal-blur: 8px;       /* and this blurred (Kasa) */
+  --press: .97;
+
+  /* ---- Layers ---- */
+  --z-hero-ui: 2;
+  --z-panel: 40;
+  --z-compact: 110;        /* above the header (100) so the docked bar sits on the header's white strip (Chief Officer 2b, note 1) */
+  --z-nav: 100;
+  --z-sheet: 1000;
+
+  /* ---- Round 3 (landfall/design/round3-spec.md, ground rules): deals, scores, rails, the mode switch ---- */
+  --c-save: var(--c-success);       /* savings lines only ("$74 below this route's usual fare"). 6.5:1 on white */
+  --c-save-tint: var(--c-success-tint);
+  --c-score: var(--c-navy);         /* review score badge fill, white numerals (14.9:1). Harbour: sea */
+  --t-score: 1.6rem;                /* score numerals 600 tabular */
+  --t-rank: 1.3rem;                 /* small meta lines on dense rows (13/500) */
+  --w-rail-card: 29.6rem;           /* deal and recommendation cards: 4 visible in 1248 with 24 gaps */
+  --h-datestrip: 6.4rem;            /* the date and price strip on results */
+  --h-modeline: 2px;                /* the landfall line under the active mode */
+  --d-mode-out: 160ms;              /* outgoing content on a mode switch */
+  --d-mode-in: 360ms;               /* incoming content */
+  --d-mode-stagger: 40ms;           /* per card, at most 6 cards staggered */
+  --rise-mode: 12px;
+  --z-skip: 1100;
+}
+
+/* ---- Palette P-H: Harbour gold, re-measured on the Lisbon hero (alternate) ----
+   Only palette roles change; type, space, motion and layout stay. */
+:root[data-palette="harbour"] {
+  --c-navy: #0A4D68;        /* Riviera (revised 2026-11-11, replaces Harbour gold): deep ocean. Links, bands, score badges. White on it 9.2:1 */
+  --c-ink: #0A2A3C;         /* ocean ink. 14.9:1 on white */
+  --c-muted: #46606F;       /* 6.6:1 on white, 6.0:1 on sky mist */
+  --c-accent: #C2410C;      /* deep coral. Focus ring and the landfall line on light: 5.2:1 on white */
+  --c-accent-bright: #FF6F59; /* sun coral. Every call to action (ink label 5.4:1) and highlights on ocean (3.4:1) */
+  --c-tint: #EAF6FB;        /* sky mist, the interactive tint */
+  --c-ground: #FFFFFF;      /* clean white */
+  --c-shade: #F2F9FC;       /* alternate band */
+  --c-surface: #FFFFFF;
+  --c-line: #DCEBF3;
+  --c-field: #7E95A3;       /* 3.1:1 on white */
+  --c-on-dark: #FFFFFF;
+  --c-on-dark-muted: #BFE3F2; /* 6.8:1 on ocean */
+  --c-scrim-rgb: 10, 42, 60;
+  --c-theme: #0A4D68;
+  --fx-grade: sepia(.12) saturate(.92) contrast(1.03); /* warms the same photos toward the roofs */
+  /* Harbour's actions fill with its own gold and an ink label (Chief Officer, final build checkpoint, 2026-11-11: sea-navy fills collided
+     with both of Overwing's palettes). Ink on gold 9.5:1; ink on the hover gold 11:1. Terracotta focus stays */
+  --c-action: var(--c-accent-bright);
+  --c-on-action: var(--c-ink);
+  --c-action-hover: color-mix(in srgb, var(--c-accent-bright) 72%, #FFFFFF);
+  --c-focus: var(--c-accent);
+  --c-band: var(--c-navy);   /* Harbour keeps its sea bands */
+}

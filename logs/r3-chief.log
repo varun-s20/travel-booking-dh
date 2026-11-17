@@ -1,0 +1,69 @@
+**Overwing (3001): APPROVED WITH NOTES. Landfall (3003): APPROVED WITH NOTES.**
+
+Both have the right direction and Varun's three asks are largely met, so neither needs a send-back. Neither is near 9.2 yet: I put Overwing at about 8.2 and Landfall at about 8.0. Overwing is ready to show the client once the cleanup removes its footer demo notice. Landfall is not ready until its notes 1 to 3 are fixed.
+
+**What I could not check:** checkout on either site (`/checkout` gives a 404 without a session, and getting one means filling the travellers form, which I didn't do in 15 minutes). I also didn't check 1024, hover and focus, or the inner pages at 390 (only the homepages). Photo sharing between the two I checked only by file names and what was on screen, not against the credits lists. Notes marked "(log)" come from progress.md, not from the browser.
+
+## Overwing: about 8.2 on the benchmark rubric
+| Depth | Ease | Visual | Craft | Pricing | Mobile |
+|---|---|---|---|---|---|
+| 8.0 | 8.8 | 8.0 | 8.0 | 8.5 | 7.8 |
+
+- **Depth (8.0):** 14 homepage sections and a 45-link footer. Hotel results show only 8 stays for Lisbon, against Booking.com's dense lists.
+- **Ease (8.8):** the switch changes the page in place, with a docked switch once you scroll.
+- **Visual (8.0):** the cabin window carries the homepage, but the inner pages go plain.
+- **Mobile (7.8):** the deal rows stack at 390 and the page runs to 14,000px.
+
+**Varun's feedback:**
+- Lower sections and footer: met. Fourteen sections, and the footer is now a real one.
+- The in-place switch: met. The content, title and URL all change, and Back works.
+- Inner-page depth: mostly met. Fares, hotel results and the hotel page are close to Booking.com and Expedia, apart from how many stays a city has.
+
+**Five things between it and 9.2:**
+1. Hotel results, the list, all widths: 8 stays per city. Booking.com shows dozens. The catalogue needs more hotels; this is the biggest depth gap.
+2. Homepage, the "Booked, paid and in your inbox" panel, 1440: the "Reception" sign photo is weak for a flight-first trust panel. Replace it with a travel photo. Above it, "Booking a flight" is a plain four-icon row; give it the window motif or fold it into the panel.
+3. Homepage, Stay deals and Fare deals, 390: eight full-width cards stack down the page. Make them swipe rails with the next card peeking, as Landfall does and as Booking.com does on phones.
+4. Photos that don't match the room:
+   - Hotel page, Availability, 1440: the Family Room shows a street staircase.
+   - Hotel results, 1440: Sete Janelas Apartments leads with a resort pool and palms.
+   Fix them, because a client spots these at once.
+5. Pricing, flight results, 1440: the filters show cents ("from $451.20") while the date strip shows whole dollars ("$412"). The spec says cents only on booking totals. Also, the fares page leaves a large empty right column below the summary at 1440; give it the identity (a window photo of the destination).
+
+## Landfall: about 8.0 on the benchmark rubric
+| Depth | Ease | Visual | Craft | Pricing | Mobile |
+|---|---|---|---|---|---|
+| 7.8 | 8.3 | 8.2 | 7.8 | 8.0 | 8.0 |
+
+- **Depth (7.8):** 8 homepage sections against Overwing's 14.
+- **Visual (8.2):** the strongest photography of the two.
+- **Craft (7.8):** a filter shows a zero count but still has a price.
+- **Pricing (8.0):** two prices disagree (see note 2).
+
+**Varun's feedback:**
+- "How booking works" and the footer: partly met. The footer is good: 47 links, the photo layer and the price disclosure. But "How booking works" is still four centred icon steps plus four trust tiles, which is the same thin band Varun called out.
+- The in-place switch: met, though the page title stays the same in Hotels mode.
+- Inner pages: deep. The fare table, hotel page sections and review bars are all there.
+
+**Five things between it and 9.2:**
+1. Homepage, "How booking works", 1440 and 390: rebuild it so the place leads. Use a water photo and the landfall line across the steps, and fold in a real fact such as the fare check or what arrives by email. As it stands it is the section Varun rejected.
+2. Pricing across pages:
+   - The homepage hotel deal ($265 weekend in Lisbon) opens at the usual $312 on results, because the lower rates aren't wired into the inner pages (log). Wire them.
+   - On flight results at 1440, the Best tab says "$411 total" while the same card says "$410.70 total". Make them one figure.
+3. Flight results, the Bags filter, 1440: "Checked bag included (0)" shows $420 and looks selectable. Disable it or hide the price, as the spec says for empty filters.
+4. Homepage photos, both modes: the same city photo repeats in 4 to 5 sections (log). This needs Varun to get past the Unsplash bot check by hand or approve another licensed source.
+5. Footer: the Company column has one link. Balance the columns. The Visa and Mastercard marks show which card brands are accepted, which the client hasn't confirmed; flag them as a client fact. Also make the page title change in Hotels mode.
+
+## Side by side: do they share design?
+On the homepage, no. Type (Calibre and Geist against Newsreader and Albert Sans), colour roles (navy panels against teal buttons with navy text), the shell (rail and pill tab bar against a top nav and photo hero), photos, icons and motion are all distinct.
+
+The inner pages are converging, and Varun will notice it side by side:
+- **Hotel results:** both have a map preview top left, then "Filter by", a price histogram and guest score, then wide cards with the photo left and the total bottom right.
+- **Hotel page:** both run the same sections in the same order, with a 3×2 grid of the same review cards.
+- **Fares page:** both use the same step line, the same "Your flights", "Choose your fare" and "Your trip" headings, and the same sentences ("Every fare is on the same flights…", "The airline sets these rules…").
+
+The shared mock data and the competitor structure explain some of this, so it isn't a send-back. The fix for the next stage:
+- **Landfall:** lead each hotel card with the place (a full-width photo on top), make its map a band across the top of the results, and lay the hotel page out photo-first.
+- **Overwing:** put window-shaped photos and a destination window on its results and fares pages.
+- **Both:** the Copywriter gives each design its own headings and sentences.
+
+All of this is beyond what I'm cleared for: no deploys, installs or git. The Unsplash route (Landfall note 4) and the client facts (Visa and Mastercard, the placeholder phone and email) wait for Varun.

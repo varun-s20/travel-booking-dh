@@ -1,0 +1,61 @@
+Part B is built and wired, but it does not reach the 9.2 target. The critic scored it **7.9** on the benchmark rubric (studio rubric 7.5, also a fail) at 16:13, ahead of the 16:40 deadline. I fixed what it found, worst first, and finished at 16:35. The fixes were checked in the browser but not re-scored, because only one critic round was allowed.
+
+**Catalogue wiring (done first)**
+- A small script turns `content/mock-catalogue.md` into the backend data. Rerun `node tools/catalogue.mjs` if the catalogue changes.
+- The backend now has 24 cities, 12 airlines with their own 3 or 4 fares each, and 96 hotels with room rates.
+- The 72 hotels without their own reviews get 6 each from the catalogue's review pool, plus guest scores, so every hotel page has reviews.
+- Every existing id, route and export name still works, and the demo prices hold ($1,302, $744.00).
+- I added the missing-date defaults Developer A asked for (today + 21 days).
+- The catalogue's lower weekend, weeknight and long-stay hotel rates are now charged on every hotel page, using the same rule as Developer A's homepage deals. A deal's price is the price at checkout: Hotel Sal e Vela this weekend is $530.00 for 2 nights at every step.
+
+**Photos**
+- 26 new Unsplash photos for hotels, each checked on its photo page and credited. The hotel photo set is now 57.
+- In each city, every hotel's card shows a different first photo.
+- The original eight hotels' photos stay in their own city, so there are no Lisbon tiles on a Rome hotel.
+
+**Pages built** (P1 items plus some P2)
+- **Flights:** results with a 7-day price strip, Best / Cheapest / Fastest tabs and 10 filter groups. Details compare each airline's own fares. The travelers form asks for passport details on international trips.
+- **Booking:** checkout rechecks the price before paying, and the confirmation page has Add to calendar and a "need a hotel?" row.
+- **Hotels:** results with a filter column, 8 sorts and a map. The hotel page has room rates, reviews with score bars, house rules, questions, nearby places and similar stays. The guest form carries the chosen rate through.
+- **Account:** dashboard, booking detail and profile.
+- **All booking forms:** a three-step progress bar on details, travelers, guests and checkout.
+- Two test bookings ran to confirmation (hotel 88K3TE, flight 39UFZP), and I also checked the logged-in account pages.
+
+**Critic scores**
+
+| Criterion | Score |
+|---|---|
+| Depth | 8.0 |
+| Ease of use | 8.3 |
+| Visual | 7.8 |
+| Craft | 7.0 (capped) |
+| Pricing | 8.0 |
+| Mobile | 8.0 |
+
+Craft was capped by overlapping map pins and clipped date-strip cells. "Journey duration" counted as a banned word.
+
+**Fixed after the critic:**
+- the bag and refund filters' counts and prices
+- passport fields for London to Lisbon
+- overlapping map pins
+- the hotel filter column and three more sorts
+- the progress bar
+- form widths
+- cramped hotel rate cards on phones
+- the banned word
+- a demo login line on /login
+- the date strip on phones, and three pages that scrolled sideways at 390
+
+**Not taken:** the critic suggested showing a runner-up flight in the Best, Cheapest and Fastest tabs when one flight wins more than one. That made the Best tab name a different flight from the card tagged Best, so I put it back: each tab shows its own winner, even when two tabs show the same flight.
+
+**Open for the next round** (also in `build/progress.md`):
+- In a crowded area, the map can push a price pin onto water (one Lisbon pin sits in the river).
+- The fares have no Priority boarding or Meal rows, because the catalogue has no data for them.
+- There is no way to book more than one room of a type, and unavailable rooms don't show the next free dates.
+- Cabin dawn (port 3002) was not checked; its server wasn't running.
+- One type error remains in Developer A's `components/home/r3/Sections.tsx`; I didn't touch it.
+
+I left the shared server on 3001 running, started no other server, and closed the browser.
+
+This is a good commit point. Suggested message:
+`Overwing round 3 Part B: catalogue wired into the mock backend, inner pages at competitor depth, step bar, lower hotel rates, 26 hotel photos`

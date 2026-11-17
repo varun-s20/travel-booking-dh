@@ -1,0 +1,276 @@
+/* Copied unchanged from design/tokens.css (spec 3b; revision 2026-11-11). Edit that file, then copy it here again. */
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): design tokens
+   Source of truth for every colour, type size, space, radius, easing and
+   duration. Plain CSS custom properties, so a Next.js build can import
+   this file once from app/globals.css (or paste it, as the prototype
+   does in assets/global.css). No @import inside, no build step needed.
+
+   Units: 1rem = 10px. The root is set to 62.5% in global.css, so
+   2.4rem is 24px at the 1440 design. Keep that root rule in the app.
+
+   Revision 2026-11-11 (client feedback, design/revision-2026-11-11.md):
+   Night navy is the default :root block. Cabin dawn overrides only the
+   palette tokens under :root[data-palette="cabin"]. Harbour gold has
+   left Overwing (it goes to Landfall, which has its own tokens).
+   Set data-palette on <html> once, at build time ("navy" or "cabin").
+   Components never name a palette; they use the role tokens below.
+
+   New roles in this revision: --c-hero* (the hero band: navy in Night
+   navy, the light ground in Cabin dawn), --c-bezel-ring, --c-price.
+
+   Contrast ratios are WCAG 2.x, measured with prototype/tools/contrast.py
+   on 2026-11-11, and on the built hero with tools/sample_contrast.py.
+   ===================================================================== */
+
+:root {
+  /* ---- Palette: Night navy (default, revision 2026-11-11) ----
+     Overwing's own take on the client's "deep navy, white and teal":
+     the cabin at night, its windows lit by a coast at first light.
+     Navy from the sea in the hero photo after the navy grade; teal from
+     the haze over the coast; white is the page. Every text pair below
+     is 4.5:1 or better; focus rings 3:1 or better. */
+  --c-accent: #086F76;      /* teal. Focus ring, selected glyphs, chip glyphs, price notes, text links on hover. Text-safe: on white 5.9:1, on tint 5.1:1, on cream 5.4:1, on mat 5.0:1. White text on it 5.9:1 */
+  --c-accent-soft: #6FD6CE; /* bright teal. Accent on dark: focus ring and glyphs on the hero, deep and ink (9.2:1 on hero, 8.3:1 on deep, 10.1:1 on ink, 7.0:1 on hero tint). Ink text on it 10.1:1 */
+  --c-deep: #0D2B4C;        /* deep navy. Every call to action on light grounds, selected calendar ends, dark bands. White on it 14.3:1; on white 14.3:1, on tint 12.4:1 */
+  --c-ink: #0B1B2E;         /* navy black. Headlines and body. On white 17.4:1, on tint 15.0:1, on cream 15.8:1, on mat 14.5:1 */
+  --c-muted: #4A5E70;       /* secondary text, placeholders, icons. On white 6.7:1, on tint 5.8:1, on cream 6.1:1, on mat 5.6:1 */
+  --c-tint: #E6F0F2;        /* the one interactive surface: toggle track, segment hover, steppers, calendar range, rail current square, Log in pill */
+  --c-ground: #FFFFFF;      /* white. The page (the client's white) */
+  --c-cream: #F0F5F7;       /* cool mist. Quiet panels on white: demo notice, inclusion cards, fare notes */
+  --c-surface: #FFFFFF;     /* white. The search pill, popovers, cards, sheets */
+  --c-line: #DAE4E9;        /* hairlines and dividers (decorative only, never the only edge of a control) */
+  --c-field: #6B7F8F;       /* text-field borders that must read as controls: 4.2:1 on white */
+  --c-bezel: #1C4068;       /* the cabin window surround on the navy wall (decorative; 1.5:1 on hero, read by its highlight ring) */
+  --c-bezel-ring: rgba(111, 214, 206, .5); /* the bezel's lit edge in bright teal (critic, 11 Nov: teal had no structural job) */
+  --c-hero-chip: rgba(111, 214, 206, .55); /* fact chip outlines on the wall */
+  --c-pill-edge: transparent; /* the search pill's edge on the wall (the navy does the work) */
+  --c-blind: #F3F6F8;       /* the window blind, top of its gradient */
+  --c-blind-end: #D6E0E6;   /* the window blind, bottom of its gradient */
+  --c-mat: #E2EDF0;         /* destination card ground under the label (revision: the photo now fills the card; the mat is only the label band). Ink 14.5:1, muted 5.6:1, accent 5.0:1 */
+  --c-extra: #DDF1EF;       /* Faye's second tint: paid extras on fare and room cards (teal mist). Ink on it 14.8:1 */
+  --c-price: var(--c-ink);  /* the total, always the darkest text on its card */
+  --c-price-note: #086F76;  /* "Taxes and fees included", "Price dropped", per-person lines: teal text, 5.9:1 on white, 5.1:1 on tint */
+  --c-scrim: rgba(6, 20, 42, .52);  /* behind sheets and dialogs */
+  --c-theme: #FFFFFF;       /* meta theme-color */
+
+  /* ---- The hero band (revision 2026-11-11): the cabin wall at night ----
+     A deep navy rounded panel holding the headline, the search and the
+     windows. In Cabin dawn these map back to the light ground. */
+  --c-hero: #0B2341;        /* the wall. White on it 15.8:1 */
+  --c-hero-ink: #FFFFFF;    /* headline */
+  --c-hero-muted: #B9C9D8;  /* lead, chips, inactive toggle label. 9.3:1 on hero, 7.2:1 on hero tint */
+  --c-hero-tint: #17375A;   /* toggle track on the wall. White on it 12.1:1 */
+  --c-hero-line: rgba(255, 255, 255, .16);
+  --c-hero-focus: var(--c-accent-soft);  /* ring on the wall: 9.2:1 */
+  --c-hero-error: #FFB4A8;  /* search messages on the wall: 9.3:1 on hero */
+
+  /* Media grade: one SVG filter per palette, defined in the header
+     partial's sprite. Applied to studio and stock media only, never to
+     Duffel hotel photos or airline logos (they must look as supplied). */
+  --fx-grade: url("#fx-grade-navy");
+
+  /* ---- State colours, shared by both palettes ---- */
+  --c-error: #A2352B;       /* field errors, failed payment. On white 6.8:1, on error tint 5.7:1 */
+  --c-error-tint: #F8E7E2;
+  --c-success: #2E6A4E;     /* confirmed booking, ticket issued. On white 6.4:1, on success tint 5.5:1 */
+  --c-success-tint: #E4F0E8;
+  --c-warn: #835A12;        /* fare changed, offer about to expire. On white 6.1:1, on warn tint 5.2:1 */
+  --c-warn-tint: #F7ECD6;
+  --c-focus: var(--c-accent);           /* the one focus ring, 2px, offset 3px */
+  --c-focus-on-dark: var(--c-accent-soft);
+
+  /* ---- Type families ----
+     Calibre (Klim): self-hosted from fonts/calibre, weights 200, 400, 700
+     only. Design and client review only: needs a Klim web licence before
+     any public deploy, or switch to Rethink Sans (SIL OFL, phase A T2).
+     Geist (Vercel, SIL OFL): the UI layer, variable 100 to 900.
+     With next/font, set variable: "--font-calibre" and "--font-geist-sans";
+     without it, the quoted family names below resolve to @font-face. */
+  --f-display: var(--font-calibre, "Calibre"), "Helvetica Neue", Arial, sans-serif;
+  --f-ui: var(--font-geist-sans, "Geist"), "Helvetica Neue", Arial, sans-serif;
+  --fw-thin: 200;           /* Calibre Thin: large figures only (booking reference, big prices) */
+  --fw-regular: 400;        /* Calibre Regular: lead and editorial body. No tabular figures, no Latin Extended-A */
+  --fw-bold: 700;           /* Calibre Bold: every headline and title */
+  --fw-ui: 400;             /* Geist body, field values */
+  --fw-ui-medium: 500;      /* Geist popover headings, chips */
+  --fw-ui-strong: 600;      /* Geist buttons, labels, toggle */
+  --fw-ui-heavy: 800;       /* Geist popover row titles */
+
+  /* ---- Type scale (sizes at 390 to 1440, fluid between) ---- */
+  --t-hero: clamp(3.4rem, 2.58rem + 2.1vw, 6rem);       /* 34 to 60. Home headline (revision: 56 to 60). global.css sizes it off its column (cqi) */
+  --t-h1: clamp(3.2rem, 2.61rem + 1.52vw, 4.8rem);      /* 32 to 48. Page titles */
+  --t-h2: clamp(2.6rem, 2.38rem + .57vw, 3.2rem);       /* 26 to 32. Section headings */
+  --t-h3: clamp(2rem, 1.85rem + .38vw, 2.4rem);         /* 20 to 24 */
+  --t-lead: clamp(1.7rem, 1.59rem + .29vw, 2rem);       /* 17 to 20 */
+  --t-title: 1.8rem;        /* result and room card titles */
+  --t-price: 2.8rem;        /* booking card total, Calibre Bold, tabular */
+  --t-price-card: 2.4rem;   /* result card total (revision: one size on every result card) */
+  --t-ref: clamp(4rem, 3.25rem + 1.9vw, 6rem);          /* booking reference, Calibre Thin */
+  --t-body: 1.6rem;
+  --t-small: 1.4rem;
+  --t-label: 1.2rem;        /* small caps field labels (revision: 11 to 12px, for the bigger search) */
+  --t-micro: 1.2rem;        /* rail and tab bar labels (revision: 11 to 12px) */
+  --t-button: 1.5rem;
+  --t-value: 1.7rem;        /* search cell values (revision: 16 to 17px) */
+
+  --lh-hero: 1.02;
+  --lh-head: 1.12;
+  --lh-title: 1.3;
+  --lh-body: 1.5;
+  --lh-ui: 1.2;
+  --tr-display: -.02em;
+  --tr-head: -.01em;
+  --tr-label: .08em;
+
+  /* ---- Space (4px base) ---- */
+  --s-1: .4rem;
+  --s-2: .8rem;
+  --s-3: 1.2rem;
+  --s-4: 1.6rem;
+  --s-5: 2.4rem;
+  --s-6: 3.2rem;
+  --s-7: 4rem;
+  --s-8: 4.8rem;
+  --s-9: 6.4rem;
+  --s-10: 9.6rem;
+  --s-11: 12.8rem;
+  --s-section: clamp(6.4rem, 4.9rem + 3.8vw, 10.4rem);
+
+  /* ---- Layout ---- */
+  --rail-w: 8.8rem;         /* desktop icon rail (Hipcamp 88px) */
+  --topbar-h: 6.4rem;       /* revision: the desktop top bar that holds the account cluster (and the compact search on inner pages) */
+  --hero-inset: 1.6rem;     /* revision: the hero panel's margin from the rail and the screen edge (0.8rem on phones) */
+  --container: 123.2rem;
+  --gutter: 1.6rem;         /* phone side gutter; 2.4rem from 641px */
+  --w-pill: 104rem;         /* home search pill at 1440 (revision: was 92rem) */
+  --w-text: 64rem;
+  --h-control: 4.4rem;
+  --h-control-sm: 4rem;
+  --h-pill: 8rem;           /* search pill (revision: was 7.2rem) */
+  --h-seg: 7rem;            /* segment inside the pill */
+  --h-go: 5.6rem;           /* Search button inside the pill */
+  --h-toggle: 4.4rem;       /* Flights / Hotels tabs on the hero (revision: was 4rem) */
+  --h-thumb: 3.6rem;
+  --h-field: 5.6rem;
+  --h-cell: 6.4rem;         /* revision: stacked search cells on phones */
+  --h-header: 6.4rem;
+  --h-tabbar: 6.8rem;
+
+  /* ---- Radii: one system ---- */
+  --r-xs: .8rem;
+  --r-sm: 1.2rem;
+  --r-md: 1.6rem;
+  --r-lg: 2.4rem;
+  --r-xl: 3.2rem;           /* revision: the hero panel and the pre-footer band */
+  --r-pill: 999px;
+  --r-window: 43% / 37%;
+
+  /* ---- Shadows (tinted with the navy, never black glows) ---- */
+  --sh-thumb: 0 1px 3px rgba(11, 27, 46, .14);
+  --sh-pill: 0 4px 10px -2px rgba(11, 27, 46, .10), 0 2px 4px -2px rgba(11, 27, 46, .08);
+  --sh-pill-hero: 0 18px 40px -16px rgba(0, 0, 0, .45);  /* the white pill on the navy wall */
+  --sh-pop: 0 20px 25px -5px rgba(11, 27, 46, .12), 0 8px 10px -6px rgba(11, 27, 46, .10);
+  --sh-card: 0 6px 20px rgba(11, 27, 46, .12);
+  --sh-float: 0 25px 50px -12px rgba(11, 27, 46, .28);
+  --sh-window: 0 22px 36px -18px rgba(0, 0, 0, .55);
+
+  /* ---- Easing ---- */
+  --ease-std: cubic-bezier(.4, 0, .2, 1);
+  --ease-pop: cubic-bezier(.2, .8, .2, 1);
+  --ease-spring: cubic-bezier(.34, 1.28, .64, 1);
+  --ease-out-long: cubic-bezier(.16, 1, .3, 1);
+  --ease-in: cubic-bezier(.4, 0, 1, 1);
+
+  /* ---- Durations ---- */
+  --d-fast: 150ms;
+  --d-pop: 160ms;
+  --d-panel: 200ms;
+  --d-thumb: 220ms;
+  --d-zoom: 250ms;
+  --d-seg: 260ms;
+  --d-bar: 240ms;           /* revision: the phone tab bar sliding away on scroll down */
+  --d-nudge: 400ms;
+  --d-breathe: 1000ms;
+  --d-blind: 1600ms;
+  --d-blind-stagger: 120ms;
+  --d-blind-delay: 240ms;
+
+  /* ---- Motion amounts ---- */
+  --drift: 6;
+  --drift-rate: .12;
+  --win-max: 30rem;         /* widest a cabin window gets (revision: was 25.2rem; bigger photography) */
+  --pop-rise: 6px;
+  --press: .97;
+
+  /* ---- Layers ---- */
+  --z-rail: 200;
+  --z-header: 210;
+  --z-pop: 300;
+  --z-tabbar: 400;
+  --z-sheet: 1000;
+  --z-skip: 1100;
+}
+
+/* ---- Palette: Cabin dawn (P1), the alternate ----
+   Sampled in phase A from Overwing's wing-over-clouds photo. Only
+   palette roles change; type, space, motion and layout stay. The hero
+   band maps back to the light ground, so the wall is blush, as in the
+   approved phase A sketch. Re-measured on the revised hero 2026-11-11. */
+:root[data-palette="cabin"] {
+  --c-accent: #EA580C;      /* Daybreak (revised 2026-11-11, replaces Cabin dawn): sunrise orange. Focus ring and glyphs only, 3.6:1 on white; never text */
+  --c-accent-soft: #FDBA74; /* sunrise on royal: 4.0:1 */
+  --c-deep: #1D4ED8;        /* royal blue. Calls to action, white label 6.7:1 */
+  --c-ink: #0B1B3A;         /* 16.3:1 on ground */
+  --c-muted: #4A5A78;       /* 6.6:1 on ground, 6.2:1 on tint */
+  --c-tint: #EAF2FF;
+  --c-ground: #F7FAFF;
+  --c-cream: #E9F1FF;
+  --c-surface: #FFFFFF;
+  --c-line: #DCE6F5;
+  --c-field: #7A8AA6;       /* 3.5:1 on white */
+  --c-bezel: #FFFFFF;       /* white surround on the light wall */
+  --c-bezel-ring: rgba(11, 27, 58, .08);
+  --c-hero-chip: rgba(11, 27, 58, .30);
+  --c-pill-edge: var(--c-line); /* the white pill needs an edge on the blush wall */
+  --c-price-note: #1D4ED8;  /* royal text, 6.4:1 on ground */
+  --c-blind: #F4F8FF;
+  --c-blind-end: #DCE7FA;
+  --c-mat: #E2EDFF;
+  --c-extra: #FFF1E6;       /* sunrise mist for paid extras */
+  --c-scrim: rgba(11, 27, 58, .48);
+  --c-theme: #F7FAFF;
+  --c-hero: #E2EDFF;        /* the wall: sky wash. Ink on it 14.4:1 */
+  --c-hero-ink: #0B1B3A;
+  --c-hero-muted: #3F5277;  /* 6.6:1 on the wall */
+  --c-hero-tint: #D2E2FF;
+  --c-hero-line: rgba(11, 27, 58, .12);
+  --c-hero-focus: #1D4ED8;  /* 5.7:1 on the wall */
+  --c-hero-error: #A2352B;  /* 5.7:1 on hero */
+  --sh-pill-hero: 0 10px 24px -12px rgba(11, 27, 58, .22);
+  --sh-window: 0 18px 30px -18px rgba(11, 27, 58, .35);
+  --fx-grade: url("#fx-grade-navy");
+}
+
+/* ---- Round 3 tokens (spec 0.3), added by Developer A. Contrast measured 11 Nov:
+   --c-save-ink on --c-save 6.4:1 (navy), 10.0:1 (cabin); --c-score-ink on --c-score 15.8:1 (navy), 11.9:1 (cabin);
+   --c-warn on --c-warn-tint stays as before (6.1:1 and 5.2:1). ---- */
+:root {
+  --c-save: #DDF1EF;
+  --c-save-ink: #065E64;
+  --c-score: var(--c-hero);
+  --c-score-ink: #FFFFFF;
+  --c-row: #F0F5F7;
+  --t-score: 1.8rem;
+  --t-kicker: 1.2rem;
+  --w-rail-card: 28.6rem;
+  --dur-blind-close: 220ms;
+  --dur-blind-open: 420ms;
+  --stagger: 50ms;
+}
+:root[data-palette="cabin"] {
+  --c-save: #FFF1E6;
+  --c-save-ink: #C2410C;    /* 4.7:1 on the save tint */
+  --c-score: #1D4ED8;
+  --c-row: var(--c-cream);
+}

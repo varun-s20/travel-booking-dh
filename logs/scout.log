@@ -1,0 +1,30 @@
+The scout run is finished and ready for your pick (checkpoint 1b). I screened 46 sites: 9 passed, and I visited each of those myself at 1440 and 390 and wrote it up. To choose, open `C:\Users\varun\digital-heroes-automation\projects\travel-booking\references\moodboard.html`, pick one primary, tick any section donors, and press "Copy my picks".
+
+**Primary candidates (pick one)**
+1. **Hipcamp** (campsite and cabin bookings). It's the only one that's a full booking product from search to trips. The search is the hero, with tabs that map straight onto Flights / Hotels. Results are a list with filter chips next to a map, each card shows a price and a Reserve button, and the account area becomes a bottom tab bar on phones. It's light and calm. It has two tells we'd drop in the rebuild: a headline ending in a full stop, and one row of three illustrated cards.
+2. **Kasa** (boutique hotels). It has the best hotel detail page: photo grid, room cards with their own filters, a policy accordion, reviews and a map. It's weak for flights, the hero is a dark video, and it puts an eyebrow label above every homepage section.
+3. **European Sleeper** (night trains). It's the most original of the three and closest to your layout moves: rounded bands rising over each other, a route map, and a footer that names the company, which builds trust for a new name. Its plum and orange palette isn't light, but we'd replace it anyway.
+
+**Section donors**
+- **Ferryhopper:** the flight search card (one way / return / multi-city tabs, From and To with a swap, passengers), with a custom illustration underneath.
+- **Mercury:** the My bookings dashboard, and how it shows prices.
+- **Monocle City Guides:** popular destinations as illustrated city cards. Those illustrations are by David Doran, so ours must be drawn fresh.
+- **Sidetracked:** the About, Terms and Privacy pages.
+- **Faye:** checklist cards for what a fare or room includes.
+- The Hoxton is a reserve donor for hotel search fields.
+
+**What I couldn't check**
+- I didn't see checkout, account or confirmation pages on any site, because they need a search form or a sign-in, which the source rules forbid. I also didn't open Hipcamp's listing page or Kasa's and Ferryhopper's results lists.
+- Every 390 check ran in desktop Chrome, not on a phone. Ferryhopper served its desktop layout at that width, so its real mobile layout is unverified.
+- I couldn't confirm the font licences for European Sleeper's Ambit and Mercury's Arcadia. The other finalists' fonts are all commercial except Geist, which is free.
+- No primary candidate covers the flight results list or a fare that changed or expired before payment. Those screens will need the most original design work.
+- The design galleries gave nothing. All 11 Awwwards finds were brochures or enquiry sites and were killed. I skipped SiteInspire and Godly because their robots.txt blocks Anthropic's crawlers by name. I skipped Land-book and One Page Love because I couldn't read their terms.
+- The first 37 sites gave few passes, so I added a second round of 9 booking products. That took the long list past the 40-site guideline.
+
+Two process notes:
+- On one site the screener clicked Accept on a cookie banner that had no reject button. That site was killed, and I told later batches not to click Accept.
+- At the start the browser was locked by another process. I did discovery by search until it came free, so nothing was skipped.
+
+Everything is in `projects/travel-booking/references/`: `longlist.md`, `cards.md`, `shortlist.md`, `moodboard.html` and the `screens/` folder. I also added a line to `review-log.md`. `status.md` still shows stage 3 as running, which I've left for the studio lead to update.
+
+This is a good checkpoint. Suggested commit message: `travel-booking: scout references, shortlist and moodboard for checkpoint 1b`

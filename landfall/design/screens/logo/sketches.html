@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Landfall mark sketches</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style>
+/* Scratch page, not shipped. Four mark concepts judged at real sizes. */
+:root{--navy:#16225A;--teal:#0BA3AD;--aqua:#6FE3EA;--ink:#121839}
+body{margin:0;font-family:system-ui;background:#fff;color:var(--ink)}
+.row{display:grid;grid-template-columns:120px repeat(4,1fr);border-bottom:1px solid #ddd}
+.row>div{padding:18px;display:flex;align-items:center;gap:10px}
+.photo{background:linear-gradient(160deg,#2f6f8f,#7fb7c9 55%,#d9c7a3)}
+.dark{background:var(--ink)}
+.lock{display:inline-flex;align-items:center;gap:9px;font-family:Newsreader,serif;font-size:27px;font-weight:500;letter-spacing:-.015em}
+.lock svg{height:36px;width:auto}
+.light{color:var(--navy);--b:var(--teal)}
+.onph,.dark .lock{color:#fff;--b:var(--aqua)}
+.m{fill:currentColor}.b{fill:var(--b)}
+.fav svg{width:16px;height:16px}.fav32 svg{width:32px;height:32px}
+h1{font:600 14px system-ui;padding:12px 18px;margin:0}
+</style></head><body>
+<h1>Landfall mark sketches (scratch). A: Crook L. B: Headland. C: Landing tile. D: Sail.</h1>
+<svg width="0" height="0" style="position:absolute">
+  <!-- A Crook L: the L stem is the headland (top cut at 45), the foot is the landfall line, the dot lands in the crook -->
+  <symbol id="A" viewBox="0 0 32 32"><path class="m" d="M3 29V9l6-6h3v19h17v7z"/><circle class="b" cx="20.5" cy="13.5" r="5.5"/></symbol>
+  <!-- B Headland: solid land rising at 45 from the landing dot, on a horizon bar -->
+  <symbol id="B" viewBox="0 0 32 32"><path class="m" d="M13 22l9-9h8v9z"/><rect class="b" x="2" y="24.5" width="28" height="4"/><circle class="b" cx="10" cy="19" r="4.5"/></symbol>
+  <!-- C Landing tile: navy square, the shore knocked out, the dot -->
+  <symbol id="C" viewBox="0 0 32 32"><path class="m" fill-rule="evenodd" d="M2 2h28v28H2zM5 21h9l6-6h7v3h-6l-6 6H5z"/><circle class="b" cx="14" cy="21.5" r="3.5"/></symbol>
+  <!-- D Sail: right-angled sail over the horizon, the dot as the sun at landfall -->
+  <symbol id="D" viewBox="0 0 32 32"><path class="m" d="M15 3v19H5z"/><path class="m" d="M18 8l9 14h-9z"/><rect class="b" x="2" y="25" width="28" height="3.5"/></symbol>
+</svg>
+<div class="row"><div>White, 36px</div>
+ <div class="light"><span class="lock"><svg><use href="#A"/></svg>landfall</span></div>
+ <div class="light"><span class="lock"><svg><use href="#B"/></svg>landfall</span></div>
+ <div class="light"><span class="lock"><svg><use href="#C"/></svg>landfall</span></div>
+ <div class="light"><span class="lock"><svg><use href="#D"/></svg>landfall</span></div></div>
+<div class="row photo"><div style="color:#fff">Photo</div>
+ <div class="onph"><span class="lock"><svg><use href="#A"/></svg>landfall</span></div>
+ <div class="onph"><span class="lock"><svg><use href="#B"/></svg>landfall</span></div>
+ <div class="onph"><span class="lock"><svg><use href="#C"/></svg>landfall</span></div>
+ <div class="onph"><span class="lock"><svg><use href="#D"/></svg>landfall</span></div></div>
+<div class="row dark"><div style="color:#fff">Dark band</div>
+ <div><span class="lock"><svg><use href="#A"/></svg>landfall</span></div>
+ <div><span class="lock"><svg><use href="#B"/></svg>landfall</span></div>
+ <div><span class="lock"><svg><use href="#C"/></svg>landfall</span></div>
+ <div><span class="lock"><svg><use href="#D"/></svg>landfall</span></div></div>
+<div class="row"><div>Favicon 16 / 32</div>
+ <div class="light"><span class="fav"><svg><use href="#A"/></svg></span><span class="fav32"><svg><use href="#A"/></svg></span></div>
+ <div class="light"><span class="fav"><svg><use href="#B"/></svg></span><span class="fav32"><svg><use href="#B"/></svg></span></div>
+ <div class="light"><span class="fav"><svg><use href="#C"/></svg></span><span class="fav32"><svg><use href="#C"/></svg></span></div>
+ <div class="light"><span class="fav"><svg><use href="#D"/></svg></span><span class="fav32"><svg><use href="#D"/></svg></span></div></div>
+</body></html>

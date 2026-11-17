@@ -1,0 +1,38 @@
+{
+  "name": "travel-booking-landfall",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node tools/run.mjs dev navy",
+    "dev:navy": "node tools/run.mjs dev navy",
+    "dev:harbour": "node tools/run.mjs dev harbour",
+    "build:navy": "node tools/run.mjs build navy",
+    "build:harbour": "node tools/run.mjs build harbour",
+    "start:navy": "node tools/run.mjs start navy",
+    "start:harbour": "node tools/run.mjs start harbour",
+    "db:push": "node tools/db.mjs push",
+    "db:status": "node tools/db.mjs status",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@stripe/react-stripe-js": "7.0.1",
+    "@stripe/stripe-js": "10.2.0",
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.118.0",
+    "next": "^16.4.6",
+    "nodemailer": "10.3.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "server-only": "0.0.1",
+    "stripe": "23.1.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/nodemailer": "8.0.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "supabase": "2.122.0",
+    "typescript": "^7.0.2"
+  }
+}

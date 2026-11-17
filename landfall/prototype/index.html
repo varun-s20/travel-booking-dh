@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Landfall: flights and hotels with the full price up front</title>
+<meta name="description" content="Search flights and hotels and see the total, taxes and fees included, before you book.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1B2A6E">
+<script>document.documentElement.className='js';(function(){try{var p=new URLSearchParams(location.search).get('palette');if(p==='harbour'){document.documentElement.setAttribute('data-palette','harbour');}}catch(e){}})();</script>
+<link rel="preload" href="assets/fonts/newsreader-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/albert-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/images/hero/lisbon-alfama-river-1600.webp" imagesrcset="assets/images/hero/lisbon-alfama-river-960.webp 960w, assets/images/hero/lisbon-alfama-river-1600.webp 1600w, assets/images/hero/lisbon-alfama-river-2400.webp 2400w" imagesizes="(min-aspect-ratio: 3/2) 100vw, 150vh" fetchpriority="high">
+<link rel="stylesheet" href="assets/global.css">
+<script src="assets/global.js" defer></script>
+</head>
+<body>
+<!-- ===== Header partial (self-contained: sprite, skip link, header, menu sheet, compact search) ===== -->
+<svg class="a-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4 3.5 7.5 7 11M3.5 7.5h13M17 13l3.5 3.5L17 20M20.5 16.5h-13"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M10.2 13.8 4 12.2l1.3-1.3 6.4.4 4.6-4.6c.8-.8 2.2-1 2.9-.3.7.7.5 2.1-.3 2.9l-4.6 4.6.4 6.4-1.3 1.3-1.6-6.2-3.1 3.1.3 2.2-1 1-1.4-2.8L4 17.5l1-1 2.2.3z"/></symbol>
+  <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3 18v-11M3 14h18v4M21 14v-2.5a3 3 0 0 0-3-3h-7v5.5"/><circle cx="7" cy="11" r="1.8"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.3 7.5-5.3s6.3 1.7 7.5 5.3"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7.5h16M4 12h16M4 16.5h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></symbol>
+  <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.3"/><path d="M3 19.5c.9-3.1 3.2-4.6 6-4.6s5.1 1.5 6 4.6M15.5 5.6a3.2 3.2 0 0 1 0 6M17.5 14.9c1.8.6 3 1.9 3.5 4.6"/></symbol>
+</svg>
+<a class="a-skip" href="#main">Skip to content</a>
+<header class="o-header" data-header>
+  <div class="o-header__in">
+    <a class="a-wordmark" href="index.html" aria-label="Landfall, home">landfall</a>
+    <nav class="o-header__nav" aria-label="Main">
+      <ul class="o-header__links">
+        <li><a class="o-header__link" href="index.html" data-tab-link="flights" aria-current="page">Flights</a></li>
+        <li><a class="o-header__link" href="index.html#hotels" data-tab-link="hotels">Hotels</a></li>
+        <li><a class="o-header__link" href="#destinations">Destinations</a></li>
+        <li><a class="o-header__link" href="contact.html">Help</a></li>
+      </ul>
+    </nav>
+    <div class="o-header__end">
+      <a class="o-header__link o-header__bookings" href="bookings.html">My bookings</a>
+      <a class="a-button -ghost o-header__signin" href="login.html">Sign in</a>
+      <a class="o-header__icon o-header__account" href="login.html" aria-label="Sign in or create an account"><svg class="a-svg" aria-hidden="true"><use href="#i-user"/></svg></a>
+      <button class="o-header__icon o-header__menu" type="button" aria-expanded="false" aria-controls="menu" data-menu-open aria-label="Menu"><svg class="a-svg" aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+<div class="o-menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" hidden data-menu>
+  <div class="o-menu__top">
+    <a class="a-wordmark" href="index.html" aria-label="Landfall, home">landfall</a>
+    <button class="o-menu__close" type="button" data-menu-close aria-label="Close menu"><svg class="a-svg" aria-hidden="true"><use href="#i-close"/></svg></button>
+  </div>
+  <div class="o-menu__groups">
+    <div class="o-menu__group">
+      <p class="o-menu__head">Book</p>
+      <a class="o-menu__link" href="index.html" data-menu-close>Flights <svg class="a-svg" aria-hidden="true"><use href="#i-chev-r"/></svg></a>
+      <a class="o-menu__link" href="index.html#hotels" data-menu-close data-tab-link="hotels">Hotels <svg class="a-svg" aria-hidden="true"><use href="#i-chev-r"/></svg></a>
+      <a class="o-menu__link" href="#destinations" data-menu-close>Destinations <svg class="a-svg" aria-hidden="true"><use href="#i-chev-r"/></svg></a>
+    </div>
+    <div class="o-menu__group">
+      <p class="o-menu__head">Your trips</p>
+      <a class="o-menu__link" href="bookings.html">My bookings <svg class="a-svg" aria-hidden="true"><use href="#i-chev-r"/></svg></a>
+      <div class="o-menu__cta">
+        <a class="a-button" href="login.html">Sign in <svg class="a-svg" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="a-button -ghost" href="register.html">Create an account</a>
+      </div>
+    </div>
+    <div class="o-menu__group">
+      <p class="o-menu__head">Help</p>
+      <a class="o-menu__link" href="contact.html">Help and contact <svg class="a-svg" aria-hidden="true"><use href="#i-chev-r"/></svg></a>
+      <a class="o-menu__link" href="about.html">About us <svg class="a-svg" aria-hidden="true"><use href="#i-chev-r"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="m-compact" data-compact aria-hidden="true">
+  <div class="m-compact__bar">
+    <button class="m-compact__seg" type="button" tabindex="-1" data-compact-open="route"><svg class="a-svg" aria-hidden="true"><use href="#i-pin"/></svg><span data-sum="route">London to Lisbon</span></button>
+    <button class="m-compact__seg" type="button" tabindex="-1" data-compact-open="dates"><svg class="a-svg" aria-hidden="true"><use href="#i-calendar"/></svg><span data-sum="dates">Nov 20 to Nov 27</span></button>
+    <button class="m-compact__seg" type="button" tabindex="-1" data-compact-open="party"><svg class="a-svg" aria-hidden="true"><use href="#i-users"/></svg><span data-sum="party">2 adults, Economy</span></button>
+    <button class="m-compact__one" type="button" tabindex="-1" data-compact-open="route"><b data-sum="route">London to Lisbon</b><span data-sum="line">Nov 20 to Nov 27, 2 adults</span></button>
+    <button class="m-compact__go" type="button" tabindex="-1" data-compact-open="go" aria-label="Change search"><svg class="a-svg" aria-hidden="true"><use href="#i-search"/></svg></button>
+  </div>
+</div>
+<!-- ===== /Header partial ===== -->
+
+<main id="main">
+  <!-- ===== Hero: the place first, then the search ===== -->
+  <section class="o-hero" aria-labelledby="hero-title" data-hero>
+    <div class="o-hero__photo">
+      <div class="o-hero__zoom" data-hero-zoom>
+        <!-- Each slide: one city seen where it meets the water (the image rule). Focal points set per photo. -->
+        <figure class="o-hero__slide -lisbon is-current" data-slide data-place="Lisbon" data-code="LIS" data-fare="London to Lisbon, return from $412">
+          <picture>
+            <source type="image/webp" srcset="assets/images/hero/lisbon-alfama-river-960.webp 960w, assets/images/hero/lisbon-alfama-river-1600.webp 1600w, assets/images/hero/lisbon-alfama-river-2400.webp 2400w" sizes="(min-aspect-ratio: 3/2) 100vw, 150vh">
+            <img src="assets/images/hero/lisbon-alfama-river-1600.jpg" width="1600" height="1067" alt="Lisbon's Alfama roofs running down to the Tagus under a deep blue sky, a cruise ship at the quay" fetchpriority="high" decoding="async">
+          </picture>
+        </figure>
+        <figure class="o-hero__slide -capetown" data-slide data-place="Cape Town" data-code="CPT" data-fare="London to Cape Town, return from $1,138">
+          <picture>
+            <source type="image/webp" srcset="assets/images/hero/cape-town-waterfront-960.webp 960w, assets/images/hero/cape-town-waterfront-1600.webp 1600w, assets/images/hero/cape-town-waterfront-2400.webp 2400w" sizes="(min-aspect-ratio: 3/2) 100vw, 150vh">
+            <img src="assets/images/hero/cape-town-waterfront-1600.jpg" width="1600" height="1067" alt="Table Mountain above Cape Town's waterfront, seen across the harbour" loading="lazy" decoding="async">
+          </picture>
+        </figure>
+        <figure class="o-hero__slide -newyork" data-slide data-place="New York" data-code="JFK" data-fare="London to New York, return from $684">
+          <picture>
+            <source type="image/webp" srcset="assets/images/hero/new-york-harbour-960.webp 960w, assets/images/hero/new-york-harbour-1600.webp 1600w, assets/images/hero/new-york-harbour-2400.webp 2400w" sizes="(min-aspect-ratio: 2/1) 100vw, 205vh">
+            <img src="assets/images/hero/new-york-harbour-1600.jpg" width="1600" height="784" alt="Lower Manhattan's skyline seen from the harbour on a clear day" loading="lazy" decoding="async">
+          </picture>
+        </figure>
+      </div>
+      <div class="o-hero__scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="o-hero__inner">
+      <h1 class="o-hero__title t-display" id="hero-title" data-split>Land somewhere new</h1>
+      <p class="o-hero__sub t-lead">Flights and hotels, with taxes and fees in every price</p>
+      <div class="o-hero__tabs" role="tablist" aria-label="What to search">
+        <button class="a-tab" type="button" role="tab" id="tab-flights" aria-controls="form-flights" aria-selected="true" data-tab="flights"><svg class="a-svg" aria-hidden="true"><use href="#i-plane"/></svg>Flights</button>
+        <button class="a-tab" type="button" role="tab" id="tab-hotels" aria-controls="form-hotels" aria-selected="false" tabindex="-1" data-tab="hotels"><svg class="a-svg" aria-hidden="true"><use href="#i-bed"/></svg>Hotels</button>
+      </div>
+    </div>
+
+    <div class="m-search" data-search>
+      <div class="m-search__card" data-card>
+        <!-- Flights: From, swap, To, Dates, Travelers and class -->
+        <form class="m-search__form" id="form-flights" role="tabpanel" aria-labelledby="tab-flights" data-form="flights" novalidate>
+          <div class="m-search__fields -flights">
+            <button class="m-search__field" type="button" aria-expanded="false" aria-controls="panel-from" data-field="from" aria-describedby="status">
+              <span class="m-search__label"><svg class="a-svg" aria-hidden="true"><use href="#i-pin"/></svg>From</span>
+              <span class="m-search__value" data-value="from">London (LHR)</span>
+            </button>
+            <button class="m-search__swap" type="button" data-swap aria-label="Swap From and To"><svg class="a-svg" aria-hidden="true"><use href="#i-swap"/></svg></button>
+            <button class="m-search__field -to" type="button" aria-expanded="false" aria-controls="panel-to" data-field="to" aria-describedby="status">
+              <span class="m-search__label"><svg class="a-svg" aria-hidden="true"><use href="#i-pin"/></svg>To</span>
+              <span class="m-search__value is-empty" data-value="to">City or airport</span>
+            </button>
+            <button class="m-search__field" type="button" aria-expanded="false" aria-controls="panel-dates" data-field="dates">
+              <span class="m-search__label"><svg class="a-svg" aria-hidden="true"><use href="#i-calendar"/></svg>Dates</span>
+              <span class="m-search__value is-empty" data-value="dates">Add dates</span>
+            </button>
+            <button class="m-search__field" type="button" aria-expanded="false" aria-controls="panel-party" data-field="party">
+              <span class="m-search__label"><svg class="a-svg" aria-hidden="true"><use href="#i-users"/></svg>Travelers</span>
+              <span class="m-search__value" data-value="party">1 adult, Economy</span>
+            </button>
+          </div>
+          <button class="m-search__go" type="submit"><svg class="a-svg" aria-hidden="true"><use href="#i-search"/></svg>Search flights</button>
+        </form>
+        <!-- Hotels: Destination, Dates, Rooms and guests -->
+        <form class="m-search__form" id="form-hotels" role="tabpanel" aria-labelledby="tab-hotels" data-form="hotels" novalidate hidden>
+          <div class="m-search__fields">
+            <button class="m-search__field" type="button" aria-expanded="false" aria-controls="panel-dest" data-field="dest">
+              <span class="m-search__label"><svg class="a-svg" aria-hidden="true"><use href="#i-pin"/></svg>Destination</span>
+              <span class="m-search__value is-empty" data-value="dest">City or area</span>
+            </button>
+            <button class="m-search__field" type="button" aria-expanded="false" aria-controls="panel-dates" data-field="dates">
+              <span class="m-search__label"><svg class="a-svg" aria-hidden="true"><use href="#i-calendar"/></svg>Check in and out</span>
+              <span class="m-search__value is-empty" data-value="dates">Add dates</span>
+            </button>
+            <button class="m-search__field" type="button" aria-expanded="false" aria-controls="panel-rooms" data-field="rooms">
+              <span class="m-search__label"><svg class="a-svg" aria-hidden="true"><use href="#i-users"/></svg>Rooms and guests</span>
+              <span class="m-search__value" data-value="rooms">1 room, 2 adults</span>
+            </button>
+          </div>
+          <button class="m-search__go" type="submit"><svg class="a-svg" aria-hidden="true"><use href="#i-search"/></svg>Search hotels</button>
+        </form>
+
+        <!-- Panels: one per field, growing out of the card (Kasa); full-screen sheets on phones -->
+        <div class="m-panel" id="panel-from" data-panel="from" role="dialog" aria-label="Flying from">
+          <div class="m-panel__in">
+            <div class="m-panel__head"><p class="m-panel__title">Flying from</p><button class="m-panel__x" type="button" data-panel-close aria-label="Close"><svg class="a-svg" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+            <div class="m-panel__body">
+              <label class="m-panel__find"><svg class="a-svg" aria-hidden="true"><use href="#i-search"/></svg><span class="sr-only">City or airport</span><input type="text" placeholder="City or airport" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="list-from" aria-autocomplete="list" data-find="from"></label>
+              <p class="m-panel__group" id="group-from">Cities and airports</p>
+              <ul class="m-places" id="list-from" role="listbox" aria-labelledby="group-from" data-list="from"></ul>
+            </div>
+          </div>
+        </div>
+        <div class="m-panel" id="panel-to" data-panel="to" role="dialog" aria-label="Flying to">
+          <div class="m-panel__in">
+            <div class="m-panel__head"><p class="m-panel__title">Flying to</p><button class="m-panel__x" type="button" data-panel-close aria-label="Close"><svg class="a-svg" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+            <div class="m-panel__body">
+              <label class="m-panel__find"><svg class="a-svg" aria-hidden="true"><use href="#i-search"/></svg><span class="sr-only">City or airport</span><input type="text" placeholder="City or airport" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="list-to" aria-autocomplete="list" data-find="to"></label>
+              <p class="m-panel__group" id="group-to">Cities and airports</p>
+              <ul class="m-places" id="list-to" role="listbox" aria-labelledby="group-to" data-list="to"></ul>
+            </div>
+          </div>
+        </div>
+        <div class="m-panel" id="panel-dest" data-panel="dest" role="dialog" aria-label="Staying in">
+          <div class="m-panel__in">
+            <div class="m-panel__head"><p class="m-panel__title">Staying in</p><button class="m-panel__x" type="button" data-panel-close aria-label="Close"><svg class="a-svg" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+            <div class="m-panel__body">
+              <label class="m-panel__find"><svg class="a-svg" aria-hidden="true"><use href="#i-search"/></svg><span class="sr-only">City or area</span><input type="text" placeholder="City or area" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="list-dest" aria-autocomplete="list" data-find="dest"></label>
+              <p class="m-panel__group" id="group-dest">Cities</p>
+              <ul class="m-places" id="list-dest" role="listbox" aria-labelledby="group-dest" data-list="dest"></ul>
+            </div>
+          </div>
+        </div>
+        <div class="m-panel" id="panel-dates" data-panel="dates" role="dialog" aria-label="Dates">
+          <div class="m-panel__in">
+            <div class="m-panel__head"><p class="m-panel__title">Dates</p><button class="m-panel__x" type="button" data-panel-close aria-label="Close"><svg class="a-svg" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+            <div class="m-panel__body">
+              <div class="m-cal" data-cal></div>
+              <p class="m-cal__hint" data-cal-hint>Choose your outbound date</p>
+            </div>
+            <div class="m-panel__foot"><button class="a-textbtn" type="button" data-cal-clear>Clear</button><button class="m-panel__done" type="button" data-panel-close>Done</button></div>
+          </div>
+        </div>
+        <div class="m-panel" id="panel-party" data-panel="party" role="dialog" aria-label="Travelers and class">
+          <div class="m-panel__in">
+            <div class="m-panel__head"><p class="m-panel__title">Travelers</p><button class="m-panel__x" type="button" data-panel-close aria-label="Close"><svg class="a-svg" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+            <div class="m-panel__body -split">
+              <div>
+              <div class="m-steps">
+                <div class="m-step"><span><span class="m-step__name" id="lab-adults">Adults</span><span class="m-step__help">18 and over</span></span><span class="m-step__ctrl"><button class="m-step__btn" type="button" data-step="adults" data-by="-1" aria-label="Fewer adults"><svg class="a-svg" aria-hidden="true"><use href="#i-minus"/></svg></button><span class="m-step__n" data-count="adults" aria-live="polite" aria-labelledby="lab-adults">1</span><button class="m-step__btn" type="button" data-step="adults" data-by="1" aria-label="More adults"><svg class="a-svg" aria-hidden="true"><use href="#i-plus"/></svg></button></span></div>
+                <div class="m-step"><span><span class="m-step__name" id="lab-children">Children</span><span class="m-step__help">2 to 17</span></span><span class="m-step__ctrl"><button class="m-step__btn" type="button" data-step="children" data-by="-1" aria-label="Fewer children"><svg class="a-svg" aria-hidden="true"><use href="#i-minus"/></svg></button><span class="m-step__n" data-count="children" aria-live="polite" aria-labelledby="lab-children">0</span><button class="m-step__btn" type="button" data-step="children" data-by="1" aria-label="More children"><svg class="a-svg" aria-hidden="true"><use href="#i-plus"/></svg></button></span></div>
+                <div class="m-step"><span><span class="m-step__name" id="lab-infants">Infants</span><span class="m-step__help">Under 2, on a lap</span></span><span class="m-step__ctrl"><button class="m-step__btn" type="button" data-step="infants" data-by="-1" aria-label="Fewer infants"><svg class="a-svg" aria-hidden="true"><use href="#i-minus"/></svg></button><span class="m-step__n" data-count="infants" aria-live="polite" aria-labelledby="lab-infants">0</span><button class="m-step__btn" type="button" data-step="infants" data-by="1" aria-label="More infants"><svg class="a-svg" aria-hidden="true"><use href="#i-plus"/></svg></button></span></div>
+              </div>
+              <p class="m-steps__note" data-party-note>Up to 9 travelers, and one infant per adult.</p>
+              </div>
+              <fieldset class="m-opts">
+                <legend>Cabin class</legend>
+                <label class="m-opt"><input type="radio" name="cabin" value="Economy" checked>Economy</label>
+                <label class="m-opt"><input type="radio" name="cabin" value="Premium economy">Premium economy</label>
+                <label class="m-opt"><input type="radio" name="cabin" value="Business">Business</label>
+                <label class="m-opt"><input type="radio" name="cabin" value="First">First</label>
+              </fieldset>
+            </div>
+            <div class="m-panel__foot"><button class="m-panel__done" type="button" data-panel-close>Done</button></div>
+          </div>
+        </div>
+        <div class="m-panel" id="panel-rooms" data-panel="rooms" role="dialog" aria-label="Rooms and guests">
+          <div class="m-panel__in">
+            <div class="m-panel__head"><p class="m-panel__title">Rooms and guests</p><button class="m-panel__x" type="button" data-panel-close aria-label="Close"><svg class="a-svg" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+            <div class="m-panel__body">
+              <div class="m-steps -row">
+                <div class="m-step"><span><span class="m-step__name" id="lab-rooms">Rooms</span></span><span class="m-step__ctrl"><button class="m-step__btn" type="button" data-step="rooms" data-by="-1" aria-label="Fewer rooms"><svg class="a-svg" aria-hidden="true"><use href="#i-minus"/></svg></button><span class="m-step__n" data-count="rooms" aria-live="polite" aria-labelledby="lab-rooms">1</span><button class="m-step__btn" type="button" data-step="rooms" data-by="1" aria-label="More rooms"><svg class="a-svg" aria-hidden="true"><use href="#i-plus"/></svg></button></span></div>
+                <div class="m-step"><span><span class="m-step__name" id="lab-guests">Adults</span><span class="m-step__help">18 and over</span></span><span class="m-step__ctrl"><button class="m-step__btn" type="button" data-step="guests" data-by="-1" aria-label="Fewer adults"><svg class="a-svg" aria-hidden="true"><use href="#i-minus"/></svg></button><span class="m-step__n" data-count="guests" aria-live="polite" aria-labelledby="lab-guests">2</span><button class="m-step__btn" type="button" data-step="guests" data-by="1" aria-label="More adults"><svg class="a-svg" aria-hidden="true"><use href="#i-plus"/></svg></button></span></div>
+                <div class="m-step"><span><span class="m-step__name" id="lab-kids">Children</span><span class="m-step__help">0 to 17</span></span><span class="m-step__ctrl"><button class="m-step__btn" type="button" data-step="kids" data-by="-1" aria-label="Fewer children"><svg class="a-svg" aria-hidden="true"><use href="#i-minus"/></svg></button><span class="m-step__n" data-count="kids" aria-live="polite" aria-labelledby="lab-kids">0</span><button class="m-step__btn" type="button" data-step="kids" data-by="1" aria-label="More children"><svg class="a-svg" aria-hidden="true"><use href="#i-plus"/></svg></button></span></div>
+              </div>
+            </div>
+            <div class="m-panel__foot"><button class="m-panel__done" type="button" data-panel-close>Done</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="m-search__status" id="status" role="status" aria-live="polite" data-status></p>
+    </div>
+
+    <!-- arrival caption and pause: after the card in DOM order, placed on the photo by the grid -->
+    <div class="o-hero__caption" data-caption>
+      <span class="o-hero__place" data-caption-place>Lisbon</span>
+      <span class="o-hero__fare"><span data-caption-fare>London to Lisbon, return from $412</span><button class="a-flyhere" type="button" data-flyhere aria-label="Fly here: London to Lisbon"><span class="a-flyhere__text">Fly here</span><svg class="a-svg" aria-hidden="true"><use href="#i-arrow"/></svg></button></span>
+    </div>
+    <button class="o-hero__pause" type="button" data-hero-pause aria-pressed="false" aria-label="Pause the photos"><svg class="a-svg i-pause-use" aria-hidden="true"><use href="#i-pause"/></svg><svg class="a-svg i-play-use" aria-hidden="true"><use href="#i-play"/></svg></button>
+  </section>
+
+  <!-- ===== Popular destinations: price-led cards (European Sleeper) ===== -->
+  <section class="o-dest" id="destinations" aria-labelledby="dest-title">
+    <div class="l-container">
+      <h2 class="o-dest__title t-display t-h2" id="dest-title" data-split data-inview>Cities worth the crossing</h2>
+      <p class="o-dest__note t-small">Lowest return fare we've found for one adult from London, taxes and fees included. Fares change often and are confirmed before you pay.</p>
+      <ul class="o-dest__grid">
+        <li><a class="m-dest" href="#main" data-dest="LIS" aria-label="Lisbon, return flights from $412. Search flights to Lisbon."><span class="m-dest__media"><picture><source type="image/webp" srcset="assets/images/destinations/lisbon-tagus-golden-480.webp 480w, assets/images/destinations/lisbon-tagus-golden-800.webp 800w, assets/images/destinations/lisbon-tagus-golden-1200.webp 1200w" sizes="(min-width: 1025px) 400px, (min-width: 641px) 50vw, 100px"><img src="assets/images/destinations/lisbon-tagus-golden-800.jpg" width="800" height="500" alt="" loading="lazy" decoding="async"></picture></span><span><span class="m-dest__city">Lisbon</span><span class="m-dest__fare">Return from $412</span></span><span class="m-dest__arrow" aria-hidden="true"><svg class="a-svg"><use href="#i-arrow"/></svg></span></a></li>
+        <li><a class="m-dest" href="#main" data-dest="FCO" aria-label="Rome, return flights from $389. Search flights to Rome."><span class="m-dest__media"><picture><source type="image/webp" srcset="assets/images/destinations/rome-tiber-bridge-480.webp 480w, assets/images/destinations/rome-tiber-bridge-800.webp 800w, assets/images/destinations/rome-tiber-bridge-1200.webp 1200w" sizes="(min-width: 1025px) 400px, (min-width: 641px) 50vw, 100px"><img src="assets/images/destinations/rome-tiber-bridge-800.jpg" width="800" height="500" alt="" loading="lazy" decoding="async"></picture></span><span><span class="m-dest__city">Rome</span><span class="m-dest__fare">Return from $389</span></span><span class="m-dest__arrow" aria-hidden="true"><svg class="a-svg"><use href="#i-arrow"/></svg></span></a></li>
+        <li><a class="m-dest" href="#main" data-dest="JFK" aria-label="New York, return flights from $684. Search flights to New York."><span class="m-dest__media"><picture><source type="image/webp" srcset="assets/images/destinations/new-york-brooklyn-night-480.webp 480w, assets/images/destinations/new-york-brooklyn-night-800.webp 800w, assets/images/destinations/new-york-brooklyn-night-1200.webp 1200w" sizes="(min-width: 1025px) 400px, (min-width: 641px) 50vw, 100px"><img src="assets/images/destinations/new-york-brooklyn-night-800.jpg" width="800" height="500" alt="" loading="lazy" decoding="async"></picture></span><span><span class="m-dest__city">New York</span><span class="m-dest__fare">Return from $684</span></span><span class="m-dest__arrow" aria-hidden="true"><svg class="a-svg"><use href="#i-arrow"/></svg></span></a></li>
+        <li><a class="m-dest" href="#main" data-dest="MEX" aria-label="Mexico City, return flights from $1,046. Search flights to Mexico City."><span class="m-dest__media"><picture><source type="image/webp" srcset="assets/images/destinations/mexico-city-xochimilco-480.webp 480w, assets/images/destinations/mexico-city-xochimilco-800.webp 800w, assets/images/destinations/mexico-city-xochimilco-1200.webp 1200w" sizes="(min-width: 1025px) 400px, (min-width: 641px) 50vw, 100px"><img src="assets/images/destinations/mexico-city-xochimilco-800.jpg" width="800" height="500" alt="" loading="lazy" decoding="async"></picture></span><span><span class="m-dest__city">Mexico City</span><span class="m-dest__fare">Return from $1,046</span></span><span class="m-dest__arrow" aria-hidden="true"><svg class="a-svg"><use href="#i-arrow"/></svg></span></a></li>
+        <li><a class="m-dest" href="#main" data-dest="HND" aria-label="Tokyo, return flights from $1,212. Search flights to Tokyo."><span class="m-dest__media"><picture><source type="image/webp" srcset="assets/images/destinations/tokyo-bridge-night-480.webp 480w, assets/images/destinations/tokyo-bridge-night-800.webp 800w, assets/images/destinations/tokyo-bridge-night-1200.webp 1200w" sizes="(min-width: 1025px) 400px, (min-width: 641px) 50vw, 100px"><img src="assets/images/destinations/tokyo-bridge-night-800.jpg" width="800" height="500" alt="" loading="lazy" decoding="async"></picture></span><span><span class="m-dest__city">Tokyo</span><span class="m-dest__fare">Return from $1,212</span></span><span class="m-dest__arrow" aria-hidden="true"><svg class="a-svg"><use href="#i-arrow"/></svg></span></a></li>
+        <li><a class="m-dest" href="#main" data-dest="CPT" aria-label="Cape Town, return flights from $1,138. Search flights to Cape Town."><span class="m-dest__media"><picture><source type="image/webp" srcset="assets/images/destinations/cape-town-camps-bay-480.webp 480w, assets/images/destinations/cape-town-camps-bay-800.webp 800w, assets/images/destinations/cape-town-camps-bay-1200.webp 1200w" sizes="(min-width: 1025px) 400px, (min-width: 641px) 50vw, 100px"><img src="assets/images/destinations/cape-town-camps-bay-800.jpg" width="800" height="500" alt="" loading="lazy" decoding="async"></picture></span><span><span class="m-dest__city">Cape Town</span><span class="m-dest__fare">Return from $1,138</span></span><span class="m-dest__arrow" aria-hidden="true"><svg class="a-svg"><use href="#i-arrow"/></svg></span></a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,34 @@
+I've written the brief to `projects/travel-booking/brief.md` and added a line to `review-log.md`. Varun wasn't in the session, so the 5 open questions are in section 11 and nobody has answered them.
+
+**The PRD isn't in the client's words.** It's a scope and pricing proposal written by the seller ("we") to the client. It ends asking the client to confirm, and nothing in it says they accepted. So it tells us the agreed features, but nothing about the client's brand, market, audience, voice or taste. In the brief, [stated] means "written in the PDF or in Varun's note". Every quote is from the seller's proposal, not from the client.
+
+**What the brief covers:**
+- **What's being built:** a B2C booking site for flights and hotels. Flights come from the Duffel API, hotels from Duffel Stays, and payment goes through Stripe. Customers get accounts with a bookings dashboard. Flights rank first; hotels only work if the client's Duffel Stays account is approved.
+- **Media fit for the Scout:** the search form is the hero, and the look leans on type and illustration because there's no client media. Hotel photos and airline logos from Duffel only fill the results and hotel pages.
+- **Interface constraints from Duffel:** a flight fare usually expires within about 30 minutes, and the scope requires checking fare and availability before booking. So checkout needs "fare changed" and "fare expired" screens.
+- **Exclusions that remove design elements:** no chat launcher, no promo-code field, no loyalty features, and one currency and one language.
+- **Pages:** the requested page list, plus the screens it implies: loading, no results, the search pickers, a mobile filter drawer, error pages and email templates.
+
+**Open questions in section 11, most important first:**
+1. **Brand:** the business name, logo, colours and domain. If none exist, is creating them our job? It isn't in the Phase 1 scope.
+2. **Market:** which country, language and currency, and any service fee or markup checkout must show.
+3. **Media:** licensed photos, or an illustration-led and type-led look?
+4. **Deal and build:** $3,000 or the $2,800 reduced scope, the deadline, who builds the backend and on what stack, whether the Duffel Stays account is approved, and whether any admin screens are expected.
+5. **Content and taste:** who supplies the About story, contact details and legal text, and any sites the client likes or dislikes.
+
+Question 1 blocks art direction, and the client's domain can't be added to the Scout's exclusion list until we know the name.
+
+This is checkpoint 1a. Suggested commit message: `travel-booking: intake brief from Phase 1 scope PDF`
+
+Sources used for the industry notes:
+- [Duffel: what happens when an offer expires](https://help.duffel.com/hc/en-gb/articles/360021052820-What-happens-when-an-offer-expires)
+- [Duffel: test your integration](https://duffel.com/docs/api/overview/test-your-integration)
+- [Duffel: holding orders and paying later](https://duffel.com/docs/guides/holding-orders-and-paying-later)
+- [Duffel Stays key concepts](https://duffel.com/docs/api/overview/stays-key-concepts)
+- [Duffel accommodation API](https://duffel.com/docs/api/v2/accommodation)
+- [Duffel changelog: better property images](https://changelog.duffel.com/announcements/ann_ZL8lz5QIGf7Dw)
+- [Duffel changelog: travel documents](https://changelog.duffel.com/announcements/ann_fDlDrdkALxMRy)
+- [Travelocity UX case study](https://medium.com/@hope_magracia/redesigning-travelocitys-responsive-website-a-ux-case-study-5ca4e5476d1f)
+- [Profitroom: the new trust economy](https://profitroom.com/articles/the-new-trust-economy-what-it-means-for-hotel-bookings)
+- [Rework: trust building for travel businesses](https://resources.rework.com/libraries/travel-tour-growth/trust-building-for-travel-businesses)
+- [Travelling Lark: identifying trusted tour agents](https://www.travellinglark.com/blog/how-to-identify-trusted-tour-agents-online-red-flags-and-tips)

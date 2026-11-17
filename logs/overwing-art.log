@@ -1,0 +1,36 @@
+The Overwing revision is done, and the Chief Officer approved it on the first call, with one condition. Before the home hero is built or shown to the client, the hero photo must be replaced with a warm sunrise coast that has a town or harbour in it. I finished at about 04:15, but I didn't check the exact time.
+
+**What the revision does**
+- **Colours:** Night navy is the new default. It is Overwing's own navy, white and teal: a navy wall, navy buttons, and a teal that is dark enough to use for text. Cabin dawn stays as the alternate, and Harbour gold is out.
+- **Search:** the home page's top section is now the cabin at night: a rounded navy panel holding a bigger white search bar. Flights and Hotels are tabs with icons.
+- **Photography:** the windows are bigger (256 x 345 at 1440, up from 229 x 309), edged in teal. They show a coast-at-first-light photo with the wing, which the site already had licensed for the About page.
+- **Navigation:**
+  - The left rail now reads Flights, Hotels, Bookings, Help, More. More sits with the others instead of at the bottom of the screen.
+  - A solid top bar keeps Log in and Sign up visible at every scroll position. Before, they disappeared after 160px of scrolling.
+  - The phone tab bar reads Flights, Hotels, Bookings, Account, and slides away while you scroll down.
+- **Mobile:** the search fields show on the page instead of hiding behind one "Where to?" button. Tapping a field opens the full-screen picker on that field.
+- **Pricing:** one fact chip now says "Taxes and fees included". The revision doc has every result card lead with the total, with the price per person or per night underneath.
+- **Contrast:** all 104 text boxes measured on the new hero pass, at 1440, 1024 and 390 in both palettes. The lowest is 6.7:1 in navy and 5.2:1 in Cabin dawn.
+
+**Critic (one round): 6.9, FAIL** (design 7, originality 7, craft 6, functionality 8). It found no design or copy tells, and it rated the search the most prominent thing at every width. Its main complaints were weak photography (the coast shows oil storage tanks and flat dark sea) and teal barely showing. I fixed 8 of its 10 issues and checked them in the browser, but they haven't been re-scored. The other two, the new photo and keeping the wide search bar down to 900px instead of switching to the phone layout at 1024, are written into the revision doc.
+
+**Chief Officer rulings**
+- Overwing is clearly distinct from Booking.com on desktop, but not yet on phones, because the first phone screen has no photo.
+- It struck the line "No booking fee", since the client never told us that. I removed it.
+- Its other notes are at the top of the revision doc, ranked. Two of them, a stronger teal edge on the windows and showing the window tops above the phone tab bar, are not in the prototype yet. They're written into the doc for the Developer.
+
+**Not checked:** real phones (I simulated touch in desktop Chromium), Safari, Firefox and screen readers. The inner-page changes exist only in the doc, not in the prototype.
+
+**Your decisions (when you wake):** the brief for the new hero photo, whether the phone tab bar stays, the new copy lines, and the Calibre licence before any client preview. I stopped both servers I started.
+
+One thing for you: the critic saved a screenshot by mistake at the studio root (`hero-1440-night-studio.png`). I left it alone; move or delete it.
+
+This is a good checkpoint. Suggested commit message: `travel-booking: Overwing revision for client feedback (navy palette, nav, mobile search, revision doc)`
+
+Files are in `projects/travel-booking/`:
+- design/revision-2026-11-11.md
+- design/tokens.css
+- design/handover.md
+- design/choices.md
+- prototype/index.html
+- review-log.md

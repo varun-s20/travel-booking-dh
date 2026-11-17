@@ -1,0 +1,704 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): hotels.css
+   Hotel results (Hipcamp's 540 list beside a sticky 660 map), the stay
+   card and its photo carousel, the map and pins, and the hotel page
+   (Kasa: photo grid, about and amenities, rooms rail, policies, map,
+   gallery). Loads after results.css, before booking.css.
+   Hotel photos stand in for Duffel's and are never graded.
+   ===================================================================== */
+
+/* ===== Results: list and map ===== */
+.o-stays { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3.2rem; padding-bottom: var(--s-10); }
+.o-stays__list { min-width: 0; }
+.o-stays__map { display: none; }
+.o-stays__cards { display: grid; gap: 1.6rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.o-stays__list > .m-notice { margin-top: 1.6rem; }
+/* phones: a floating deep Map pill above the tab bar */
+.o-stays__mapPill { position: fixed; z-index: calc(var(--z-tabbar) - 1); left: 50%; bottom: calc(var(--h-tabbar) + 3.6rem + env(safe-area-inset-bottom, 0px)); box-shadow: var(--sh-float); transform: translateX(-50%); }
+.o-stays__mapPill:active { transform: translateX(-50%) scale(var(--press)); }
+.o-stays__phoneMap { position: relative; height: calc(100dvh - 7.2rem); margin: 0 -2.4rem -2.4rem; }
+.o-stays__phoneMap .m-map { height: 100%; border-radius: 0; }
+.o-stays__phoneMap .m-map__credit { top: .8rem; bottom: auto; }
+.o-stays__strip { position: absolute; z-index: 2; left: 0; right: 0; bottom: 8.8rem; display: flex; gap: .8rem; margin: 0; padding: 0 1.6rem; overflow-x: auto; list-style: none; scrollbar-width: none; scroll-snap-type: x mandatory; }
+.o-stays__strip > li { flex: 0 0 78%; scroll-snap-align: start; }
+.m-stayMini { display: grid; gap: .2rem; padding: 1.2rem 1.6rem; border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); text-decoration: none; box-shadow: var(--sh-card); }
+.m-stayMini strong { font: var(--fw-bold) 1.7rem/1.2 var(--f-display); }
+.o-stays__listPill { position: absolute; z-index: 3; left: 50%; bottom: 2.4rem; box-shadow: var(--sh-float); transform: translateX(-50%); }
+@media (min-width: 1025px) {
+  .o-stays { grid-template-columns: minmax(0, 54rem) minmax(0, 66rem); justify-content: space-between; gap: 3.2rem; }
+  .o-stays__map { position: sticky; top: calc(var(--topbar-h) + 2.4rem); display: block; align-self: start; height: calc(100vh - var(--topbar-h) - 4.8rem); }
+  .o-stays__map .m-skeleton.-map { height: 100%; border-radius: var(--r-lg); }
+  .o-stays__mapPill { display: none; }
+}
+
+/* ===== Stay card (spec 2b: 540 x 200, photo 200 x 200 left, the rest right; hover tints it and its pin) ===== */
+.m-stay { position: relative; display: grid; overflow: hidden; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); transition: background-color var(--d-fast) var(--ease-std), border-color var(--d-fast) var(--ease-std); }
+.m-stay.is-active { background: var(--c-tint); border-color: var(--c-tint); }
+.m-stay__media { aspect-ratio: 3 / 2; }
+.m-stay__text { display: grid; align-content: start; gap: .4rem; min-width: 0; padding: 1.6rem 1.6rem 2rem; }
+.m-stay__title { font: var(--fw-bold) var(--t-title)/1.25 var(--f-display); letter-spacing: var(--tr-head); }
+/* the title's link covers the card; the carousel buttons sit above it */
+.m-stay__link { color: inherit; text-decoration: none; }
+.m-stay__link::after { content: ""; position: absolute; z-index: 1; inset: 0; border-radius: inherit; }
+.m-stay__link:focus-visible { outline: none; }
+.m-stay:has(.m-stay__link:focus-visible) { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.m-stay__meta { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); }
+.m-stay__desc { display: -webkit-box; overflow: hidden; margin-top: .4rem; font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.m-stay__amen { display: flex; gap: 1.2rem; margin: .6rem 0 0; padding: 0; color: var(--c-muted); list-style: none; }
+.m-stay__chips { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; }
+.m-stay__chip { display: inline-flex; align-items: center; height: 2.6rem; padding: 0 1rem; border-radius: var(--r-pill); background: var(--c-success-tint); color: var(--c-success); font: var(--fw-ui-strong) 1.2rem/1 var(--f-ui); }
+.m-stay__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem 1.2rem; margin-top: 1rem; }
+/* revision 2026-11-11, item 26: "$744 total" in the card price size, then the nightly line in the teal price note */
+.m-stay__price { display: grid; gap: .2rem; color: var(--c-price-note); font: var(--fw-ui-medium) 1.4rem/1.35 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-stay__price strong { color: var(--c-price); font: var(--fw-bold) var(--t-price-card)/1.1 var(--f-display); letter-spacing: var(--tr-head); }
+@media (min-width: 641px) {
+  /* item 26: the photo 220 x 220 at 1440 (was 200) */
+  .m-stay { grid-template-columns: 22rem minmax(0, 1fr); min-height: 22rem; }
+  .m-stay__media { aspect-ratio: auto; height: 100%; min-height: 22rem; }
+  .m-stay__text { padding: 1.6rem 2rem 1.6rem 2.4rem; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .m-stay:hover { background: var(--c-tint); border-color: var(--c-tint); }
+}
+
+/* ---- photo carousel (Hipcamp's tapered dots; arrows on hover) ---- */
+.m-carousel { position: relative; overflow: hidden; background: var(--c-tint); }
+.m-carousel__track { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.m-carousel__track::-webkit-scrollbar { display: none; }
+.m-carousel__slide { flex: 0 0 100%; height: 100%; scroll-snap-align: start; }
+.m-carousel__img { height: 100%; object-fit: cover; }
+.m-carousel__btn { position: absolute; z-index: 2; top: 50%; display: grid; place-items: center; width: 3.2rem; height: 3.2rem; margin-top: -1.6rem; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .94); color: var(--c-ink); box-shadow: var(--sh-thumb); cursor: pointer; transition: opacity var(--d-fast) var(--ease-std); }
+.m-carousel__btn::after { content: ""; position: absolute; inset: -.6rem; }
+.m-carousel__btn.-prev { left: .8rem; }
+.m-carousel__btn.-next { right: .8rem; }
+.m-carousel__btn:disabled { opacity: 0; pointer-events: none; }
+.m-carousel__dots { position: absolute; z-index: 2; left: 50%; bottom: .8rem; display: flex; align-items: center; gap: .4rem; transform: translateX(-50%); pointer-events: none; }
+.m-carousel__dot { width: .6rem; height: .6rem; border-radius: 50%; background: rgba(255, 255, 255, .7); transition: transform var(--d-fast) var(--ease-std), background-color var(--d-fast) var(--ease-std); }
+.m-carousel__dot.is-on { background: #FFFFFF; transform: scale(1.2); }
+.m-carousel__dot.-far { transform: scale(.66); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-carousel__btn { opacity: 0; }
+  .m-carousel:hover .m-carousel__btn:not(:disabled), .m-carousel__btn:focus-visible { opacity: 1; }
+}
+
+/* ---- the price chip's range ---- */
+.m-priceChip { position: relative; }
+.m-priceChip__pop { position: absolute; z-index: var(--z-pop); top: calc(100% + 1rem); left: 0; width: 30rem; padding: 1.6rem 2rem 1.2rem; border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); box-shadow: var(--sh-pop); animation: pop-in var(--d-pop) var(--ease-pop); }
+.m-priceChip__pop .m-filterGroup__title { float: none; }
+@media (max-width: 640px) {
+  .m-priceChip { position: static; }
+  .m-priceChip__pop { left: var(--gutter); right: var(--gutter); width: auto; }
+}
+
+/* ===== The map (OpenStreetMap tiles, toned to the palette) and its pins ===== */
+.m-map { position: relative; isolation: isolate; overflow: hidden; height: 100%; min-height: 32rem; border-radius: var(--r-lg); background: var(--c-tint); }
+.m-map__layer { position: absolute; top: 50%; left: 50%; width: 0; height: 0; }
+/* final pass (critic, 11 Nov): the sepia tone was Harbour gold's and read khaki beside the navy. The tiles now go grey and
+   then through the palette's own grade (--fx-grade, the same duotone as the photos), so navy gets a cool slate map and
+   Cabin dawn its warm one, with no palette named here */
+.m-map__tiles { filter: grayscale(1) contrast(.9) brightness(1.06) var(--fx-grade); }
+.m-map__tile { position: absolute; width: 25.6rem; max-width: none; height: 25.6rem; }
+/* the price pin (revision 2026-11-11, item 26): deep with white text (14.3:1); when its card is hovered or focused, the
+   text-safe teal with white text (5.9:1 in navy) plus a ring, so it still stands apart where the teal is the slate (Cabin dawn) */
+.m-map__pin { position: absolute; z-index: 1; display: inline-flex; align-items: center; height: 3.2rem; padding: 0 1.2rem; border-radius: var(--r-pill); background: var(--c-deep); color: #FFFFFF; font: var(--fw-ui-strong) 1.4rem/1 var(--f-ui); font-variant-numeric: tabular-nums; text-decoration: none; white-space: nowrap; box-shadow: 0 2px 6px rgba(11, 27, 46, .22), 0 0 0 1px rgba(11, 27, 46, .08); transform: translate(-50%, -50%); transition: background-color var(--d-fast) var(--ease-std), color var(--d-fast) var(--ease-std), transform var(--d-fast) var(--ease-std); }
+.m-map__pin.is-active { z-index: 2; background: var(--c-price-note); color: #FFFFFF; box-shadow: 0 0 0 .2rem var(--c-surface), 0 4px 12px rgba(11, 27, 46, .3); transform: translate(-50%, -50%) scale(1.08); }
+.m-map__pin.-mark { width: 2.4rem; height: 2.4rem; padding: 0; border: .5rem solid var(--c-surface); background: var(--c-deep); }
+.m-map__credit { position: absolute; z-index: 3; right: .8rem; bottom: .8rem; padding: .3rem .8rem; border-radius: .6rem; background: rgba(255, 255, 255, .88); color: var(--c-ink); font: var(--fw-ui) 1.1rem/1.3 var(--f-ui); }
+.m-map__credit a { color: inherit; }
+.m-map.-location { height: 44rem; min-height: 0; }
+@media (max-width: 640px) {
+  .m-map.-location { height: 30rem; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .m-map__pin:not(.-mark):hover { background: var(--c-price-note); color: #FFFFFF; box-shadow: 0 0 0 .2rem var(--c-surface), 0 4px 12px rgba(11, 27, 46, .3); }
+}
+
+/* ===== Hotel page (Kasa) ===== */
+.o-hotel__metaRow { display: flex; flex-wrap: wrap; gap: .4rem 2rem; margin: 1.2rem 0 0; padding: 0; list-style: none; color: var(--c-ink); font: var(--fw-ui) 1.5rem/1.3 var(--f-ui); }
+.o-hotel__metaRow li { display: inline-flex; align-items: center; gap: .6rem; }
+.o-hotel__metaRow .a-icon { color: var(--c-muted); }
+/* ---- photo grid: one button; the +N chip is ink at 66%, not Kasa's 40%, so its white text holds over bright photos (QA, 10 Nov) ----
+   photo grid: 616 / 308 / 308 by 202 / 202 at 1440, one photo over four squares on phones ---- */
+.o-hotel__grid { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; width: 100%; margin: 0; padding: 0; border: 0; border-radius: var(--r-md); background: none; cursor: pointer; }
+.o-hotel__tile { position: relative; display: block; overflow: hidden; aspect-ratio: 1; background: var(--c-tint); }
+.o-hotel__tile:first-child { grid-column: 1 / -1; aspect-ratio: 3 / 2; border-radius: var(--r-md) var(--r-md) 0 0; }
+.o-hotel__tile:nth-child(2) { border-bottom-left-radius: var(--r-md); }
+.o-hotel__tile:last-of-type { border-bottom-right-radius: var(--r-md); }
+.o-hotel__grid.-n3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.o-hotel__img { height: 100%; object-fit: cover; }
+.o-hotel__more { position: absolute; right: 1.2rem; bottom: 1.2rem; display: inline-flex; align-items: center; height: 3.2rem; padding: 0 1.2rem; border-radius: var(--r-xs); background: rgba(11, 27, 46, .66); color: #FFFFFF; font: var(--fw-ui-strong) 1.4rem/1 var(--f-ui); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: background-color var(--d-fast) var(--ease-std); }
+.o-hotel__grid:focus-visible { outline-offset: 4px; }
+@media (min-width: 1025px) {
+  .o-hotel__grid { grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 20.2rem 20.2rem; }
+  .o-hotel__tile, .o-hotel__tile:first-child { aspect-ratio: auto; border-radius: 0; }
+  .o-hotel__tile:first-child { grid-column: auto; grid-row: 1 / 3; border-radius: var(--r-md) 0 0 var(--r-md); }
+  .o-hotel__tile:nth-child(3) { border-top-right-radius: var(--r-md); }
+  .o-hotel__tile:nth-child(5) { border-bottom-right-radius: var(--r-md); }
+  .o-hotel__grid.-n3 { grid-template-columns: 2fr 1fr; }
+  .o-hotel__grid.-n3 .o-hotel__tile:nth-child(2) { border-radius: 0 var(--r-md) 0 0; }
+  .o-hotel__grid.-n3 .o-hotel__tile:nth-child(3) { border-radius: 0 0 var(--r-md) 0; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .o-hotel__grid:hover .o-hotel__more { background: rgba(11, 27, 46, .8); }
+}
+/* ---- about and amenities (560 each, 112 between at 1440) ---- */
+.o-hotel__about { display: grid; gap: 4rem; margin-top: 4.8rem; }
+.o-hotel__col { display: grid; align-content: start; justify-items: start; gap: 1.6rem; min-width: 0; }
+.o-hotel__h3 { font: var(--fw-bold) 2rem/1.25 var(--f-display); letter-spacing: var(--tr-head); }
+.o-hotel__desc { font: var(--fw-ui) 1.6rem/1.55 var(--f-ui); text-wrap: pretty; }
+.o-hotel__desc.-clamp { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.o-hotel__amen { display: grid; gap: 1.2rem 2.4rem; width: 100%; margin: 0; padding: 0; list-style: none; font: var(--fw-ui) 1.5rem/1.35 var(--f-ui); }
+.o-hotel__amen li { display: flex; align-items: center; gap: 1.2rem; }
+.o-hotel__amen .a-icon { color: var(--c-muted); }
+@media (min-width: 641px) {
+  .o-hotel__amen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1025px) {
+  .o-hotel__about { grid-template-columns: repeat(2, minmax(0, 56rem)); justify-content: space-between; gap: 11.2rem; }
+}
+/* ---- sections ---- */
+.o-hotel__section { display: grid; gap: 2rem; margin-top: var(--s-section); min-width: 0; }
+.o-hotel__line { margin-top: -.8rem; font: var(--fw-ui) 1.6rem/1.4 var(--f-ui); }
+.t-hotel .b-wrap { padding-bottom: calc(var(--s-10) + 4rem); }
+/* ---- rooms: a native-scroll rail of 360 cards that bleed off the right edge ---- */
+.o-hotel__roomsHead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.6rem 2.4rem; scroll-margin-top: 12rem; }
+.o-hotel__rooms { scroll-margin-top: 12rem; }
+.o-hotel__chips { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; }
+.o-hotel__chips .a-fact { opacity: 1; color: var(--c-ink); border-color: var(--c-line); }
+.o-hotel__rail { display: flex; gap: 1.6rem; margin: 0 calc(var(--gutter) * -1); padding: .4rem var(--gutter) 1.2rem; overflow-x: auto; list-style: none; scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter); scrollbar-width: none; overscroll-behavior-x: contain; }
+.o-hotel__rail::-webkit-scrollbar { display: none; }
+.o-hotel__railNav { display: flex; justify-content: flex-end; gap: .8rem; margin-top: -.8rem; }
+.m-room { display: flex; flex: 0 0 80%; flex-direction: column; overflow: hidden; padding: .8rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); scroll-snap-align: start; }
+.m-room__media { aspect-ratio: 3 / 2; border-radius: var(--r-sm); }
+.m-room__body { display: flex; flex: 1; flex-direction: column; gap: 1.2rem; padding: 1.6rem .8rem .8rem; }
+.m-room__title { font: var(--fw-bold) var(--t-title)/1.25 var(--f-display); letter-spacing: var(--tr-head); }
+.m-room__spec { display: flex; align-items: flex-start; gap: .8rem; margin-top: -.6rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.m-room__spec .a-icon { margin-top: .1rem; }
+.m-room .m-incl__list { padding: 1.4rem 1.6rem; border-radius: var(--r-sm); background: var(--c-tint); }
+/* item 27: the stay total first, the nightly rate second, as on the result cards */
+.m-room__price { display: grid; gap: .2rem; margin-top: auto; padding-top: .4rem; font: var(--fw-ui-medium) 1.4rem/1.35 var(--f-ui); color: var(--c-price-note); font-variant-numeric: tabular-nums; }
+.m-room__price strong { color: var(--c-price); font: var(--fw-bold) var(--t-price-card)/1.1 var(--f-display); letter-spacing: var(--tr-head); }
+.m-room__sold { margin-top: auto; padding: 1.4rem 1.6rem; border-radius: var(--r-sm); background: var(--c-cream); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); }
+.m-room.-sold .m-room__media { opacity: .6; }
+@media (min-width: 641px) {
+  /* the cards share the column when they all fit, and keep 360 when they overflow (final pass, critic) */
+  .m-room { flex: 1 0 36rem; }
+}
+/* ---- policies: check-in and check-out cards beside a hairline accordion ---- */
+.o-hotel__policies { display: grid; gap: 2.4rem; }
+.o-hotel__times { display: grid; gap: 1.2rem; align-content: start; }
+.m-timeCard { display: flex; align-items: center; gap: 1.6rem; min-height: 9.8rem; padding: 2rem 2.4rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); font: var(--fw-ui) 1.5rem/1.35 var(--f-ui); }
+.m-timeCard .a-icon { width: 2.4rem; height: 2.4rem; color: var(--c-muted); }
+.m-timeCard strong { display: block; font: var(--fw-bold) 1.8rem/1.25 var(--f-display); }
+.m-accordion { border-top: 1px solid var(--c-line); }
+.m-accordion__item { border-bottom: 1px solid var(--c-line); }
+.m-accordion__head { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; min-height: 7.5rem; padding: 0 .4rem; font: var(--fw-ui-strong) 1.6rem/1.3 var(--f-ui); list-style: none; cursor: pointer; }
+.m-accordion__head::-webkit-details-marker { display: none; }
+.m-accordion__head:focus-visible { outline-offset: -2px; border-radius: var(--r-sm); }
+/* plus turning to minus */
+.m-accordion__icon { position: relative; flex: none; width: 1.6rem; height: 1.6rem; }
+.m-accordion__icon::before, .m-accordion__icon::after { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 1.5px; margin-top: -.75px; background: currentColor; transition: transform var(--d-panel) ease-out; }
+.m-accordion__icon::after { transform: rotate(90deg); }
+.m-accordion__item[open] .m-accordion__icon::after { transform: rotate(0deg); }
+.m-accordion__body { max-width: 52ch; padding: 0 .4rem 2.4rem; font: var(--fw-ui) 1.5rem/1.55 var(--f-ui); text-wrap: pretty; }
+.m-accordion__item[open] .m-accordion__body { animation: accordion-in var(--d-panel) ease-out; }
+@keyframes accordion-in {
+  from { opacity: 0; transform: translateY(-.4rem); }
+}
+@media (min-width: 1025px) {
+  .o-hotel__policies { grid-template-columns: minmax(0, 60rem) minmax(0, 58.4rem); justify-content: space-between; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .m-accordion__head:hover { color: var(--c-deep); text-decoration: underline; text-underline-offset: .3em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-accordion__item[open] .m-accordion__body { animation: none; }
+  .m-accordion__icon::before, .m-accordion__icon::after { transition: none; }
+}
+/* ---- gallery dialog, grouped by category ---- */
+.m-dialog.-full .m-gallery { max-width: 112rem; margin: 0 auto; }
+.m-gallery { display: grid; gap: 3.2rem; }
+.m-gallery__title { margin-bottom: 1.2rem; font: var(--fw-bold) 2rem/1.25 var(--f-display); }
+.m-gallery__grid { display: grid; gap: .8rem; margin: 0; padding: 0; list-style: none; }
+.m-gallery__img { aspect-ratio: 3 / 2; height: auto; border-radius: var(--r-sm); object-fit: cover; }
+@media (min-width: 641px) {
+  .m-gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ==== Critic round 1 on hotels (Developer, 10 Nov) ==== */
+/* the Map pill steps aside once the footer comes up */
+.o-stays__mapPill { transition: opacity var(--d-fast) var(--ease-std), visibility 0s; }
+.o-stays__mapPill.is-away { visibility: hidden; opacity: 0; transition: opacity var(--d-fast) var(--ease-std), visibility 0s var(--d-fast); }
+/* one height for every card in a list, so the photos keep one shape; icons and chips share a row */
+.o-stays__cards { grid-auto-rows: 1fr; }
+.m-stay__row { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.2rem; margin-top: .6rem; }
+.m-stay__row .m-stay__amen { margin: 0; }
+/* the card's link covers the photo, so its arrows answer to the whole card */
+@media (hover: hover) and (any-pointer: fine) {
+  .m-stay:hover .m-carousel__btn:not(:disabled) { opacity: 1; }
+}
+/* outer corners only on the photo grid (spec 2b): the grid clips, the tiles stay square */
+.o-hotel__grid { overflow: hidden; }
+.o-hotel__grid .o-hotel__tile, .o-hotel__grid .o-hotel__tile:first-child { border-radius: 0; }
+.o-hotel__grid { border-radius: var(--r-md); }
+/* the rail's arrows when it can't move that way */
+.o-hotel__railNav .a-round:disabled { opacity: .4; cursor: default; }
+/* the hotel on the location map: a deep pin carrying its name */
+.m-map__pin.-mark { width: auto; height: 3.6rem; padding: 0 1.4rem; border: 0; background: var(--c-deep); color: #FFFFFF; font-size: 1.4rem; box-shadow: 0 0 0 .3rem var(--c-surface), 0 4px 12px rgba(11, 27, 46, .3); }
+/* a condition to read first on a room card (Non-refundable) */
+.a-disc.-warn { background: var(--c-warn); }
+.m-incl__row.-warn { color: var(--c-ink); font-weight: var(--fw-ui-medium); }
+
+/* final pass (critic, 11 Nov): the phone Map pill steps aside with the tab bar while the visitor scrolls down, so it never
+   sits on a card's price line, and comes back on any scroll up */
+.o-stays__mapPill { transition: opacity var(--d-fast) var(--ease-std), visibility 0s, transform var(--d-bar) var(--ease-std); }
+.b-app:has(.o-header.is-barHidden) .o-stays__mapPill:not(:focus-visible) { transform: translate(-50%, calc(100% + var(--h-tabbar) + 6rem)); }
+@media (prefers-reduced-motion: reduce) {
+  .o-stays__mapPill { transition: none; }
+}
+
+/* Chief Officer, 11 Nov (note 5; final pass issue 10): one card height, so the prices line up (cards ran 288 to 320px) */
+@media (min-width: 641px) {
+  .m-stay { min-height: 32rem; }
+}
+
+/* polish round, 11 Nov (final pass issue 10, still open): the 1fr rows gave every list item one height, but the card
+   inside kept its own, so cards still ran 320 to 344px. The item now stretches its card, and the price row sits on the
+   card's floor, so every price and See rooms button lines up across the list. The 1rem above it is the old margin. */
+.o-stays__cards > li { display: grid; }
+.m-stay__text { display: flex; flex-direction: column; gap: .4rem; }
+.m-stay__foot { margin-top: auto; padding-top: .6rem; }
+
+/* polish round, 11 Nov (critic, new issue 1): a 2px light line still crossed the maps at each tile row. The map box itself
+   lands on a fractional y (2834.89px on the hotel page, from the text above it), so whole-pixel offsets inside the map
+   cannot line the rows up with the screen. Each tile now draws 1px larger than its 256px step, so it overlaps the next
+   one and no anti-aliased edge lets the tint behind show through. The 0.4% stretch is not visible on a grey map. */
+.m-map__tile { width: calc(25.6rem + 1px); height: calc(25.6rem + 1px); }
+
+/* polish round, 11 Nov (critic, new issue 3): one height only where cards sit side by side with the map. On phones the
+   cards stack, so the forced height only pushed the title 32px off the photo. From 641 the icons and chips (the stay's
+   conditions) sit with the price at the card's floor, so a short card's spare room falls between the description and
+   that group rather than as a hole above the price. The nightly line balances its two rows ("included" sat alone). */
+@media (max-width: 640px) {
+  .o-stays__cards { grid-auto-rows: auto; }
+}
+@media (min-width: 641px) {
+  .m-stay__row { margin-top: auto; padding-top: .6rem; }
+  .m-stay__foot { margin-top: 0; padding-top: 1rem; }
+}
+.m-stay__price span { text-wrap: balance; }
+
+/* polish round, 11 Nov (critic, new issue 2): the floating phone Map pill is gone; Map sits beside Sort in the toolbar
+   (HotelResults.tsx). The .o-stays__mapPill rules above no longer match anything. */
+
+/* =====================================================================
+   Round 3, Developer B (spec B6 to B8): hotel depth at Booking.com,
+   Expedia and Priceline's level, in Overwing's window, pills and type.
+   ===================================================================== */
+/* ---- score (the shared a-score, app/styles/r3-ui.css) with the best category beside it ---- */
+.o-hscore { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.2rem; }
+.o-hscore__extra { padding-left: 1.2rem; border-left: 1px solid var(--c-line); color: var(--c-ink); font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.o-hscore.-l .a-score__word { font-size: 1.8rem; }
+.o-hotel__demo { color: var(--c-muted); font: var(--fw-ui) 1.2rem/1.4 var(--f-ui); }
+
+/* ---- page head: kicker, H1, address, score on the right ---- */
+.o-hotelHead__row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.6rem 3.2rem; }
+.o-hotelHead__main { min-width: 0; }
+.o-hotelHead__kicker { margin-bottom: .6rem; color: var(--c-muted); font: var(--fw-ui-strong) var(--t-kicker, 1.2rem)/1.2 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; }
+.o-hotelHead__score { flex: none; padding: .8rem 1.2rem .8rem .8rem; border-radius: var(--r-md); color: inherit; text-decoration: none; transition: background-color var(--d-fast) var(--ease-std); }
+.o-hotelHead__score:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+.o-hotel__metaRow .a-link { font: inherit; }
+@media (hover: hover) and (any-pointer: fine) {
+  .o-hotelHead__score:hover { background: var(--c-tint); }
+}
+.o-hotel__more { gap: .6rem; }
+
+/* ---- section nav: sticks under the compact search once the photo grid scrolls away ---- */
+.o-hnav { position: sticky; z-index: calc(var(--z-header) - 2); display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; margin: 2.4rem calc(var(--gutter) * -1) 0; padding: .8rem var(--gutter); background: var(--c-ground); box-shadow: 0 1px 0 var(--c-line); }
+.o-hnav__list { display: flex; gap: .4rem; margin: 0; padding: 0; overflow-x: auto; list-style: none; scrollbar-width: none; }
+.o-hnav__list::-webkit-scrollbar { display: none; }
+.o-hnav__link { display: inline-flex; align-items: center; height: 3.6rem; padding: 0 1.4rem; border-radius: var(--r-pill); color: var(--c-muted); font: var(--fw-ui-strong) 1.4rem/1 var(--f-ui); text-decoration: none; white-space: nowrap; transition: background-color var(--d-fast) var(--ease-std), color var(--d-fast) var(--ease-std); }
+.o-hnav__link.is-current { background: var(--c-deep); color: #FFFFFF; }
+.o-hnav__link:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.o-hnav__price { display: none; align-items: center; gap: 1.6rem; color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.2 var(--f-ui); white-space: nowrap; }
+.o-hnav__price strong { color: var(--c-price); font: var(--fw-bold) 2rem/1 var(--f-display); font-variant-numeric: tabular-nums; }
+@media (min-width: 1025px) {
+  .o-hnav { margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; }
+  .o-hnav__price { display: flex; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .o-hnav__link:not(.is-current):hover { background: var(--c-tint); color: var(--c-ink); }
+}
+.o-hotel__section, .o-hotel__overview { scroll-margin-top: 18rem; }
+.o-hotel__section:focus, .o-hotel__overview:focus { outline: none; }
+
+/* ---- overview: about, highlights, amenities; the side card ---- */
+.o-hotel__overview { display: grid; gap: 4rem; margin-top: 4rem; }
+.o-hotel__ovMain { display: grid; align-content: start; justify-items: start; gap: 1.6rem; min-width: 0; }
+.o-hotel__desc { display: grid; gap: 1.2rem; max-width: 68ch; }
+.o-hotel__desc.-clamp3 { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
+.o-hotel__desc.-clamp3 p + p { margin-top: 1.2rem; }
+.o-hotel__h4 { margin-top: 1.6rem; font: var(--fw-bold) 1.8rem/1.25 var(--f-display); letter-spacing: var(--tr-head); }
+.o-hotel__highlights { display: grid; width: 100%; margin: 0; padding: 0; border-top: 1px solid var(--c-line); border-bottom: 1px solid var(--c-line); list-style: none; }
+.o-hotel__highlights li { display: flex; align-items: flex-start; gap: 1.2rem; padding: 1.6rem .4rem; font: var(--fw-ui-medium) 1.5rem/1.4 var(--f-ui); }
+.o-hotel__highlights li + li { border-top: 1px solid var(--c-line); }
+.o-hotel__highlights .a-icon { flex: none; color: var(--c-accent); }
+.o-hotel__amen.-popular { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.o-hotel__amen .a-icon { flex: none; }
+.o-hotel__ovSide { display: grid; align-content: start; gap: 1.6rem; padding: 2.4rem; border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); }
+.o-hotel__miniBars { display: grid; gap: .6rem; margin: 0; padding: 0; list-style: none; font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); }
+.o-hotel__miniBars li { display: flex; justify-content: space-between; gap: 1.2rem; padding: .8rem 1.2rem; border-radius: var(--r-sm); background: var(--c-cream); }
+.o-hotel__miniBars strong { font: var(--fw-bold) 1.5rem/1.2 var(--f-display); font-variant-numeric: tabular-nums; }
+.o-hotel__quote { margin: 0; padding-left: 1.4rem; border-left: 2px solid var(--c-accent); }
+.o-hotel__quote p { font: var(--fw-bold) 1.7rem/1.3 var(--f-display); }
+.o-hotel__quote figcaption { margin-top: .4rem; color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.3 var(--f-ui); }
+.o-hotel__times2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 0; padding: 1.6rem 0; border-top: 1px solid var(--c-line); border-bottom: 1px solid var(--c-line); }
+.o-hotel__times2 dt { display: flex; align-items: center; gap: .6rem; color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.3 var(--f-ui); }
+.o-hotel__times2 dd { margin: .4rem 0 0; font: var(--fw-bold) 1.7rem/1.2 var(--f-display); font-variant-numeric: tabular-nums; }
+.o-hotel__sidePrice { display: grid; gap: 1.2rem; }
+.o-hotel__sidePrice p { display: grid; gap: .2rem; color: var(--c-price-note); font: var(--fw-ui-medium) 1.3rem/1.35 var(--f-ui); font-variant-numeric: tabular-nums; }
+.o-hotel__sidePrice strong { color: var(--c-price); font: var(--fw-bold) var(--t-price-card)/1.1 var(--f-display); }
+.o-hotel__sub { margin-top: .4rem; color: var(--c-muted); font: var(--fw-ui) 1.5rem/1.4 var(--f-ui); }
+@media (min-width: 641px) {
+  .o-hotel__amen.-popular { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .o-hotel__highlights { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .o-hotel__highlights li { padding: 1.8rem 2rem 1.8rem 0; }
+  .o-hotel__highlights li + li { padding-left: 2rem; border-top: 0; border-left: 1px solid var(--c-line); }
+}
+@media (min-width: 1025px) {
+  .o-hotel__overview { grid-template-columns: minmax(0, 1fr) 36rem; gap: 6.4rem; }
+  .o-hotel__ovSide { position: sticky; top: 20rem; align-self: start; }
+}
+/* ---- all amenities, grouped ---- */
+.o-amenAll { display: grid; gap: 2.4rem; }
+.o-amenAll__title { margin-bottom: 1.2rem; font: var(--fw-bold) 1.7rem/1.25 var(--f-display); }
+
+/* ---- availability: rooms by rate plan, the chosen total on the right ---- */
+.o-avail { display: grid; gap: 2.4rem; align-items: start; }
+.o-avail__table { display: grid; gap: 1.6rem; min-width: 0; }
+.o-avail__head { display: none; }
+.o-avail__group { overflow: hidden; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.o-avail__room { display: grid; }
+.m-roomCell { display: grid; align-content: start; gap: .8rem; padding: 1.2rem 1.2rem 1.6rem; }
+.m-roomCell__media { aspect-ratio: 3 / 2; border-radius: var(--r-sm); }
+.m-roomCell__title { margin-top: .4rem; font: var(--fw-bold) var(--t-title)/1.25 var(--f-display); letter-spacing: var(--tr-head); }
+.m-roomCell__facts { display: grid; gap: .4rem; margin: 0; padding: 0; list-style: none; font: var(--fw-ui) 1.4rem/1.35 var(--f-ui); }
+.m-roomCell__facts li { display: flex; align-items: flex-start; gap: .8rem; }
+.m-roomCell__facts .a-icon { flex: none; margin-top: .1rem; color: var(--c-muted); }
+.m-roomCell__amen { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.4 var(--f-ui); }
+.o-avail__rates { display: grid; gap: 0; min-width: 0; margin: 0; padding: 0; border: 0; }
+.m-rate { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .8rem 1.6rem; padding: 1.6rem 1.6rem 1.6rem 5.2rem; border-top: 1px solid var(--c-line); cursor: pointer; transition: background-color var(--d-fast) var(--ease-std); }
+.m-rate.is-on { background: var(--c-tint); }
+.m-rate__plan { display: grid; align-content: start; gap: .6rem; min-width: 0; }
+.m-rate__radio { position: absolute; top: 1.8rem; left: 1.6rem; width: 2rem; height: 2rem; margin: 0; accent-color: var(--c-deep); cursor: pointer; }
+.m-rate__radio:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+.m-rate__name { font: var(--fw-bold) 1.6rem/1.3 var(--f-display); }
+.m-rate__terms { display: grid; gap: .4rem; font: var(--fw-ui) 1.4rem/1.35 var(--f-ui); }
+.m-rate__terms > span { display: flex; align-items: flex-start; gap: .8rem; }
+.m-rate__terms .a-icon { flex: none; margin-top: .1rem; color: var(--c-muted); }
+.m-rate__terms .-yes { color: var(--c-price-note); font-weight: var(--fw-ui-medium); }
+.m-rate__terms .-yes .a-icon { color: var(--c-accent); }
+.m-rate__terms .-muted { color: var(--c-muted); }
+.m-rate__left { justify-self: start; padding: .3rem .8rem; border-radius: var(--r-pill); background: var(--c-warn-tint); color: var(--c-warn); font: var(--fw-ui-strong) 1.2rem/1.3 var(--f-ui); }
+.m-rate__price { display: grid; align-content: start; justify-items: end; gap: .1rem; color: var(--c-price-note); font: var(--fw-ui-medium) 1.3rem/1.35 var(--f-ui); font-variant-numeric: tabular-nums; text-align: right; }
+.m-rate__price strong { color: var(--c-price); font: var(--fw-bold) var(--t-price-card)/1.1 var(--f-display); letter-spacing: var(--tr-head); }
+.m-rate__pick { display: none; }
+.m-rate__sold { padding: 1.6rem; border-top: 1px solid var(--c-line); background: var(--c-cream); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); }
+.o-avail__group.-sold .m-roomCell__media { opacity: .6; }
+.o-avail__side { display: none; }
+.o-avail__card { display: grid; gap: .8rem; padding: 2.4rem; border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); box-shadow: var(--sh-card); }
+.o-avail__label { color: var(--c-muted); font: var(--fw-ui-strong) 1.2rem/1.2 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; }
+.o-avail__name { font: var(--fw-bold) 2rem/1.2 var(--f-display); }
+.o-avail__plan { font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); }
+.o-avail__total { display: grid; gap: .2rem; margin: .8rem 0; padding-top: 1.2rem; border-top: 1px solid var(--c-line); color: var(--c-price-note); font: var(--fw-ui-medium) 1.3rem/1.35 var(--f-ui); font-variant-numeric: tabular-nums; }
+.o-avail__total strong { color: var(--c-price); font: var(--fw-bold) 3.2rem/1.05 var(--f-display); letter-spacing: var(--tr-head); }
+.o-avail__note { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.4 var(--f-ui); }
+@media (min-width: 641px) {
+  .o-avail__room { grid-template-columns: 26rem minmax(0, 1fr); }
+  .m-roomCell { border-right: 1px solid var(--c-line); }
+  .m-rate:first-of-type { border-top: 0; }
+  .m-rate { grid-template-columns: minmax(0, 1fr) 15rem; }
+}
+@media (min-width: 1025px) {
+  .o-avail { grid-template-columns: minmax(0, 1fr) 30rem; }
+  .o-avail__side { position: sticky; top: 20rem; display: block; }
+  .o-avail__head { display: grid; grid-template-columns: 26rem minmax(0, 1fr) 15rem 10rem; column-gap: 1.6rem; padding: 0 1.7rem 0 1.3rem; color: var(--c-muted); font: var(--fw-ui-strong) 1.2rem/1.2 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; }
+  /* the Rate heading starts over the plan names, which sit 52px in (the radio's column) */
+  .o-avail__head span:nth-child(2) { padding-left: 3.7rem; }
+  .o-avail__head span:nth-child(3) { text-align: right; }
+  .m-rate { grid-template-columns: minmax(0, 1fr) 15rem 10rem; align-items: start; }
+  .m-rate__pick { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; height: 3.6rem; border: 1px solid var(--c-deep); border-radius: var(--r-pill); color: var(--c-deep); font: var(--fw-ui-strong) 1.3rem/1 var(--f-ui); }
+  .m-rate.is-on .m-rate__pick { background: var(--c-deep); color: #FFFFFF; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .m-rate:not(.is-on):hover { background: var(--c-cream); }
+}
+.m-rate:has(.m-rate__radio:focus-visible) { box-shadow: inset 0 0 0 2px var(--c-focus); }
+
+/* ---- reviews ---- */
+.o-reviews__top { display: grid; gap: 2.4rem; padding: 2.4rem; border-radius: var(--r-lg); background: var(--c-cream); }
+.o-reviews__score { display: grid; align-content: start; gap: 1.2rem; }
+.o-reviews__bars { display: grid; gap: 1.2rem 3.2rem; margin: 0; padding: 0; list-style: none; }
+.o-reviews__bars li { display: grid; grid-template-columns: 10rem minmax(0, 1fr) 3.6rem; align-items: center; gap: 1.2rem; font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); }
+.o-reviews__track { position: relative; height: .8rem; overflow: hidden; border-radius: var(--r-pill); background: var(--c-surface); }
+.o-reviews__track span { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: var(--c-accent); }
+.o-reviews__val { font: var(--fw-bold) 1.5rem/1 var(--f-display); font-variant-numeric: tabular-nums; text-align: right; }
+.o-reviews__tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem; }
+.o-reviews__chips { display: flex; flex-wrap: wrap; gap: .8rem; }
+.o-reviews__list { display: grid; gap: 1.6rem; margin: 0; padding: 0; list-style: none; }
+.m-review { display: grid; align-content: start; gap: .8rem; padding: 2.4rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.m-review__who { display: flex; align-items: center; gap: 1.2rem; font: var(--fw-ui) 1.3rem/1.3 var(--f-ui); }
+.m-review__who > span:nth-child(2) { display: grid; flex: 1; color: var(--c-muted); }
+.m-review__who strong { color: var(--c-ink); font: var(--fw-bold) 1.6rem/1.2 var(--f-display); }
+.m-review__avatar { display: grid; flex: none; place-items: center; width: 4rem; height: 4rem; border-radius: 50%; background: var(--c-tint); color: var(--c-deep); font: var(--fw-bold) 1.7rem/1 var(--f-display); }
+.m-review__score { display: grid; flex: none; place-items: center; width: 3.2rem; height: 3.8rem; border-radius: var(--r-window); background: var(--c-score, var(--c-deep)); color: #FFFFFF; font: var(--fw-bold) 1.5rem/1 var(--f-display); }
+.m-review__meta { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.3 var(--f-ui); }
+.m-review__title { font: var(--fw-bold) 1.8rem/1.25 var(--f-display); letter-spacing: var(--tr-head); }
+.m-review__text { font: var(--fw-ui) 1.5rem/1.55 var(--f-ui); text-wrap: pretty; }
+@media (min-width: 641px) {
+  .o-reviews__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .o-reviews__bars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1025px) {
+  .o-reviews__top { grid-template-columns: 28rem minmax(0, 1fr); gap: 4.8rem; padding: 3.2rem; }
+}
+
+/* ---- location: what is nearby ---- */
+.o-nearby { display: grid; gap: 1.2rem; }
+.o-nearby__list { display: grid; gap: 0 3.2rem; margin: 0; padding: 0; list-style: none; }
+.o-nearby__list li { display: flex; align-items: center; gap: 1.2rem; min-height: 5.2rem; border-bottom: 1px solid var(--c-line); font: var(--fw-ui) 1.5rem/1.3 var(--f-ui); }
+.o-nearby__icon { display: grid; flex: none; place-items: center; width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--c-tint); color: var(--c-deep); }
+.o-nearby__name { flex: 1; min-width: 0; }
+.o-nearby__time { flex: none; color: var(--c-muted); font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+@media (min-width: 641px) { .o-nearby__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1025px) { .o-nearby__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* ---- house rules: a two-column table ---- */
+.o-rules { margin: 0; border-top: 1px solid var(--c-line); }
+.o-rules__row { display: grid; gap: .6rem; padding: 1.8rem .4rem; border-bottom: 1px solid var(--c-line); }
+.o-rules__row dt { display: flex; align-items: center; gap: 1.2rem; font: var(--fw-bold) 1.6rem/1.3 var(--f-display); }
+.o-rules__row dt .a-icon { flex: none; color: var(--c-accent); }
+.o-rules__row dd { margin: 0; max-width: 68ch; font: var(--fw-ui) 1.5rem/1.5 var(--f-ui); }
+@media (min-width: 641px) { .o-rules__row { grid-template-columns: 24rem minmax(0, 1fr); gap: 2.4rem; } }
+.o-hotel__faq { max-width: 88rem; }
+
+/* ---- similar stays: a rail of four ---- */
+.o-hotel__simHead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1.2rem; }
+.o-similar { display: grid; grid-auto-flow: column; grid-auto-columns: 72vw; gap: 1.6rem; margin: 0 calc(var(--gutter) * -1); padding: .4rem var(--gutter) 1.2rem; overflow-x: auto; list-style: none; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.o-similar::-webkit-scrollbar { display: none; }
+.m-simCard { position: relative; display: grid; align-content: start; gap: .6rem; scroll-snap-align: start; transition: transform var(--d-fast) var(--ease-std); }
+.m-simCard__media { display: block; overflow: hidden; aspect-ratio: 4 / 3; margin-bottom: .6rem; border-radius: var(--r-md); background: var(--c-tint); }
+.m-simCard__img { width: 100%; height: 100%; object-fit: cover; transition: transform 250ms var(--ease-out-long); }
+.m-simCard__kicker { color: var(--c-muted); font: var(--fw-ui-strong) 1.2rem/1.2 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; }
+.m-simCard__title { font: var(--fw-bold) 1.8rem/1.25 var(--f-display); letter-spacing: var(--tr-head); }
+.m-simCard__link { color: inherit; text-decoration: none; }
+.m-simCard__link::after { content: ""; position: absolute; inset: 0; border-radius: var(--r-md); }
+.m-simCard__link:focus-visible { outline: none; }
+.m-simCard:has(.m-simCard__link:focus-visible) { outline: 2px solid var(--c-focus); outline-offset: 3px; border-radius: var(--r-md); }
+.m-simCard__meta { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.35 var(--f-ui); }
+.m-simCard__price { display: grid; gap: .1rem; margin-top: .4rem; color: var(--c-price-note); font: var(--fw-ui-medium) 1.3rem/1.35 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-simCard__price strong { color: var(--c-price); font: var(--fw-bold) var(--t-price-card)/1.1 var(--f-display); }
+@media (min-width: 641px) { .o-similar { grid-auto-columns: calc((100% - 3.2rem) / 3); margin: 0; padding: .4rem 0 1.2rem; } }
+@media (min-width: 1025px) { .o-similar { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.4rem; overflow: visible; } }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-simCard:hover .m-simCard__img { transform: scale(1.04); }
+  .m-simCard:hover .m-simCard__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+}
+.m-simCard:active { transform: scale(.985); }
+.m-gallery__count { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1 var(--f-ui); }
+@media (prefers-reduced-motion: reduce) {
+  .m-simCard, .m-simCard__img { transition: none; }
+  .m-simCard:hover .m-simCard__img { transform: none; }
+}
+
+/* ---- results, round 3 (spec B6): the card's anatomy ---- */
+.m-stay__kicker { color: var(--c-muted); font: var(--fw-ui-strong) var(--t-kicker, 1.2rem)/1.2 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; }
+.m-stay__meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .8rem; }
+.m-stay__mapLink { position: relative; z-index: 2; padding: .2rem 0; border: 0; background: none; color: var(--c-ink); font: var(--fw-ui-medium) 1.3rem/1.3 var(--f-ui); text-decoration: underline; text-underline-offset: .25em; cursor: pointer; }
+.m-stay__mapLink:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; border-radius: .4rem; }
+.m-stay__score { margin-top: .4rem; }
+.m-stay__room { margin-top: .4rem; font: var(--fw-ui) 1.4rem/1.35 var(--f-ui); }
+.m-stay__room strong { font-weight: var(--fw-ui-strong); }
+.m-stay__terms { display: grid; gap: .3rem; margin: .2rem 0 0; padding: 0; list-style: none; color: var(--c-price-note); font: var(--fw-ui-medium) 1.35rem/1.3 var(--f-ui); }
+.m-stay__terms li { display: flex; align-items: center; gap: .6rem; }
+.m-stay__terms .a-icon { flex: none; color: var(--c-accent); }
+.m-stay__terms .-muted { color: var(--c-muted); font-weight: var(--fw-ui); }
+.m-stay__terms .-warn { justify-self: start; padding: .2rem .8rem; border-radius: var(--r-pill); background: var(--c-warn-tint); color: var(--c-warn); font-weight: var(--fw-ui-strong); font-size: 1.2rem; }
+.m-stay__foot { align-items: flex-end; }
+.m-stay__price { gap: .1rem; font-size: 1.3rem; }
+@media (min-width: 641px) {
+  .m-stay { min-height: 34rem; }
+  .m-stay__media { min-height: 34rem; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .m-stay__mapLink:hover { color: var(--c-deep); text-decoration-thickness: 2px; }
+}
+.o-results__note.-tight { margin-top: .2rem; }
+
+/* ---- loading cards ---- */
+.o-stays__cards.-skeleton { grid-auto-rows: auto; }
+.m-stay.-skeleton { pointer-events: none; }
+.m-skeleton.-photo { height: 22rem; border-radius: 0; }
+.m-skeleton.-line { height: 1.6rem; width: 100%; border-radius: var(--r-pill); }
+.m-skeleton.-line.-short { width: 60%; }
+.m-stay.-skeleton .m-stay__text { gap: 1.2rem; }
+
+/* ---- active filter chips and Clear all ---- */
+.o-hchips { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: 1.2rem; }
+.o-hchips__chip { display: inline-flex; align-items: center; gap: .6rem; height: 3.2rem; padding: 0 1rem 0 1.4rem; border: 0; border-radius: var(--r-pill); background: var(--c-deep); color: #FFFFFF; font: var(--fw-ui-strong) 1.3rem/1 var(--f-ui); cursor: pointer; transition: background-color var(--d-fast) var(--ease-std); }
+.o-hchips__chip .a-icon { width: 1.4rem; height: 1.4rem; }
+.o-hchips__chip:focus-visible, .o-hchips__clear:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.o-hchips__clear { padding: .4rem; border: 0; background: none; color: var(--c-ink); font: var(--fw-ui-strong) 1.3rem/1 var(--f-ui); text-decoration: underline; text-underline-offset: .25em; cursor: pointer; }
+.o-hchips.-inNotice { margin-top: 1.2rem; }
+.o-hchips.-inNotice .o-hchips__chip { background: var(--c-tint); color: var(--c-ink); }
+.o-hchips__n { color: var(--c-price-note); font-variant-numeric: tabular-nums; }
+@media (hover: hover) and (any-pointer: fine) {
+  .o-hchips__chip:hover { background: var(--c-ink); }
+  .o-hchips.-inNotice .o-hchips__chip:hover { background: var(--c-cream); }
+  .o-hchips__clear:hover { color: var(--c-deep); }
+}
+
+/* ---- the Filters panel: a left drawer from 641, full screen on phones, with a sticky Show N stays ---- */
+.m-dialog.-filters .m-dialog__body { padding-top: .4rem; }
+@media (min-width: 641px) {
+  .m-dialog.-full.-filters:not(.-gallery) { place-items: stretch start; padding: 0; }
+  .m-dialog.-filters .m-dialog__panel { width: 48rem; max-width: calc(100vw - 4.8rem); height: 100%; border-radius: 0 var(--r-lg) var(--r-lg) 0; animation: drawer-in var(--d-panel) var(--ease-out-long); }
+}
+@keyframes drawer-in { from { transform: translateX(-3.2rem); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .m-dialog.-filters .m-dialog__panel { animation: none; }
+}
+.o-hfilters { display: grid; gap: 0; }
+.o-hfilters__group { min-width: 0; margin: 0; padding: 2rem 0; border: 0; border-bottom: 1px solid var(--c-line); }
+.o-hfilters__group:last-child { border-bottom: 0; }
+.o-hfilters__title { float: left; width: 100%; margin-bottom: .8rem; padding: 0; font: var(--fw-bold) 1.8rem/1.25 var(--f-display); }
+.o-hfilters__title + * { clear: both; }
+.o-hfilters__value { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.o-hfilters__hist { display: flex; align-items: flex-end; gap: 2px; height: 5.6rem; margin: 1.2rem .9rem -.6rem; }
+.o-hfilters__hist span { flex: 1; min-height: 2px; border-radius: 2px 2px 0 0; background: var(--c-line); }
+.o-hfilters__hist span.is-in { background: var(--c-accent); opacity: .55; }
+.o-hfilters__ends { display: flex; justify-content: space-between; color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.o-hfilters__clear { margin-top: .4rem; padding: .4rem 0; border: 0; background: none; color: var(--c-ink); font: var(--fw-ui-strong) 1.3rem/1 var(--f-ui); text-decoration: underline; text-underline-offset: .25em; cursor: pointer; }
+.o-hfilters__clear:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.o-hfilters__tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .8rem; }
+.o-hfilters__tile { display: grid; justify-items: center; gap: .4rem; padding: 1rem .4rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); cursor: pointer; transition: background-color var(--d-fast) var(--ease-std), border-color var(--d-fast) var(--ease-std); }
+.o-hfilters__tileMain { display: inline-flex; align-items: center; gap: .3rem; font: var(--fw-bold) 1.8rem/1 var(--f-display); }
+.o-hfilters__tileCount { color: var(--c-muted); font: var(--fw-ui) 1.2rem/1 var(--f-ui); }
+.o-hfilters__tile[aria-pressed="true"] { border-color: var(--c-deep); background: var(--c-deep); color: #FFFFFF; }
+.o-hfilters__tile[aria-pressed="true"] .o-hfilters__tileCount { color: rgba(255, 255, 255, .8); }
+.o-hfilters__tile:disabled { opacity: .45; cursor: default; }
+.o-hfilters__tile:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.o-hfilters .m-filterRow:first-of-type { border-top: 0; }
+.o-hfilters .o-hotel__demo { margin-top: .8rem; }
+@media (hover: hover) and (any-pointer: fine) {
+  .o-hfilters__tile:not([aria-pressed="true"]):not(:disabled):hover { background: var(--c-tint); }
+  .o-hfilters__clear:hover { color: var(--c-deep); }
+}
+.m-stayMini span { color: var(--c-muted); }
+
+/* ---- guest form (spec B8): the rate terms in the summary, the contact intro ---- */
+.o-guestTerms { display: grid; gap: .6rem; margin: 1.2rem 0 0; padding: 1.2rem 0 0; border-top: 1px solid var(--c-line); list-style: none; font: var(--fw-ui) 1.4rem/1.35 var(--f-ui); }
+.o-guestTerms li { display: flex; align-items: flex-start; gap: .8rem; }
+.o-guestTerms .a-icon { flex: none; margin-top: .1rem; color: var(--c-muted); }
+.o-guestTerms .-yes { color: var(--c-price-note); font-weight: var(--fw-ui-medium); }
+.o-guestTerms .-yes .a-icon { color: var(--c-accent); }
+.o-guestTerms .-warn { color: var(--c-warn); font-weight: var(--fw-ui-medium); }
+.o-guestTerms .-warn .a-icon { color: var(--c-warn); }
+.m-person__intro { margin-top: -1rem; color: var(--c-muted); font: var(--fw-ui) 1.5rem/1.45 var(--f-ui); }
+
+/* ---- hotel photos on phones: one swipe carousel with a counter; the grid from 641 ---- */
+.o-hotel__phoneGallery { position: relative; display: grid; gap: 1.2rem; justify-items: start; }
+.o-hotel__swipe { width: 100%; aspect-ratio: 4 / 3; border-radius: var(--r-md); }
+.m-carousel__counter { position: absolute; z-index: 2; right: 1.2rem; bottom: 1.2rem; padding: .5rem 1rem; border-radius: var(--r-pill); background: rgba(11, 27, 46, .7); color: #FFFFFF; font: var(--fw-ui-strong) 1.3rem/1 var(--f-ui); font-variant-numeric: tabular-nums; pointer-events: none; }
+.t-hotel .o-hotel__grid { display: none; }
+@media (min-width: 641px) {
+  .o-hotel__phoneGallery { display: none; }
+  .t-hotel .o-hotel__grid { display: grid; }
+}
+.m-gallery__item { border-radius: var(--r-sm); }
+.m-gallery__item:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+
+/* ---- the selected pin's mini card (spec B6.4), above the pin ---- */
+.m-map__pinWrap { display: contents; }
+.m-map__card { position: absolute; z-index: 4; display: grid; gap: .2rem; width: 22rem; padding: 1.2rem 1.4rem; border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); font: var(--fw-ui) 1.3rem/1.3 var(--f-ui); box-shadow: var(--sh-pop); transform: translate(-50%, calc(-100% - 2.8rem)); pointer-events: none; animation: map-card-in var(--d-pop) var(--ease-pop); }
+@keyframes map-card-in { from { opacity: 0; transform: translate(-50%, calc(-100% - 2rem)); } }
+.m-map__card strong { font: var(--fw-bold) 1.6rem/1.2 var(--f-display); }
+.m-map__cardKicker { color: var(--c-muted); font: var(--fw-ui-strong) 1.1rem/1.2 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; }
+.m-map__cardPrice { margin-top: .2rem; color: var(--c-price-note); font-weight: var(--fw-ui-medium); font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .m-map__card { animation: none; } }
+
+/* round 3 fix: a hovered, focused or selected pin rises above its neighbours; the pin's own focus ring follows the pill */
+.m-map__pin:hover, .m-map__pin:focus-visible { z-index: 3; }
+.m-map__pin.is-active { z-index: 3; }
+.m-map__pin:focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; }
+
+/* ===== round 3 fix: from 1280px the filters stay in view in a left column under a small map (Booking.com's
+   results layout, in our parts); the big map moves into the map dialog; below 1280 the drawer and the side map stay ===== */
+.o-stays__aside { display: none; }
+@media (min-width: 1280px) {
+  .o-stays { grid-template-columns: 27.2rem minmax(0, 1fr); justify-content: stretch; gap: 3.2rem; }
+  .o-stays__map { display: none; }
+  .o-stays__aside { display: block; position: sticky; top: calc(var(--topbar-h) + 2.4rem); align-self: start; max-height: calc(100vh - var(--topbar-h) - 4.8rem); overflow-y: auto; scrollbar-width: none; padding-bottom: 2.4rem; }
+  .o-stays__aside::-webkit-scrollbar { display: none; }
+  .o-hfilters__open { display: none; }
+  .o-stays__miniMap { position: relative; height: 16rem; margin-bottom: 1.2rem; border-radius: var(--r-md); overflow: hidden; }
+  .o-stays__miniMap .m-map { min-height: 0; height: 100%; border-radius: var(--r-md); }
+  .o-stays__miniMap .m-map__credit { font-size: 1rem; }
+  .o-stays__miniBtn { position: absolute; z-index: 5; left: 50%; top: 50%; box-shadow: var(--sh-float); transform: translate(-50%, -50%); }
+  .o-stays__miniBtn:active { transform: translate(-50%, -50%) scale(var(--press)); }
+  .m-map.-mini .m-map__pin.-mark { width: 1.4rem; height: 1.4rem; padding: 0; border: 0; box-shadow: 0 0 0 .2rem var(--c-surface); }
+  .o-stays__asideHead { display: flex; align-items: baseline; justify-content: space-between; gap: 1.2rem; padding: 1.2rem 0 0; }
+  .o-stays__asideTitle { font: var(--fw-bold) 1.8rem/1.2 var(--f-display); }
+  .o-stays__aside .o-hfilters__group { padding: 1.6rem 0; }
+  /* wider cards: photo, details, and the price on the right floor */
+  .m-stay { grid-template-columns: 26rem minmax(0, 1fr); }
+  .m-stay__text { grid-template-columns: minmax(0, 1fr) auto; column-gap: 2.4rem; }
+  .m-stay__text > * { grid-column: 1; }
+  .m-stay__text > .m-stay__foot { grid-column: 2; grid-row: 1 / span 8; flex-direction: column; flex-wrap: nowrap; align-self: end; align-items: flex-end; justify-content: flex-end; margin-top: 0; text-align: right; }
+}
+
+/* round 3 fix: a sold room is a short row (no photo, no tall empty block) with its reason under the line */
+.m-rate__sold { display: grid; gap: .4rem; align-self: start; }
+.m-rate__sold span { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.o-avail__group.-sold .m-roomCell__media, .o-avail__group.-sold .m-roomCell__amen { display: none; }
+.o-avail__group.-sold .o-avail__rates { align-self: stretch; background: var(--c-cream); }
+.o-avail__group.-sold .m-rate__sold { border-top: 0; }
+/* phones: the price sits under the plan text, full width, so each term keeps one line */
+@media (max-width: 640px) {
+  .m-rate { grid-template-columns: minmax(0, 1fr); padding-right: 1.6rem; }
+  .m-rate__price { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: flex-start; gap: .2rem .8rem; text-align: left; }
+  .o-hnav__link { height: 3.2rem; padding: 0 1.2rem; font-size: 1.3rem; }
+  .o-hnav { padding-top: .6rem; padding-bottom: .6rem; }
+  /* cleanup round critic: the list scrolls on phones; fade its right edge so the cut tab reads as more */
+  .o-hnav__list { padding-right: 3.2rem; scroll-padding-inline: 1.6rem; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+}
+/* round 3 fix: the guest form fills its column up to the summary (no dead gap at 1440); the step bar sits above the heading */
+.t-hotel .o-detail__main.o-form { max-width: none; }
+.t-hotel .o-pageHead .m-steps { max-width: 64rem; margin-top: 1.6rem; }
+/* the map dialog opened from the filter column at 1280 and up: cards in the strip keep a card width */
+@media (min-width: 1025px) {
+  .o-stays__strip > li { flex-basis: 30rem; }
+}
+
+/* lower rates (catalogue section 5): the saving chip sits above the total it explains */
+.m-stay__save { justify-self: end; align-self: end; margin-bottom: .6rem; }
+.m-rate__save { justify-self: start; align-self: start; width: max-content; max-width: 100%; margin-top: .2rem; }
+@media (max-width: 640px) {
+  .m-stay__save { justify-self: start; }
+}
+
+/* the map dialog from tablets up: a large panel inset like other dialogs, not the 560px reading dialog, so the pins have room */
+@media (min-width: 641px) {
+  .m-dialog.-full.-map:not(.-gallery) .m-dialog__panel { width: min(128rem, calc(100vw - 6.4rem)); max-width: none; height: calc(100vh - 6.4rem); max-height: none; }
+  .m-dialog.-map .o-stays__phoneMap { height: calc(100vh - 6.4rem - 7.2rem); }
+}
+@media (min-width: 641px) {
+  .m-dialog.-map .o-stays__strip > li { flex-basis: 30rem; }
+}
+
+/* round 3, second critic round (fix 9): on phones the hotel page keeps one sticky bar, its section nav; the pinned
+   compact search steps aside (dates and guests change in Availability), so header, nav and the Reserve bar leave the
+   reading room. HotelDetail reads the pinned bar's top, so the nav takes its place under the header. */
+@media (max-width: 640px) {
+  body:has(.o-hnav) .o-pinned { display: none; }
+}

@@ -1,0 +1,478 @@
+/* =====================================================================
+   travel-booking (working name Overwing, a placeholder): results.css
+   The pinned compact search (Kasa), the results frame shared by flights
+   and hotels (Hipcamp's filters plus list), flight cards and legs, the
+   filter groups, the sort pill and sheets, and the searching state.
+   Round 3 (spec B1 to B3): the date strip, summary tabs, collapsible
+   filter groups, the boarding-stub card, fare family columns, the bags
+   table and rules, and the traveler form additions.
+   Loads after home.css, before booking.css. Values are tokens only.
+   ===================================================================== */
+
+/* ===== Pinned compact search (spec 2b, Chrome: Kasa's pinned bar) ===== */
+/* phones and tablets: one 52px trigger pill under the phone bar; it opens the same sheet as the home page */
+/* critic round 1: the bar floated with cards sliding past its edges; it sits in a ground band now, with a hairline once scrolled */
+.o-pinned { position: sticky; z-index: calc(var(--z-header) - 1); top: var(--h-header); padding: .4rem var(--gutter) 1.2rem; background: var(--c-ground); transition: box-shadow var(--d-panel) var(--ease-std); }
+.o-pinned:has(.m-search.is-scrolled) { box-shadow: 0 1px 0 var(--c-line); }
+/* on phones the band carries the line, not the phone bar above it, so the two read as one header */
+@media (max-width: 1024px) {
+  .b-app:has(.o-pinned) .o-header.is-scrolled .o-header__bar { box-shadow: none; }
+}
+.m-search.-compact { max-width: 56rem; }
+.m-search.-compact .m-search__trigger { height: 5.2rem; padding: .6rem .6rem .6rem 1.6rem; }
+.m-search.-compact .m-search__triggerGo { width: 4rem; height: 4rem; }
+/* from 900px the compact bar is the pill (revision item 11); 900 to 1024 it stays in its band under the phone bar */
+@media (min-width: 900px) {
+  .o-pinned { padding: .8rem var(--gutter) 1.2rem; }
+  .m-search.-compact { max-width: 86rem; }
+  .m-search.-compact .m-search__modes { display: none; }
+  .m-search.-compact .m-search__pill { height: 6rem; padding: 0 .6rem 0 .4rem; border: 1px solid var(--c-line); border-radius: var(--r-md); box-shadow: var(--sh-pill); transition: height var(--d-panel) var(--ease-std), background-color var(--d-seg) var(--ease-std), box-shadow var(--d-panel) var(--ease-std); }
+  .m-search.-compact .m-search__thumb { top: .4rem; height: 5.2rem; border-radius: var(--r-sm); transition: left var(--d-thumb) var(--ease-spring), width var(--d-thumb) var(--ease-spring), height var(--d-panel) var(--ease-std), opacity var(--d-fast) var(--ease-std); }
+  .m-search.-compact .m-search__seg { height: 5.2rem; border-radius: var(--r-sm); transition: height var(--d-panel) var(--ease-std), background-color var(--d-seg) var(--ease-std); }
+  .m-search.-compact .m-search__seg + .m-search__seg::before { top: 1.4rem; bottom: 1.4rem; }
+  .m-search.-compact .m-search__field { gap: 0; padding: 0 1.4rem 0 1.6rem; }
+  .m-search.-compact .m-search__field > .a-icon { display: none; }
+  .m-search.-compact .m-search__text { gap: .2rem; }
+  .m-search.-compact .m-search__value, .m-search.-compact .m-search__input { font-size: 1.5rem; }
+  .m-search.-compact .m-search__go { height: 4.8rem; padding: 0 2rem; transition: width var(--d-panel) var(--ease-std), padding var(--d-panel) var(--ease-std), height var(--d-panel) var(--ease-std); }
+  .m-search.-compact .m-pop { top: calc(100% + 1.2rem); }
+  .m-search.-compact .m-search__status:not(:empty) { top: calc(100% + 1rem); left: 50%; right: auto; width: max-content; max-width: 100%; padding: .8rem 1.6rem; border-radius: var(--r-pill); background: var(--c-surface); box-shadow: var(--sh-pop); transform: translateX(-50%); }
+  /* condensed on the way down: 52px, Search shrinks to its arrow (the label stays for screen readers) */
+  .m-search.-compact.is-condensed .m-search__pill { height: 5.2rem; box-shadow: var(--sh-card); }
+  .m-search.-compact.is-condensed .m-search__seg, .m-search.-compact.is-condensed .m-search__thumb { height: 4.4rem; }
+  .m-search.-compact.is-condensed .m-search__seg + .m-search__seg::before { top: 1.2rem; bottom: 1.2rem; }
+  .m-search.-compact.is-condensed .m-search__go { width: 4rem; height: 4rem; padding: 0; }
+  .m-search.-compact.is-condensed .m-search__go .a-button__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .m-search.-compact.is-condensed .m-search__go:hover { padding: 0; }
+}
+/* 1025 and up (revision 2026-11-11, item 8): the compact search sits centred in the solid top bar instead of
+   floating over the content, 52px tall in the 64px bar; Kasa's shrink on scroll stays, to 44px, inside the bar.
+   The band is click-through, so the account cluster on its right stays in reach. The top bar draws the hairline. */
+@media (min-width: 1025px) {
+  .o-pinned { position: fixed; z-index: calc(var(--z-header) + 1); top: 0; left: var(--rail-w); right: 0; display: flex; align-items: center; height: var(--topbar-h); padding: 0 24rem 0 2.4rem; background: transparent; pointer-events: none; }
+  .o-pinned:has(.m-search.is-scrolled) { box-shadow: none; }
+  .o-pinned > .m-search { pointer-events: auto; }
+  .m-search.-compact { max-width: 76rem; }
+  .m-search.-compact .m-search__pill { height: 5.2rem; }
+  .m-search.-compact .m-search__seg, .m-search.-compact .m-search__thumb { height: 4.4rem; }
+  .m-search.-compact .m-search__seg + .m-search__seg::before { top: 1.2rem; bottom: 1.2rem; }
+  .m-search.-compact .m-search__go { height: 4.2rem; }
+  .m-search.-compact.is-condensed .m-search__pill { height: 4.4rem; box-shadow: var(--sh-pill); }
+  .m-search.-compact.is-condensed .m-search__seg, .m-search.-compact.is-condensed .m-search__thumb { height: 3.6rem; }
+  .m-search.-compact.is-condensed .m-search__text { gap: 0; }
+  .m-search.-compact.is-condensed .m-search__label { display: none; }
+  .m-search.-compact.is-condensed .m-search__go { width: 3.6rem; height: 3.6rem; }
+  .m-search.-compact .m-pop { top: calc(100% + 1.4rem); }
+}
+/* wide screens: the band is symmetric, so the search is centred on the bar itself */
+@media (min-width: 1280px) {
+  .o-pinned { padding: 0 24rem; }
+}
+
+/* ===== Results frame: filters left, list right (Hipcamp), one column on phones ===== */
+.o-results { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.4rem; padding-bottom: var(--s-10); }
+.o-results__main { min-width: 0; }
+.o-results.-single { max-width: 72rem; }
+.o-results__side { display: none; }
+.o-results__sideHead { display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; margin-bottom: 1.6rem; }
+.o-results__sideTitle { font: var(--fw-bold) 2rem/1.2 var(--f-display); letter-spacing: var(--tr-head); }
+.o-results__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem 1.6rem; }
+.o-results__count { font: var(--fw-ui-strong) 1.6rem/1.3 var(--f-ui); }
+.o-results__tools { display: flex; flex-wrap: wrap; gap: .8rem; }
+/* two classes: the sort pill's own display rule comes later in this file */
+.o-results__tools .o-results__deskOnly { display: none; }
+/* quick chips: a sideways row on phones, so they never wrap into a block */
+.o-results__chips { display: flex; gap: .8rem; margin: 1.2rem calc(var(--gutter) * -1) 0; padding: .6rem var(--gutter); overflow-x: auto; scrollbar-width: none; }
+.o-results__chips::-webkit-scrollbar { display: none; }
+.o-results__note { margin-top: .8rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); }
+.o-results__list { display: grid; gap: 1.2rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.o-results__main > .m-notice { margin-top: 1.6rem; }
+@media (min-width: 1025px) {
+  .o-results { grid-template-columns: 31.2rem minmax(0, 1fr); gap: 3.2rem; }
+  .o-results.-single { grid-template-columns: minmax(0, 1fr); }
+  /* sticky under the top bar that holds the compact search (revision item 8): 64 + 24 */
+  .o-results__side { position: sticky; top: calc(var(--topbar-h) + 2.4rem); display: block; align-self: start; max-height: calc(100vh - var(--topbar-h) - 4rem); overflow-y: auto; overscroll-behavior: contain; padding: .4rem .8rem 2.4rem .4rem; scrollbar-width: thin; scrollbar-color: var(--c-field) transparent; }
+  .o-results__phoneOnly { display: none; }
+  .o-results__tools .o-results__deskOnly { display: inline-flex; }
+  .o-results__chips { flex-wrap: wrap; margin: 1.2rem 0 0; padding: .4rem 0; overflow: visible; }
+}
+
+/* ===== Filter groups (Hipcamp's bordered option rows) ===== */
+.m-filters { display: grid; gap: 1.6rem; }
+.m-filterGroup { min-width: 0; margin: 0; padding: 1.6rem 1.6rem .8rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.m-filterGroup__title { display: block; float: left; width: 100%; margin-bottom: .8rem; padding: 0; font: var(--fw-ui-strong) 1.5rem/1.3 var(--f-ui); }
+.m-filterGroup__title + * { clear: both; }
+.m-filterGroup__value { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-filterGroup__tabs { margin-bottom: .4rem; }
+.m-filterGroup__tabs .a-toggle { display: flex; }
+.m-filterGroup__tabs .a-toggle__btn { flex: 1; padding: 0 .8rem; }
+.m-filterGroup__all { margin: .4rem 0 .4rem; }
+.m-filterRow { display: flex; align-items: center; gap: 1.2rem; min-height: 4.4rem; border-top: 1px solid var(--c-line); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); cursor: pointer; }
+.m-filterGroup__title + .m-filterRow, .m-filterGroup__tabs + .m-filterRow { border-top: 0; }
+.m-filterRow__main { display: flex; flex: 1; align-items: center; gap: 1.2rem; min-height: 4.4rem; min-width: 0; cursor: pointer; }
+.m-filterRow__input { flex: none; width: 2rem; height: 2rem; margin: 0; accent-color: var(--c-deep); cursor: pointer; }
+.m-filterRow__input:disabled + .m-filterRow__label { color: var(--c-muted); }
+.m-filterRow__label { flex: 1; min-width: 0; }
+.m-filterRow__price { flex: none; color: var(--c-muted); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+/* "Only" shows on hover or focus where a pointer can hover; always on touch screens */
+.m-filterRow.-airline { position: relative; }
+.m-filterRow__only { flex: none; min-height: 3.2rem; padding: 0 .8rem; border: 0; border-radius: .8rem; background: var(--c-tint); color: var(--c-ink); font: var(--fw-ui-strong) 1.2rem/1 var(--f-ui); cursor: pointer; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-filterRow__only { position: absolute; top: 50%; right: 0; visibility: hidden; opacity: 0; transform: translateY(-50%); transition: opacity var(--d-fast) var(--ease-std), visibility 0s var(--d-fast); }
+  .m-filterRow:hover .m-filterRow__only, .m-filterRow:focus-within .m-filterRow__only { visibility: visible; opacity: 1; transition-delay: 0s; }
+  .m-filterRow.-airline:hover .m-filterRow__price { display: none; }
+}
+.m-filterRow.-airline:focus-within .m-filterRow__price { display: none; }
+
+/* ---- sort: a native select styled as a 40px pill (desktop), a bottom sheet (phones) ---- */
+.m-sortPill { position: relative; display: inline-flex; height: 4rem; }
+.m-sortPill__text { position: relative; display: inline-flex; align-items: center; gap: .6rem; height: 4rem; padding: 0 1.2rem 0 1.4rem; border-radius: var(--r-pill); color: var(--c-ink); font: var(--fw-ui-medium) 1.4rem/1 var(--f-ui); white-space: nowrap; transition: background-color var(--d-fast) var(--ease-std); }
+.m-sortPill__text::before { content: ""; position: absolute; inset: 0; border: 1px solid currentColor; border-radius: inherit; opacity: .28; }
+.m-sortPill__select { position: absolute; inset: 0; width: 100%; opacity: 0; font-size: 1.6rem; cursor: pointer; }
+.m-sortPill:has(.m-sortPill__select:focus-visible) .m-sortPill__text { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-sortPill:hover .m-sortPill__text { background: var(--c-tint); }
+}
+.m-sortSheet { margin: 0; padding: 0; border: 0; }
+.m-sortSheet__row { display: flex; align-items: flex-start; gap: 1.2rem; padding: 1.4rem 0; border-top: 1px solid var(--c-line); cursor: pointer; }
+.m-sortSheet__row:first-of-type { border-top: 0; }
+.m-sortSheet__row .m-filterRow__input { margin-top: .2rem; }
+.m-sortSheet__label { display: block; font: var(--fw-ui-strong) 1.6rem/1.3 var(--f-ui); }
+.m-sortSheet__help { display: block; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+
+/* ===== Round 3, spec B1: flight card (Developer B). Left 70%: a leg row per slice, the included items of the
+   shown fare, notes and the "Flight details" toggle. Right 30%: the boarding stub, behind a dashed tear line
+   with two notches, holding the total for everyone, what it covers, the price a person, the fare and Select.
+   Select's hit area covers the card (stretched link); the toggle and the item tips sit above it. ===== */
+.m-fcard { position: relative; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); transition: background-color var(--d-fast) var(--ease-std), border-color var(--d-fast) var(--ease-std), box-shadow var(--d-fast) var(--ease-std); }
+.m-fcard__top { position: relative; display: grid; gap: 1.6rem; padding: 1.6rem; }
+.m-fcard__body { display: grid; gap: 1.4rem; min-width: 0; }
+.m-fcard__tags { display: flex; flex-wrap: wrap; gap: .6rem; }
+.m-fcard__tag { display: inline-flex; align-items: center; height: 2.4rem; padding: 0 1rem; border-radius: var(--r-pill); background: var(--c-extra); color: var(--c-ink); font: var(--fw-ui-strong) 1.2rem/1 var(--f-ui); }
+.a-saveChip { display: inline-flex; align-items: center; gap: .4rem; height: 2.4rem; padding: 0 1rem 0 .8rem; border-radius: var(--r-pill); background: var(--c-save, var(--c-extra)); color: var(--c-save-ink, var(--c-accent)); font: 600 1.2rem/1 var(--f-ui); white-space: nowrap; }
+.a-saveChip .a-icon { width: 1.4rem; height: 1.4rem; }
+.m-fcard__legs { display: grid; gap: 1.6rem; min-width: 0; }
+.m-fcard__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; }
+.m-fcard__incl { position: relative; z-index: 2; display: flex; gap: .6rem; margin: 0; padding: 0; list-style: none; }
+.m-fcard__inc { position: relative; display: grid; place-items: center; width: 3.6rem; height: 3.2rem; border-radius: var(--r-sm); background: var(--c-cream); color: var(--c-muted); cursor: default; }
+.m-fcard__inc.is-on { color: var(--c-ink); }
+.m-fcard__inc:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.m-fcard__incMark { position: absolute; right: -.3rem; bottom: -.3rem; display: grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--c-surface); box-shadow: 0 0 0 1px var(--c-line); color: var(--c-muted); }
+.m-fcard__inc.is-on .m-fcard__incMark { background: var(--c-accent); box-shadow: none; color: var(--c-surface); }
+.m-fcard__incMark .a-icon { width: 1rem; height: 1rem; stroke-width: 2.4; }
+.m-fcard__incCount { position: absolute; top: .2rem; right: .4rem; font: var(--fw-ui-strong) 1rem/1 var(--f-ui); }
+/* the words of each item, on hover or focus */
+.m-fcard__inc[data-tip]::after { content: attr(data-tip); position: absolute; z-index: 3; bottom: calc(100% + .8rem); left: 50%; width: max-content; max-width: 26rem; padding: .7rem 1rem; border-radius: .8rem; background: var(--c-ink); color: var(--c-surface); font: var(--fw-ui) 1.3rem/1.35 var(--f-ui); text-align: left; white-space: normal; opacity: 0; visibility: hidden; transform: translate(-50%, .4rem); transition: opacity var(--d-fast) var(--ease-std), transform var(--d-fast) var(--ease-std), visibility 0s var(--d-fast); pointer-events: none; }
+.m-fcard__inc:first-child[data-tip]::after { left: 0; transform: translate(0, .4rem); }
+.m-fcard__inc:hover::after, .m-fcard__inc:focus-visible::after { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+.m-fcard__inc:first-child:hover::after, .m-fcard__inc:first-child:focus-visible::after { transform: translate(0, 0); }
+.m-fcard__notes { display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; }
+.m-fcard__note { display: inline-flex; align-items: center; gap: .6rem; color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.3 var(--f-ui); }
+.m-fcard__note.-warn { color: var(--c-warn); }
+.m-fcard__toggle { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: .4rem; min-height: 3.2rem; margin-left: auto; padding: 0 .4rem; border: 0; border-radius: .8rem; background: none; color: var(--c-ink); font: var(--fw-ui-strong) 1.4rem/1 var(--f-ui); text-decoration: underline; text-decoration-color: var(--c-line); text-underline-offset: .4rem; cursor: pointer; }
+.m-fcard__toggle .a-icon { transition: transform 240ms var(--ease-std); }
+.m-fcard__toggle[aria-expanded="true"] .a-icon { transform: rotate(180deg); }
+.m-fcard__toggle:hover { text-decoration-color: currentColor; }
+.m-fcard__stub { position: relative; display: grid; gap: .2rem; padding-top: 1.4rem; border-top: 1px dashed var(--c-field); }
+.m-fcard__total { color: var(--c-price); font: var(--fw-bold) var(--t-price-card)/1.1 var(--f-display); letter-spacing: var(--tr-head); font-variant-numeric: tabular-nums; }
+.m-fcard__for { color: var(--c-price-note); font: var(--fw-ui-medium) 1.3rem/1.35 var(--f-ui); text-wrap: balance; }
+.m-fcard__each { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-fcard__fare { margin-top: .4rem; color: var(--c-ink); font: var(--fw-ui-strong) 1.3rem/1.3 var(--f-ui); }
+.m-fcard__select { width: 100%; margin-top: 1rem; }
+/* the whole card picks the flight: Select's hit area spreads over it */
+.m-fcard__select::after { content: ""; position: absolute; z-index: 1; inset: -1px; border-radius: var(--r-md); }
+.m-fcard__top:has(.m-fcard__select:focus-visible) { outline: 2px solid var(--c-focus); outline-offset: 2px; border-radius: var(--r-md); }
+.m-fcard__select:focus-visible { outline: none; }
+.m-fcard__details { padding: 0 1.6rem 1.6rem; }
+.m-fcard__details:not([hidden]) { display: grid; gap: 1.6rem; padding-top: 1.6rem; border-top: 1px solid var(--c-line); }
+.m-fcard__facts { display: flex; flex-wrap: wrap; gap: .8rem 2.4rem; margin: 0; font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.m-fcard__facts dt { color: var(--c-muted); font-size: 1.3rem; }
+.m-fcard__facts dd { margin: 0; font-weight: var(--fw-ui-strong); }
+@media (min-width: 641px) {
+  .m-fcard__top { grid-template-columns: minmax(0, 7fr) minmax(19rem, 3fr); gap: 0; padding: 0; }
+  .m-fcard__body { padding: 1.8rem 2.4rem; }
+  .m-fcard__stub { align-content: center; justify-items: end; padding: 1.8rem 2.4rem; border-top: 0; border-left: 1px dashed var(--c-field); text-align: right; }
+  /* the two notches of the tear line */
+  .m-fcard__stub::before, .m-fcard__stub::after { content: ""; position: absolute; left: -.9rem; width: 1.6rem; height: 1.6rem; border: 1px solid var(--c-line); border-radius: 50%; background: var(--c-ground); clip-path: inset(50% 0 0 0); }
+  .m-fcard__stub::before { top: -.9rem; }
+  .m-fcard__stub::after { bottom: -.9rem; clip-path: inset(0 0 50% 0); }
+  .m-fcard__select { width: auto; min-width: 12rem; }
+  .m-fcard__details { padding: 0 2.4rem 2.4rem; }
+}
+@media (hover: hover) and (any-pointer: fine) {
+  .m-fcard:hover { border-color: var(--c-field); box-shadow: var(--sh-card); }
+  .m-fcard:hover .m-fcard__select { background: var(--c-deep); color: var(--c-surface); }
+}
+
+/* the airline's monogram in a small cabin window (spec B1.5: our own drawn mark, never a logo) */
+/* the base mark is the shared one (app/styles/r3-ui.css); cards and filter rows use a smaller size */
+.a-mark { display: inline-grid; flex: none; place-items: center; width: 3.2rem; height: 3.8rem; border-radius: var(--r-window); background: var(--c-hero); color: var(--c-hero-ink); box-shadow: inset 0 0 0 2px var(--c-hero-tint), inset 0 0 0 3px var(--c-accent-soft); font: var(--fw-bold) 1.1rem/1 var(--f-display); letter-spacing: .04em; }
+.a-mark.-small { width: 2.8rem; height: 3.3rem; font-size: 1rem; }
+
+/* ---- one leg: airline, time and code, the route line with a dot per stop, time and code ---- */
+.m-leg { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .8rem 1.2rem; }
+.m-leg__carrier { grid-column: 1 / -1; display: flex; align-items: center; gap: .8rem; min-width: 0; }
+.m-leg__airline { min-width: 0; color: var(--c-muted); font: var(--fw-ui-medium) 1.3rem/1.25 var(--f-ui); overflow-wrap: anywhere; }
+.m-leg__end { display: grid; gap: .2rem; }
+.m-leg__end.-to { text-align: right; }
+.m-leg__time { position: relative; font: var(--fw-bold) 2rem/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.m-leg__next { position: absolute; top: -.4rem; left: 100%; margin-left: .2rem; color: var(--c-warn); font: var(--fw-ui-strong) 1.1rem/1 var(--f-ui); }
+.m-leg__code { color: var(--c-muted); font: var(--fw-ui-medium) 1.3rem/1.2 var(--f-ui); letter-spacing: .02em; }
+.m-leg__mid { display: grid; gap: .5rem; min-width: 0; color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.2 var(--f-ui); text-align: center; }
+.m-leg__dur { font-variant-numeric: tabular-nums; }
+.m-leg__line { position: relative; display: flex; align-items: center; justify-content: space-evenly; height: 1px; background: var(--c-field); }
+.m-leg__line::before, .m-leg__line::after { content: ""; position: absolute; top: -.25rem; width: .5rem; height: .5rem; border-radius: 50%; background: var(--c-field); }
+.m-leg__line::before { left: 0; }
+.m-leg__line::after { right: 0; }
+.m-leg__dot { width: .8rem; height: .8rem; border: 1.5px solid var(--c-warn); border-radius: 50%; background: var(--c-surface); }
+.m-leg__stops { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.m-leg__mid:has(.m-leg__dot) .m-leg__stops { color: var(--c-ink); }
+@media (min-width: 641px) {
+  .m-leg { grid-template-columns: 15rem auto minmax(0, 1fr) auto; gap: 2rem; }
+  .m-leg__carrier { grid-column: auto; }
+}
+
+/* ===== Searching state (spec 2b: one cabin window, the view drifting behind it, a 20px line, skeleton rows) ===== */
+.m-searching { display: flex; flex-direction: column; align-items: center; padding-top: 2.4rem; text-align: center; }
+.m-searching__window { position: relative; isolation: isolate; width: 18rem; aspect-ratio: 240 / 324; overflow: hidden; border-radius: var(--r-window); background: var(--c-deep); box-shadow: 0 0 0 .8rem #FFFFFF, 0 0 0 calc(.8rem + 1px) var(--c-line), var(--sh-window); } /* revision 2026-11-11, item 34: white bezel, hairline ring, on the white ground */
+.m-searching__window::before { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(118deg, rgba(255, 255, 255, .18) 0, rgba(255, 255, 255, .06) 24%, rgba(255, 255, 255, 0) 46%); pointer-events: none; }
+.m-searching__window::after { content: ""; position: absolute; z-index: 2; inset: 0; border-radius: inherit; box-shadow: inset 0 .6rem 1.8rem rgba(11, 27, 46, .22), inset 0 0 0 1px rgba(11, 27, 46, .08); pointer-events: none; }
+/* the hero view, wide enough to drift: clouds passing the window while the search runs */
+.m-searching__view { position: absolute; top: 0; left: 0; width: 290%; max-width: none; height: 100%; object-fit: cover; object-position: 30% 50%; filter: var(--fx-grade); animation: window-drift 6s var(--ease-std) infinite alternate; }
+.m-searching__line { margin-top: 3.2rem; font: var(--fw-regular) 2rem/1.3 var(--f-display); }
+.m-searching__slow { min-height: 2.9em; max-width: 32em; margin-top: .4rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.45 var(--f-ui); }
+.m-searching__rows { display: grid; gap: 1.2rem; width: 100%; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.m-skeleton { height: 11.2rem; border-radius: var(--r-md); background: linear-gradient(100deg, var(--c-tint) 30%, color-mix(in srgb, var(--c-tint) 40%, var(--c-surface)) 50%, var(--c-tint) 70%) 0 0 / 300% 100%; animation: shimmer 1.4s linear infinite; }
+.m-skeleton.-tall { height: 22rem; margin-bottom: 1.6rem; }
+@media (min-width: 1025px) {
+  .m-searching__window { width: 24rem; }
+}
+@keyframes window-drift {
+  to { transform: translateX(-36%); }
+}
+@keyframes shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-searching__view, .m-skeleton { animation: none; }
+}
+
+/* ==== Critic round, 11 Nov (Developer): Chief Officer note 6, the 1px seam ====
+   At fractional scroll positions a sliver of content showed above the phone bar and between it and the pinned band.
+   The bar covers 2px upward, and the band overlaps the bar by 1px. */
+@media (max-width: 1024px) {
+  .o-header__bar { box-shadow: 0 -2px 0 var(--c-ground); }
+  .o-header.is-scrolled .o-header__bar { box-shadow: 0 -2px 0 var(--c-ground), 0 1px 0 var(--c-line); }
+  .b-app:has(.o-pinned) .o-header.is-scrolled .o-header__bar { box-shadow: 0 -2px 0 var(--c-ground); }
+  .o-pinned { top: calc(var(--h-header) - 1px); padding-top: calc(.4rem + 1px); }
+}
+/* the filter column scrolls on its own without drawing a second scrollbar; a soft fade at its foot is the cue (critic, 11 Nov) */
+@media (min-width: 1025px) {
+  .o-results__side { scrollbar-width: none; -webkit-mask-image: linear-gradient(#000 calc(100% - 4rem), transparent); mask-image: linear-gradient(#000 calc(100% - 4rem), transparent); }
+  .o-results__side::-webkit-scrollbar { display: none; }
+}
+
+/* ===== Round 3, spec B1 (Developer B): date strip, summary tabs, filter groups, active chips, drawer ===== */
+/* the date-price strip: 7 cells, each with a 6px window-shaped cap (the selected one in teal), the lowest total
+   on the save tint; arrows move the window by a week */
+.m-dates { display: flex; align-items: stretch; gap: .8rem; margin-bottom: 1.6rem; }
+.m-dates.-skeleton { gap: .8rem; }
+.m-dates__ghost { flex: 1; height: 7.2rem; }
+.m-dates__arrow { display: grid; flex: none; place-items: center; width: 4rem; border: 1px solid var(--c-line); border-radius: var(--r-sm); background: var(--c-surface); color: var(--c-ink); transition: background-color var(--d-fast) var(--ease-std); }
+.m-dates__arrow.is-off { color: var(--c-line); }
+.m-dates__arrow:not(.is-off):hover { background: var(--c-tint); }
+/* the list scrolls sideways, which clips both axes: padding keeps the window caps, the selected border and focus rings whole */
+.m-dates__list { display: flex; flex: 1; gap: .6rem; min-width: 0; margin: -.6rem 0; padding: .6rem .4rem; overflow-x: auto; list-style: none; scroll-snap-type: x proximity; scrollbar-width: none; }
+.m-dates__list::-webkit-scrollbar { display: none; }
+.m-dates__list > li { flex: 1 0 8.8rem; scroll-snap-align: center; }
+.m-dates__cell { position: relative; display: grid; align-content: center; justify-items: center; gap: .2rem; height: 7.2rem; padding: .8rem .4rem .6rem; border: 1px solid var(--c-line); border-radius: var(--r-sm); background: var(--c-surface); color: var(--c-ink); text-align: center; text-decoration: none; transition: background-color var(--d-fast) var(--ease-std), border-color var(--d-fast) var(--ease-std); }
+.m-dates__cap { position: absolute; top: -1px; left: 22%; right: 22%; height: .6rem; border-radius: 0 0 50% 50% / 0 0 100% 100%; background: var(--c-tint); }
+.m-dates__day { font: var(--fw-ui-medium) 1.3rem/1.2 var(--f-ui); white-space: nowrap; }
+.m-dates__ret { color: var(--c-muted); font: var(--fw-ui) 1.2rem/1.2 var(--f-ui); white-space: nowrap; }
+.m-dates__price { font: var(--fw-bold) 1.6rem/1.2 var(--f-display); font-variant-numeric: tabular-nums; }
+.m-dates__cell.is-low { background: var(--c-save, var(--c-extra)); border-color: transparent; }
+.m-dates__cell.is-low .m-dates__price { color: var(--c-save-ink, var(--c-ink)); }
+.m-dates__cell.is-on { border: 2px solid var(--c-deep); }
+.m-dates__cell.is-on .m-dates__cap { top: -2px; background: var(--c-accent); }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-dates__cell:not(.is-on):hover { border-color: var(--c-field); background: var(--c-tint); }
+}
+@media (max-width: 640px) {
+  .m-dates { margin-right: calc(var(--gutter) * -1); }
+  .m-dates__arrow { display: none; }
+  .m-dates__list { padding-right: var(--gutter); }
+}
+
+/* summary tabs: Best, Cheapest, Fastest, each with its total and time; the selected one deep (the pill system) */
+.m-stabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 1.6rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); overflow: hidden; }
+.m-stabs__tab { display: grid; gap: .2rem; justify-items: start; padding: 1.2rem 1.6rem; border: 0; border-left: 1px solid var(--c-line); background: none; color: var(--c-ink); text-align: left; cursor: pointer; transition: background-color var(--d-fast) var(--ease-std); }
+.m-stabs__tab:first-child { border-left: 0; }
+.m-stabs__label { font: 600 1.2rem/1.2 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; }
+.m-stabs__price { font: var(--fw-bold) 2rem/1.15 var(--f-display); font-variant-numeric: tabular-nums; }
+.m-stabs__time { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.2 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-stabs__tab[aria-pressed="true"] { background: var(--c-deep); color: var(--c-surface); }
+.m-stabs__tab[aria-pressed="true"] .m-stabs__time { color: var(--c-surface); opacity: .8; }
+.m-stabs__tab:focus-visible { outline: 2px solid var(--c-focus); outline-offset: -4px; border-radius: var(--r-md); }
+.m-stabs__tab:not([aria-pressed="true"]):hover { background: var(--c-tint); }
+@media (max-width: 640px) {
+  .m-stabs__tab { padding: 1rem 1rem; }
+  .m-stabs__label { font-size: 1.1rem; letter-spacing: .06em; }
+  .m-stabs__price { font-size: 1.6rem; }
+  .m-stabs__time { font-size: 1.2rem; }
+}
+
+/* filter groups: collapsible, a Clear per group, counts beside each option */
+.m-fgroup { position: relative; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); }
+.m-fgroup__head { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; min-height: 5.2rem; padding: 0 1.6rem; list-style: none; cursor: pointer; border-radius: var(--r-md); }
+.m-fgroup__head::-webkit-details-marker { display: none; }
+.m-fgroup__head:focus-visible { outline: 2px solid var(--c-focus); outline-offset: -2px; }
+.m-fgroup__head .a-icon { transition: transform 240ms var(--ease-std); }
+.m-fgroup__box[open] > .m-fgroup__head .a-icon { transform: rotate(180deg); }
+.m-fgroup__title { font: var(--fw-ui-strong) 1.5rem/1.3 var(--f-ui); }
+.m-fgroup__body { padding: 0 1.6rem 1.2rem; }
+.m-fgroup__clear { position: absolute; top: 1.5rem; right: 4.8rem; font-size: 1.3rem; }
+.m-fgroup__sub { margin: .8rem 0 .6rem; color: var(--c-muted); font: var(--fw-ui-strong) 1.3rem/1.3 var(--f-ui); }
+.m-fgroup__body > .m-filterRow:first-child { border-top: 0; }
+.m-fgroup__sub + .m-filterRow { border-top: 0; }
+.m-filterRow__count { color: var(--c-muted); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.m-filterRow__code { font-weight: var(--fw-ui-strong); letter-spacing: .02em; }
+.m-filterRow > .a-icon { flex: none; color: var(--c-muted); }
+.m-filterRow__main .a-mark { margin-right: -.2rem; }
+.m-filterGroup__ends { display: flex; justify-content: space-between; margin-top: .4rem; color: var(--c-muted); font: var(--fw-ui) 1.2rem/1.2 var(--f-ui); font-variant-numeric: tabular-nums; }
+
+/* the price histogram behind the slider */
+.m-hist { display: flex; align-items: flex-end; gap: 2px; height: 4.8rem; margin: .8rem 0 -.6rem; padding: 0 .9rem; }
+.m-hist__bar { flex: 1; border-radius: 2px 2px 0 0; background: var(--c-tint); }
+.m-hist__bar.is-in { background: color-mix(in srgb, var(--c-accent) 38%, var(--c-tint)); }
+
+/* departure and arrival windows as four toggle tiles */
+.m-ftiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; margin-bottom: .6rem; }
+.m-ftile { position: relative; display: grid; grid-template-columns: auto 1fr; gap: .1rem .6rem; align-items: center; padding: .8rem 1rem; border: 1px solid var(--c-line); border-radius: var(--r-sm); background: var(--c-surface); color: var(--c-ink); text-align: left; cursor: pointer; transition: background-color var(--d-fast) var(--ease-std), border-color var(--d-fast) var(--ease-std); }
+.m-ftile .a-icon { grid-row: 1 / 3; color: var(--c-muted); }
+.m-ftile__label { font: var(--fw-ui-strong) 1.3rem/1.2 var(--f-ui); }
+.m-ftile__range { color: var(--c-muted); font: var(--fw-ui) 1.1rem/1.2 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-ftile__count { position: absolute; top: .6rem; right: .8rem; color: var(--c-muted); font: var(--fw-ui) 1.1rem/1 var(--f-ui); }
+.m-ftile[aria-pressed="true"] { border-color: var(--c-deep); background: var(--c-tint); box-shadow: inset 0 0 0 1px var(--c-deep); }
+.m-ftile[aria-pressed="true"] .a-icon { color: var(--c-accent); }
+.m-ftile:disabled { opacity: .45; cursor: default; }
+.m-ftile:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.m-ftile:not(:disabled):not([aria-pressed="true"]):hover { border-color: var(--c-field); }
+
+/* active filters as removable chips over the list */
+.o-results__active, .o-results__bring { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1.2rem; }
+.m-activeChip { display: inline-flex; align-items: center; gap: .6rem; min-height: 3.2rem; padding: 0 .8rem 0 1.2rem; border: 1px solid var(--c-line); border-radius: var(--r-pill); background: var(--c-tint); color: var(--c-ink); font: var(--fw-ui-medium) 1.3rem/1.2 var(--f-ui); cursor: pointer; transition: border-color var(--d-fast) var(--ease-std); }
+.m-activeChip:hover { border-color: var(--c-field); }
+.m-activeChip:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.m-activeChip__n { color: var(--c-muted); }
+.o-results__clearAll { margin-left: .4rem; font-size: 1.3rem; }
+.o-results__expired { margin-bottom: 1.6rem; }
+.o-results__moreRow { display: grid; justify-items: center; gap: 1.2rem; margin-top: 2.4rem; }
+.o-results__shown { color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); }
+.o-results__bar { margin-top: .4rem; }
+
+/* filters: a drawer from the left at tablet widths (spec B1.4), full screen on phones; the column from 1025 */
+@media (min-width: 1025px) {
+  .o-results__tools .o-results__drawerOnly { display: none; }
+}
+@media (min-width: 641px) and (max-width: 1024px) {
+  .m-dialog.-full.m-fdrawer:not(.-gallery) { place-items: stretch start; padding: 0; }
+  .m-dialog.-full.m-fdrawer:not(.-gallery) .m-dialog__panel { width: 44rem; max-width: 88vw; height: 100%; max-height: none; border-radius: 0 var(--r-lg) var(--r-lg) 0; animation: drawer-in var(--d-panel) var(--ease-std); }
+}
+@keyframes drawer-in {
+  from { transform: translateX(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .m-dialog.-full.m-fdrawer .m-dialog__panel { animation: none; }
+}
+
+/* ===== Round 3, spec B2 (Developer B): fare families side by side, bags table, change and refund rules ===== */
+.o-detail__headRow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem 1.6rem; }
+.m-timer { display: inline-flex; align-items: center; gap: .6rem; height: 3.2rem; padding: 0 1.2rem; border-radius: var(--r-pill); background: var(--c-tint); color: var(--c-ink); font: var(--fw-ui-medium) 1.3rem/1 var(--f-ui); }
+.m-timer__n { font-weight: var(--fw-ui-strong); font-variant-numeric: tabular-nums; }
+.m-timer.-warn { background: var(--c-warn-tint); color: var(--c-warn); }
+/* one column per family, rows aligned across them (subgrid); the chosen one takes the window's bezel and lit edge */
+.m-fams { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(26rem, 82%); grid-template-rows: auto repeat(6, auto) auto; gap: 0 1.2rem; margin: 0 calc(var(--gutter) * -1); padding: .4rem var(--gutter) 1.2rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); }
+/* the radios are visually hidden absolutes: each card contains them, so they never escape the rail's scroller and widen the page */
+.m-fams, .m-fam { position: relative; }
+.m-fam { display: grid; grid-row: span 8; grid-template-rows: subgrid; gap: 0; scroll-snap-align: start; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); transition: border-color var(--d-fast) var(--ease-std), box-shadow var(--d-fast) var(--ease-std); }
+.m-fam.is-on { border: 2px solid var(--c-bezel); box-shadow: inset 2px 2px 0 var(--c-accent-soft), var(--sh-card); }
+.m-fam.is-off { opacity: .6; }
+.m-fam__head { display: grid; gap: .2rem; align-content: start; padding: 1.6rem 1.6rem 1.2rem; border-bottom: 1px solid var(--c-line); }
+.m-fam__name { font: var(--fw-bold) 2rem/1.15 var(--f-display); letter-spacing: var(--tr-head); }
+.m-fam__total { margin-top: .4rem; color: var(--c-price); font: var(--fw-bold) 2rem/1.15 var(--f-display); font-variant-numeric: tabular-nums; }
+.m-fam__for { color: var(--c-price-note); font: var(--fw-ui-medium) 1.3rem/1.3 var(--f-ui); }
+.m-fam__diff { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-fam__row { display: grid; gap: .4rem; align-content: start; padding: 1rem 1.6rem; border-bottom: 1px solid var(--c-line); }
+.m-fam__label { display: flex; align-items: center; gap: .6rem; color: var(--c-muted); font: var(--fw-ui-strong) 1.2rem/1.2 var(--f-ui); letter-spacing: .04em; text-transform: uppercase; }
+.m-fam__label .a-icon { width: 1.6rem; height: 1.6rem; }
+.m-fam__cell { display: grid; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.m-fam__part { display: grid; grid-template-columns: 1.6rem 1fr; gap: .8rem; align-items: start; font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.m-fam__part.-no, .m-fam__part.-fee { color: var(--c-muted); }
+.m-fam__mark { display: grid; place-items: center; width: 1.6rem; height: 1.6rem; margin-top: .2rem; border-radius: 50%; background: var(--c-tint); color: var(--c-muted); }
+.m-fam__part.-yes .m-fam__mark { background: var(--c-accent); color: var(--c-surface); }
+.m-fam__mark .a-icon { width: 1.1rem; height: 1.1rem; stroke-width: 2.4; }
+.m-fam__btn { position: relative; align-self: end; margin: 1.2rem 1.6rem 1.6rem; cursor: pointer; }
+.m-fam__radio { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.m-fam__btn:has(.m-fam__radio:focus-visible) { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+.m-fam__btn:has(.m-fam__radio:disabled) { cursor: default; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-fam:not(.is-on):not(.is-off):hover { border-color: var(--c-field); }
+}
+@media (min-width: 900px) {
+  .m-fams { grid-auto-flow: row; grid-template-columns: repeat(var(--fams, 3), minmax(0, 1fr)); grid-auto-columns: auto; margin: 0; padding: .4rem 0 0; overflow: visible; }
+  .m-fam__head { padding: 1.6rem 1.4rem 1.2rem; }
+  .m-fam__row { padding: 1rem 1.4rem; }
+  .m-fam__btn { margin: 1.2rem 1.4rem 1.4rem; }
+}
+/* what the chosen fare includes per traveler type */
+.m-bagTable__wrap { position: relative; overflow-x: auto; border: 1px solid var(--c-line); border-radius: var(--r-md); }
+.m-bagTable { width: 100%; min-width: 56rem; border-collapse: collapse; font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.m-bagTable th, .m-bagTable td { padding: 1.2rem 1.6rem; border-top: 1px solid var(--c-line); text-align: left; vertical-align: top; }
+.m-bagTable thead th { border-top: 0; background: var(--c-cream); color: var(--c-muted); font: var(--fw-ui-strong) 1.2rem/1.2 var(--f-ui); letter-spacing: .04em; text-transform: uppercase; }
+.m-bagTable tbody th { font-weight: var(--fw-ui-strong); white-space: nowrap; }
+.m-bagTable tbody tr:nth-child(even) { background: var(--c-row, var(--c-cream)); }
+.m-rules { display: grid; margin: 0; border: 1px solid var(--c-line); border-radius: var(--r-md); }
+.m-rules__row { display: grid; gap: .4rem; padding: 1.4rem 1.6rem; border-top: 1px solid var(--c-line); }
+.m-rules__row:first-child { border-top: 0; }
+.m-rules__row dt { display: flex; align-items: center; gap: .8rem; font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); }
+.m-rules__row dt .a-icon { color: var(--c-muted); }
+.m-rules__row dd { margin: 0; font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+@media (min-width: 641px) {
+  .m-rules__row { grid-template-columns: 18rem 1fr; align-items: start; gap: 1.6rem; }
+}
+
+/* ===== Round 3, spec B3 (Developer B): the age band in each traveler's head, nationality beside the issuing
+   country, and the contact card with a country code select ===== */
+.m-person__band { display: block; margin-top: .2rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.3 var(--f-ui); letter-spacing: 0; }
+.m-person__pair { display: grid; gap: 1.6rem; }
+.m-phone { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 1.2rem; align-items: start; }
+.m-person__grid.-contact { display: grid; gap: 1.6rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 641px) {
+  .m-person__pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .m-phone { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); }
+}
+/* the expanded card: what the shown fare includes, in words */
+.m-fcard__fareBox { padding: 1.4rem 1.6rem; border-radius: var(--r-sm); background: var(--c-cream); }
+.m-fcard__fareTitle { margin-bottom: .8rem; font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); }
+.m-fcard__fareList { display: grid; gap: .6rem; margin: 0; padding: 0; list-style: none; font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.m-fcard__fareList li { position: relative; padding-left: 2.6rem; color: var(--c-muted); }
+.m-fcard__fareList li.is-on { color: var(--c-ink); }
+.m-fcard__fareList .m-fcard__incMark { left: 0; right: auto; top: .2rem; bottom: auto; width: 1.6rem; height: 1.6rem; }
+@media (min-width: 900px) {
+  .m-fcard__fareList { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2.4rem; }
+}
+/* phones (spec B1.9): one scrolling row of filter and sort chips (Filters, Stops, Airlines, Times, Sort) */
+.o-results__phoneRow { display: none; }
+@media (max-width: 640px) {
+  .o-results__tools { width: 100%; }
+  .o-results__tools .o-results__drawerOnly, .o-results__tools .o-results__phoneOnly { display: none; }
+  .o-results__phoneRow { display: flex; gap: .8rem; width: calc(100% + var(--gutter) * 2); margin: 0 calc(var(--gutter) * -1); padding: .4rem var(--gutter); overflow-x: auto; scrollbar-width: none; }
+  .o-results__phoneRow::-webkit-scrollbar { display: none; }
+  .o-results__phoneRow > .a-choice { flex: none; }
+}
+
+
+/* travelers page (round 3 critic): the form runs the full main column, as wide as the notices above it, so no dead gap sits before the summary */
+.t-flight .o-detail__main > .o-form, .t-flight .o-form { max-width: none; }
+.t-flight .o-pageHead .m-steps { max-width: 76rem; margin: 1.6rem 0 2rem; }

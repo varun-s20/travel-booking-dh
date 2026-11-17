@@ -1,0 +1,21 @@
+Ignoring 2 permissions.allow entries from .claude/settings.json: this workspace has not been trusted. Run Claude Code interactively here once and accept the trust dialog, or set projects["c:/Users/varun/digital-heroes-automation"].hasTrustDialogAccepted: true in C:\Users\varun\.claude.json.
+I've written the Expedia deconstruction to `projects/travel-booking/references/deconstruct/expedia.md`, with 50 screenshots in `projects/travel-booking/references/deconstruct/expedia/`. It covers all nine pages at 1440 and 390 and ends with the depth checklist for each page type you asked for. It took about 25 minutes. I typed into no forms, didn't sign in, and stopped at "Next: Checkout" for flights and at the first guest form for hotels. The cookie banner only offered Close, so I used that.
+
+**What matters most for the two rebuilds:**
+- **Switching Flights and Hotels on the homepage:** the URL stays the same and only two things change: the search form and the first deals row (hotel deals become a "flight deals from your city" map). Every other section stays the same. The full flights content lives on a separate `/Flights` page. Varun's round 3 rule asks for more than this, so both designs can beat Expedia here.
+- **Prices:** every card uses the same four parts: a green "$X off" badge, the nightly or per-traveller price, a crossed-out old price next to the total, and a line saying taxes and fees are included. A small red "N left" line appears when stock is low.
+- **Filters:** every filter option shows how many results it leaves and the cheapest price it leads to. Flights have 9 filter groups and 9 sort options; hotels have 20 filter groups (with a price chart above the slider) and 6 sort options.
+- **Fare and room choices:** each fare lists the same five things in the same order (seat, carry-on, checked bag, refund, changes), each marked as included, costs extra, or not available. Return flights, fare upgrades, cancellation options and extras all show "+$N" against what's already chosen.
+- **Recommendations without signing in:** after one flight search, one hotel search and one hotel view, the homepage filled in my last search, added a "your recent activity" row and a "recommended stays for you" row, and renamed a row to the last city I searched. This matches Varun's ruling on recommendations closely.
+- **Footer:** 4 columns, 33 links and a legal line. It has no newsletter, payment or trust badges, social links or contact details, so our footers can go further.
+
+**What I couldn't see:**
+- Expedia treated the session as coming from India. The departure airport, first deals row, ads and some prices reflect that; the page structure doesn't.
+- The flight passenger form, the flight return step and review page at 390, the hotel map at 390, and any signed-in pages (Trips, Inbox).
+- The price calendar with a destination filled in, and Expedia's AI "Ask" feature, because both need typing.
+- Hover states other than the flight card (it showed no visible change), and whether the site respects reduced-motion settings.
+- Some photos are blank in four of the full-page screenshots because they load only on scroll. Separate screenshots of those sections show the photos.
+
+**Housekeeping:**
+- The browser tool saved page snapshots and console logs automatically to `c:\Users\varun\digital-heroes-automation\.playwright-mcp\`. They contain Expedia's page text. Git ignores that folder, but it should be cleared; I didn't delete anything because I'm limited to writing one file.
+- For the same reason I didn't add this run to `review-log.md`, so please log it: deconstructor, Opus 5.5, Expedia full-journey inventory, completed with the gaps listed above.

@@ -1,0 +1,31 @@
+All three fixes are done. The Chief Officer's verdict is **CONFIRMED WITH NOTES**: the icons now read as plainly different from the other design's, and nothing is sent back. Both palettes build cleanly, I stopped the 3003 and 3004 servers at 12:21, and the Studio Lead's 3001 and 3002 are still running.
+
+**Fix 1, icons.** All 63 symbols in `Sprite.tsx` are redrawn from scratch. I read only the id list, never the old paths, and kept the same ids, so no component changed. The two-line language at the top of the file:
+- A 20px grid, a fine 1.25 line, square caps, mitre joins and no fills.
+- Straight lines, true circles and 45 or 60 degree turns, with corners square or cut at 45 degrees, never rounded.
+
+Some of Landfall's own drawings: a two-line menu, a side-view plane, square filter knobs, graded sort lines, an octagon for errors and a pram for children.
+
+One departure from the brief: I couldn't make the line stay exactly 1.25px at every size, because the CSS setting for that doesn't reach sprite icons in Chrome. The line therefore scales with the icon: 1px at 16px, 1.25px at 20px, 1.5px at 24px. It still reads as a fine line, and it's noted in the file.
+
+I also turned the swap arrows upright at 390, where From and To stack, and gave the checkbox ticks square caps to match.
+
+**Fix 2, photos.** Each photo is under the Unsplash License, checked on its photo page, cut by the image script without upscaling, and updated in `credits.md` and the mock data:
+- **River View Double:** an open window over trees to the Tagus.
+- **Terrace Suite:** French windows over red roofs to the river and the 25 de Abril bridge.
+- **404:** a gull on a stone pillar at the Lisbon quay. This also replaces the fallback photo in two empty states.
+
+The Chief Officer checked that none of the three photos is used by the other design.
+
+**Fix 3, the check.** The Chief Officer also confirmed that the confirmation's dot mark is Landfall's own. Its one real note was that the 404 crop cut off the gull. I fixed that and checked it in both palettes at 1440 and 390. At 1440 the river itself sits behind the search card, so the pillar and gull carry that page. My spot QA (7 pages, both palettes, both widths) found no console errors, failed requests or horizontal scroll.
+
+**Still open** (all in the handover's open items):
+- Optional, from the Chief Officer: a slightly larger confirmation dot so its outer ring shows.
+- Nobody has looked at the icons in toasts, the travelers stepper, the filter and sort sheets at 390, or the Room details dialog.
+- Two image-size flags from older code:
+  - The "Other hotels" cards request a smaller image than their slot (nothing actually shows upscaled).
+  - The home hero is drawn about 2% wider than its file while it zooms.
+- The critic's stray screenshot `h-results-1440-studio.png` is still at the studio root; deleting it is your call.
+- No critic round ran in this pass, so the last score (about 6.9) predates these fixes.
+
+This is a good commit point. Suggested message: `Landfall: own icon set redrawn from scratch, three Lisbon photos replaced, 404 crop fixed`

@@ -1,0 +1,324 @@
+/* =====================================================================
+   travel-booking (Overwing): round 3 home, Part A (Developer A)
+   design/round3-spec.md A0 to A13. Light sections in .b-wrap; navy wall
+   panels inset like the hero (16px from the rail and the screen edge,
+   8px on phones), never two in a row. Values are role tokens.
+   ===================================================================== */
+
+/* ---- A0 fixes ---- */
+/* the first entry card matches the mode (CSS order, no remount) */
+/* (the entry cards now reorder in the DOM: components/home/EntryCards.tsx) */
+/* 390: 24px more under the windows, so their lower bezels show once the tab bar steps aside */
+@media (max-width: 640px) { .o-homeHero__cabin { padding-bottom: 5.6rem; } }
+
+/* ---- section frame ---- */
+.o-r3 { margin-top: var(--s-section); }
+.o-r3[id], .o-cities__anchor { scroll-margin-top: 8.8rem; }
+.o-r3__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: .8rem 2.4rem; margin-bottom: 2rem; }
+.o-r3__head .a-h2 { margin: 0; }
+.o-r3__head > .o-r3__sub { flex-basis: 100%; margin-top: -.4rem; }
+.o-r3__sub { margin: 0 0 2rem; color: var(--c-muted); font: var(--fw-ui) 1.5rem/1.45 var(--f-ui); }
+.o-r3__fine { max-width: 76ch; margin: 2rem 0 0; color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.5 var(--f-ui); text-wrap: pretty; }
+.o-r3__seeAll { color: var(--c-ink); font-weight: var(--fw-ui-strong); text-decoration: underline; text-underline-offset: .3em; text-decoration-thickness: 1px; }
+.o-r3__seeAll:hover { text-decoration-color: var(--c-accent); }
+
+/* the navy wall panels: inset like the hero, 32px from the light sections around them */
+.o-dealBand, .o-browse { margin-top: 3.2rem; }
+.o-dealBand + .o-r3, .o-browse + .o-r3 { margin-top: 6.4rem; }
+.o-dealBand__panel, .o-browse__panel { --c-focus: var(--c-hero-focus); margin: 0 .8rem; padding: 4rem 2rem; border-radius: var(--r-lg); background: var(--c-hero); color: var(--c-hero-ink); }
+.o-browse__panel .a-h2, .o-dealBand__panel .a-h2 { color: var(--c-hero-ink); }
+@media (min-width: 641px) { .o-dealBand__panel, .o-browse__panel { margin: 0 var(--hero-inset); padding: 5.6rem 4.8rem; border-radius: var(--r-xl); } }
+@media (min-width: 1025px) {
+  .o-dealBand, .o-browse { margin-top: 4.8rem; }
+  .o-dealBand__panel, .o-browse__panel { padding: 6.4rem; }
+  .o-browse__panel > * { max-width: 123.2rem; margin-left: auto; margin-right: auto; }
+}
+
+/* ---- A3. Pick up where you left off ---- */
+.o-recent__clear { font-size: 1.3rem; color: var(--c-muted); }
+.o-recent__list { display: grid; grid-auto-flow: column; grid-auto-columns: 26rem; gap: 1.6rem; margin: -.6rem calc(var(--gutter) * -1) 0; padding: .6rem var(--gutter) .8rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; list-style: none; }
+.o-recent__list::-webkit-scrollbar { display: none; }
+.o-recent__list > li { scroll-snap-align: start; }
+.m-recent { display: flex; align-items: center; gap: 1.2rem; min-height: 8.8rem; height: 100%; padding: 1.2rem 1.6rem; border: 1px solid var(--c-line); border-radius: var(--r-md); background: var(--c-surface); color: var(--c-ink); text-decoration: none; transition: border-color var(--d-fast) var(--ease-std), box-shadow var(--d-fast) var(--ease-std); }
+.m-recent > .a-icon { flex: none; margin-left: auto; color: var(--c-muted); transition: transform var(--d-nudge) var(--ease-out-long); }
+.m-recent__win { position: relative; flex: none; width: 4.6rem; height: 5.6rem; overflow: hidden; border-radius: var(--r-window); background: var(--c-tint); }
+.m-recent__win picture, .m-recent__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.m-recent__text { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+.m-recent__title { font: var(--fw-bold) 1.6rem/1.25 var(--f-display); }
+.m-recent__meta, .m-recent__moved { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.35 var(--f-ui); }
+.m-recent__moved { color: var(--c-price-note); }
+.m-recent:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+@media (hover: hover) and (any-pointer: fine) { .m-recent:hover { border-color: var(--c-field); box-shadow: var(--sh-thumb); } .m-recent:hover > .a-icon { transform: translateX(.4rem); } }
+@media (min-width: 641px) { .o-recent__list { grid-auto-columns: calc((100% - 3.2rem) / 3.2); } }
+@media (min-width: 1025px) { .o-recent__list { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 0; overflow: visible; } }
+
+/* ---- A4. Recommended for you ---- */
+.o-rec .m-tabs { margin-bottom: 1.2rem; }
+.o-rec .o-r3__sub { min-height: 2.2rem; }
+@media (min-width: 1025px) { .o-rec .o-r3__sub { max-width: calc(100% - 12rem); } }
+
+/* ---- A5. Deal banner ---- */
+.o-dealBand__panel { display: grid; gap: 3.2rem; align-items: center; }
+.o-dealBand__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 1.6rem; }
+.o-dealBand__line { max-width: 46ch; margin: 0; color: var(--c-hero-muted); font: var(--fw-ui) var(--t-body)/var(--lh-body) var(--f-ui); }
+.o-dealBand__copy .a-button { margin-top: .8rem; }
+.o-dealBand__wins { display: grid; grid-template-columns: repeat(2, minmax(0, 14rem)); justify-content: center; gap: 2.4rem; margin: 0; padding: 0; list-style: none; }
+.m-bwin { display: flex; flex-direction: column; align-items: stretch; color: var(--c-ink); text-decoration: none; }
+.m-bwin__frame { position: relative; isolation: isolate; display: block; aspect-ratio: 200 / 270; overflow: hidden; border-radius: var(--r-window); background: var(--c-deep); box-shadow: 0 0 0 .8rem var(--c-bezel), -2px -2px 0 .8rem var(--c-accent-soft), 0 0 0 calc(.8rem + 1px) var(--c-bezel-ring), var(--sh-window); }
+.m-bwin__frame picture, .m-bwin__img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform var(--d-zoom) var(--ease-out-long); }
+.m-bwin__tag { display: flex; flex-direction: column; align-items: flex-start; gap: .2rem; margin-top: 2.4rem; padding: 1.2rem 1.4rem; border-radius: var(--r-md); background: var(--c-surface); box-shadow: var(--sh-card); }
+.m-bwin__city { font: var(--fw-bold) 1.7rem/1.2 var(--f-display); text-decoration: underline 1px transparent; text-underline-offset: 3px; transition: text-decoration-color var(--d-fast) var(--ease-std); }
+.m-bwin__price { font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-bwin__tag .a-save { margin-top: .6rem; }
+.m-bwin:focus-visible { outline: none; }
+.m-bwin:focus-visible .m-bwin__tag { outline: 2px solid var(--c-hero-focus); outline-offset: 3px; }
+@media (hover: hover) and (any-pointer: fine) { .m-bwin:hover .m-bwin__img { transform: scale(1.04); } .m-bwin:hover .m-bwin__city { text-decoration-color: currentColor; } }
+:root[data-palette="cabin"] .m-bwin__tag { background: var(--c-ground); box-shadow: inset 0 0 0 1px var(--c-line); }
+@media (max-width: 640px) { .o-dealBand__copy .a-button { align-self: stretch; } }
+@media (min-width: 641px) { .o-dealBand__wins { grid-template-columns: repeat(2, minmax(0, 16rem)); gap: 4rem; } }
+@media (min-width: 1025px) {
+  .o-dealBand__panel { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 36rem; padding: 5.6rem 6.4rem 5.6rem 8rem; }
+  .o-dealBand__wins { grid-template-columns: repeat(2, 20rem); gap: 5.6rem; justify-content: end; padding-right: 2.4rem; }
+}
+
+/* ---- A6. Deal cards ---- */
+.o-deals__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3.2rem 2.4rem; margin: 0; padding: 0; list-style: none; }
+.o-deals__grid > li { display: flex; min-width: 0; }
+.o-deals__grid > li:nth-child(n + 5) { display: none; }
+.o-deals.is-more .o-deals__grid > li { display: flex; }
+.o-deals__more { margin-top: 2.4rem; }
+@media (min-width: 641px) {
+  .o-deals__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .o-deals__grid > li:nth-child(n + 5) { display: flex; }
+  .o-deals__grid > li:nth-child(n + 7) { display: none; }
+}
+@media (min-width: 1025px) {
+  .o-deals__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4rem 2.4rem; }
+  .o-deals__grid > li:nth-child(n + 7) { display: flex; }
+  .o-deals__more { display: none; }
+}
+
+/* ---- A7. Trending ---- */
+.o-trend__split { display: grid; gap: 4rem; }
+.o-trend__wins { display: grid; grid-auto-flow: column; grid-auto-columns: 24rem; gap: 1.6rem; margin: -.6rem calc(var(--gutter) * -1) 0; padding: .6rem var(--gutter) 1.2rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; list-style: none; }
+.o-trend__wins::-webkit-scrollbar { display: none; }
+.o-trend__wins > li { scroll-snap-align: start; }
+.o-trend__list { display: grid; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.m-trow { display: grid; grid-template-columns: 4rem minmax(0, 1fr) auto; align-items: center; gap: 1.2rem; min-height: 6.4rem; padding: .8rem 1.2rem; border-radius: var(--r-sm); color: var(--c-ink); text-decoration: none; transition: background-color var(--d-fast) var(--ease-std); }
+.o-trend__list > li:nth-child(odd) .m-trow { background: var(--c-row); }
+.m-trow__win { position: relative; width: 4rem; height: 4.8rem; overflow: hidden; border-radius: var(--r-window); background: var(--c-tint); }
+.m-trow__win picture, .m-trow__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.m-trow__text { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+.m-trow__title { font: var(--fw-bold) 1.6rem/1.25 var(--f-display); text-decoration: underline 1px transparent; text-underline-offset: 3px; transition: text-decoration-color var(--d-fast) var(--ease-std); }
+.m-trow__meta { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.35 var(--f-ui); }
+.m-trow__price { font: var(--fw-bold) 1.7rem/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.m-trow:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+@media (hover: hover) and (any-pointer: fine) { .m-trow:hover { background: var(--c-tint); } .m-trow:hover .m-trow__title { text-decoration-color: currentColor; } }
+.m-dest .a-blind, .m-type .a-blind, .m-city .a-blind { border-radius: inherit; }
+@media (min-width: 641px) {
+  .o-trend__wins { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4rem 2.4rem; margin: 0; padding: 0; overflow: visible; }
+  .o-trend__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem 2.4rem; }
+  .o-trend__list > li:nth-child(odd) .m-trow { background: none; }
+  .o-trend__list > li:nth-child(4n + 1) .m-trow, .o-trend__list > li:nth-child(4n + 2) .m-trow { background: var(--c-row); }
+}
+@media (min-width: 1025px) {
+  .o-trend__split { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 4.8rem; align-items: start; }
+  .o-trend__list { grid-template-columns: minmax(0, 1fr); }
+  .o-trend__list > li .m-trow { background: none; }
+  .o-trend__list > li:nth-child(odd) .m-trow { background: var(--c-row); }
+}
+/* hotel mode: two wide windows over three (Booking.com's 2 + 3, drawn as windows) */
+.o-trend__cities { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3.2rem 2.4rem; margin: 0; padding: 0; list-style: none; }
+.m-city { display: flex; flex-direction: column; color: var(--c-ink); text-decoration: none; }
+.m-city__win { position: relative; isolation: isolate; display: block; aspect-ratio: 342 / 240; overflow: hidden; border-radius: min(12rem, 34%) / min(14rem, 40%); background: var(--c-deep); box-shadow: var(--sh-card); }
+.m-city__win::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; box-shadow: inset 0 .4rem 1.2rem rgba(11, 27, 46, .22), inset 0 0 0 1px rgba(11, 27, 46, .08); pointer-events: none; }
+.m-city__win picture, .m-city__img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform var(--d-zoom) var(--ease-out-long); }
+.m-city__name { margin-top: 1.4rem; font: var(--fw-bold) 2rem/1.25 var(--f-display); text-decoration: underline 1px transparent; text-underline-offset: 3px; transition: text-decoration-color var(--d-fast) var(--ease-std); }
+.m-city__meta { margin-top: .2rem; color: var(--c-muted); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.m-city:focus-visible { outline: none; }
+.m-city:focus-visible .m-city__win { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+@media (hover: hover) and (any-pointer: fine) { .m-city:hover .m-city__img { transform: scale(1.04); } .m-city:hover .m-city__name { text-decoration-color: currentColor; } }
+@media (min-width: 641px) {
+  .o-trend__cities { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .o-trend__cities > li { grid-column: span 2; }
+  .o-trend__cities > li:nth-child(-n + 2) { grid-column: span 3; }
+  .o-trend__cities > li:nth-child(-n + 2) .m-city__win { aspect-ratio: 592 / 400; }
+  .o-trend__cities > li:nth-child(n + 3) .m-city__win { aspect-ratio: 389 / 300; }
+}
+
+/* ---- A8. Browse (navy wall) ---- */
+.o-browse__all { color: var(--c-hero-ink); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); text-decoration: underline; text-underline-offset: .3em; text-decoration-thickness: 1px; text-decoration-color: var(--c-hero-muted); }
+.o-browse__all:hover { text-decoration-color: var(--c-hero-focus); }
+.o-browse__wins { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3.2rem 1.6rem; margin: 0; padding: 0; list-style: none; }
+.m-dest.-dark { color: var(--c-hero-ink); }
+.m-dest.-dark .m-dest__window { background: var(--c-hero-tint); box-shadow: 0 0 0 .5rem var(--c-bezel), 0 0 0 calc(.5rem + 1px) var(--c-bezel-ring), var(--sh-window); }
+.m-dest.-dark .m-dest__name { margin-top: 2rem; font-size: 1.7rem; }
+.m-dest__blurb { margin-top: .4rem; color: var(--c-hero-muted); font: var(--fw-ui) 1.3rem/1.45 var(--f-ui); text-wrap: pretty; }
+.m-dest.-dark .m-dest__price { margin-top: .8rem; color: var(--c-hero-ink); }
+.m-dest.-dark .m-dest__note { color: var(--c-hero-muted); }
+.m-dest.-dark:focus-visible .m-dest__window { outline-color: var(--c-hero-focus); }
+.o-browse__types { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3.2rem 1.6rem; margin: 0; padding: 0; list-style: none; }
+.m-type { display: flex; flex-direction: column; color: var(--c-hero-ink); text-decoration: none; }
+.m-type__win { position: relative; isolation: isolate; display: block; aspect-ratio: 176 / 236; overflow: hidden; border-radius: var(--r-window); background: var(--c-hero-tint); box-shadow: 0 0 0 .5rem var(--c-bezel), 0 0 0 calc(.5rem + 1px) var(--c-bezel-ring), var(--sh-window); }
+.m-type__win picture, .m-type__img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform var(--d-zoom) var(--ease-out-long); }
+.m-type__label { margin-top: 2rem; font: var(--fw-bold) 1.6rem/1.25 var(--f-display); text-decoration: underline 1px transparent; text-underline-offset: 3px; transition: text-decoration-color var(--d-fast) var(--ease-std); }
+.m-type__meta { margin-top: .2rem; color: var(--c-hero-muted); font: var(--fw-ui) 1.4rem/1.4 var(--f-ui); }
+.m-type:focus-visible { outline: none; }
+.m-type:focus-visible .m-type__win { outline: 2px solid var(--c-hero-focus); outline-offset: 8px; }
+.o-browse__sub { margin: 4.8rem 0 1.6rem; color: var(--c-hero-ink); font: var(--fw-bold) var(--t-h3)/1.2 var(--f-display); }
+.o-browse__pills { display: flex; flex-wrap: wrap; gap: .8rem; margin: 0; padding: 0; list-style: none; }
+.m-cpill { display: inline-flex; align-items: baseline; gap: .8rem; min-height: 4.4rem; padding: 1.1rem 1.8rem; border-radius: var(--r-pill); background: var(--c-hero-tint); color: var(--c-hero-ink); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); text-decoration: none; transition: background-color var(--d-fast) var(--ease-std), color var(--d-fast) var(--ease-std); }
+.m-cpill span { color: var(--c-hero-muted); font-weight: var(--fw-ui); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.m-cpill:focus-visible { outline: 2px solid var(--c-hero-focus); outline-offset: 3px; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-dest.-dark:hover .m-dest__name, .m-type:hover .m-type__label { text-decoration-color: currentColor; }
+  .m-type:hover .m-type__img { transform: scale(1.04); }
+  .m-cpill:hover { background: var(--c-hero-ink); color: var(--c-hero); }
+  .m-cpill:hover span { color: var(--c-hero); }
+}
+@media (min-width: 641px) {
+  .o-browse__wins { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3.2rem 2.4rem; }
+  .o-browse__types { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4rem 3.2rem; }
+}
+@media (min-width: 1025px) {
+  .o-browse__wins { gap: 4rem 4.8rem; padding: 0 2.4rem; }
+  .o-browse__types { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4rem 3.2rem; padding: 0 1.2rem; }
+}
+
+/* ---- A9. Cheapest months / this weekend ---- */
+.o-when__pick { position: relative; display: inline-flex; align-items: center; gap: .8rem; color: var(--c-muted); font: var(--fw-ui-strong) var(--t-kicker)/1 var(--f-ui); letter-spacing: var(--tr-label); text-transform: uppercase; }
+.o-when__pick select { appearance: none; height: 4rem; padding: 0 4rem 0 1.6rem; border: 1px solid var(--c-field); border-radius: var(--r-pill); background: var(--c-surface); color: var(--c-ink); font: var(--fw-ui-medium) 1.5rem/1 var(--f-ui); letter-spacing: 0; text-transform: none; cursor: pointer; }
+.o-when__pick .a-icon { position: absolute; right: 1.4rem; width: 1.6rem; height: 1.6rem; color: var(--c-ink); pointer-events: none; }
+.o-when__pick select:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+.o-when__bars { display: grid; grid-auto-flow: column; grid-auto-columns: 4.4rem; gap: 1.2rem; height: 26rem; margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter); overflow-x: auto; scrollbar-width: none; list-style: none; }
+.o-when__bars::-webkit-scrollbar { display: none; }
+.o-when__bars > li { display: flex; min-width: 0; }
+.m-bar { display: flex; flex: 1; flex-direction: column; justify-content: flex-end; align-items: center; gap: .6rem; color: var(--c-ink); text-decoration: none; }
+.m-bar__price { color: var(--c-muted); font: var(--fw-ui-medium) 1.2rem/1 var(--f-ui); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.m-bar__fill { display: block; width: 100%; max-width: 5.6rem; max-height: 20rem; border-radius: .8rem .8rem 0 0; background: var(--c-tint); transition: background-color var(--d-fast) var(--ease-std), height var(--d-panel) var(--ease-out-long); }
+.is-low .m-bar__fill { background: var(--c-accent); }
+.is-low .m-bar__price { color: var(--c-ink); font-weight: var(--fw-ui-heavy); }
+.m-bar__month { padding-top: .6rem; color: var(--c-muted); font: var(--fw-ui-strong) var(--t-kicker)/1 var(--f-ui); letter-spacing: var(--tr-label); text-transform: uppercase; }
+.o-when__bars { border-bottom: 0; }
+@media (hover: hover) and (any-pointer: fine) { .m-bar:hover .m-bar__fill { background: var(--c-deep); } .m-bar:hover .m-bar__price { color: var(--c-ink); } }
+@media (min-width: 641px) { .o-when__bars { grid-auto-columns: minmax(0, 1fr); margin: 0; padding: 0; overflow: visible; } }
+/* the month with the cheapest single date (critic: the caption named a month the bars did not mark) */
+.is-date .m-bar__month::after { content: ''; display: block; width: .6rem; height: .6rem; margin: .5rem auto 0; border-radius: 50%; background: var(--c-accent); }
+/* 390: all twelve months in two rows of six, no hidden sideways scroll (critic: the row cut off at May) */
+@media (max-width: 640px) {
+  .o-when__bars { grid-auto-flow: row; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: 16rem; gap: 2.4rem .8rem; height: auto; margin: 0; padding: 0; overflow: visible; }
+  .m-bar__fill { max-height: 10rem; }
+  .m-bar__price { font-size: 1.15rem; }
+}
+
+/* ---- A10a. How booking works: one line, four stops ---- */
+.o-how__track { position: relative; display: grid; gap: 3.2rem; margin: 1.2rem 0 0; padding: 0 0 0 0; list-style: none; }
+.o-how__track::before { content: ""; position: absolute; top: 2.4rem; bottom: 2.4rem; left: 2.4rem; width: 1px; background: var(--c-line); }
+.o-how__stop { position: relative; display: grid; align-content: start; grid-template-columns: 4.8rem minmax(0, 1fr); column-gap: 2rem; row-gap: .4rem; }
+.o-how__dot { grid-row: span 2; display: grid; place-items: center; width: 4.8rem; height: 4.8rem; border-radius: 50%; background: var(--c-tint); color: var(--c-accent); box-shadow: 0 0 0 .8rem var(--c-ground); }
+.o-how__dot .a-icon { width: 2.2rem; height: 2.2rem; }
+.o-how__title { align-self: end; font: var(--fw-bold) 1.7rem/1.3 var(--f-display); }
+.o-how__text { max-width: 34ch; color: var(--c-muted); font: var(--fw-ui) 1.5rem/1.5 var(--f-ui); text-wrap: pretty; }
+@media (min-width: 641px) {
+  .o-how__track { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.4rem; }
+  .o-how__track::before { top: 2.4rem; bottom: auto; left: 0; right: 0; width: auto; height: 1px; }
+  .o-how__stop { grid-template-columns: minmax(0, 1fr); row-gap: .8rem; }
+  .o-how__dot { grid-row: auto; margin-bottom: 1.2rem; }
+  .o-how__title { align-self: start; }
+}
+@media (min-width: 641px) and (max-width: 1024px) { .o-how__text { font-size: 1.4rem; } }
+
+/* ---- A10b. Trust panel: three facts under the ticks ---- */
+.o-homeTrust__more { display: flex; flex-wrap: wrap; gap: 1.2rem 2.4rem; margin: 3.2rem 0 0; padding: 2.4rem 0 0; border-top: 1px solid var(--c-hero-line); color: var(--c-hero-muted); font: var(--fw-ui) 1.3rem/1.4 var(--f-ui); list-style: none; }
+.o-homeTrust__more li { display: inline-flex; align-items: center; gap: .8rem; }
+.o-homeTrust__more .a-icon { width: 1.8rem; height: 1.8rem; color: var(--c-hero-focus); }
+
+/* ---- A11. Questions ---- */
+.o-faq__help { color: var(--c-ink); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); text-decoration: underline; text-underline-offset: .3em; text-decoration-thickness: 1px; }
+.o-faq__help:hover { text-decoration-color: var(--c-accent); }
+.o-faq__cols { display: grid; gap: 0; border-top: 1px solid var(--c-line); }
+@media (min-width: 641px) { .o-faq__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 4.8rem; } .o-faq__col { border-top: 0; } }
+
+/* ---- A12. Flights and stays by city ---- */
+.o-cities { position: relative; padding: 6.4rem 0; background: var(--c-cream); }
+.o-cities__anchor { position: absolute; top: 0; }
+.o-cities .m-tabs__tab:not([aria-pressed="true"]) { background: var(--c-surface); }
+.o-cities__grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 1.2rem; margin: 0; padding: 0; list-style: none; }
+.o-cities:not(.is-all) .o-cities__grid > li:nth-child(n + 9) { display: none; }
+.o-cities__more { margin-top: 2.4rem; }
+.m-cityrow { border-radius: var(--r-sm); background: var(--c-surface); box-shadow: var(--sh-thumb); }
+.m-cityrow__sum { display: grid; grid-template-columns: 4rem minmax(0, 1fr) auto 2rem; align-items: center; gap: 1.2rem; min-height: 7.2rem; padding: .8rem 1.6rem; border-radius: inherit; list-style: none; cursor: pointer; }
+.m-cityrow__sum::-webkit-details-marker { display: none; }
+.m-cityrow__sum > .a-icon { width: 2rem; height: 2rem; color: var(--c-muted); transition: transform 240ms var(--ease-std); }
+.m-cityrow[open] .m-cityrow__sum > .a-icon { transform: rotate(180deg); }
+.m-cityrow__sum:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.m-cityrow__win { position: relative; width: 4rem; height: 4.8rem; overflow: hidden; border-radius: var(--r-window); background: var(--c-tint); }
+.m-cityrow__win picture, .m-cityrow__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.m-cityrow__text { display: flex; flex-direction: column; min-width: 0; }
+.m-cityrow__name { font: var(--fw-bold) 1.6rem/1.25 var(--f-display); }
+.m-cityrow__country { color: var(--c-muted); font: var(--fw-ui) 1.3rem/1.35 var(--f-ui); }
+.m-cityrow__from { font: var(--fw-ui-strong) 1.4rem/1.2 var(--f-ui); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.m-cityrow__from small { color: var(--c-muted); font-weight: var(--fw-ui); font-size: 1.2rem; }
+.m-cityrow__list { margin: 0; padding: 0 1.6rem 1.2rem; border-top: 1px solid var(--c-line); list-style: none; }
+.m-cityrow__link { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr) 1.6rem; align-items: center; gap: 1.2rem; min-height: 5.6rem; padding: .6rem 0; border-bottom: 1px solid var(--c-line); color: var(--c-ink); text-decoration: none; }
+.m-cityrow__link > .a-icon { width: 1.6rem; height: 1.6rem; color: var(--c-muted); transition: transform var(--d-nudge) var(--ease-out-long); }
+.m-cityrow__al { display: flex; flex-direction: column; font: var(--fw-ui-medium) 1.4rem/1.3 var(--f-ui); }
+.m-cityrow__al small { color: var(--c-muted); font-weight: var(--fw-ui); font-size: 1.3rem; }
+.m-cityrow__score { display: grid; place-items: center; width: 3.2rem; height: 3.8rem; border-radius: var(--r-window); background: var(--c-score); color: var(--c-score-ink); font: var(--fw-bold) 1.4rem/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.m-cityrow__all { display: inline-flex; align-items: center; min-height: 4.4rem; margin-top: .4rem; color: var(--c-deep); font: var(--fw-ui-strong) 1.4rem/1.3 var(--f-ui); text-decoration: underline; text-underline-offset: .3em; text-decoration-thickness: 1px; }
+.m-cityrow__link:focus-visible, .m-cityrow__all:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; border-radius: .6rem; }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-cityrow__sum:hover .m-cityrow__name, .m-cityrow__link:hover .m-cityrow__al { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .m-cityrow__link:hover > .a-icon { transform: translateX(.3rem); }
+}
+@media (min-width: 641px) {
+  .o-cities__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem 2.4rem; }
+  .o-cities:not(.is-all) .o-cities__grid > li:nth-child(n + 9) { display: block; }
+  .o-cities__more { display: none; }
+}
+@media (min-width: 1025px) {
+  .o-cities { margin-left: var(--hero-inset); margin-right: var(--hero-inset); padding: 8rem 0; border-radius: var(--r-xl); }
+  .o-cities__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---- A13. the pre-footer band follows the city band directly ---- */
+.o-cities + .o-homeBand { margin-top: 3.2rem; }
+/* property types: one row of six from 900px (three rows of huge windows at 1024 read as a gallery, not a picker) */
+@media (min-width: 900px) and (max-width: 1024px) { .o-browse__types { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 3.2rem 2rem; } }
+
+/* ---- critic round fixes (round 3 Part A) ---- */
+.m-bwin__save { display: inline-flex; align-items: flex-start; gap: .4rem; margin-top: .6rem; color: var(--c-save-ink); font: var(--fw-ui-strong) 1.2rem/1.35 var(--f-ui); text-wrap: pretty; }
+.m-bwin__save .a-icon { flex: none; width: 1.4rem; height: 1.4rem; margin-top: .1rem; }
+.m-recent__price { color: var(--c-ink); font: var(--fw-ui-strong) 1.3rem/1.35 var(--f-ui); font-variant-numeric: tabular-nums; }
+.m-hcard__meta, .m-hcard__note, .m-dest__note, .m-type__meta, .m-city__meta, .m-trow__meta { text-wrap: pretty; }
+.m-rail__nav[hidden] { display: none; }
+/* pre-footer (critic issue 10): about 100px of dead navy before the footer's phone number; the band keeps its window
+   (40rem) and the footer still rises 32px over it */
+@media (min-width: 1025px) { .o-homeBand__panel { padding-bottom: 17.6rem; } }
+.m-bar:focus-visible { outline: none; }
+.m-bar:focus-visible .m-bar__fill { outline: 2px solid var(--c-focus); outline-offset: 3px; }
+.m-bar:focus-visible .m-bar__price { color: var(--c-ink); }
+
+/* ---- critic, round 3 second pass: the pre-footer window was dimmed to .3 under the headline and read murky. From
+   1025 the line and button sit left and the window stands beside them at full strength, so no text crosses the frame
+   and no contrast dimming is needed. 390 and 1024 keep the centred band. ---- */
+@media (min-width: 1025px) {
+  .o-homeBand__panel { display: grid; grid-template-columns: auto auto; justify-content: center; align-items: center; justify-items: start; gap: 2.8rem 12.8rem; padding: 8.8rem 9.6rem 12.8rem; text-align: left; }
+  .o-homeBand__window { position: relative; z-index: 0; top: auto; left: auto; grid-column: 2; grid-row: 1 / span 2; height: 36rem; opacity: 1; transform: none; box-shadow: 0 0 0 1.6rem rgba(255, 255, 255, .08), 0 0 0 calc(1.6rem + 1px) rgba(255, 255, 255, .12); }
+  .o-homeBand__panel > :not(.o-homeBand__window) { grid-column: 1; }
+  .o-homeBand__title { align-self: end; max-width: 12em; }
+  .o-homeBand__panel > a, .o-homeBand__panel > .a-button { align-self: start; }
+}
+
+/* ---- critic, round 3 second pass: the Flights / Hotels switch docked in the top bar below the hero (1025 and up) ---- */
+.o-modeDock { display: none; }
+@media (min-width: 1025px) {
+  .o-modeDock { position: fixed; z-index: calc(var(--z-header) + 1); top: calc((var(--topbar-h) - 4.4rem) / 2); left: calc(50% + var(--rail-w) / 2); display: inline-flex; gap: .4rem; padding: .4rem; border: 1px solid var(--c-line); border-radius: var(--r-pill); background: var(--c-surface); opacity: 0; visibility: hidden; transform: translate(-50%, -.8rem); transition: opacity var(--d-fast) var(--ease-std), transform var(--d-fast) var(--ease-std), visibility 0s linear var(--d-fast); }
+  .o-modeDock.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+}
+.o-modeDock__btn { display: inline-flex; align-items: center; gap: .8rem; height: 3.4rem; padding: 0 1.6rem; border: 0; border-radius: var(--r-pill); background: transparent; color: var(--c-ink); font: var(--fw-ui-medium) 1.4rem/1 var(--f-ui); cursor: pointer; transition: background-color var(--d-fast) var(--ease-std), color var(--d-fast) var(--ease-std); }
+.o-modeDock__btn .a-icon { width: 1.6rem; height: 1.6rem; }
+.o-modeDock__btn[aria-pressed="true"] { background: var(--c-hero); color: var(--c-hero-ink); cursor: default; }
+.o-modeDock__btn:focus-visible { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+@media (hover: hover) and (any-pointer: fine) { .o-modeDock__btn[aria-pressed="false"]:hover { background: var(--c-tint); } }
+@media (prefers-reduced-motion: reduce) { .o-modeDock, .o-modeDock__btn { transition: none; } }

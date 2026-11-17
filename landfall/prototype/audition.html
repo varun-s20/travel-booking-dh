@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landfall auditions</title>
+<meta name="robots" content="noindex">
+<style>
+/* travel-booking, Landfall (working name, a placeholder): phase A auditions.
+   Static page for checkpoint 2a. Type options T1 to T3 and palettes P-N and P-H,
+   all on Landfall's own hero photo. Not the prototype. */
+@font-face { font-family: "Newsreader"; src: url("assets/fonts/newsreader-latin-var.woff2") format("woff2"); font-weight: 300 600; font-display: swap; }
+@font-face { font-family: "Albert Sans"; src: url("assets/fonts/albert-sans-latin-var.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Atkinson Hyperlegible Next"; src: url("assets/fonts/atkinson-hyperlegible-next-latin-var.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+:root {
+  --navy: #0F2747; --ink: #0B1830; --muted: #4A5A70; --teal: #0A7C78; --teal-bright: #4FD1C1; --mist: #EAF2F4; --white: #FFFFFF; --shade: #F4F7F9; --line: #E1E7EC;
+  --sea: #173B4F; --h-ink: #1A1712; --h-muted: #5E5548; --terra: #A34A26; --gold: #E6B56A; --shell: #F3E9DC; --sand: #FBF6EF;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--shade); color: var(--ink); font: 400 16px/1.5 "Albert Sans", Arial, sans-serif; }
+.page { max-width: 1240px; margin: 0 auto; padding: 48px 20px 96px; }
+h1.page__title { font: 500 36px/1.15 "Albert Sans", sans-serif; letter-spacing: -.02em; margin: 0 0 8px; }
+.page__lede { max-width: 760px; color: var(--muted); margin: 0 0 48px; text-wrap: pretty; }
+h2.block__title { font: 600 22px/1.3 "Albert Sans", sans-serif; margin: 64px 0 8px; }
+.block__note { color: var(--muted); max-width: 820px; margin: 0 0 24px; font-size: 15px; text-wrap: pretty; }
+.opt { background: var(--white); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; margin: 0 0 32px; }
+.opt__head { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+.opt__name { font-weight: 600; font-size: 18px; }
+.opt__lic { font-size: 14px; color: var(--teal); font-weight: 600; }
+.opt__meta { font-size: 14px; color: var(--muted); }
+
+/* ---- hero frame: the Lisbon photo with Kasa's layered scrim ---- */
+.frame { position: relative; aspect-ratio: 16 / 9; min-height: 420px; color: #FDFDFB; overflow: hidden; }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+.frame::before { content: ""; position: absolute; inset: 0; background: rgba(11, 24, 48, .2); }
+.frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(11, 24, 48, .62), rgba(11, 24, 48, 0) 58%), linear-gradient(to top, rgba(11, 24, 48, .28), rgba(11, 24, 48, 0) 22%); }
+.frame__in { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: 9% 24px 0; text-align: center; height: 100%; }
+.frame__h { margin: 0; font-size: clamp(34px, 4.4vw, 56px); line-height: 1.15; text-wrap: balance; }
+.frame__sub { margin: 12px 0 28px; font-size: clamp(16px, 1.5vw, 20px); font-weight: 500; }
+.tabs { display: flex; gap: 28px; margin-bottom: 14px; font-weight: 600; font-size: 15px; }
+.tabs span { padding-bottom: 6px; opacity: .82; }
+.tabs .is-on { opacity: 1; background: linear-gradient(90deg, #FDFDFB 0 78%, var(--accent-on-photo, var(--teal-bright)) 78% 100%) bottom / 100% 2px no-repeat; }
+.card { display: flex; align-items: stretch; width: min(100%, 960px); padding: 5px; border-radius: 16px; background: #fff; border: 1px solid rgba(11, 24, 48, .2); color: var(--card-ink, var(--ink)); text-align: left; }
+.card__f { flex: 1 1 0; min-width: 0; padding: 9px 14px; border-right: 1px solid rgba(11, 24, 48, .1); }
+.card__f:nth-child(4) { border-right: 0; }
+.card__l { display: block; font-size: 12px; line-height: 1.3; color: var(--card-muted, var(--muted)); }
+.card__v { display: block; font-size: 16px; line-height: 1.4; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card__go { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding: 0 22px; border-radius: 12px; background: var(--btn, var(--navy)); color: #fff; font-weight: 600; font-size: 15px; }
+.caption { position: absolute; z-index: 1; left: 24px; bottom: 20px; text-align: left; font-size: 14px; line-height: 1.45; }
+.caption b { display: block; font-size: 16px; font-weight: 600; }
+.caption a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.below { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; padding: 24px; }
+.below h3 { margin: 0 0 6px; font-size: 26px; line-height: 1.2; font-weight: 400; }
+.below p { margin: 0; color: var(--muted); font-size: 16px; text-wrap: pretty; }
+.price__t { font-size: 22px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.price__s { font-size: 14px; color: var(--muted); }
+.leg { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; font-variant-numeric: tabular-nums; }
+.leg__line { height: 1px; background: linear-gradient(90deg, var(--line) 0 76%, var(--teal) 76% 100%); position: relative; }
+.leg__line::before { content: ""; position: absolute; left: 0; top: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.leg b { font-size: 18px; }
+.ref { font-size: 15px; color: var(--muted); margin-top: 10px; }
+.ref span { font-size: 22px; letter-spacing: .06em; color: var(--ink); font-weight: 600; }
+
+/* ---- type options ---- */
+.t1 .frame__h, .t1 .below h3 { font-family: "Newsreader", serif; font-weight: 400; font-variation-settings: "opsz" 72; letter-spacing: -.005em; }
+.t1 .frame__in, .t1 .below { font-family: "Albert Sans", sans-serif; }
+.t2 .frame__h, .t2 .below h3 { font-family: "Albert Sans", sans-serif; font-weight: 500; letter-spacing: -.025em; }
+.t2 .frame__in, .t2 .below { font-family: "Albert Sans", sans-serif; }
+.t3 .frame__h, .t3 .below h3 { font-family: "Atkinson Hyperlegible Next", sans-serif; font-weight: 500; letter-spacing: -.02em; }
+.t3 .frame__in, .t3 .below, .t3 .card { font-family: "Atkinson Hyperlegible Next", sans-serif; }
+
+/* ---- palettes ---- */
+.pal { display: grid; grid-template-columns: 1.35fr 1fr; }
+.pal .frame { aspect-ratio: auto; min-height: 520px; }
+.pal .frame__h { font-family: "Newsreader", serif; font-weight: 400; font-variation-settings: "opsz" 72; font-size: 40px; }
+.pal .frame__in { padding-top: 64px; font-family: "Albert Sans", sans-serif; }
+.pal .card { flex-wrap: wrap; width: min(100%, 520px); }
+.pal .card__f { flex-basis: 40%; border-bottom: 1px solid rgba(11, 24, 48, .1); }
+.pal .card__go { flex-basis: 100%; justify-content: center; height: 48px; margin-top: 5px; }
+.sw { padding: 24px; display: grid; gap: 10px; align-content: start; }
+.sw__row { display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: center; font-size: 14px; }
+.sw__chip { height: 40px; border-radius: 10px; border: 1px solid rgba(0, 0, 0, .08); }
+.sw__row b { display: block; font-size: 15px; }
+.band { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 20px 24px; border-top: 1px solid var(--line); }
+.pill { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 24px; border-radius: 44px; font-weight: 600; font-size: 15px; }
+.dest { display: inline-grid; gap: 2px; padding: 10px 18px 12px; border-radius: 24px; color: #fff; font-size: 14px; }
+.dest b { font-size: 20px; font-weight: 600; }
+.ph { --card-ink: var(--h-ink); --card-muted: var(--h-muted); --btn: var(--sea); --accent-on-photo: var(--gold); }
+.ph.opt { background: var(--sand); }
+.note { font-size: 14px; color: var(--muted); padding: 0 24px 20px; margin: 0; }
+@media (max-width: 900px) {
+  .below, .pal { grid-template-columns: 1fr; }
+  .card { flex-wrap: wrap; }
+  .card__f { flex-basis: 45%; border-bottom: 1px solid rgba(11, 24, 48, .1); }
+  .card__go { flex-basis: 100%; justify-content: center; height: 48px; }
+  .frame { aspect-ratio: auto; min-height: 620px; }
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <h1 class="page__title">Landfall auditions: type and palette</h1>
+  <p class="page__lede">Checkpoint 2a for the Chief Officer. Read with landfall/design/concepts.md. The photo is Landfall's hero (Lisbon from Alfama over the Tagus, Unsplash License, Lisha Riabinina) under Kasa's layered scrim. The headline and subline are working copy for judging type only; prices come from the shared mock data. "Landfall" is a placeholder name.</p>
+
+  <h2 class="block__title">Type options (all three are SIL OFL; Kasa's own Tiempos Headline and TT Norms Pro are commercial and cannot ship)</h2>
+  <p class="block__note">Each option shows the hero at 1440 proportions, then a section heading, the price rule and a flight leg with the landfall line. Kasa sets headings in one regular weight, sentence case, no tracking; these follow that.</p>
+
+  <section class="opt t1" aria-labelledby="t1">
+    <div class="opt__head"><span class="opt__name" id="t1">T1. Newsreader headings plus Albert Sans (Kasa's approach in free faces) [recommended]</span><span class="opt__lic">Both SIL OFL 1.1, self-hosted, licence files saved</span><span class="opt__meta">Newsreader 400 at optical size 72 for H1 and H2 only; Albert Sans 400, 500 and 600 for everything else</span></div>
+    <div class="frame">
+      <img src="assets/images/hero/lisbon-alfama-river-1600.webp" alt="Lisbon's Alfama roofs running down to the Tagus under a deep blue sky, a cruise ship at the quay">
+      <div class="frame__in">
+        <h2 class="frame__h">Land somewhere new</h2>
+        <p class="frame__sub">Flights and hotels, with taxes and fees in every price</p>
+        <div class="tabs" aria-hidden="true"><span class="is-on">Flights</span><span>Hotels</span></div>
+        <div class="card" aria-hidden="true"><div class="card__f"><span class="card__l">From</span><span class="card__v">London (LHR)</span></div><div class="card__f"><span class="card__l">To</span><span class="card__v">Lisbon (LIS)</span></div><div class="card__f"><span class="card__l">Dates</span><span class="card__v">Fri, Nov 20 to Fri, Nov 27</span></div><div class="card__f"><span class="card__l">Travelers</span><span class="card__v">2 adults, Economy</span></div><span class="card__go">Search</span></div>
+      </div>
+      <p class="caption"><b>Lisbon</b>Return from $412 from London <a href="#t1">Fly here</a></p>
+    </div>
+    <div class="below">
+      <div><h3>Cities worth the crossing</h3><p>Fares for one adult from London, taxes and fees included, checked again before you pay.</p></div>
+      <div><span class="price__t">$1,098.60 total</span><br><span class="price__s">$549.30 per traveler, taxes and fees included</span><p class="ref">Booking reference <span>LF7Q2K</span></p></div>
+      <div class="leg"><span>07:05<br>LHR</span><span class="leg__line"></span><span><b>09:50</b><br>Lisbon (LIS)</span></div>
+    </div>
+  </section>
+
+  <section class="opt t2" aria-labelledby="t2">
+    <div class="opt__head"><span class="opt__name" id="t2">T2. Albert Sans for everything (one clean family)</span><span class="opt__lic">SIL OFL 1.1, self-hosted, licence file saved</span><span class="opt__meta">Headings 500 at -0.025em; UI 400, 500 and 600</span></div>
+    <div class="frame">
+      <img src="assets/images/hero/lisbon-alfama-river-1600.webp" alt="">
+      <div class="frame__in">
+        <h2 class="frame__h">Land somewhere new</h2>
+        <p class="frame__sub">Flights and hotels, with taxes and fees in every price</p>
+        <div class="tabs" aria-hidden="true"><span class="is-on">Flights</span><span>Hotels</span></div>
+        <div class="card" aria-hidden="true"><div class="card__f"><span class="card__l">From</span><span class="card__v">London (LHR)</span></div><div class="card__f"><span class="card__l">To</span><span class="card__v">Lisbon (LIS)</span></div><div class="card__f"><span class="card__l">Dates</span><span class="card__v">Fri, Nov 20 to Fri, Nov 27</span></div><div class="card__f"><span class="card__l">Travelers</span><span class="card__v">2 adults, Economy</span></div><span class="card__go">Search</span></div>
+      </div>
+      <p class="caption"><b>Lisbon</b>Return from $412 from London <a href="#t2">Fly here</a></p>
+    </div>
+    <div class="below">
+      <div><h3>Cities worth the crossing</h3><p>Fares for one adult from London, taxes and fees included, checked again before you pay.</p></div>
+      <div><span class="price__t">$1,098.60 total</span><br><span class="price__s">$549.30 per traveler, taxes and fees included</span><p class="ref">Booking reference <span>LF7Q2K</span></p></div>
+      <div class="leg"><span>07:05<br>LHR</span><span class="leg__line"></span><span><b>09:50</b><br>Lisbon (LIS)</span></div>
+    </div>
+  </section>
+
+  <section class="opt t3" aria-labelledby="t3">
+    <div class="opt__head"><span class="opt__name" id="t3">T3. Atkinson Hyperlegible Next for everything (readability first)</span><span class="opt__lic">SIL OFL 1.1, self-hosted, licence file saved</span><span class="opt__meta">Headings 500 at -0.02em; UI 400 and 600. Watch Il1, 0O and the reference LF7Q2K</span></div>
+    <div class="frame">
+      <img src="assets/images/hero/lisbon-alfama-river-1600.webp" alt="">
+      <div class="frame__in">
+        <h2 class="frame__h">Land somewhere new</h2>
+        <p class="frame__sub">Flights and hotels, with taxes and fees in every price</p>
+        <div class="tabs" aria-hidden="true"><span class="is-on">Flights</span><span>Hotels</span></div>
+        <div class="card" aria-hidden="true"><div class="card__f"><span class="card__l">From</span><span class="card__v">London (LHR)</span></div><div class="card__f"><span class="card__l">To</span><span class="card__v">Lisbon (LIS)</span></div><div class="card__f"><span class="card__l">Dates</span><span class="card__v">Fri, Nov 20 to Fri, Nov 27</span></div><div class="card__f"><span class="card__l">Travelers</span><span class="card__v">2 adults, Economy</span></div><span class="card__go">Search</span></div>
+      </div>
+      <p class="caption"><b>Lisbon</b>Return from $412 from London <a href="#t3">Fly here</a></p>
+    </div>
+    <div class="below">
+      <div><h3>Cities worth the crossing</h3><p>Fares for one adult from London, taxes and fees included, checked again before you pay.</p></div>
+      <div><span class="price__t">$1,098.60 total</span><br><span class="price__s">$549.30 per traveler, taxes and fees included</span><p class="ref">Booking reference <span>LF7Q2K</span></p></div>
+      <div class="leg"><span>07:05<br>LHR</span><span class="leg__line"></span><span><b>09:50</b><br>Lisbon (LIS)</span></div>
+    </div>
+  </section>
+
+  <h2 class="block__title">Palettes, both sampled from the Lisbon hero photo</h2>
+  <p class="block__note">Samples: sky top #4A7B9C to #5E83A1, river #4B6A76, sunlit roofs #914E33, lit facade #D0C8B5. Ratios are WCAG 2.x from tools/palette.py. Each panel shows a 390-proportioned hero with the stacked search card, then the swatches, then a button, a destination card and the price on that palette's grounds.</p>
+
+  <section class="opt" aria-labelledby="pn">
+    <div class="opt__head"><span class="opt__name" id="pn">P-N. Landfall navy, white and teal (default)</span><span class="opt__meta">The client's colours: white ground, navy actions and bands, teal as line and highlight</span></div>
+    <div class="pal">
+      <div class="frame">
+        <img src="assets/images/hero/lisbon-alfama-river-1600.webp" alt="">
+        <div class="frame__in">
+          <h2 class="frame__h">Land somewhere new</h2>
+          <p class="frame__sub">Flights and hotels, with taxes and fees in every price</p>
+          <div class="tabs" aria-hidden="true"><span class="is-on">Flights</span><span>Hotels</span></div>
+          <div class="card" aria-hidden="true"><div class="card__f"><span class="card__l">From</span><span class="card__v">London</span></div><div class="card__f"><span class="card__l">To</span><span class="card__v">Lisbon</span></div><div class="card__f"><span class="card__l">Dates</span><span class="card__v">Nov 20 to 27</span></div><div class="card__f"><span class="card__l">Travelers</span><span class="card__v">2, Economy</span></div><span class="card__go">Search flights</span></div>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="sw__row"><span class="sw__chip" style="background:#0F2747"></span><span><b>Navy #0F2747</b>Actions on light, dark bands, footer. White on it 15.0:1</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#0B1830"></span><span><b>Ink #0B1830</b>Text. 17.7:1 on white, 15.6:1 on mist</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#4A5A70"></span><span><b>Muted #4A5A70</b>Secondary text. 7.0:1 on white, 6.2:1 on mist</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#0A7C78"></span><span><b>Teal #0A7C78</b>Focus, links, the landfall line. 5.0:1 on white; 4.4:1 on mist (rings and glyphs only)</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#4FD1C1"></span><span><b>Bright teal #4FD1C1</b>Highlights on navy and photo. 8.0:1 on navy; navy text on it 8.0:1</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#EAF2F4"></span><span><b>Mist #EAF2F4</b>The one interactive tint</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#FFFFFF"></span><span><b>White #FFFFFF</b>Page ground; #F4F7F9 for the alternate band</span></div>
+      </div>
+    </div>
+    <div class="band">
+      <span class="pill" style="background:#0F2747;color:#fff">Search flights &rarr;</span>
+      <span class="pill" style="background:#4FD1C1;color:#0F2747">Start a search &rarr;</span>
+      <span class="dest" style="background:#0F2747"><b>Lisbon</b><span style="color:#4FD1C1">Return from $412</span></span>
+      <span><span class="price__t">$1,098.60 total</span> <span class="price__s">taxes and fees included</span></span>
+    </div>
+    <p class="note">Bright teal on navy is 8.0:1, so it can carry the price on the navy destination cards. Teal #0A7C78 is never small text on mist.</p>
+  </section>
+
+  <section class="opt ph" aria-labelledby="ph">
+    <div class="opt__head"><span class="opt__name" id="ph">P-H. Harbour gold, re-measured on Landfall's photo (alternate)</span><span class="opt__meta">The roofs, the lit facades and the river of the same frame</span></div>
+    <div class="pal">
+      <div class="frame">
+        <img src="assets/images/hero/lisbon-alfama-river-1600.webp" alt="">
+        <div class="frame__in">
+          <h2 class="frame__h">Land somewhere new</h2>
+          <p class="frame__sub">Flights and hotels, with taxes and fees in every price</p>
+          <div class="tabs" aria-hidden="true"><span class="is-on">Flights</span><span>Hotels</span></div>
+          <div class="card" aria-hidden="true"><div class="card__f"><span class="card__l">From</span><span class="card__v">London</span></div><div class="card__f"><span class="card__l">To</span><span class="card__v">Lisbon</span></div><div class="card__f"><span class="card__l">Dates</span><span class="card__v">Nov 20 to 27</span></div><div class="card__f"><span class="card__l">Travelers</span><span class="card__v">2, Economy</span></div><span class="card__go">Search flights</span></div>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="sw__row"><span class="sw__chip" style="background:#173B4F"></span><span><b>Sea #173B4F</b>Actions, dark bands. Sand on it 11.0:1, white 11.8:1</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#1A1712"></span><span><b>Ink #1A1712</b>Text. 16.6:1 on sand</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#5E5548"></span><span><b>Muted #5E5548</b>6.8:1 on sand, 6.1:1 on shell</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#A34A26"></span><span><b>Terracotta #A34A26</b>Focus, links, the landfall line. 5.5:1 on sand, 5.9:1 on white</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#E6B56A"></span><span><b>Gold #E6B56A</b>Highlights on sea. 6.3:1 on sea; ink on it 9.5:1</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#F3E9DC"></span><span><b>Shell #F3E9DC</b>The interactive tint</span></div>
+        <div class="sw__row"><span class="sw__chip" style="background:#FBF6EF"></span><span><b>Sand #FBF6EF</b>Page ground</span></div>
+      </div>
+    </div>
+    <div class="band">
+      <span class="pill" style="background:#173B4F;color:#FBF6EF">Search flights &rarr;</span>
+      <span class="pill" style="background:#E6B56A;color:#173B4F">Start a search &rarr;</span>
+      <span class="dest" style="background:#173B4F"><b>Lisbon</b><span style="color:#E6B56A">Return from $412</span></span>
+      <span><span class="price__t" style="color:#1A1712">$1,098.60 total</span> <span class="price__s" style="color:#5E5548">taxes and fees included</span></span>
+    </div>
+    <p class="note">Harbour gold now leaves Overwing (redesign note). These values are re-measured on Landfall's photo, so they differ from Overwing's old Harbour set.</p>
+  </section>
+</main>
+</body>
+</html>

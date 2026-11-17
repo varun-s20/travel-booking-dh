@@ -1,0 +1,40 @@
+The homepage is still short of 9.2. The second critic round scored it **7.8** on the benchmark rubric (up from 7.6; studio rubric about 8.0), and it found no copy or design tells. I fixed what it found, worst first, and checked each fix in the browser, but nothing was re-scored after the fixes because only one critic round fit before the stop. I finished at 16:40, before the 17:05 hard stop.
+
+**What held the score down**
+| Criterion | Score | Why |
+|---|---|---|
+| Depth | 7, capped | The deal banner repeated deal cards 1 and 2; the weekend hotel row repeated Recommended |
+| Ease | 8.8 | The 390 month chart scrolled sideways with no hint |
+| Visual | 8 | City photos repeated across sections; two hotels shared a room photo; the pre-footer window was murky |
+| Craft | 7, capped | The 390 Trending rail sat flush against the screen edge |
+| Pricing | 8.8 | The cheapest date was in November, but the chart didn't mark that month |
+| Mobile | 8 | Below Booking.com at 390 |
+
+**What I fixed**
+1. **Rail edge (the craft cap):** the 390 Trending and recent-search rails now keep the 16px gutter.
+2. **Repeated deals and hotels:** the banner now takes the two biggest savings that aren't already in the deal cards (Rome and Paris). The weekend row skips hotels shown in Recommended or the stay deals. No hotel now appears twice on the page.
+3. **Repeated photos:**
+   - Each hotel gets its own photo, and each city's two photos are shared out across sections. In Flights mode no photo now appears twice at card or window size.
+   - One room photo still repeats in Hotels mode, between Recommended and the weekend row. That hotel has no unused photo left in the pool, which Developer B owns.
+4. **Pre-footer:** from 1025px up, the window now sits beside the headline at full strength instead of dimmed behind it. I also switched off the footer's photo layer, so the footer starts on a clean, flat edge.
+5. **Demo notes:** I removed the in-section demo notes. The footer's single demo notice now mentions guest reviews as well.
+6. **Stay deal cards:** the eyebrows are shorter and fit on one line, prices line up across each row, and dates no longer break across lines.
+7. **Month chart:** at 390 all 12 months show in two rows of six. A dot marks the month with the cheapest date, and arrow keys move between the bars.
+8. **Trending list:** it now has 12 rows and ends level with the photo grid.
+9. **Footer:** five columns of equal height, still 42 unique links, accordions at 390. The placeholder phone number is set at the same size as the email.
+10. **Flights / Hotels switch below the hero:** from 1025px up, a small Flights / Hotels switch appears in the top bar once the hero has scrolled away. It changes the page in place and keeps your scroll position, the URL and the title in step.
+
+After the fixes there were no console errors and no sideways page scroll at 1440, 1024 or 390. I checked Cabin dawn by switching the palette in the browser on 3001.
+
+**Changes against the spec**, each logged in `build/progress.md`:
+- The banner no longer shows the two biggest deals overall; it shows the biggest ones not already in the deal cards.
+- The six trending windows are now picked from the data instead of a fixed list.
+- The footer has five columns instead of six.
+- The footer photo is switched off.
+- The deals footnote no longer says "demo".
+
+**Still open:** the score isn't re-measured yet. Photos that fit each property type (a houseboat, a riad) would need new photos in Developer B's pool. Hover states and reduced motion weren't re-checked on the changed parts.
+
+I didn't touch Developer B's files or anything in `landfall/`, and started no server. The report is in `build/critic/r3-home-a2/report.md`, with the fixes under "Developer A, round 2" in `build/progress.md` and the run logged in `review-log.md`.
+
+This is a good commit point. Suggested message: "Overwing round 3 Part A, second critic round: no repeated cards or photos across homepage sections, docked Flights / Hotels switch, clear pre-footer window, 12-month chart at 390, even footer columns".

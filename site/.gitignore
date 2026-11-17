@@ -1,0 +1,6 @@
+.next/
+.next-harbour/
+.next-cabin/
+out/
+next-env.d.ts
+*.tsbuildinfo
