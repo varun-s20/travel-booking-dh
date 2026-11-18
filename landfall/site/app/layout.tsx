@@ -51,7 +51,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-palette={PALETTE} className={`${newsreader.variable} ${albert.variable}`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {/* also removes what Netlify adds to <head> on *.netlify.app addresses: a line break and an HTML
+            comment ("This site is hosted on Netlify..."). React finds nodes it didn't render and re-renders
+            the whole page in the browser (error #418). Runs before React starts and removes only
+            Netlify's comment and blank text, which React never renders in <head>. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');for(var n=document.head.firstChild,x;n;n=x){x=n.nextSibling;if((n.nodeType===8&&/Netlify/.test(n.data))||(n.nodeType===3&&!n.data.trim()))n.remove()}" }} />
       </head>
       <body>
         <Sprite />

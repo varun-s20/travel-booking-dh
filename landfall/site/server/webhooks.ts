@@ -27,6 +27,7 @@ import 'server-only';
 import type Stripe from 'stripe';
 import { adminDb } from '@/server/db/supabase';
 import { need } from '@/server/env';
+import { createHmac } from 'node:crypto';
 import { hmacSha256Hex, safeEqual } from '@/server/crypto';
 import { log } from '@/server/log';
 import { addEvent, bookingById, paymentFor, saveDocuments, updateBooking, updatePayment } from '@/server/bookings/store';
@@ -105,14 +106,33 @@ export async function handleStripe(event: Stripe.Event): Promise<void> {
 /* ---------- Duffel ---------- */
 const MAX_AGE_S = 4 * 24 * 3600; /* Duffel retries for 72 hours; webhook_events keeps processed ids for 30 days */
 
-export function verifyDuffel(raw: string, header: string | null): boolean {
-  if (!header) return false;
-  const parts = Object.fromEntries(header.split(',').map((p) => p.trim().split('=') as [string, string]));
-  if (!parts.t || !parts.v1 || !/^\d+$/.test(parts.t)) return false;
-  if (Math.abs(Date.now() / 1000 - Number(parts.t)) > MAX_AGE_S) return false;
-  const expected = hmacSha256Hex(need('DUFFEL_WEBHOOK_SECRET', 'Duffel webhooks'), `${parts.t}.${raw}`);
-  return safeEqual(expected, parts.v1.toLowerCase());
+/* Why a delivery was refused, safe to send back: Duffel records our response body for each delivery
+   (GET /air/webhooks/deliveries), so a mismatch can be diagnosed without server logs. It names the
+   reason and the header's shape (digit and hex counts, never values), and on a mismatch whether one
+   of the usual signing variants would have matched. None of it helps forge a signature: every
+   variant still needs the secret. */
+export type DuffelVerdict = { ok: true } | { ok: false; reason: 'missing_header' | 'bad_format' | 'stale' | 'mismatch'; shape?: string; variant?: string };
+
+export function verifyDuffelDetailed(raw: string, header: string | null): DuffelVerdict {
+  if (!header) return { ok: false, reason: 'missing_header' };
+  /* "t=<10 digits>,v1=<hex 64>": long hex runs first, then digit runs */
+  const shape = header.replace(/[0-9a-f]{16,}/gi, (h) => `<hex ${h.length}>`).replace(/\d+(?![^<]*>)/g, (d) => `<${d.length} digits>`).slice(0, 120);
+  const parts = Object.fromEntries(header.split(',').map((p) => { const i = p.indexOf('='); return [p.slice(0, i).trim(), p.slice(i + 1).trim()]; }));
+  if (!parts.t || !parts.v1 || !/^\d+$/.test(parts.t)) return { ok: false, reason: 'bad_format', shape };
+  if (Math.abs(Date.now() / 1000 - Number(parts.t)) > MAX_AGE_S) return { ok: false, reason: 'stale', shape };
+  const secret = need('DUFFEL_WEBHOOK_SECRET', 'Duffel webhooks');
+  const v1 = parts.v1.toLowerCase();
+  if (safeEqual(hmacSha256Hex(secret, `${parts.t}.${raw}`), v1)) return { ok: true };
+  const hmac = (key: Buffer | string, msg: string) => createHmac('sha256', key).update(msg).digest('hex');
+  const variants: [string, () => string][] = [
+    ['base64_key', () => hmac(Buffer.from(secret, 'base64'), `${parts.t}.${raw}`)],
+    ['body_only', () => hmac(secret, raw)],
+    ['trimmed_body', () => hmac(secret, `${parts.t}.${raw.trim()}`)]
+  ];
+  const variant = variants.find(([, f]) => safeEqual(f(), v1))?.[0] ?? 'none';
+  return { ok: false, reason: 'mismatch', shape, variant };
 }
+export const verifyDuffel = (raw: string, header: string | null) => verifyDuffelDetailed(raw, header).ok;
 
 type DuffelEvent = { id: string; type: string; live_mode: boolean; data: { object: Record<string, string | undefined> } };
 

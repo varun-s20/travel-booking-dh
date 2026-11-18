@@ -34,6 +34,7 @@ import { MQ_DESKTOP, requestSearch, useMedia } from '@/lib/client';
 import { destinationPhoto } from '@/lib/data/destinations';
 import { SITE } from '@/lib/site';
 import Icon from '@/components/ui/Icon';
+import SupplyNote from '@/components/ui/SupplyNote';
 import Price from '@/components/ui/Price';
 import Photo from '@/components/ui/Photo';
 import Dialog from '@/components/ui/Dialog';
@@ -284,6 +285,7 @@ export default function Results({ search, init, dates, today }: { search: Flight
         <div className="f-results__title">
           <h1 className="t-display t-h1">{routeTitle(search.from, search.to)}</h1>
           <p className="t-body t-muted t-num">{meta}</p>
+          <SupplyNote kind="flights" />
         </div>
       </header>
 

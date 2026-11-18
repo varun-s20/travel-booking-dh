@@ -36,6 +36,7 @@ import { stayMeta, guestsLine } from '@/lib/text';
 import { MQ_DESKTOP, requestSearch, useMedia } from '@/lib/client';
 import { destinationPhoto } from '@/lib/data/destinations';
 import Icon from '@/components/ui/Icon';
+import SupplyNote from '@/components/ui/SupplyNote';
 import Photo from '@/components/ui/Photo';
 import Dialog from '@/components/ui/Dialog';
 import ScoreBadge from '@/components/ui/ScoreBadge';
@@ -339,6 +340,7 @@ export default function Results({ search, dated, typeOnly }: { search: StaySearc
         <header className="h-results__head">
           <h1 className="t-display t-h1">{title}</h1>
           <p className="h-results__meta">{dated ? stayMeta(search) : guestsLine(search)}</p>
+          <SupplyNote kind="hotels" />
         </header>
 
         {!desktop && showMap && (

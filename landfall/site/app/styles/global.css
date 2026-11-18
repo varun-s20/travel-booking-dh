@@ -491,6 +491,9 @@ body.is-locked { overflow: hidden; }
 .m-step__btn:not(:disabled):active { transform: scale(var(--press)); }
 .m-step__n { min-width: 2.4rem; text-align: center; font-weight: var(--fw-strong); font-variant-numeric: tabular-nums; }
 .m-steps__note { margin-top: var(--s-2); color: var(--c-muted); font-size: var(--t-small); }
+/* test or demo data on results pages (components/ui/SupplyNote.tsx) */
+.a-supplynote { display: flex; align-items: flex-start; gap: var(--s-2); width: fit-content; max-width: 100%; margin-top: var(--s-2); padding: .8rem 1.2rem; border-radius: var(--r-sm); background: var(--c-tint); color: var(--c-ink); font-size: var(--t-small); line-height: var(--lh-body); }
+.a-supplynote .a-svg { flex: none; margin-top: .2rem; }
 /* children's ages (hotels): one select per child, under the steppers */
 .m-ages { margin: var(--s-3) 0 0; padding: var(--s-4) 0 0; border: 0; border-top: 1px solid var(--c-line); min-width: 0; }
 .m-ages legend { float: left; width: 100%; margin-bottom: var(--s-3); font-weight: var(--fw-medium); }

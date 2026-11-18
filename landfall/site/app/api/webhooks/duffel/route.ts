@@ -3,7 +3,7 @@
    constant-time compare). 400 on a bad signature, 500 when handling fails (Duffel retries for
    72 hours), 200 otherwise. Register it with POST /air/webhooks once the site has a public URL. */
 import { fail, ok, route } from '@/server/http';
-import { handleDuffel, verifyDuffel } from '@/server/webhooks';
+import { handleDuffel, verifyDuffelDetailed } from '@/server/webhooks';
 import { log } from '@/server/log';
 
 export const dynamic = 'force-dynamic';
@@ -12,9 +12,12 @@ export const maxDuration = 300;
 export const POST = route(async (ctx) => {
   const raw = await ctx.req.text();
   if (raw.length > 512 * 1024) return fail('payload_too_large', 413);
-  if (!verifyDuffel(raw, ctx.req.headers.get('x-duffel-signature'))) {
-    log.warn('webhook.duffel.bad_signature', { requestId: ctx.requestId });
-    return fail('invalid_signature', 400);
+  const verdict = verifyDuffelDetailed(raw, ctx.req.headers.get('x-duffel-signature'));
+  if (!verdict.ok) {
+    /* the reason goes back in the body too: Duffel shows it per delivery (server/webhooks.ts) */
+    const why = { reason: verdict.reason, shape: verdict.shape, variant: verdict.variant, bytes: raw.length, encoding: ctx.req.headers.get('content-encoding') ?? 'none' };
+    log.warn('webhook.duffel.bad_signature', { requestId: ctx.requestId, ...why });
+    return fail('invalid_signature', 400, why);
   }
   let event;
   try { event = JSON.parse(raw); } catch { return fail('invalid_json', 400); }
