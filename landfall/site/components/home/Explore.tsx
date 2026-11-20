@@ -8,7 +8,9 @@
    - Browse: text tabs with the landfall line (By region, By city, and in
      Hotels mode By property type), roving tabindex and arrow keys.
    - Popular searches: 24 accordion cards in 3 columns, one open per
-     column, each with priced or named links to real searches.
+     column, each led by the city's photo with the city below, opening to
+     priced or named links to real searches. Six show at first (two per
+     column), then "Show all".
    Data: lib/mock/home.ts. Copy: round3-spec.md A6, A7, A9.
    ===================================================================== */
 'use client';
@@ -221,8 +223,12 @@ function PopularPane({ mode, data }: { mode: 'flights' | 'hotels'; data: HomeDat
                 <li key={c.code} className={`m-pop${isOpen ? ' is-open' : ''}`}>
                   <h3 className="m-pop__h">
                     <button type="button" className="m-pop__btn" aria-expanded={isOpen} aria-controls={pid} onClick={() => setOpen((o) => o.map((v, i) => (i === ci ? (isOpen ? null : c.code) : v)))}>
-                      <span className="m-pop__city">{c.city}</span><span className="m-pop__country">{c.country}</span>
-                      <Icon name={isOpen ? 'minus' : 'plus'} />
+                      {/* the photo sits inside the button (a span: a div isn't allowed there), so the whole card opens it */}
+                      {c.photo && hasPhoto(c.photo) && <span className="a-photo -grade m-pop__photo" aria-hidden="true"><Photo name={c.photo} alt="" box={false} sizes="(min-width: 1025px) 400px, (min-width: 641px) 50vw, 100vw" /></span>}
+                      <span className="m-pop__row">
+                        <span className="m-pop__city">{c.city}</span><span className="m-pop__country">{c.country}</span>
+                        <Icon name={isOpen ? 'minus' : 'plus'} />
+                      </span>
                     </button>
                   </h3>
                   <div className="m-pop__panel" id={pid} hidden={!isOpen}>
@@ -234,7 +240,7 @@ function PopularPane({ mode, data }: { mode: 'flights' | 'hotels'; data: HomeDat
           </ul>
         ))}
       </div>
-      {cols[1].length > 0 && <button type="button" className="a-button -ghost m-popular__all" onClick={() => { setAll(true); window.setTimeout(() => document.getElementById(`pop-${mode}-${cols[1][0]?.code}`)?.previousElementSibling?.querySelector('button')?.focus(), 30); }} hidden={all}>Show all {cards.length} cities</button>}
+      {cards.length > 6 && <button type="button" className="a-button -ghost m-popular__all" onClick={() => { setAll(true); window.setTimeout(() => document.getElementById(`pop-${mode}-${cols[0][2]?.code}`)?.previousElementSibling?.querySelector('button')?.focus(), 30); }} hidden={all}>Show all {cards.length} cities</button>}
     </>
   );
 }

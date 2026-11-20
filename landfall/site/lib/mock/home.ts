@@ -304,6 +304,8 @@ export function homeData(now = new Date()) {
   /* Popular searches and the footer's popular links */
   const popular = HOME_CITIES.filter((c) => c.flies).map((c) => ({
     code: c.code, slug: c.slug, city: c.name, country: c.country, fare: c.fare, hotels: c.hotels, rate: c.rate,
+    /* the city's own water photo, the card's lead (null: the card shows the city without one) */
+    photo: c.photos[0]?.name ?? null,
     routes: [
       ...c.nonstop.map((a) => ({ text: `${a}, nonstop${a === c.owner ? `, from ${usd(c.fare)} return` : ''}`, href: `${flightHref(c.code, dd.depart, dd.ret)}&stops=0${airQ(a)}` })),
       ...c.oneStop.map((a) => { const [n, via] = a.split(' via '); return { text: `${n}, 1 stop via ${via}${n === c.owner ? `, from ${usd(c.fare)} return` : ''}`, href: `${flightHref(c.code, dd.depart, dd.ret)}&stops=1${airQ(n)}` }; })

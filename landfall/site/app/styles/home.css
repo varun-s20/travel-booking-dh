@@ -262,8 +262,12 @@
 /* ===== A9. Popular searches ===== */
 .m-popular { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.2rem; margin-top: var(--s-6); align-items: start; }
 .m-popular__col { display: contents; list-style: none; }
-.m-pop { border-radius: var(--r-inner); box-shadow: inset 0 0 0 1px var(--c-line); }
-.m-pop__btn { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; column-gap: 1.2rem; align-items: center; width: 100%; min-height: 6.4rem; padding: 1rem 2rem; border-radius: var(--r-inner); color: var(--c-ink); text-align: left; }
+.m-pop { overflow: hidden; border-radius: var(--r-inner); background: var(--c-surface); box-shadow: inset 0 0 0 1px var(--c-line); }
+/* the city's photo on top, the city and country below; the whole card is the toggle */
+.m-pop__btn { display: block; width: 100%; padding: 0; color: var(--c-ink); text-align: left; }
+.m-pop__photo { display: block; aspect-ratio: 16 / 9; }
+.m-pop__photo img { transition: transform var(--d-zoom) var(--ease-std); }
+.m-pop__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; column-gap: 1.2rem; align-items: center; min-height: 6.4rem; padding: 1rem 2rem; transition: background-color var(--d-fast) var(--ease-std); }
 .m-pop__city { font-size: var(--t-body); font-weight: var(--fw-medium); }
 .m-pop__country { grid-row: 2; color: var(--c-muted); font-size: var(--t-rank); }
 .m-pop__btn .a-svg { grid-column: 2; grid-row: 1 / 3; width: 1.8rem; height: 1.8rem; color: var(--c-muted); }
@@ -271,9 +275,16 @@
 .m-pop__panel a { display: flex; align-items: center; min-height: 4rem; border-top: 1px solid var(--c-line); color: var(--c-ink); font-size: var(--t-small); text-decoration: none; }
 .m-pop.is-open .m-pop__panel { animation: lf-modein var(--d-panel) var(--ease-reveal) both; }
 .m-popular__all { margin-top: var(--s-5); }
-@media (hover: hover) and (any-pointer: fine) { .m-pop__panel a:hover { text-decoration: underline; text-underline-offset: .3rem; } .m-pop__btn:hover { background: var(--c-tint); } }
-@media (max-width: 640px) { .m-popular:not(.is-all) .m-popular__col:not(:first-child) { display: none; } }
-@media (min-width: 641px) { .m-popular { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 2.4rem; } .m-popular__all { display: none; } }
+@media (hover: hover) and (any-pointer: fine) {
+  .m-pop__panel a:hover { text-decoration: underline; text-underline-offset: .3rem; }
+  .m-pop__btn:hover .m-pop__row { background: var(--c-tint); }
+  .m-pop__btn:hover .m-pop__photo img { transform: scale(1.06); }
+}
+/* six cities first (two per column), every width; "Show all" opens the rest */
+.m-popular:not(.is-all) .m-pop:nth-child(n+3) { display: none; }
+@media (max-width: 640px) { .m-pop__photo { aspect-ratio: 2 / 1; } }
+@media (min-width: 641px) { .m-popular { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 2.4rem; } }
+@media (prefers-reduced-motion: reduce) { .m-pop__photo img { transition: none; transform: none !important; } }
 @media (min-width: 1025px) {
   .m-popular { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .m-popular__col { display: grid; gap: 1.2rem; align-content: start; }
