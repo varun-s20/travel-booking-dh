@@ -491,6 +491,46 @@ body.is-locked { overflow: hidden; }
 .m-step__btn:not(:disabled):active { transform: scale(var(--press)); }
 .m-step__n { min-width: 2.4rem; text-align: center; font-weight: var(--fw-strong); font-variant-numeric: tabular-nums; }
 .m-steps__note { margin-top: var(--s-2); color: var(--c-muted); font-size: var(--t-small); }
+/* a plane on a dotted route (components/ui/FlightPath.tsx): a fixed 180 x 40 track, since offset-path
+   coordinates are pixels in the track; the arc below is the SVG path's. 276px wide with both codes. */
+.a-route { display: inline-flex; align-items: flex-end; gap: var(--s-3); color: var(--c-navy); }
+.a-route__code { padding-bottom: .2rem; font-size: var(--t-small); font-weight: var(--fw-strong); letter-spacing: .04em; }
+.a-route__track { position: relative; flex: none; width: 180px; height: 40px; }
+.a-route__svg { display: block; overflow: visible; }
+.a-route__line { fill: none; stroke: var(--c-field); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 0 7; }
+.a-route__end { fill: var(--c-surface); stroke: var(--c-navy); stroke-width: 2; }
+.a-route__end.-to { fill: var(--c-accent); stroke: var(--c-accent); }
+.a-route__plane { position: absolute; top: 0; left: 0; display: grid; place-items: center; width: 2.4rem; height: 2.4rem; color: var(--c-navy);
+  offset-path: path('M 6 34 Q 90 -10 174 34'); offset-anchor: 50% 50%; offset-rotate: auto; offset-distance: 50%; }
+.a-route__plane .a-svg { width: 2rem; height: 2rem; }
+.a-route.-loop .a-route__plane { animation: route-loop var(--d-flight) var(--ease-move) infinite; }
+.a-route.-once .a-route__plane { offset-distance: 100%; animation: route-once var(--d-flight) var(--ease-move) 200ms both; }
+@keyframes route-loop {
+  0% { offset-distance: 0%; opacity: 0; }
+  12%, 88% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+@keyframes route-once { from { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } to { offset-distance: 100%; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .a-route.-loop .a-route__plane, .a-route.-once .a-route__plane { animation: route-still var(--d-panel) var(--ease-std) both; }
+  .a-route.-loop .a-route__plane { offset-distance: 50%; }
+}
+@keyframes route-still { from { opacity: 0; } to { opacity: 1; } }
+.f-status__route, .b-empty__route, .f-cf__route { margin-bottom: var(--s-3); }
+.f-pay__route { display: flex; justify-content: center; margin-top: var(--s-3); }
+
+/* results arriving after a search (flights 7 to 15 s): a short staggered rise of the first six rows, so the
+   list doesn't land all at once. Rows added later (filters, Show more) only rise, with no wait. */
+@keyframes row-in { from { opacity: 0; transform: translateY(var(--reveal-rise)); } }
+@keyframes row-fade { from { opacity: 0; } }
+.f-list > li, .h-results__cards > li { animation: row-in 280ms var(--ease-reveal) both; }
+.f-list > li:nth-child(2), .h-results__cards > li:nth-child(2) { animation-delay: 40ms; }
+.f-list > li:nth-child(3), .h-results__cards > li:nth-child(3) { animation-delay: 80ms; }
+.f-list > li:nth-child(4), .h-results__cards > li:nth-child(4) { animation-delay: 120ms; }
+.f-list > li:nth-child(5), .h-results__cards > li:nth-child(5) { animation-delay: 160ms; }
+.f-list > li:nth-child(6), .h-results__cards > li:nth-child(6) { animation-delay: 200ms; }
+@media (prefers-reduced-motion: reduce) { .f-list > li, .h-results__cards > li { animation-name: row-fade; } }
+
 /* test or demo data on results pages (components/ui/SupplyNote.tsx) */
 .a-supplynote { display: flex; align-items: flex-start; gap: var(--s-2); width: fit-content; max-width: 100%; margin-top: var(--s-2); padding: .8rem 1.2rem; border-radius: var(--r-sm); background: var(--c-tint); color: var(--c-ink); font-size: var(--t-small); line-height: var(--lh-body); }
 .a-supplynote .a-svg { flex: none; margin-top: .2rem; }

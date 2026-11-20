@@ -44,7 +44,13 @@ Never paste a secret key into chat, email or a ticket. Paste it straight into `.
    The links in these templates point at the site's `/auth/confirm` route.
 7. Tell me when steps 1 to 4 are done. I'll then apply the database schema with `npm run db:push`. You can also run it yourself from `landfall/site`.
 
-**Email delivery while testing:** Supabase's built-in sender only delivers to email addresses of members of your Supabase organisation, and only a few per hour. Test sign-up and password reset with your own Supabase login email. For real customers, set up your own SMTP under **Authentication → Emails → SMTP Settings** (the same Resend account as step 4 below).
+**Email delivery while testing:** Supabase's built-in sender only delivers to email addresses of members of your Supabase organisation, and only about 2 emails an hour for the whole project. With **Confirm email** on, most new customers never get their confirmation email and can't sign in. For the test phase, either:
+- switch **Confirm email** off (Authentication → Sign In / Providers → Email), so sign-ups sign straight in; or
+- connect Resend as SMTP (below), which still only reaches your own address until a domain is verified.
+
+With Confirm email off, the site stops linking guest bookings to accounts by email, because unconfirmed addresses prove nothing. Turn it back on, with SMTP on the client's verified domain, before real customers use the site.
+
+Supabase's built-in sender details: Test sign-up and password reset with your own Supabase login email. For real customers, set up your own SMTP under **Authentication → Emails → SMTP Settings** (the same Resend account as step 4 below).
 
 **Making yourself an admin:** after you create your account on the site, run this once in **SQL Editor**, with your own email:
 ```sql
@@ -66,6 +72,8 @@ Test mode only returns "Duffel Airways" (code ZZ) flights. Fares and schedules a
 - LHR → LGW: the order fails.
 
 Hotels in test mode: pick **"Duffel test hotels"** in the destination list. It only appears in test mode.
+
+**Until Duffel enables Stays,** hotel search answers "We couldn't reach the hotels just now". No code change is needed once Duffel switches Stays on.
 
 ## 3. Stripe: payments (test mode)
 

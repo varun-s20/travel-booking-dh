@@ -150,6 +150,7 @@
   --ease-reveal: cubic-bezier(.16, 1, .3, 1);      /* word reveal, panel growth, long ease-out (Kasa's expo-out) */
   --ease-fade: cubic-bezier(.45, 0, .55, 1);       /* the hero crossfade */
   --ease-in: cubic-bezier(.4, 0, 1, 1);            /* exits */
+  --ease-move: cubic-bezier(.77, 0, .175, 1);      /* something crossing the screen (the plane on its route) */
 
   /* ---- Durations ---- */
   --d-fast: 150ms;          /* colour and tint (Kasa field 150ms) */
@@ -163,6 +164,7 @@
   --d-breathe: 1000ms;      /* button label breathing and sheen (Varun V9) */
   --d-nudge: 400ms;         /* button arrow nudge (Varun V9) */
   --d-settle: 7000ms;       /* each hero photo settles from 1.06 to 1 while it shows */
+  --d-flight: 2600ms;       /* one crossing of the plane on its dotted route (components/ui/FlightPath.tsx) */
 
   /* ---- Motion amounts ---- */
   --zoom-scroll: 1.125;     /* hero photo scale at the end of the hero (Varun V5) */

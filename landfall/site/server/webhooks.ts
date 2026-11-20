@@ -115,21 +115,26 @@ export type DuffelVerdict = { ok: true } | { ok: false; reason: 'missing_header'
 
 export function verifyDuffelDetailed(raw: string, header: string | null): DuffelVerdict {
   if (!header) return { ok: false, reason: 'missing_header' };
-  /* "t=<10 digits>,v1=<hex 64>": long hex runs first, then digit runs */
-  const shape = header.replace(/[0-9a-f]{16,}/gi, (h) => `<hex ${h.length}>`).replace(/\d+(?![^<]*>)/g, (d) => `<${d.length} digits>`).slice(0, 120);
-  const parts = Object.fromEntries(header.split(',').map((p) => { const i = p.indexOf('='); return [p.slice(0, i).trim(), p.slice(i + 1).trim()]; }));
-  if (!parts.t || !parts.v1 || !/^\d+$/.test(parts.t)) return { ok: false, reason: 'bad_format', shape };
-  if (Math.abs(Date.now() / 1000 - Number(parts.t)) > MAX_AGE_S) return { ok: false, reason: 'stale', shape };
+  /* "t=<10 digits>,v1=<hex 64>": key names kept, values masked (hex runs, then runs of 4+ digits) */
+  const shape = header.replace(/[0-9a-f]{16,}/gi, (h) => `<hex ${h.length}>`).replace(/\d{4,}(?![^<]*>)/g, (d) => `<${d.length} digits>`).slice(0, 120);
+  const pairs = header.split(',').map((p) => { const i = p.indexOf('='); return [p.slice(0, i).trim().toLowerCase(), p.slice(i + 1).trim()] as const; });
+  const t = pairs.find(([k]) => k === 't')?.[1];
+  /* Duffel documents "v1"; any versioned value ("v0", "v2"...) is checked the same way: every one must be
+     an HMAC-SHA256 made with our secret, so accepting the key name adds no way in */
+  const sigs = pairs.filter(([k, v]) => /^v\d+$/.test(k) && /^[0-9a-f]{64}$/i.test(v)).map(([, v]) => v.toLowerCase());
+  if (!t || !/^\d+$/.test(t) || !sigs.length) return { ok: false, reason: 'bad_format', shape };
+  if (Math.abs(Date.now() / 1000 - Number(t)) > MAX_AGE_S) return { ok: false, reason: 'stale', shape };
   const secret = need('DUFFEL_WEBHOOK_SECRET', 'Duffel webhooks');
-  const v1 = parts.v1.toLowerCase();
-  if (safeEqual(hmacSha256Hex(secret, `${parts.t}.${raw}`), v1)) return { ok: true };
   const hmac = (key: Buffer | string, msg: string) => createHmac('sha256', key).update(msg).digest('hex');
+  /* the documented signature, then the secret base64-decoded (it looks like base64); both need the secret */
+  const accepted = [hmacSha256Hex(secret, `${t}.${raw}`), hmac(Buffer.from(secret, 'base64'), `${t}.${raw}`)];
+  if (sigs.some((s) => accepted.some((a) => safeEqual(a, s)))) return { ok: true };
+  /* not accepted, only reported: forms that drop the timestamp would allow replaying old events */
   const variants: [string, () => string][] = [
-    ['base64_key', () => hmac(Buffer.from(secret, 'base64'), `${parts.t}.${raw}`)],
     ['body_only', () => hmac(secret, raw)],
-    ['trimmed_body', () => hmac(secret, `${parts.t}.${raw.trim()}`)]
+    ['trimmed_body', () => hmac(secret, `${t}.${raw.trim()}`)]
   ];
-  const variant = variants.find(([, f]) => safeEqual(f(), v1))?.[0] ?? 'none';
+  const variant = variants.find(([, f]) => sigs.some((s) => safeEqual(f(), s)))?.[0] ?? 'none';
   return { ok: false, reason: 'mismatch', shape, variant };
 }
 export const verifyDuffel = (raw: string, header: string | null) => verifyDuffelDetailed(raw, header).ok;

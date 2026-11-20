@@ -27,7 +27,8 @@ import { cityById } from '@/lib/travel/hotels';
 import { AIRPORTS } from '@/lib/data/places';
 import { clock, dateLine, dayMonth, dayRange, isoNights, money, plural } from '@/lib/format';
 import { STATUS_LABEL, STATUS_TONE, airportFull, bookingLine, bookingStart, bookingTitle, countdown, guestsLine, legHeading, legNote, paxLine } from '@/lib/text';
-import { destinationPhoto } from '@/lib/data/destinations';
+import { destinationPhoto, placePhoto } from '@/lib/data/destinations';
+import FlightPath from '@/components/ui/FlightPath';
 import { DEFAULT_ORIGIN } from '@/lib/site';
 import { perTraveler } from '@/components/flights/trip';
 import { SITE } from '@/lib/site';
@@ -138,6 +139,7 @@ export function MyBookings() {
           <div className="m-card b-empty">
             <Photo name={tab === 'upcoming' ? 'promo/ferry-deck-puget-sound' : 'pages/harbour-dawn-boats'} alt="" sizes="(min-width: 1025px) 520px, 100vw" className="b-empty__photo" />
             <div className="b-empty__text">
+              {tab === 'upcoming' && <FlightPath mode="once" className="b-empty__route" />}
               <h2 className="t-display t-h2">{tab === 'upcoming' ? 'No trips yet' : tab === 'past' ? 'No past trips yet' : 'No canceled bookings'}</h2>
               <p className="t-lead">{tab === 'upcoming' ? 'Book a flight or a hotel and it will wait for you here.' : tab === 'past' ? 'Trips move here once they’re over.' : 'Bookings that are canceled stay here, with their refund details.'}</p>
               {tab === 'upcoming' && <div className="b-actions"><ButtonLink href="/#search" arrow>Start a search</ButtonLink></div>}
@@ -225,11 +227,11 @@ function recentLine(r: Recent): string {
   return [dates, who].filter(Boolean).join(', ');
 }
 
-/* the entry's own photo: the destination's water photo (by airport, or by the stay's city) */
-function recentPhoto(r: Recent): { name: string; grade: boolean } | null {
+/* every card leads with a photo: the destination's water photo (by airport, or by the stay's city),
+   or a neutral harbour photo for a city that has none yet, so all cards keep one shape */
+function recentPhoto(r: Recent): string {
   const p = r.params;
-  const d = isFlightKind(r.kind) ? destinationPhoto(p.to || '') : destinationPhoto(cityById(p.place || '')?.name || '');
-  return d ? { name: d.image, grade: true } : null;
+  return (isFlightKind(r.kind) ? placePhoto(p.to, null) : placePhoto(null, cityById(p.place || '')?.name)).name;
 }
 const recentCode = (r: Recent) => (isFlightKind(r.kind) ? r.params.to : destinationPhoto(cityById(r.params.place || '')?.name || '')?.code) || '';
 
@@ -253,10 +255,8 @@ function RecentSearches() {
         {items.map((r) => {
           const ph = recentPhoto(r);
           return (
-            <li key={`${r.kind}-${r.at}`} className={`m-card bk-recent__card${ph ? ' -pop' : ''}`}>
-              {ph
-                ? <Photo name={ph.name} alt="" grade={ph.grade} sizes="(min-width: 1025px) 260px, (min-width: 641px) 33vw, 100vw" className="bk-recent__photo" />
-                : <span className="bk-recent__icon" aria-hidden="true"><Icon name={isFlightKind(r.kind) ? 'plane' : 'bed'} /></span>}
+            <li key={`${r.kind}-${r.at}`} className="m-card bk-recent__card">
+              <Photo name={ph} alt="" sizes="(min-width: 1025px) 260px, (min-width: 641px) 33vw, 100vw" className="bk-recent__photo" />
               <span className="bk-recent__text">
                 <span className="bk-recent__label">{r.label}</span>
                 <span className="t-small t-muted t-num">{recentLine(r)}</span>
@@ -276,12 +276,12 @@ function RecentSearches() {
    come from a live search, not from a list. */
 const POPULAR = ['LIS', 'FCO', 'JFK'];
 function PopularCard({ code, note }: { code: string; note?: boolean }) {
-  const d = destinationPhoto(code);
-  const city = d?.city ?? AIRPORTS.find((a) => a.code === code)?.city;
-  if (!d || !city) return null;
+  const city = destinationPhoto(code)?.city ?? AIRPORTS.find((a) => a.code === code)?.city;
+  if (!city) return null;
+  const ph = placePhoto(code, city);
   return (
-    <li className="m-card bk-recent__card -pop">
-      <Photo name={d.image} alt="" sizes="(min-width: 1025px) 260px, (min-width: 641px) 33vw, 100vw" className="bk-recent__photo" />
+    <li className="m-card bk-recent__card">
+      <Photo name={ph.name} alt="" sizes="(min-width: 1025px) 260px, (min-width: 641px) 33vw, 100vw" className="bk-recent__photo" />
       <span className="bk-recent__text">
         <span className="bk-recent__label">{DEFAULT_ORIGIN.city} to {city}</span>
         <span className="t-small t-muted t-num">{note ? `Popular from ${DEFAULT_ORIGIN.city}` : 'See the fares for your dates'}</span>

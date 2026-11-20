@@ -136,7 +136,8 @@ export default function Passengers({ offer: initial, search, fare }: { offer: Of
   };
   const bags = (fareInfo.rows
     ? [fareInfo.rows.personal, fareInfo.rows.cabin, fareInfo.rows.checked]
-    : fareInfo.included.filter((x) => /bag/i.test(x))).map(bagText);
+    : fareInfo.included.filter((x) => /bag/i.test(x))).filter(Boolean).map(bagText).filter(Boolean);
+  /* Duffel offers carry no "personal item" row (empty), so empty entries are dropped: no stray comma */
   /* the same rules as the server: adults and children by their age on the day out, infants on the last day */
   const ageRule = (k: Kind) => {
     const out = search.ret ? 'on the day you fly out' : 'on the day you fly';

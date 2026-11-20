@@ -19,6 +19,7 @@
 import { useEffect, useState } from 'react';
 import { airlineName, cityOf, registerDict, searchQuery, type Pax } from '@/lib/travel/flights';
 import { cityById, nightsOf } from '@/lib/travel/hotels';
+import FlightPath from '@/components/ui/FlightPath';
 import type { Booking, FlightBooking, StayBooking } from '@/lib/travel/bookings';
 import { addIsoDays, dayRange, dayShort, dollars, money, plural } from '@/lib/format';
 import { paxLine, routeTitle } from '@/lib/text';
@@ -73,6 +74,7 @@ function Head({ b, h1, who }: { b: Booking; h1: string; who: 'airline' | 'hotel'
   return (
     <>
       <header className="f-cf__head">
+        {b.kind === 'flight' && b.status === 'confirmed' && <FlightPath mode="once" from={b.from} to={b.to} className="f-cf__route" />}
         <p className="f-cf__ok">{failed ? 'Not booked' : pending ? 'Payment held, confirming' : b.status === 'canceled' ? 'Canceled' : 'Booking confirmed'}</p>
         <h1 className="t-display t-h1 f-cf__h1">{failed ? 'This booking didn’t go through' : h1}</h1>
       </header>

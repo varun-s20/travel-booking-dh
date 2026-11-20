@@ -17,7 +17,7 @@ import { cookies } from 'next/headers';
 import { createClient } from '@supabase/supabase-js';
 import { RECOVERY_COOKIE, RECOVERY_TTL_S, recoveryToken, recoveryValid } from '@/server/crypto';
 import { adminDb, userDb } from '@/server/db/supabase';
-import { appOrigin, need } from '@/server/env';
+import { appOrigin, env, need } from '@/server/env';
 import { AppError, conflict } from '@/server/errors';
 import { log } from '@/server/log';
 import type { SessionUser } from '@/server/auth';
@@ -39,8 +39,27 @@ function authError(e: { code?: string; status?: number; message?: string }): App
   return new AppError('auth_failed', 400);
 }
 
-async function claimGuest(userId: string, email: string | undefined, confirmed: boolean): Promise<void> {
+/* Whether Supabase confirms every new email by itself ("Confirm email" switched off, as while the
+   built-in mailer can't reach customers). Then email_confirmed_at proves nothing, and linking guest
+   bookings by email would hand them to anyone who signs up with that address. Asked from the project's
+   public auth settings, kept 5 minutes; when the answer can't be had, assume yes (fail closed). */
+let autoConfirm: { value: boolean; at: number } | null = null;
+async function emailsAutoConfirmed(): Promise<boolean> {
+  if (autoConfirm && Date.now() - autoConfirm.at < 5 * 60 * 1000) return autoConfirm.value;
+  let value = true;
+  try {
+    const e = env();
+    const res = await fetch(`${e.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: e.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? '' }, signal: AbortSignal.timeout(4000) });
+    if (res.ok) value = (await res.json()).mailer_autoconfirm !== false;
+  } catch (err) { log.warn('auth.settings_unavailable', { error: err }); }
+  autoConfirm = { value, at: Date.now() };
+  return value;
+}
+
+/* proven: the address was confirmed through a link sent to it (or the project confirms nothing by itself) */
+async function claimGuest(userId: string, email: string | undefined, confirmed: boolean, proven = false): Promise<void> {
   if (!email || !confirmed) return;
+  if (!proven && await emailsAutoConfirmed()) { log.info('auth.claim_skipped_autoconfirm', { userId }); return; }
   const { data, error } = await adminDb().rpc('claim_guest_bookings', { p_user: userId, p_email: email });
   if (error) log.warn('auth.claim_guest', { error: error.message });
   else if (data) log.info('auth.claimed_guest_bookings', { userId, count: data });
@@ -95,7 +114,7 @@ export async function confirmEmailLink(tokenHash: string, type: 'email' | 'recov
   const sb = await userDb();
   const { data, error } = await sb.auth.verifyOtp({ token_hash: tokenHash, type });
   if (error || !data.user) { log.info('auth.link_invalid', { type, code: error?.code }); return false; }
-  if (type === 'email' || type === 'signup') await claimGuest(data.user.id, data.user.email, true);
+  if (type === 'email' || type === 'signup') await claimGuest(data.user.id, data.user.email, true, true);
   if (type === 'recovery') {
     (await cookies()).set(RECOVERY_COOKIE, recoveryToken(data.user.id), {
       httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: RECOVERY_TTL_S

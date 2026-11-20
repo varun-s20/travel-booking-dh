@@ -45,6 +45,7 @@ import { useSession } from '@/lib/session';
 import { stripeConfigured } from '@/lib/stripe-client';
 import { clearDraft, getDraft, setDraft, useStore, type Draft, type PassengerDraft } from '@/lib/store';
 import Icon from '@/components/ui/Icon';
+import FlightPath from '@/components/ui/FlightPath';
 import Notice from '@/components/ui/Notice';
 import Dialog from '@/components/ui/Dialog';
 import PriceBar from '@/components/ui/PriceBar';
@@ -433,6 +434,7 @@ function CheckoutBody(props: CheckoutProps) {
               <Button id="pay-go" type="submit" block large disabled={busy || soldOut || !!change || !payReady || !ready} aria-busy={busy || undefined}>
                 {busy ? progress : `Pay ${money(total)}`}
               </Button>
+              {busy && props.kind === 'flight' && <FlightPath from={props.search.from} to={props.search.to} className="f-pay__route" />}
               {busy && <p className="t-small t-muted f-pay__wait">This can take a few seconds. Please keep this page open.</p>}
               <p className="sr-only" aria-live="polite">{progress}</p>
               <ul className="f-pay__trust t-small t-muted">

@@ -35,6 +35,7 @@ import { destinationPhoto } from '@/lib/data/destinations';
 import { SITE } from '@/lib/site';
 import Icon from '@/components/ui/Icon';
 import SupplyNote from '@/components/ui/SupplyNote';
+import FlightPath from '@/components/ui/FlightPath';
 import Price from '@/components/ui/Price';
 import Photo from '@/components/ui/Photo';
 import Dialog from '@/components/ui/Dialog';
@@ -296,6 +297,7 @@ export default function Results({ search, init, dates, today }: { search: Flight
       {state.status === 'loading' && (
         <div className="f-results__body -loading">
           <div className="f-status" role="status">
+            <FlightPath from={search.from} to={search.to} className="f-status__route" />
             <p className="t-body">Searching flights from {from} to {to}</p>
             {still && <p className="t-small t-muted">Still looking. Some airlines take a few seconds to answer.</p>}
           </div>

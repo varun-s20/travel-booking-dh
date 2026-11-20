@@ -34,6 +34,7 @@ import { HOTELS, LOWER_RATES, type RateKind } from '@/lib/mock/hotels';
 import { GEO } from '@/lib/mock/geo';
 import { CITIES } from '@/lib/data/places';
 import * as destinationData from '@/lib/data/destinations';
+import { CITY_PHOTOS } from '@/lib/data/destinations';
 import * as hotelPhotoPool from '@/lib/mock/hotel-photos';
 import { AIRLINES } from '@/lib/mock/flights';
 
@@ -77,34 +78,7 @@ const REGION4: Record<string, Region4> = {
   'Asia and Pacific': 'Asia and Pacific', 'Africa and Middle East': 'Africa and Middle East'
 };
 
-/* Landfall's own water photos per city (public/images/credits.md), the first one that exists is the lead.
-   Cities with no photo yet stay off the photo surfaces (banners, rails, tiles) and appear in the text lists. */
-const CITY_PHOTOS: Record<string, { name: string; alt: string }[]> = {
-  LIS: [{ name: 'destinations/lisbon-tagus-golden', alt: "Lisbon's hillside of pale houses and red roofs falling to the wide Tagus in late golden light" }, { name: 'home/lisbon-cais-sodre', alt: 'The Tagus at Cais do Sodre at dusk, the 25 de Abril bridge far off and people on the quay' }],
-  FCO: [{ name: 'destinations/rome-tiber-bridge', alt: 'A lit stone bridge with statues over the Tiber at dusk, its lamps reflected in the water' }],
-  JFK: [{ name: 'destinations/new-york-brooklyn-night', alt: 'Brooklyn Bridge and the lit towers of Lower Manhattan across the East River at night' }, { name: 'hero/new-york-harbour', alt: "Lower Manhattan's skyline seen from the harbour on a clear day" }],
-  MEX: [{ name: 'destinations/mexico-city-xochimilco', alt: 'A painted trajinera boat moored on a Xochimilco canal, trees reflected in the still water' }],
-  HND: [{ name: 'destinations/tokyo-bridge-night', alt: 'A lit arched bridge over a Tokyo river at night, office towers behind it' }],
-  CPT: [{ name: 'destinations/cape-town-camps-bay', alt: "Camps Bay's white beach and houses under the Twelve Apostles at sunset" }, { name: 'hero/cape-town-waterfront', alt: "Table Mountain above Cape Town's waterfront, seen across the harbour" }],
-  BCN: [{ name: 'home/barcelona-sea', alt: 'The beach and promenade at Barceloneta, the city and two towers along the sea behind' }],
-  CDG: [{ name: 'home/paris-pont-neuf', alt: 'The Pont Neuf over the Seine in Paris, stone houses lit by late sun behind it' }],
-  AMS: [{ name: 'home/amsterdam-canal', alt: 'A row of tall canal houses in Amsterdam, a red boat moored on the canal below' }],
-  SIN: [{ name: 'home/singapore-bay', alt: 'The Singapore skyline across Marina Bay at dusk, towers mirrored in the still water' }],
-  SYD: [{ name: 'home/sydney-harbour', alt: 'The Opera House and the Harbour Bridge across Sydney Harbour on a clear day' }],
-  ATH: [{ name: 'home/athens-mikrolimano', alt: 'White yachts moored in the Mikrolimano marina at Piraeus, seen from above' }],
-  MIA: [{ name: 'home/miami-beach', alt: 'The Miami skyline across choppy water under a dark sky' }],
-  BKK: [{ name: 'home/bangkok-river', alt: 'River boats on the Chao Phraya in Bangkok, the city towers behind' }],
-  YYZ: [{ name: 'home/toronto-lake', alt: 'Toronto towers and autumn trees on the shore of Lake Ontario at sunrise' }],
-  LAX: [{ name: 'home/los-angeles-pier', alt: 'The Santa Monica pier and its Ferris wheel over the beach at sunset, Los Angeles' }],
-  CUN: [{ name: 'home/cancun-sea', alt: 'Turquoise Caribbean water over pale sand off CancÃºn, seen from above' }],
-  GIG: [{ name: 'home/rio-sugarloaf', alt: 'Rio de Janeiro and Sugarloaf Mountain above the bay, seen from Corcovado' }],
-  EZE: [{ name: 'home/buenos-aires-madero', alt: 'Towers at Puerto Madero in Buenos Aires mirrored in the dock at dusk' }],
-  CPH: [{ name: 'home/copenhagen-nyhavn', alt: 'Old boats moored along the Nyhavn canal in Copenhagen, painted houses behind' }],
-  KEF: [{ name: 'home/reykjavik-harpa', alt: 'Boats in Reykjavik harbour in front of the glass Harpa concert hall' }],
-  DXB: [{ name: 'home/dubai-marina', alt: 'Towers of Dubai Marina over the water, boats moored below' }],
-  RAK: [{ name: 'home/marrakech-riad-pool', alt: 'A long pool in the courtyard of a riad in Marrakech' }],
-  NBO: [{ name: 'home/nairobi-park', alt: 'A giraffe on the grass of Nairobi National Park, the city towers on the horizon' }]
-};
+/* the per-city photo table lives with the destinations (lib/data/destinations.ts), shared with My bookings */
 
 export type Photo = { name: string; alt: string };
 export type HomeCity = {

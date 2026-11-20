@@ -124,6 +124,10 @@ How `fulfil()` stays safe:
 - **Webhooks.**
   - Stripe events are verified by the SDK.
   - Duffel events are verified with HMAC-SHA256 of `t.body` and a constant-time compare.
+    - Any versioned key (`v1`, `v2`...) is accepted, and so is the secret base64-decoded. Every form still needs the secret.
+    - Forms without the timestamp are never accepted, so old events can't be replayed.
+    - A refused delivery gets a 400 whose body names the reason and the header's shape, never values. Duffel keeps our reply per delivery (`GET /air/webhooks/deliveries`), so a mismatch can be diagnosed without server logs.
+  - Guest bookings join an account by email only once the address is proven: a confirmation link, or sign-in while Supabase still requires email confirmation. With "Confirm email" off, no linking by email happens.
   - Each event is stored and processed once.
 - **Headers.**
   - CSP allows this site plus Stripe only.
@@ -219,6 +223,7 @@ Duffel facts the code depends on:
   - Duffel: `POST /air/webhooks` with url `/api/webhooks/duffel` and the order, order-cancellation and stays events. Store the secret it returns once.
 
 ## Hotel search: destinations and children
+
 
 - **Destinations:** the curated cities come first. With Duffel connected, typing two letters also offers any city from Duffel's place suggestions: a city entry (multi-airport cities such as London, centred on their airports' midpoint) or, since Duffel mostly answers with airports, the airport's city placed at the airport. Duffel Stays searches by coordinates, so such a city's id carries its name, country and centre (`@41.1496,-8.6109~Porto~Portugal`, made and checked by `lib/data/places.ts`). A results URL alone is enough to search again. The search covers 10 km around a curated city's centre and 20 km around a suggested one, whose centre may be its airports' midpoint. The demo catalogue only has the curated cities.
 - **Children's ages:** the search card asks each child's age (0 to 17) and blocks the search until every age is chosen. The ages travel in the URL (`ages=4,11`) and go to Duffel with each child. A link without ages (an old link, the "add a hotel" rail after a flight booking) counts each child as 8, and the search card shows that age so it can be changed.
